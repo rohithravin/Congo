@@ -1,0 +1,77 @@
+<main class="container">
+
+  <div class="left-column">
+  <img data-image="red" class="active" src = "https://cdn.shopify.com/s/files/1/0311/8181/products/WB-HC-200-Main001-1024-V2_1024x.jpg?v=1529688628" alt="">
+  <img data-image="black"  src = "https://images-na.ssl-images-amazon.com/images/I/51WvOgyQP3L._SL1500_.jpg" alt="">
+  <img data-image="blue"  src = "https://d34kame2p3gj5k.cloudfront.net/media/uploads/2018/09/05155415/ocean-blue-17oz-SWB-BLUE02.jpg" alt="">
+  </div>
+
+<!-- Right Column -->
+  <div class="right-column">
+ 
+    <!-- Product Description -->
+    <div class="product-description">
+      <span>Water Bottle</span>
+      <h1>Watery Water</h1>
+      <p>The preferred choice of a vast range of acclaimed water drinkers. Punchy, watery and high isolation. Sturdy bottle</p>
+    </div>
+ 
+    <!-- Product Configuration -->
+    <div class="product-configuration">
+ 
+      <!-- Product Color -->
+      <div class="product-color">
+        <span>Color</span>
+ 
+        <div class="color-choose">
+          <div>
+            <input data-image="red" type="radio" id="red" name="color" value="red" checked>
+            <label for="red"><span></span></label>
+          </div>
+          <div>
+            <input data-image="blue" type="radio" id="blue" name="color" value="blue">
+            <label for="blue"><span></span></label>
+          </div>
+          <div>
+            <input data-image="black" type="radio" id="black" name="color" value="black">
+            <label for="black"><span></span></label>
+          </div>
+        </div>
+ 
+      </div>
+ 
+      <!-- Cable Configuration -->
+      <div class="cable-config">
+        <span>Size</span>
+ 
+        <div class="cable-choose">
+          <button>Small</button>
+          <button>Medium</button>
+          <button>Large</button>
+        </div>
+ 
+        
+      </div>
+    </div>
+ 
+    <!-- Product Pricing -->
+    <div class="product-price">
+      <h3>148$</h3>
+      <a href="#" class="cart-btn">Add to cart</a>
+    </div>
+  </div>
+  <script>
+  $(document).ready(function() {
+ 
+ $('.color-choose input').on('click', function() {
+     var headphonesColor = $(this).attr('data-image');
+
+     $('.active').removeClass('active');
+     $('.left-column img[data-image = ' + headphonesColor + ']').addClass('active');
+     $(this).addClass('active');
+ });
+
+});
+  </script>
+</main>
+
