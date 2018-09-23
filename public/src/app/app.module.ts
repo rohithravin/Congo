@@ -4,10 +4,12 @@ import { HttpService } from './http.service'
 import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MerchantaddComponent } from './merchantadd/merchantadd.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MerchantaddComponent
   ],
   imports: [
     BrowserModule,
