@@ -21,15 +21,15 @@
 .Pagenumbers { 
     display: grid;
     grid-area: Pagenumbers;
-    grid-template-columns: 0.8fr 1.2fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1.3fr 1.3fr 0.4fr;
+    grid-template-rows: 1fr;
     grid-gap: 1px 1px;
-    grid-template-areas: "lwft pagenumber showPage" "lwft pagenumber showPage";
+    grid-template-areas: "prev next showPage" "prev next showPage";
 }
 
-.lwft { grid-area: lwft; }
+.prev { grid-area: prev; }
 
-.pagenumbers { grid-area: pagenumber; }
+.next { grid-area: next; }
 
 .showPage { grid-area: showPage; }
 
@@ -67,7 +67,10 @@
 
 .number { grid-area: number; }
 
-.showNumber { grid-area: showNumber; }
+.showNumber { 
+  text-align: center;
+  vertical-align: bottom;
+  grid-area: showNumber; }
 
 .per { grid-area: per; }
 
@@ -159,6 +162,7 @@ h1 {
 h2 {
   font-family: "Open Sans", sans-serif;
   font-weight: 300;
+  margin-block-end: 0px;
 }
 
 .row {
@@ -229,6 +233,7 @@ h2 {
 .card .merchant {
   font-size: 12px;
   color: black;
+  margin: 10px;
 }
 .card .productName {
   margin-top: 0px;
@@ -505,3 +510,7 @@ a.button:hover{
   color:#fff;
 }
 /*end buy now button*/
+
+/* css for the prev next page buttons */
+
+/* end css for the prev next buttons*/
