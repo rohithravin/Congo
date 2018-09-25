@@ -5,6 +5,18 @@ html, body {
     margin: 0;
     font-family: 'Roboto';
 }
+.nav {
+    list-style-type: none;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+}
+
+.nav li {
+    display: inline-block;
+    font-size: 14;
+    padding: 8px;
+}
 
 .container {
     max-width: 1200px;
@@ -47,7 +59,7 @@ html, body {
 }
 .product-description span {
     font-size: 12px;
-    color: #358ED7;
+    color: #a67c00;
     letter-spacing: 1px;
     text-transform: uppercase;
     text-decoration: none;
@@ -172,7 +184,7 @@ html, body {
    
   .cart-btn {
     display: inline-block;
-    background-color: #7DC855;
+    background-color: #000000;
     border-radius: 6px;
     font-size: 16px;
     color: #FFFFFF;
@@ -181,7 +193,8 @@ html, body {
     transition: all .5s;
   }
   .cart-btn:hover {
-    background-color: #64af3d;
+    background-color: #bba359;
+    border-bottom:3px solid gold;
   }
 
   /* Responsive */
