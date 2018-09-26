@@ -14,3 +14,4 @@ export class ProductComponent implements OnInit {
 
   
 }
+//add quantity of product to purchase
