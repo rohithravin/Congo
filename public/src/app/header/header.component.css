@@ -1,0 +1,23 @@
+div.top img{
+    /* width:200px; */
+    height:125px;
+    /* float:left; */
+    position: absolute;
+}
+div.top{
+    display:block;
+    background:rgb(53, 53, 53);
+    width:1200px;
+    margin:auto;
+    height:125px;
+    padding-top:1px;
+}
+div.top p{
+    /* display:inline-block; */
+    font-size:42pt;
+    /* font-weight:bold; */
+    color:rgb(255, 233, 111);
+    text-align: center;
+    margin-top:20px;
+    font-family: 'Chicle', cursive;
+}
