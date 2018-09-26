@@ -2,3 +2,7 @@
 div.wrapper{
     background:rgb(179, 179, 179);
 }
+div.body{
+    width:1200px;
+    margin:auto;
+}

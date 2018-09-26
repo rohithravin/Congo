@@ -1,4 +1,4 @@
-div.top img{
+div.top>a>img{
     /* width:200px; */
     height:125px;
     /* float:left; */
@@ -10,6 +10,7 @@ div.top{
     width:1200px;
     margin:auto;
     height:125px;
+    /* height:180px; */
     padding-top:1px;
 }
 div.top p.companyName{
@@ -22,6 +23,83 @@ div.top p.companyName{
     margin-top:20px;
     font-family: 'Chicle', cursive;
 }
-div.top div.myDropdown{
-    position: absolute;
+/* div.top div.myDropdown{
+    display:inline-block;
+    background:rgb(255, 233, 111);
+    padding:5px;
+    float:right;
+    position: relative;
+    bottom:90px;
+}
+div.top div.myDropdown p{
+    font-size:12pt;
+    margin:0px;
+    display:inline-block;
+}
+div.top div.myDropdown a{
+    display:inline-block;
+    vertical-align: top;
+}
+div.top div.myDropdown a img{
+    width:20px;
+    vertical-align: top;
+    margin-top:2px;
+    margin-left:5px;
+} */
+div.bottom{
+    height:60px;
+    background:rgb(58, 58, 58);
+}
+div.bottom div.myDropdown{
+    background:rgb(255, 233, 111);
+    display:inline-block;
+    padding:5px;
+    margin-top:11px;
+    margin-left:10px;
+}
+div.bottom div.myDropdown p{
+    display:inline-block;
+    margin:0px;
+}
+div.bottom div.myDropdown a img{
+    width:20px;
+    vertical-align: top;
+    margin-top:2px;
+    
+    /* padding-left:3px; */
+}
+div.bottom div.myDropdown a{
+    border-left:1px solid black;
+    margin-left:5px;
+    padding-left:5px;
+}
+div.searchbar{
+    display:inline-block;
+    /* vertical-align: top; */
+}
+div.searchbar img{
+    height:25px;
+}
+div.searchbar form{
+    margin-left:50px;
+}
+div.searchbar form input{
+    width:650px;
+    border-radius:5px;
+    font-size:12pt;
+}
+div.searchbar form a{
+    margin-left:10px;
+    background:rgb(255, 233, 111);
+    padding:8px 5px;
+    border-radius:8px;
+}
+div.bottom>a>img{
+    float:right;
+    height:34px;
+    background:rgb(255, 233, 111);
+    margin-top:12px;
+    margin-right:15px;
+    padding:3px 6px;
+    border-radius:6px;
 }
