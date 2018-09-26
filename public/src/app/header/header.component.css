@@ -103,3 +103,12 @@ div.bottom>a>img{
     padding:3px 6px;
     border-radius:6px;
 }
+div.bottom>p.welcomeName{
+    color:rgb(201, 201, 201);
+    display:inline-block;
+    font-style:italic;
+    margin-left:20px;
+    text-align:right;
+    width:210px;
+    /* border:1px solid green; */
+}
