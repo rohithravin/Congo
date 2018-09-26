@@ -1,5 +1,9 @@
 .credit-card-box .panel-title{font-weight:700;overflow:hidden}.credit-card-box .panel-title .panel-title-text{max-width:80px;float:left}.credit-card-box .panel-title .panel-title-image{max-width:160px;float:right}.credit-card-box label{display:block}.credit-card-box .panel-body .control-label{text-transform:uppercase}
 
+
+.box{
+  box-shadow:2px 2px 2px 2px #ccc
+}
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
