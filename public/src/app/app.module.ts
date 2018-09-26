@@ -9,6 +9,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { CheckoutConfComponent } from './checkout-conf/checkout-conf.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { MerchantLoginComponent } from './merchant-login/merchant-login.component';
+import { MerchantPortalComponent } from './merchant-portal/merchant-portal.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { MerchantLoginComponent } from './merchant-login/merchant-login.componen
     CheckoutComponent,
     CheckoutConfComponent,
     UserLoginComponent,
-    MerchantLoginComponent
+    MerchantLoginComponent,
+    MerchantPortalComponent
   ],
   imports: [
     BrowserModule,
