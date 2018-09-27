@@ -223,3 +223,16 @@ html, body {
       top: -85px;
     }
   }
+
+  /* quantity button*/
+  .quantity {
+    margin-right: 60px;
+  }
+  .quantity input {
+    -webkit-appearance: none;
+    border: none;
+    text-align: center;
+    width: 32px;
+    font-size: 16px;
+    font-weight: 300;
+  }
