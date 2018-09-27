@@ -13,3 +13,4 @@ export class SearchComponent implements OnInit {
   }
 
 }
+//add apply filters button
