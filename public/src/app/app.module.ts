@@ -10,6 +10,7 @@ import { CheckoutConfComponent } from './checkout-conf/checkout-conf.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { MerchantLoginComponent } from './merchant-login/merchant-login.component';
 import { MerchantPortalComponent } from './merchant-portal/merchant-portal.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { MerchantPortalComponent } from './merchant-portal/merchant-portal.compo
     CheckoutConfComponent,
     UserLoginComponent,
     MerchantLoginComponent,
-    MerchantPortalComponent
+    MerchantPortalComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+div.wrapper{
+    background:rgb(179, 179, 179);
+}
+div.body{
+    width:1200px;
+    margin:auto;
+}
