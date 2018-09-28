@@ -20,6 +20,7 @@ const routes: Routes = [
   {path:'merchant-portal', component: MerchantPortalComponent },
   {path: 'search', component: SearchComponent},
   {path: 'product', component: ProductComponent}
+  //Hi hello myself Spencer
 ];
 
 @NgModule({
