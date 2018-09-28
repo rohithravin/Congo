@@ -10,12 +10,12 @@ import { MerchantPortalComponent } from './merchant-portal/merchant-portal.compo
 
 const routes: Routes = [
   {path:'', component:HomepageComponent},
-  // {path:'cart', component: CartComponent},
-  // {path:'checkout', component: CheckoutComponent },
-  // {path:'checkout-conf', component: CheckoutConfComponent },
-  // {path:'user-login', component: UserLoginComponent },
-  // {path:'merchant-login', component: MerchantLoginComponent },
-  // {path:'merchant-portal', component: MerchantPortalComponent }
+  {path:'cart', component: CartComponent},
+  {path:'checkout', component: CheckoutComponent },
+  {path:'checkout-conf', component: CheckoutConfComponent },
+  {path:'user-login', component: UserLoginComponent },
+  {path:'merchant-login', component: MerchantLoginComponent },
+  {path:'merchant-portal', component: MerchantPortalComponent }
 ];
 
 @NgModule({
