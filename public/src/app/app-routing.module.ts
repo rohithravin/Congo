@@ -9,6 +9,7 @@ import { MerchantLoginComponent } from './merchant-login/merchant-login.componen
 import { MerchantPortalComponent } from './merchant-portal/merchant-portal.component';
 import { SearchComponent } from './search/search.component';
 import { ProductComponent } from './product/product.component';
+import { UserRegComponent } from './user-reg/user-reg.component';
 
 const routes: Routes = [
   {path:'', component:HomepageComponent},
@@ -19,7 +20,8 @@ const routes: Routes = [
   {path:'merchant-login', component: MerchantLoginComponent },
   {path:'merchant-portal', component: MerchantPortalComponent },
   {path: 'search', component: SearchComponent},
-  {path: 'product', component: ProductComponent}
+  {path: 'product', component: ProductComponent},
+  {path: 'user-reg', component: UserRegComponent}
 ];
 
 @NgModule({
