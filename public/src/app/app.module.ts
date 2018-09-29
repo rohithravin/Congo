@@ -16,7 +16,8 @@ import { MerchantPortalComponent } from './merchant-portal/merchant-portal.compo
 import { MerchantLoginComponent } from './merchant-login/merchant-login.component';
 import { CheckoutConfComponent } from './checkout-conf/checkout-conf.component';
 import { MerchantaddComponent } from './merchantadd/merchantadd.component';
-import { MerchantproductComponent } from './merchantproduct/merchantproduct.component'
+import { MerchantproductComponent } from './merchantproduct/merchantproduct.component';
+import { UserRegComponent } from './user-reg/user-reg.component'
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { MerchantproductComponent } from './merchantproduct/merchantproduct.comp
     MerchantLoginComponent,
     CheckoutConfComponent,
     MerchantaddComponent,
-    MerchantproductComponent
+    MerchantproductComponent,
+    UserRegComponent
   ],
   imports: [
     BrowserModule,
