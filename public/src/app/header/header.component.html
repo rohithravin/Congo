@@ -14,7 +14,7 @@
   <div class='searchbar'>
     <form action='#' method='get'>
       <input type='text' placeholder='search' name='searchRequest'>
-      <a href='#'><img src='https://image.flaticon.com/icons/png/512/49/49116.png' alt='search'></a>
+      <a href='#' (click)="search_for_product()" [routerLink]="['/search']"><img src='https://image.flaticon.com/icons/png/512/49/49116.png' alt='search'></a>
     </form>
   </div>
   <p class='welcomeName'>Welcome, Ashwin</p>

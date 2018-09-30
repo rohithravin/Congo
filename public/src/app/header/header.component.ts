@@ -12,4 +12,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  search_for_product(){
+    console.log("testing")
+  }
 }
