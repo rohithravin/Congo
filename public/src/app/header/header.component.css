@@ -76,20 +76,23 @@ div.bottom div.myDropdown>a{
 }
 div.bottom div.myDropdown div.categories a{
     display:block;
-    width:132px;
+    /* width:132px; */
     color:black;
+    z-index:100;
 }
 div.bottom div.myDropdown div.categories{
-    position: absolute;
-    left:55px;
-    z-index: 100;
+    /* position: absolute;
+    left:55px; */
+    position: relative;
+    z-index: 500;
     background:rgb(255, 233, 111);
     padding-left:5px;
 }
 
 div.searchbar{
     display:inline-block;
-    /* vertical-align: top; */
+    vertical-align: top;
+    margin-top:12px;
 }
 div.searchbar img{
     height:25px;
@@ -124,5 +127,7 @@ div.bottom>p.welcomeName{
     margin-left:20px;
     text-align:right;
     width:210px;
+    vertical-align: top;
+    margin-top:17px;
     /* border:1px solid green; */
 }
