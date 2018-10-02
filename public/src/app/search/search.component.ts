@@ -10,21 +10,16 @@ import { throwError } from 'rxjs';
   styleUrls: ['./search.component.css']
 })
 
-class product {
-  price: number;
-  name: string;
-  rating: number;
-  image: string;
-}
 
 export class SearchComponent implements OnInit {
   
-  
-  products: Array<product> = [];
+ 
+
+ products: Array<any> = [];
   
   productName:string;
   filterSize;
-
+star:string;
 /* these are the boolean filters */
 five_star_filter:boolean;
 three_four_star_filter:boolean;
@@ -47,9 +42,13 @@ categories:string;
 
   constructor(private _Activatedroute: ActivatedRoute,
     private _router:Router ) { 
+    
+     
+      
+      
     this.productName = ''
     this.filterSize = 13;
-
+    this.star = "checked";
     this.five_star_filter = false;
     this.three_four_star_filter= false;
     this.one_two_star_filter = false;
@@ -69,10 +68,17 @@ categories:string;
   }
 
   ngOnInit() {
-     this.productName = this._Activatedroute.snapshot.params['productid']
-    console.log(this.productName);
-    this.search_logic()
-    this.clearFilter();
+
+     this._Activatedroute.params.subscribe(
+      params => {
+        this.productName =  params['productid']
+        console.log(this.productName);
+        this.search_logic()
+        this.clearFilter();
+      }
+     );
+   
+    
   }
 
   clearFilter(){
@@ -96,7 +102,7 @@ categories:string;
     console.log("starting search");
     //first thing is to call the getAllProducts service
     //then sort all of the products based on their rating 
-    //the product array of objects needs to add the price, product image, product name, and rating.
+    //the product array of objects needs to add the price, product image, product name, and rating,productid.
     //decide how many products go on each page?
     //use products array
   }
@@ -106,13 +112,9 @@ categories:string;
   }
 
   setFiveStarFilter(){
-  if ( !this.five_star_filter){
-    this.five_star_filter = true;
-  }else{
-    this.five_star_filter = false;
+    this.five_star_filter = !this.five_star_filter;
   }
     
-  }
 
   searchFilter(){
     let filters: Array<boolean> = [];
@@ -250,7 +252,7 @@ categories:string;
     filters.push(this.five_star_filter);
     filters.push(this.three_four_star_filter);
     filters.push(this.one_two_star_filter);
-    filters.push(this.book_filter)
+    filters.push(this.book_filter);
     filters.push(this.furniture_filter);
     filters.push(this.electronic_filter);
     filters.push(this.four_price_filter);
@@ -264,6 +266,7 @@ categories:string;
     if (filters.length != this.filterSize ){
       //error
     }
+
     return filters;
   }
 
