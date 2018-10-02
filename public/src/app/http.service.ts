@@ -9,4 +9,7 @@ export class HttpService {
   constructor(private _http: HttpClient) { 
     
   }
+  fetchFeatured(){
+    return this._http.get('/getFeatured')
+  }
 }

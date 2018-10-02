@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpService } from '../http.service';
 
 @Component({
   selector: 'app-homepage',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomepageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _httpService:HttpService) { }
 
   ngOnInit() {
+    this.fetchFeatured()
+  }
+  fetchFeatured(){
+    console.log("Inside this function")
+    var featuredObs=this._httpService.fetchFeatured()
+    featuredObs.subscribe(data=>{
+      console.log(data)
+    }) 
   }
 
 }
