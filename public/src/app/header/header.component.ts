@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
-  constructor() { }
+  showCategories:boolean
+  constructor() {
+    this.showCategories=false;
+   }
 
   ngOnInit() {
+  }
+  categoriesClicked(){
+    this.showCategories=!this.showCategories;
   }
 
 }
