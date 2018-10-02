@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-header',
@@ -6,13 +9,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  searched_product:string
+  constructor(public router: Router) { 
 
-  constructor() { }
+    this.searched_product='';
+  }
 
   ngOnInit() {
+    
   }
 
-  search_for_product(){
-    console.log("testing")
-  }
+
+ 
 }
+

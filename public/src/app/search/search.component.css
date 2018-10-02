@@ -3,9 +3,9 @@
     display: grid;
     height: 100%;
     grid-template-columns: 0.5fr 3fr 0.2fr;
-    grid-template-rows: 0.4fr 0.4fr 3.5fr 0.3fr 0.4fr;
+    grid-template-rows: 3.5fr 0.3fr 0.4fr;
     grid-gap: 1px 1px;
-    grid-template-areas: ". . ." ". . ." "Filter DisplayContent ." ". Pagenumbers ." ". . .";
+    grid-template-areas: "Filter DisplayContent ." ". Pagenumbers ." ". . .";
 }
 
 .centerFilter {
