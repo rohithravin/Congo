@@ -5,17 +5,17 @@
     <form>
       <div class="centerFilter" >
       <h4 align="center">Ratings:</h4>
-      <label class="switch" ><input type="checkbox" /> <div></div>
+      <label class="switch" (click)="setFiveStarFilter()"  ><input type="checkbox" /> <div></div>
       </label>
       &nbsp;
       <label>5 Stars</label>
       <br />
-       <label class="switch" ><input type="checkbox" /> <div></div>
+       <label class="switch" (click)="setThreeFourStarFilter()" ><input type="checkbox" /> <div></div>
       </label>
       &nbsp;
       <label>3-4 Stars</label>
       <br />
-      <label class="switch" ><input type="checkbox" /> <div></div>
+      <label class="switch" (click)="setOneTwoStarFilter()" ><input type="checkbox" /> <div></div>
       </label>
       &nbsp;
       <label>1-2 Stars</label>
@@ -24,17 +24,17 @@
 
       <div class="centerFilter" >
       <h4  align="center">SubCategory:</h4>
-      <label class="switch" ><input type="checkbox" /> <div></div>
+      <label class="switch" (click)="setBookFilter()" ><input type="checkbox" /> <div></div>
       </label>
       &nbsp;
       <label>Books</label>
       <br />
-      <label class="switch" ><input type="checkbox" /> <div></div>
+      <label class="switch" (click)="setFurnitureFilter()" ><input type="checkbox" /> <div></div>
       </label>
       &nbsp;
       <label>Furniture</label>
       <br />
-      <label class="switch" ><input type="checkbox" /> <div></div>
+      <label class="switch" (click)="setElectronicFilter()" ><input type="checkbox" /> <div></div>
       </label>
       &nbsp;
       <label>Electronics</label>
@@ -43,17 +43,17 @@
 
       <div class="centerFilter" >
        <h4  align="center">Price:</h4>
-      <label class="switch" ><input type="checkbox" /> <div></div>
+      <label class="switch" (click)="setFourPriceFilter()" ><input type="checkbox" /> <div></div>
       </label>
       &nbsp;
       <label>$$$$</label>
       <br />
-       <label class="switch" ><input type="checkbox" /> <div></div>
+       <label class="switch" (click)="setThreePriceFilter()" ><input type="checkbox" /> <div></div>
       </label>
       &nbsp;
       <label>$$$</label>
       <br />
-      <label class="switch" ><input type="checkbox" /> <div></div>
+      <label class="switch" (click)="setOnePriceFilter();" ><input type="checkbox" /> <div></div>
       </label>
       &nbsp;
       <label>$</label>
@@ -63,28 +63,28 @@
     
       <div class="centerFilter" >
       <h4  align="center">OrderBy:</h4>
-      <label class="switch" ><input type="checkbox" /> <div></div>
+      <label class="switch" (click)="setRelevanceFilter()" ><input type="checkbox" /> <div></div>
       </label>
       &nbsp;
       <label>Relevance</label>
       <br />
-      <label class="switch" ><input type="checkbox" /> <div></div>
+      <label class="switch" (click)="setPopularFilter()" ><input type="checkbox" /> <div></div>
       </label>
       &nbsp;
       <label>Popular</label>
       <br />
-     <label class="switch" ><input type="checkbox" /> <div></div>
+     <label class="switch" (click)="setLowHighFilter()" ><input type="checkbox" /> <div></div>
       </label>
       &nbsp;
       <label>Low-High</label>
       <br />
-      <label class="switch" ><input type="checkbox" /> <div></div>
+      <label class="switch" (click)="setHighLowFilter()" ><input type="checkbox" /> <div></div>
       </label>
         &nbsp;
       <label>High-Low</label>
       </div>
       <br />
-      <a class="button" href="#">Apply</a>
+      <a class="button" (click)="searchFilter()"  >Apply</a>
     </form>
 
   </div>
@@ -108,6 +108,7 @@
     <div class="CategoryFilter">
       <div class="area-overlap Category">
         <h4>Category:</h4>
+        <h6>{{categories}}</h6>
       </div>
       <div class="SearchBy">
         <h4>Search By:</h4>
