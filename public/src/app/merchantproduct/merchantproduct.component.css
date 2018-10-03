@@ -2,10 +2,10 @@
     background: var(--bg);
     display: grid;
     height: 100%;
-    grid-template-columns: 0.5fr 3fr 0.2fr;
-    grid-template-rows: 0.4fr 0.4fr 12.5fr 0.3fr 0.4fr;
+    grid-template-columns: 0.2fr 3fr 0.2fr;
+    grid-template-rows: 12.5fr 0.3fr 0.4fr;
     grid-gap: 10px 10px;
-    grid-template-areas: ". . ." ". . ." "Filter DisplayContent ." ". Pagenumbers ." ". . .";
+    grid-template-areas: "Filter DisplayContent ." ". Pagenumbers ." ". . .";
 }
 
 .centerFilter {
@@ -34,21 +34,12 @@
 .DisplayContent {
     display: grid;
     grid-area: DisplayContent;
-    grid-template-columns: 1.5fr 0.5fr;
+    grid-template-columns: 0.5fr;
     grid-template-rows: 0.1fr 1.9fr;
     grid-gap: 1px 1px;
-    grid-template-areas: "CategoryFilter NumberResult" "Products Products";
+    grid-template-areas: "Products Products";
 }
 
-.CategoryFilter {
-    display: grid;
-    grid-area: CategoryFilter;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-gap: 1px 1px;
-    grid-template-areas: "Category SearchBy" "Category SearchBy";
-    
-}
 
 .Category { grid-area: Category;}
 
