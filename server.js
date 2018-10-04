@@ -110,6 +110,10 @@ app.get('/getFeatured', function(request, response){
     })
 })
 
+app.get('/getProduct', function(request, response){
+    console.log("Recieved getProduct request")
+})
+
 app.all('*', (request, response, next)=>{
     response.sendFile(path.resolve('./public/dist/public/index.html'))
 })

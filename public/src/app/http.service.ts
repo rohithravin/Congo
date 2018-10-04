@@ -6,10 +6,14 @@ import {HttpClient} from '@angular/common/http'
 })
 export class HttpService {
 
-  constructor(private _http: HttpClient) { 
-    
+  constructor(private _http: HttpClient) {
+
   }
   fetchFeatured(){
     return this._http.get('/getFeatured')
+  }
+
+  fetchProduct(){
+    return this._http.get('/getProduct')
   }
 }

@@ -19,8 +19,8 @@ const routes: Routes = [
   {path:'user-login', component: UserLoginComponent },
   {path:'merchant-login', component: MerchantLoginComponent },
   {path:'merchant-portal', component: MerchantPortalComponent },
-  {path: 'search', component: SearchComponent},
-  {path: 'product', component: ProductComponent},
+  {path: 'product/:pid', component: ProductComponent},
+  {path: 'search/:productid', component: SearchComponent},
   {path: 'user-reg', component: UserRegComponent}
 ];
 
