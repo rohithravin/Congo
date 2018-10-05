@@ -14,7 +14,6 @@ export class DummyAddProductComponent implements OnInit {
     this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:''}
   }
   createProduct(){
-    console.log('Created Product')
     var createObs=this._httpService.createDummyProduct(this.newProduct)
     createObs.subscribe(data=>{
       console.log("Recieved response:", data)

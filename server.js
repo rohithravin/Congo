@@ -222,7 +222,7 @@ app.post('/createDummyProduct', function(request, response){
     console.log("Doing this for the change")
     var product=request.body['product']
     console.log(product)
-    var newProduct=new Product({name:product.name, price:product.price, description:product.description, sizes:[product.size], colors:[product.color], images:[product.image], tags:[product.tag]})
+    var newProduct=new Product({name:product.name, price:parseFloat(product.price), description:product.description, sizes:[product.size], colors:[product.color], images:[product.image], tags:[product.tag]})
     newProduct.save(function(error){
         if(error){
             response.json({success:0, message:"There was an error creating your product"})
