@@ -2,6 +2,7 @@ var express=require('express')
 var app=express()
 var path=require('path')
 var mongoose=require('mongoose')
+var bodyParser=require('body-parser')
 
 // Firestore DB
 var admin = require("firebase-admin");
@@ -97,6 +98,7 @@ mongoose.model('Order', OrderSchema)
 var Order=mongoose.model('Order')
 
 app.use(express.static(path.join(__dirname, './public/dist/public')))
+app.use(bodyParser.json())
 
 app.get('/getFeatured', function(request, response){
     console.log("Recieved function request")
@@ -112,6 +114,11 @@ app.get('/getFeatured', function(request, response){
 
 app.get('/getProduct', function(request, response){
     console.log("Recieved getProduct request")
+})
+app.post('/fetchSearchedProducts', function(request, response){
+    var searchQuery=request.body['searchQuery']
+    console.log(searchQuery)
+    response.send({'response':'Got your response'})
 })
 
 app.all('*', (request, response, next)=>{

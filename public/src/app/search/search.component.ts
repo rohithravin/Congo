@@ -53,6 +53,7 @@ export class SearchComponent implements OnInit {
       console.log(this.searchQuery);
       this.search_logic()
       this.clearFilter();
+      this.fetchSearchedProducts();
     });
   }
   clearFilter(){
@@ -63,6 +64,12 @@ export class SearchComponent implements OnInit {
     this.low_high_filter =false;
     this.high_low_filter =false;
     this.categories ='';
+  }
+  fetchSearchedProducts(){
+    var productsObs=this._httpService.fetchSearchedProducts(this.searchQuery)
+    productsObs.subscribe(data=>{
+      console.log(data)
+    })
   }
   private search_logic (){
     console.log("starting search");
