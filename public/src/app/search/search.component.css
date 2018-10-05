@@ -320,60 +320,21 @@
   }
   
   #wrap{
-  
   width: 90%;
-  
   max-width: 1100px;
-  
-  margin: 50px
-  auto;
-  
+  margin: 50px auto;
   }
   
   .columns_3 figure{
-  
-  width:32%;
-  
+  max-width:400;
+  max-height:400;
   margin-right:1%;
-  
   }
   
   .columns_3 figure:nth-child(3){
-  
-  margin-right: 
-  0;
-  
+  margin-right: 0;
   }
   
-  .columns_4 figure{
-  
-  width:24%;
-  
-  margin-right:1%;
-  
-  }
-  
-  .columns_4 figure:nth-child(4){
-  
-  margin-right: 
-  0;
-  
-  }
-  
-  .columns_5 figure{
-  
-  width:19%;
-  
-  margin-right:1%;
-  
-  }
-  
-  .columns_5 figure:nth-child(5){
-  
-  margin-right: 
-  0;
-  
-  }
   
   #columns figure:hover{
   
