@@ -68,6 +68,7 @@ export class SearchComponent implements OnInit {
   fetchSearchedProducts(){
     var productsObs=this._httpService.fetchSearchedProducts(this.searchQuery)
     productsObs.subscribe(data=>{
+      console.log("Recieved response")
       console.log(data)
     })
   }
