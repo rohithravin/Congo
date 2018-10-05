@@ -118,6 +118,7 @@ app.get('/getProduct', function(request, response){
 app.post('/fetchSearchedProducts', function(request, response){
     var searchQuery=request.body['searchQuery']
     console.log(searchQuery)
+    Product.find({name: {$regex: "here is my regex"}})
     response.send({'response':'Got your response'})
 })
 
