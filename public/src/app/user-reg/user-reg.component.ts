@@ -74,7 +74,23 @@ export class UserRegComponent implements OnInit {
       var err=this._httpService.createNewUser(this.first_name, this.last_name, this.email,this.phone_num ,this.password)
       err.subscribe(data=>{
         console.log("response:", data)
-        this._router.navigate(['/user-login']);
+        if(data['success']==-1){
+          //Server error
+          this.errMessage ="Server crashed! Try again later!";
+          this.showErr = true;
+          return;
+        }
+        else if(data['success']==0){
+          //CLient error, check message, User probably exists with email
+          this.errMessage ="User already exists";
+          this.showErr = true;
+          return;
+        }
+        else{
+          //success==1, registration successful
+          this._router.navigate(['/user-login']);
+        }
+
       })
 
     }
