@@ -10,9 +10,11 @@ import { HttpService } from '../http.service';
 export class ProductComponent implements OnInit {
 
   productID:string;
+  product:any;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService) {
     this.productID = '';
+    this.product={};
   }
 
   ngOnInit() {
@@ -26,10 +28,11 @@ export class ProductComponent implements OnInit {
 
   fetchProduct(){
     console.log("Inside this Product function")
-    var featuredObs=this._httpService.fetchProduct()
-    featuredObs.subscribe(data=>{
+    var product=this._httpService.fetchProduct()
+    product.subscribe(data=>{
       console.log(data)
     })
+    this.product = product;
   }
 
 }
