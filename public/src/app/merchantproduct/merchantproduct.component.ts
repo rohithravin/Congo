@@ -14,6 +14,7 @@ export class MerchantproductComponent implements OnInit {
 
   constructor(private _Activatedroute: ActivatedRoute, private _router:Router, private _httpService:HttpService) { 
     this.products = {};
+    this.merchant = '';
     this.star = "checked"
   }
 
