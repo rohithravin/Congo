@@ -68,14 +68,14 @@
 
   <div class="Products">
     <div id="wrap">
-      <div id="columns" class="columns_3">
+      <div id="columns" class="columns_3" >
         
-        <figure>
+        <figure *ngFor="let product of products">
           <div class="priceContainer">
-            <span class="price" style="font-weight: bold">$44</span>
+            <span class="price" style="font-weight: bold">${{product['price']}}</span>
             </div>
-            <img id="element0" src="https://cdn.shopify.com/s/files/1/2722/3942/products/pursuit_gucci_450.jpg?v=1523648003" style="width: 250px; height: 250px;">
-            <figcaption>{{products[0].name}}</figcaption>
+            <img src="{{product['images'][0]}}" style="width: 250px; height: 250px;">
+            <figcaption>{{product['name']}}</figcaption>
 
             <div style="text-align: center">
             <span class="fa fa-star {{star}}"></span>
@@ -84,188 +84,12 @@
             <span class="fa fa-star {{star}}"></span>
             <span class="fa fa-star {{star}}"></span>
           </div>
-        <a class="button" href="#">Buy Now</a>
+        <a class="button" href="#" [routerLink]="['/product',product['_id']]">Buy Now</a>
         </figure>
 
-          <figure>
-            <div class="priceContainer">
-              <span class="price" style="font-weight: bold">$44</span>
-            </div>
-            <img id="element0" src="https://cdn.shopify.com/s/files/1/2722/3942/products/pursuit_gucci_450.jpg?v=1523648003" style="width: 250px; height: 250px;">
-            <figcaption>{{products[0].name}}</figcaption>
-
-            <div style="text-align: center">
-              <span class="fa fa-star {{star}}"></span>
-              <span class="fa fa-star {{star}}"></span>
-              <span class="fa fa-star {{star}}"></span>
-              <span class="fa fa-star {{star}}"></span>
-              <span class="fa fa-star {{star}}"></span>
-            </div>
-          <a class="button" href="#">Buy Now</a>
-          </figure>
-
-    <figure>
-    <div class="priceContainer">
-    <span class="price" style="font-weight: bold">$44</span>
+              </div>
+      </div>
     </div>
-    <img id="element0" src="https://cdn.shopify.com/s/files/1/2722/3942/products/pursuit_gucci_450.jpg?v=1523648003" style="width: 250px; height: 250px;">
-    <figcaption>{{products[0].name}}</figcaption>
-    <div style="text-align: center">
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    </div>
-    <a class="button" href="#">Buy Now</a>
-    </figure>
-    <figure>
-    <div class="priceContainer">
-    <span class="price" style="font-weight: bold">$44</span>
-    </div>
-    <img id="element0" src="https://cdn.shopify.com/s/files/1/2722/3942/products/pursuit_gucci_450.jpg?v=1523648003" style="width: 250px; height: 250px;">
-    <figcaption>{{products[0].name}}</figcaption>
-    <div style="text-align: center">
-    <span class="fa fa-star {{star}}"></span>
-    <span  class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    </div>
-    <a class="button" href="#">Buy Now</a>
-    </figure>
-
-    <figure>
-    <div class="priceContainer">
-    <span class="price" style="font-weight: bold">$44</span>
-    </div>
-    <img id="element0" src="https://cdn.shopify.com/s/files/1/2722/3942/products/pursuit_gucci_450.jpg?v=1523648003" style="width: 250px; height: 250px;">
-    <figcaption>{{products[0].name}}</figcaption>
-    <div style="text-align: center">
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    </div>
-    <a  class="button"  href="#">Buy Now</a>
-    </figure>
-    <figure>
-    <div class="priceContainer">
-    <span class="price" style="font-weight: bold">$44</span>
-    </div>
-    <img id="element0" src="https://cdn.shopify.com/s/files/1/2722/3942/products/pursuit_gucci_450.jpg?v=1523648003" style="width: 250px; height: 250px;">
-    <figcaption>{{products[0].name}}</figcaption>
-    <div style="text-align: center">
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    </div>
-    <a  class="button" href="#">Buy Now</a>
-    </figure>
-
-    <figure>
-    <div class="priceContainer">
-    <span class="price" style="font-weight: bold">$44</span>
-    </div>
-    <img id="element0" src="https://cdn.shopify.com/s/files/1/2722/3942/products/pursuit_gucci_450.jpg?v=1523648003"style="width: 250px; height: 250px;">
-    <figcaption>{{products[0].name}}</figcaption>
-    <div style="text-align: center">
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    </div>
-    <a class="button" href="#">Buy Now</a>
-    </figure>
-
-    <figure>
-    <div class="priceContainer">
-    <span class="price" style="font-weight: bold">$44</span>
-    </div>
-    <img id="element0" src="https://cdn.shopify.com/s/files/1/2722/3942/products/pursuit_gucci_450.jpg?v=1523648003"style="width: 250px; height: 250px;">
-    <figcaption>{{products[0].name}}</figcaption>
-    <div style="text-align: center">
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    </div>
-    <a class="button" href="#">Buy Now</a>
-    </figure>
-
-    <figure>
-    <div class="priceContainer">
-    <span class="price" style="font-weight: bold">$44</span>
-    </div>
-    <img id="element0" src="https://cdn.shopify.com/s/files/1/2722/3942/products/pursuit_gucci_450.jpg?v=1523648003"style="width: 250px; height: 250px;">
-    <figcaption>{{products[0].name}}</figcaption>
-    <div style="text-align: center">
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    </div>
-    <a  class="button" href="#">Buy Now</a>
-    </figure>
-
-    <figure>
-    <div class="priceContainer">
-    <span class="price" style="font-weight: bold">$44</span>
-    </div>
-    <img id="element0" src="https://cdn.shopify.com/s/files/1/2722/3942/products/pursuit_gucci_450.jpg?v=1523648003" style="width: 250px; height: 250px;">
-    <figcaption>{{products[0].name}}</figcaption>
-    <div style="text-align: center">
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    </div>
-    <a class="button" href="#">Buy Now</a>
-    </figure>
-
-    <figure>
-    <div class="priceContainer">
-    <span class="price" style="font-weight: bold">$44</span>
-    </div>
-    <img id="element0" src="https://cdn.shopify.com/s/files/1/2722/3942/products/pursuit_gucci_450.jpg?v=1523648003"style="width: 250px; height: 250px;">
-    <figcaption>{{products[0].name}}</figcaption>
-    <div style="text-align: center">
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    </div>
-    <a class="button" href="#">Buy Now</a>
-    </figure>
-
-    <figure>
-    <div class="priceContainer">
-    <span class="price" style="font-weight: bold">$44</span>
-    </div>
-    <img id="element0" src="https://cdn.shopify.com/s/files/1/2722/3942/products/pursuit_gucci_450.jpg?v=1523648003"style="width: 250px; height: 250px;">
-    <figcaption>{{products[0].name}}</figcaption>
-    <div style="text-align: center">
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    <span class="fa fa-star {{star}}"></span>
-    </div>
-    <a class="button" href="#">Buy Now</a>
-    </figure>
-    </div>
-
-  </div>
-
-  </div>
 
 
 
