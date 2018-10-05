@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import { HttpService }  from '../http.service';
 
 @Component({
   selector: 'app-user-reg',
@@ -17,7 +18,7 @@ export class UserRegComponent implements OnInit {
   showErr:boolean;
   errMessage:string;
 
-  constructor(private _router: Router) {
+  constructor(private _router: Router,  private _httpService:HttpService) {
     this.first_name = "";
     this.last_name = "";
     this.email = "";
@@ -39,12 +40,12 @@ export class UserRegComponent implements OnInit {
         this.showErr = true;
         return;
     }
-    if(this.first_name.match(/^[A-Za-z]+$/) == null){
+    if(this.first_name.match(/^[A-Za-z]+$/) == null || this.first_name.length < 2 ){
       this.errMessage ="Please correct first name.";
       this.showErr = true;
       return;
     }
-    if(this.last_name.match(/^[A-Za-z]+$/) == null){
+    if(this.last_name.match(/^[A-Za-z]+$/) == null || this.last_name.length < 2){
       this.errMessage ="Please correct last name.";
       this.showErr = true;
       return;
@@ -69,18 +70,13 @@ export class UserRegComponent implements OnInit {
       this.showErr = true;
       return;
     }
+    if(!this.showErr){
+      var err=this._httpService.createNewUser(this.first_name, this.last_name, this.email,this.phone_num ,this.password)
+      err.subscribe(data=>{
+        console.log("response:", data)
+        this._router.navigate(['/user-login']);
+      })
 
-
-
-
-
-
-
-
-
-
-
-  //  this._router.navigate(['/user-login']);
+    }
   }
-
 }
