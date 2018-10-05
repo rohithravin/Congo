@@ -68,9 +68,9 @@
 
   <div class="Products">
     <div id="wrap">
-      <div id="columns" class="columns_3" *ngFor="let product of products">
+      <div id="columns" class="columns_3" >
         
-        <figure>
+        <figure *ngFor="let product of products">
           <div class="priceContainer">
             <span class="price" style="font-weight: bold">${{product['price']}}</span>
             </div>
