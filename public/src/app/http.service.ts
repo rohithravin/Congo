@@ -12,13 +12,19 @@ export class HttpService {
   fetchFeatured(){
     return this._http.get('/getFeatured')
   }
-  fetchProduct(){
-    return this._http.get('/getProduct')
+
+  fetchProduct(productID){
+    return this._http.get(`/getProduct/${productID}`)
   }
   fetchSearchedProducts(searchQuery){
     return this._http.post('/fetchSearchedProducts', {searchQuery:searchQuery})
   }
   createDummyProduct(product){
     return this._http.post('/createDummyProduct', {product: product})
+  }
+
+  createNewUser(first_name, last_name, email, phone_num, password){
+    console.log("checkpoint 1.");
+    return this._http.post('/processRegister', {first_name: first_name, last_name:last_name, email:email, phone_num:phone_num, password:password})
   }
 }

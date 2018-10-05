@@ -121,8 +121,11 @@ app.get('/getFeatured', function(request, response){
     })
 })
 
-app.get('/getProduct', function(request, response){
+app.get('/getProduct/:productID', function(request, response){
+    var productID=request.params.productID
     console.log("Recieved getProduct request")
+    console.log(productID)
+
 })
 
 
