@@ -24,6 +24,7 @@ export class ProductComponent implements OnInit {
         console.log('productID: ' + this.productID);
       })
     this.fetchProduct()
+
   }
 
   fetchProduct(){
@@ -31,8 +32,9 @@ export class ProductComponent implements OnInit {
     var product=this._httpService.fetchProduct(this.productID)
     product.subscribe(data=>{
       console.log(data)
+      this.product = data['product'];
     })
-    this.product = product;
+
   }
 
 }
