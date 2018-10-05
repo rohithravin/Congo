@@ -175,7 +175,7 @@ app.post('/processLogin', function(request, response){
                     //Add stuff to session if express session
                     request.session.userID=user._id
                     request.session.loggedIn=true
-                    response.json({success:1, message:"Login successful"})
+                    response.json({success:1, message:"Login successful", userID:user._id, first_name:user.first_name})
                 }
                 else{
                     response.json({success:0, message:"Invalid Login"})

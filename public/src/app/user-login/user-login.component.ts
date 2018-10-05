@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { HttpService }  from '../http.service';
-import { CookieService } from 'ngx-cookie-service';
+// import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-user-login',
@@ -15,7 +15,8 @@ export class UserLoginComponent implements OnInit {
   errMessage:string;
   showErr:boolean;
 
-  constructor(private _router: Router,  private _httpService:HttpService) {
+  // constructor(private _router: Router,  private _httpService:HttpService, private cookieService: CookieService) {
+    constructor(private _router: Router,  private _httpService:HttpService) {
     this.email = "";
     this.password = "";
     this.showErr = false;
@@ -23,7 +24,9 @@ export class UserLoginComponent implements OnInit {
    }
 
   ngOnInit() {
-
+    // if(this.cookieService.get('loggedIn')=='true'){
+    //   this._router.navigate([''])
+    // }
   }
 
   loginButton(){
@@ -60,6 +63,9 @@ export class UserLoginComponent implements OnInit {
         }
         else{
           //success==1, registration successful
+          // this.cookieService.set('loggedIn', "true")
+          // this.cookieService.set('userID', data['userID'])
+          // this.cookieService.set('first_name', data['first_name'])
           this._router.navigate(['']);
         }
 

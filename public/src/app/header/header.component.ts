@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+// import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-header',
@@ -8,12 +9,18 @@ import { Component, OnInit } from '@angular/core';
 export class HeaderComponent implements OnInit {
   showCategories:boolean
   searchQuery:string
-  constructor() {
+  first_name:string
+  // constructor(private cookieService: CookieService) {
+    constructor(){
     this.showCategories=false;
     this.searchQuery=''
+    this.first_name=''
    }
 
   ngOnInit() {
+    // if(this.cookieService.check('loggedIn') && this.cookieService.get('loggedIn')=='true'){
+    //   this.first_name=this.cookieService.get('first_name')
+    // }
   }
   categoriesClicked(){
     this.showCategories=!this.showCategories;

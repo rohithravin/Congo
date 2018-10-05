@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@angular/common": "^6.1.9",
+    "@angular/core": "^6.1.9",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
@@ -19,6 +21,7 @@
     "firebase-admin": "^6.0.0",
     "mongoose": "^5.3.1",
     "ngx-cookie-service": "^1.0.10",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "rxjs": "^6.3.3"
   }
 }
