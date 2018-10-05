@@ -1,0 +1,11 @@
+<form>
+  <h2>Add Product</h2>
+  <input type='text' name='prod_name' placeholder='name' [(ngModel)]='newProduct.name'>
+  <input type='text' name='description' placeholder='description' [(ngModel)]='newProduct.description'>
+  <input type='text' name='image' placeholder='image' [(ngModel)]='newProduct.image'>
+  <input type='text' name='price' placeholder='$' [(ngModel)]='newProduct.price'>
+  <input type='text' name='size' placeholder='size' [(ngModel)]='newProduct.size'>
+  <input type='text' name='color' placeholder='color' [(ngModel)]='newProduct.color'>
+  <input type='text' name='tag' placeholder='tag' [(ngModel)]='newProduct.tag'>
+  <button (click)='createProduct()'>Create</button>
+</form>

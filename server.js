@@ -118,13 +118,27 @@ app.get('/getProduct', function(request, response){
 app.post('/fetchSearchedProducts', function(request, response){
     var searchQuery=request.body['searchQuery']
     console.log(searchQuery)
-    var queryRegex= new RegExp(searchQuery, 'i')
+    var queryRegex= new RegExp(' '+searchQuery+' ', 'i')
     Product.find({$or:[{name: {$regex: queryRegex}}, {description: {$regex: queryRegex}}, {tags: {$regex: queryRegex}}]}, function(error, products){
         if(error){
             response.json({success:0, message:"There was an error"})
         }
         else{
             response.json({success:1, message:"Successfully fetched products", products:products})
+        }
+    })
+})
+
+app.post('/createDummyProduct', function(request, response){
+    var product=request.body['product']
+    console.log(product)
+    var newProduct=new Product({name:product.name, price:product.price, description:product.description, sizes:[product.size], colors:[product.color], images:[product.image], tags:[product.tag]})
+    newProduct.save(function(error){
+        if(error){
+            response.json({success:0, message:"There was an error creating your product"})
+        }
+        else{
+            response.json({success:1, message:"Successfully created the product!", product:newProduct})
         }
     })
 })
