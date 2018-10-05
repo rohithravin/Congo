@@ -3,6 +3,8 @@ var app=express()
 var path=require('path')
 var mongoose=require('mongoose')
 var bodyParser=require('body-parser')
+var bcrypt=require('bcryptjs')
+var NUM_SALTS=10
 
 // Firestore DB
 var admin = require("firebase-admin");
@@ -115,6 +117,8 @@ app.get('/getFeatured', function(request, response){
 app.get('/getProduct', function(request, response){
     console.log("Recieved getProduct request")
 })
+
+
 app.post('/fetchSearchedProducts', function(request, response){
     var searchQuery=request.body['searchQuery']
     console.log(searchQuery)
@@ -125,6 +129,31 @@ app.post('/fetchSearchedProducts', function(request, response){
         }
         else{
             response.json({success:1, message:"Successfully fetched products", products:products})
+        }
+    })
+})
+
+app.post('/processLogin', function(request, response){
+    var email=request.body['email']
+    var password=request.body['password']
+    var hashedPW=bcrypt.hashSync(password, NUM_SALTS)
+    User.findOne({email:email}, function(error, user){
+        if(error){
+            response.json({success:-1, message:'Server Error'})
+        }
+        else{
+            if(user==null){
+                response.json({success:0, message:"Invalid login"})
+            }
+            else{
+                if(bcrypt.compareSync(password, user.password)){
+                    //Add stuff to session if express session
+                    response.json({success:1, message:"Login successful"})
+                }
+                else{
+                    response.json({success:0, message:"Login failed"})
+                }
+            }
         }
     })
 })
