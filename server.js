@@ -3,6 +3,8 @@ var app=express()
 var path=require('path')
 var mongoose=require('mongoose')
 var bodyParser=require('body-parser')
+var bcrypt=require('bcryptjs')
+var NUM_SALTS=10
 
 // Firestore DB
 var admin = require("firebase-admin");
@@ -118,6 +120,8 @@ app.get('/getProduct/:productID', function(request, response){
     console.log(productID)
 
 })
+
+
 app.post('/fetchSearchedProducts', function(request, response){
     var searchQuery=request.body['searchQuery']
     console.log(searchQuery)
@@ -128,6 +132,45 @@ app.post('/fetchSearchedProducts', function(request, response){
         }
         else{
             response.json({success:1, message:"Successfully fetched products", products:products})
+        }
+    })
+})
+
+app.post('/processLogin', function(request, response){
+    var email=request.body['email']
+    var password=request.body['password']
+    var hashedPW=bcrypt.hashSync(password, NUM_SALTS)
+    User.findOne({email:email}, function(error, user){
+        if(error){
+            response.json({success:-1, message:'Server Error'})
+        }
+        else{
+            if(user==null){
+                response.json({success:0, message:"Invalid login"})
+            }
+            else{
+                if(bcrypt.compareSync(password, user.password)){
+                    //Add stuff to session if express session
+                    response.json({success:1, message:"Login successful"})
+                }
+                else{
+                    response.json({success:0, message:"Login failed"})
+                }
+            }
+        }
+    })
+})
+
+app.post('/createDummyProduct', function(request, response){
+    var product=request.body['product']
+    console.log(product)
+    var newProduct=new Product({name:product.name, price:product.price, description:product.description, sizes:[product.size], colors:[product.color], images:[product.image], tags:[product.tag]})
+    newProduct.save(function(error){
+        if(error){
+            response.json({success:0, message:"There was an error creating your product"})
+        }
+        else{
+            response.json({success:1, message:"Successfully created the product!", product:newProduct})
         }
     })
 })

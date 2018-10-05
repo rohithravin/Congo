@@ -11,7 +11,7 @@ export class HomepageComponent implements OnInit {
   constructor(private _httpService:HttpService) { }
 
   ngOnInit() {
-    this.fetchFeatured()
+    // this.fetchFeatured()
   }
   fetchFeatured(){
     console.log("Inside this function")
