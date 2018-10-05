@@ -13,8 +13,8 @@ export class HttpService {
     return this._http.get('/getFeatured')
   }
 
-  fetchProduct(){
-    return this._http.get('/getProduct')
+  fetchProduct(productID){
+    return this._http.get(`/getProduct/${productID}`)
   }
   fetchSearchedProducts(searchQuery){
     return this._http.post('/fetchSearchedProducts', {searchQuery:searchQuery})

@@ -28,7 +28,7 @@ export class ProductComponent implements OnInit {
 
   fetchProduct(){
     console.log("Inside this Product function")
-    var product=this._httpService.fetchProduct()
+    var product=this._httpService.fetchProduct(this.productID)
     product.subscribe(data=>{
       console.log(data)
     })

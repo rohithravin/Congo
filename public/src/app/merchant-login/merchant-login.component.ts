@@ -12,4 +12,9 @@ export class MerchantLoginComponent implements OnInit {
   ngOnInit() {
   }
 
+//[routerLink]="['/user-login']"
+  submitButton(){
+    
+  }
+
 }
