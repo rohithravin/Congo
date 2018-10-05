@@ -125,7 +125,19 @@ app.get('/getProduct/:productID', function(request, response){
     var productID=request.params.productID
     console.log("Recieved getProduct request")
     console.log(productID)
-
+    Product.findOne({_id:productID}, function(error, product){
+        if(error){
+            response.json({success:-1, message:'Server Error'})
+        }
+        else{
+            if(product==null){
+                response.json({success:0, message:"Product does not exist"})
+            }
+            else{
+                response.json({success:1, message:"Successfully found product", product:product})
+            }
+        }
+    })
 })
 
 
@@ -204,6 +216,9 @@ app.post('/processRegister', function(request, response){
 })
 
 app.post('/createDummyProduct', function(request, response){
+    // if(!('loggedIn' in request.session) || ('loggedIn' in request.session && request.session.loggedIn==false)){
+    //     return response.json({success:0, message:'User not logged in'})
+    // }
     console.log("Doing this for the change")
     var product=request.body['product']
     console.log(product)

@@ -20,11 +20,14 @@ export class HttpService {
     return this._http.post('/fetchSearchedProducts', {searchQuery:searchQuery})
   }
   createDummyProduct(product){
-    return this._http.post('/createDummyProduct', {product: product})
+    return this._http.post('/createDummyProduct', {product: product}, {withCredentials:true})
   }
 
   createNewUser(first_name, last_name, email, phone_num, password){
     console.log("checkpoint 1.");
-    return this._http.post('/processRegister', {first_name: first_name, last_name:last_name, email:email, phone_num:phone_num, password:password})
+    return this._http.post('/processRegister', {first_name: first_name, last_name:last_name, email:email, phone_num:phone_num, password:password}, {withCredentials:true})
+  }
+  processLogin(email, password){
+    return this._http.post('/processLogin', {email:email, password:password}, {withCredentials:true})
   }
 }
