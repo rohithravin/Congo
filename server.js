@@ -165,7 +165,7 @@ app.post('/processRegister', function(request, response){
     var last_name=request.body['last_name']
     var password=request.body['password']
     var email=request.body['email']
-    var phone_number=request.body['phone_number']
+    var phone_number=request.body['phone_num']
     User.findOne({email:email}, function(error, user){
         if(error){
             response.json({success:-1, message:"Server error"})
@@ -182,7 +182,7 @@ app.post('/processRegister', function(request, response){
                         response.json({success:0, message:'There was an error registering. Check your input again'})
                     }
                     else{
-                        response.json({success:1, message:"Successfully registered!"})
+                        response.json({success:1, message:"Successfully registered!", user:newUser})
                     }
                 })
             }
