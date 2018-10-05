@@ -118,7 +118,7 @@ app.get('/getProduct', function(request, response){
 app.post('/fetchSearchedProducts', function(request, response){
     var searchQuery=request.body['searchQuery']
     console.log(searchQuery)
-    var queryRegex= new RegExp(' '+searchQuery+' ', 'i')
+    var queryRegex= new RegExp(searchQuery, 'i')
     Product.find({$or:[{name: {$regex: queryRegex}}, {description: {$regex: queryRegex}}, {tags: {$regex: queryRegex}}]}, function(error, products){
         if(error){
             response.json({success:0, message:"There was an error"})
