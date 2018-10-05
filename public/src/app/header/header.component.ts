@@ -7,8 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   showCategories:boolean
+  searchQuery:String
   constructor() {
     this.showCategories=false;
+    this.searchQuery=''
    }
 
   ngOnInit() {
