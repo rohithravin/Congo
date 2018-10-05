@@ -9,7 +9,7 @@ import { HttpService }  from '../http.service';
 })
 export class SearchComponent implements OnInit {
   products: Array<any>;
-  productName:string;
+  searchQuery:string;
   filterSize;
   star:string;
   five_star_filter:boolean;
@@ -34,7 +34,7 @@ export class SearchComponent implements OnInit {
     this.priceIdx = 2;
     this.ratingIdx = 3;
     this.tagsIdx = 4;
-    this.productName = '';
+    this.searchQuery = '';
     this.filterSize = 6;
     this.star = "checked";
     this.five_star_filter = false;
@@ -49,8 +49,8 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     this._Activatedroute.params.subscribe(
     params => {
-      this.productName =params['productid']
-      console.log(this.productName);
+      this.searchQuery =params['searchQuery']
+      console.log(this.searchQuery);
       this.search_logic()
       this.clearFilter();
     });
@@ -118,7 +118,7 @@ export class SearchComponent implements OnInit {
   }
 
   getSearchedProduct(){
-    return this.productName;
+    return this.searchQuery;
   }
 
   setFiveStarFilter(){
@@ -184,7 +184,7 @@ export class SearchComponent implements OnInit {
       false;
     }
   }
-  
+
   public getAllSearchFilters () {
     let filters:
     Array<boolean> = [];
