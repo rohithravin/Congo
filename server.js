@@ -5,6 +5,8 @@ var mongoose=require('mongoose')
 var bodyParser=require('body-parser')
 var bcrypt=require('bcryptjs')
 var NUM_SALTS=10
+app.set('trust proxy', 1)
+var session=require('express-session')
 
 // Firestore DB
 var admin = require("firebase-admin");
@@ -158,7 +160,38 @@ app.post('/processLogin', function(request, response){
     })
 })
 
+app.post('/processRegister', function(request, response){
+    var first_name=request.body['first_name']
+    var last_name=request.body['last_name']
+    var password=request.body['password']
+    var email=request.body['email']
+    var phone_number=request.body['phone_number']
+    User.findOne({email:email}, function(error, user){
+        if(error){
+            response.json({success:-1, message:"Server error"})
+        }
+        else{
+            if(user!=null){
+                response.json({success:0, message:"A user already exists with this email"})
+            }
+            else{
+                var hashedPW=bcrypt.hashSync(password, NUM_SALTS)
+                var newUser=new User({first_name:first_name, last_name:last_name, email:email, password:hashedPW, phone_number:phone_number})
+                newUser.save(function(error){
+                    if(error){
+                        response.json({success:0, message:'There was an error registering. Check your input again'})
+                    }
+                    else{
+                        response.json({success:1, message:"Successfully registered!"})
+                    }
+                })
+            }
+        }
+    })
+})
+
 app.post('/createDummyProduct', function(request, response){
+    console.log("Doing this for the change")
     var product=request.body['product']
     console.log(product)
     var newProduct=new Product({name:product.name, price:product.price, description:product.description, sizes:[product.size], colors:[product.color], images:[product.image], tags:[product.tag]})
