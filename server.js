@@ -6,7 +6,12 @@ var bodyParser=require('body-parser')
 var bcrypt=require('bcryptjs')
 var NUM_SALTS=10
 app.set('trust proxy', 1)
-var session=require('express-session')
+var session=require('express-session')({
+    secret:'CongoIs!For!Everyone9923',
+    resave:true,
+    saveUninitialized:true,
+    cookie:{maxAge:60000}
+})
 
 // Firestore DB
 var admin = require("firebase-admin");
@@ -139,6 +144,9 @@ app.post('/fetchSearchedProducts', function(request, response){
 })
 
 app.post('/processLogin', function(request, response){
+    if('loggedIn' in request.session && request.session.loggedIn==true){
+        return response.json({success:0, message:"User already logged in"})
+    }
     var email=request.body['email']
     var password=request.body['password']
     var hashedPW=bcrypt.hashSync(password, NUM_SALTS)
@@ -153,10 +161,12 @@ app.post('/processLogin', function(request, response){
             else{
                 if(bcrypt.compareSync(password, user.password)){
                     //Add stuff to session if express session
+                    request.session.userID=user._id
+                    request.session.loggedIn=true
                     response.json({success:1, message:"Login successful"})
                 }
                 else{
-                    response.json({success:0, message:"Login failed"})
+                    response.json({success:0, message:"Invalid Login"})
                 }
             }
         }
