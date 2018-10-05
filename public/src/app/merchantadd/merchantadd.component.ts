@@ -10,6 +10,7 @@ export class MerchantaddComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
+    
   }
 
 }
