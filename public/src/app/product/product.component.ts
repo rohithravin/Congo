@@ -11,10 +11,12 @@ export class ProductComponent implements OnInit {
 
   productID:string;
   product:any;
+  count:number;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService) {
     this.productID = '';
     this.product={};
+    this.count = 0;
   }
 
   ngOnInit() {
@@ -25,6 +27,16 @@ export class ProductComponent implements OnInit {
       })
     this.fetchProduct()
 
+  }
+
+  updateCountPlus(){
+    this.count = this.count + 1;
+  }
+
+  updateCountMinus(){
+    if (this.count > 0){
+      this.count = this.count - 1;
+    }
   }
 
   fetchProduct(){

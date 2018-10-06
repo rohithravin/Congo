@@ -1,78 +1,54 @@
-<main class="container" style="background-color: #ffffff;">
-
-  <div class="left-column">
-  <img data-image="red" class="active" src ="{{product['images'][0]}}" alt="No Image Available">
-  <img data-image="black"  src = "https://images-na.ssl-images-amazon.com/images/I/51WvOgyQP3L._SL1500_.jpg" alt="">
-  <img data-image="blue"  src = "https://d34kame2p3gj5k.cloudfront.net/media/uploads/2018/09/05155415/ocean-blue-17oz-SWB-BLUE02.jpg" alt="">
-  </div>
-
-<!-- Right Column -->
-  <div class="right-column">
-
-    <!-- Product Description -->
-    <div class="product-description">
-      <span>Water Bottle</span>
-      <h1>{{product['name']}}</h1>
-      <p>{{product['description']}}</p>
-    </div>
-
-    <!-- Product Configuration -->
-    <div class="product-configuration">
-
-      <!-- Product Color -->
-      <div class="product-color">
-          <h2>${{product['price']}}</h2>
-        <span>Color</span>
-        <div class="color-choose">
-          <div>
-            <input data-image="red" type="radio" id="red" name="color" value="red" checked>
-            <label for="red"><span></span></label>
-          </div>
-          <div>
-            <input data-image="blue" type="radio" id="blue" name="color" value="blue">
-            <label for="blue"><span></span></label>
-          </div>
-          <div>
-            <input data-image="black" type="radio" id="black" name="color" value="black">
-            <label for="black"><span></span></label>
-          </div>
-        </div>
-      </div>
-      <!-- Cable Configuration -->
-      <div class="cable-config">
-
-        <div class="cable-choose">
-            <ul class="nav">
-                <li>Total Sold: {{product['num_sold']}} people</li>
-                <li>Total View: {{product['num_views']}} people</li>
-              </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Product Pricing -->
-    <div class="product-price">
-
-        <div class="quantity">
-            <button class="cart-btn" type="button" name="button">  +  </button>
-            <input type="text" name="name" value="1">
-              <button class="cart-btn" type="button" name="button"> -  </button>
+<div style="background-color: #ffffff;">
+<div class="container" style="padding-top: 50px; background-color: #ffffff;">
+        <div class="row">
+            <div class="col"><img src="https://staticshop.o2.co.uk/product/images/iphone-x-space-grey-sku-header.png?cb=25dc5afb0412fc40a28aa29d82cb53d0"></div>
+            <div class="col">
+                <div class="row">
+                    <div class="col" style="background-color: #f7f7f7;padding-top: 10px;">
+                        <div class="row">
+                            <div class="col">
+                                <p style="color: rgba(198,160,12,0.9);">Merchant Name</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h1>{{product['name']}}</h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p style="color: rgba(33,37,41,0.5);">{{product['description']}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col" style="background-color: #f7f7f7;margin-top: 10px;">
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="col">
+                                <h3>${{product['price']}}</h3>
+                            </div>
+                            <div class="col">
+                                <p>Total View: {{product['num_views']}} People</p>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="col"></div>
+                            <div class="col">
+                                <p>Total Sold: {{product['num_sold']}} People</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="background-color: #f7f7f7;margin-top: 15px;padding-top: 15px;padding-bottom: 15px;">
+                    <div class="col"><button class="btn btn-primary" type="button" style="width: 110px;background-color: rgba(170,142,10,0.75);" (click)="updateCountPlus()">+</button></div>
+                    <div class="col-lg-1">
+                        <p>{{count}}</p>
+                    </div>
+                    <div class="col"><button class="btn btn-primary" type="button" style="width: 110px;background-color: rgba(170,142,10,0.75);" (click)="updateCountMinus()">-</button></div>
+                    <div class="col"><button class="btn btn-primary" type="button" style="background-color: rgba(170,142,10,0.75);">Add To Cart</button></div>
+                </div>
             </div>
-
-      <a href="#" class="cart-btn">Add to cart</a>
-    </div>
-  </div>
-  <script>
-  $(document).ready(function() {
-
- $('.color-choose input').on('click', function() {
-     var headphonesColor = $(this).attr('data-image');
-
-     $('.active').removeClass('active');
-     $('.left-column img[data-image = ' + headphonesColor + ']').addClass('active');
-     $(this).addClass('active');
- });
-
-});
-  </script>
-</main>
+        </div>
+</div>
+</div>
