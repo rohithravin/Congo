@@ -8,6 +8,7 @@ import { Component, OnInit, Input} from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   showCategories:boolean
+  showCategoriesAccount:boolean
   searchQuery:string
   @Input() first_name:string
   loggedIn:boolean
@@ -16,7 +17,11 @@ export class HeaderComponent implements OnInit {
   // constructor(private cookieService: CookieService) {
   constructor(){
     this.showCategories=false;
+<<<<<<< HEAD
     this.showAccount=false;
+=======
+    this.showCategoriesAccount=false;
+>>>>>>> refs/remotes/origin/master
     this.searchQuery=''
     if(localStorage.getItem('loggedIn')===null){
       localStorage.setItem('loggedIn', 'false')
@@ -40,6 +45,7 @@ export class HeaderComponent implements OnInit {
   categoriesClicked(){
     this.showCategories=!this.showCategories;
   }
+<<<<<<< HEAD
   accountClicked(){
     this.showAccount=!this.showAccount;
   }
@@ -48,6 +54,10 @@ export class HeaderComponent implements OnInit {
     this.first_name=''
     this.loggedIn=false;
     this.userID='-1'
+=======
+  categoriesClickedAccount(){
+    this.showCategoriesAccount=!this.showCategoriesAccount;
+>>>>>>> refs/remotes/origin/master
   }
 
 }

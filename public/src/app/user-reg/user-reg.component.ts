@@ -15,8 +15,13 @@ export class UserRegComponent implements OnInit {
   password:string;
   password_validated:string;
   phone_num:string;
-  showErr:boolean;
-  errMessage:string;
+  showErr_firstname:boolean;
+  showErr_lastname:boolean;
+  showErr_email:boolean;
+  showErr_password:boolean;
+  showErr_confirm:boolean;
+  showErr_phoneNum:boolean;
+  password_err:string;
 
   constructor(private _router: Router,  private _httpService:HttpService) {
     if(localStorage.getItem('loggedIn')=='true'){
@@ -28,8 +33,12 @@ export class UserRegComponent implements OnInit {
     this.password = "";
     this.password_validated = "";
     this.phone_num = "";
-    this.showErr = false;
-    this.errMessage = "";
+    this.showErr_firstname = false;
+    this.showErr_lastname = false;
+    this.showErr_email = false;
+    this.showErr_password = false;
+    this.showErr_confirm = false;
+    this.password_err = "";
 
   }
 
@@ -38,60 +47,75 @@ export class UserRegComponent implements OnInit {
   }
 
   submitButton(){
-    if(this.first_name == "" || this.last_name == "" || this.email == "" || this.password == "" || this.password_validated == "" || this.phone_num == ""){
-        this.errMessage ="Please fill out all fields.";
-        this.showErr = true;
-        return;
-    }
+    //clear everything first
+    this.showErr_firstname = false;
+    this.showErr_lastname = false;
+    this.showErr_email = false;
+    this.showErr_password = false;
+    this.showErr_confirm = false;
+    
     if(this.first_name.match(/^[A-Za-z]+$/) == null || this.first_name.length < 2 ){
-      this.errMessage ="Please correct first name.";
-      this.showErr = true;
-      return;
+      this.showErr_firstname = true;
+    }else{
+      this.showErr_firstname = false;
     }
+
+
     if(this.last_name.match(/^[A-Za-z]+$/) == null || this.last_name.length < 2){
-      this.errMessage ="Please correct last name.";
-      this.showErr = true;
-      return;
+      this.showErr_lastname = true;
+    }else{
+      this.showErr_firstname = false;
     }
-    if(this.email.match(/^\S+@\S+/) == null){
-      this.errMessage ="Please correct email.";
-      this.showErr = true;
-      return;
+
+    if(this.email.match(/^\S+@\S+\.\S/) == null){
+      // if(this.email.match())
+      this.showErr_email = true;
+    }else{
+      this.showErr_email = false;
     }
+
     if(this.phone_num.length != 10  || '0123456789'.indexOf(this.phone_num) !== -1){
-      this.errMessage ="Please correct phone number";
-      this.showErr = true;
-      return;
+      console.log(this.phone_num.length);
+      console.log('0123456789'.indexOf(this.phone_num));
+      this.showErr_phoneNum = true;
+    }else{
+      this.showErr_phoneNum = false;
     }
+
     if(this.password.length < 8){
-      this.errMessage ="Please correct password.";
-      this.showErr = true;
-      return;
+      this.password_err ="Password needs atleast 8 characters.";
+      this.showErr_password = true;
+    }else{
+      this.showErr_password = false;
     }
+
+
     if(this.password != this.password_validated){
-      this.errMessage ="Please correct confirm password.";
-      this.showErr = true;
-      return;
+      this.showErr_confirm = true;
+    }else{
+      this.showErr_confirm = false;
     }
-    if(!this.showErr){
+
+
+    if(!this.showErr_confirm && !this.showErr_email && !this.showErr_firstname && !this.showErr_lastname && !this.showErr_password && !this.showErr_phoneNum){
       var err=this._httpService.createNewUser(this.first_name, this.last_name, this.email,this.phone_num ,this.password)
       err.subscribe(data=>{
         console.log("response:", data)
         if(data['success']==-1){
           //Server error
-          this.errMessage ="Server crashed! Try again later!";
-          this.showErr = true;
+          //this.errMessage ="Server crashed! Try again later!";
+          //this.showErr = true;
           return;
         }
         else if(data['success']==0){
           //CLient error, check message, User probably exists with email
-          this.errMessage ="User already exists";
-          this.showErr = true;
+          //this.errMessage ="User already exists";
+          //this.showErr = true;
           return;
         }
         else{
           //success==1, registration successful
-          this._router.navigate(['/user-login']);
+          this._router.navigate(['/login']);
         }
 
       })
