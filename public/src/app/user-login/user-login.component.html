@@ -4,6 +4,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <section>
   <div class="login-clean" style="background-color: #ffffff;">
+        <h3 style="color: green;text-align:center;" *ngIf=registration_complete>Registration Success</h3>
         <form method="post" style="padding-bottom: 25px;padding-top: 25px;background-color: #eeeeee;">
             <p style="color:red;font-size:12pt;"  *ngIf=showErr >{{errMessage}}</p>
             <div class="illustration"><img class="img-fluid panel-title-image" src="assets/img/Congo%20Logo.png"></div>

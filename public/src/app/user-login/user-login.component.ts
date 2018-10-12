@@ -16,6 +16,8 @@ export class UserLoginComponent implements OnInit {
   password:string;
   errMessage:string;
   showErr:boolean;
+  registration:string;
+  registration_complete:boolean;
 
   // constructor(private _router: Router,  private _httpService:HttpService, private cookieService: CookieService) {
   constructor(private _router: Router,  private _httpService:HttpService) {
@@ -26,12 +28,19 @@ export class UserLoginComponent implements OnInit {
     this.password = "";
     this.showErr = false;
     this.errMessage = "";
+    this.registration = localStorage.getItem("registered");
+    this.registration_complete = false;
+    if (this.registration == "True"){
+      this.registration_complete = true;
+      localStorage.setItem("registered","false");
+    }
    }
 
   ngOnInit() {
     // if(this.cookieService.get('loggedIn')=='true'){
     //   this._router.navigate([''])
     // }
+    
   }
 
   loginButton(){
