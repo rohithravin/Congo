@@ -36,13 +36,12 @@
 </section> -->
 <form class='register' method='post'>
     <p class='big'>Registration</p>
-    <p class='red'>{{message}}</p>
     <div class='single'>
         <p>First Name:</p>
         <input type='text' name='first_name' placeholder='first name' value='{{first_name}}'>
     </div>
     <!-- {% for message in last_name_errors %} -->
-        <p class='red'>{{message}}</p>
+        <p class='red'>First name is wrong</p>
     <!-- {% endfor %} -->
     <div class='single'>
         <p>Last Name:</p>

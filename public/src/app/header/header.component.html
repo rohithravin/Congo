@@ -1,10 +1,7 @@
 <div class='top'>
     <a href='#' [routerLink]="['/']"><img src='https://raw.githubusercontent.com/amahesh98/CongoLogo/master/Congo.png' alt='Logo'></a>
     <p class='companyName'>CONGO</p>
-    <!-- <div class='myDropdown'>
-      <p>ACCOUNT</p>
-      <a href='#'><img src='https://image.flaticon.com/icons/svg/120/120906.svg' alt='down'></a>
-    </div> -->
+    
 </div>
 <div class='bottom'>
   <div class='myDropdown'>
@@ -28,4 +25,13 @@
   <p class='welcomeName' *ngIf="loggedIn==true">Welcome, {{first_name}}</p>
   <a href='#' class='loginLink' [routerLink]="['/login']" *ngIf='loggedIn==false'>LOGIN</a>
   <a href='#' [routerLink]="['/cart']"><img src='https://image.flaticon.com/icons/png/512/2/2772.png' alt='Cart'></a>
+  <div class='accountDropdown' *ngIf='loggedIn==true'>
+      <p>ACCOUNT</p>
+      <a href='#' (click)="accountClicked()"><img src='https://image.flaticon.com/icons/svg/120/120906.svg' alt='down'></a>
+      <div class='accountCategories' *ngIf='showAccount==true'>
+        <a href='#'>Orders</a>
+        <a href='#'>Account</a>
+        <a href='#' (click)="logout()">Logout</a>
+      </div>
+  </div>
 </div>

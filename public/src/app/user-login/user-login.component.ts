@@ -19,6 +19,9 @@ export class UserLoginComponent implements OnInit {
 
   // constructor(private _router: Router,  private _httpService:HttpService, private cookieService: CookieService) {
   constructor(private _router: Router,  private _httpService:HttpService) {
+    if(localStorage.getItem('loggedIn')=='true'){
+      this._router.navigate([''])
+    }
     this.email = "";
     this.password = "";
     this.showErr = false;
@@ -32,6 +35,7 @@ export class UserLoginComponent implements OnInit {
   }
 
   loginButton(){
+    this.showErr=false;
     if(this.email == "" || this.password == "" ){
         this.errMessage ="Please fill out all fields.";
         this.showErr = true;

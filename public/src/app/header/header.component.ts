@@ -12,9 +12,11 @@ export class HeaderComponent implements OnInit {
   @Input() first_name:string
   loggedIn:boolean
   userID:string
+  showAccount:boolean
   // constructor(private cookieService: CookieService) {
   constructor(){
     this.showCategories=false;
+    this.showAccount=false;
     this.searchQuery=''
     if(localStorage.getItem('loggedIn')===null){
       localStorage.setItem('loggedIn', 'false')
@@ -37,6 +39,15 @@ export class HeaderComponent implements OnInit {
   }
   categoriesClicked(){
     this.showCategories=!this.showCategories;
+  }
+  accountClicked(){
+    this.showAccount=!this.showAccount;
+  }
+  logout(){
+    localStorage.clear()
+    this.first_name=''
+    this.loggedIn=false;
+    this.userID='-1'
   }
 
 }
