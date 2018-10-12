@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 // import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -10,16 +10,29 @@ export class HeaderComponent implements OnInit {
   showCategories:boolean
   showCategoriesAccount:boolean
   searchQuery:string
-  first_name:string
+  @Input() first_name:string
+  loggedIn:boolean
+  userID:string
   // constructor(private cookieService: CookieService) {
-    constructor(){
+  constructor(){
     this.showCategories=false;
     this.showCategoriesAccount=false;
     this.searchQuery=''
-    this.first_name=''
+    if(localStorage.getItem('loggedIn')===null){
+      localStorage.setItem('loggedIn', 'false')
+    }
+    if(localStorage.getItem('loggedIn')==="true"){
+      this.first_name=localStorage.getItem('firstName')
+      this.loggedIn=true
+      this.userID=localStorage.getItem('userID')
+    }
+    else{
+      this.loggedIn=false
+    }
    }
 
   ngOnInit() {
+    // this.first_name=localStorage.getItem('firstName')
     // if(this.cookieService.check('loggedIn') && this.cookieService.get('loggedIn')=='true'){
     //   this.first_name=this.cookieService.get('first_name')
     // }

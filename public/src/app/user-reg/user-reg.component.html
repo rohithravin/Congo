@@ -1,4 +1,4 @@
-<section style="background-color: #ffffff;">
+<!-- <section style="background-color: #ffffff;">
   <div class="row register-form">
         <div class="col-md-8 offset-md-2">
             <form class="custom-form" style="background-color: rgb(238,238,238);">
@@ -33,4 +33,42 @@
               </form>
         </div>
     </div>
-</section>
+</section> -->
+<form class='register' method='post'>
+    <p class='big'>Registration</p>
+    <p class='red'>{{message}}</p>
+    <div class='single'>
+        <p>First Name:</p>
+        <input type='text' name='first_name' placeholder='first name' value='{{first_name}}'>
+    </div>
+    <!-- {% for message in last_name_errors %} -->
+        <p class='red'>{{message}}</p>
+    <!-- {% endfor %} -->
+    <div class='single'>
+        <p>Last Name:</p>
+        <input type='text' name='last_name' placeholder='last name' value='{{last_name}}'>
+    </div>
+    <!-- {% for message in reg_email_errors %} -->
+        <p class='red'>{{message}}</p>
+    <!-- {% endfor %} -->
+    <div class='single'>
+        <p>Email:</p>
+        <input type='text' name='email' placeholder='email' value='{{email}}'>
+    </div>
+    <!-- {% for message in password_errors %} -->
+        <p class='red'>{{message}}</p>
+    <!-- {% endfor %} -->
+    <div class='single'>
+        <p>Password:</p>
+        <input type='password' name='password' placeholder='password'>
+    </div>
+    <!-- {% for message in confirm_errors %} -->
+        <p class='red'>{{message}}</p>
+    <!-- {% endfor %} -->
+    <div class='single'>
+        <p>Confirm PW:</p>
+        <input type='password' name='confirm' placeholder='confirm'>
+    </div>
+    
+    <input class='register login' type='submit' value='Register'>
+</form>

@@ -17,12 +17,12 @@ const routes: Routes = [
   {path:'cart', component: CartComponent},
   {path:'checkout', component: CheckoutComponent },
   {path:'checkout-conf', component: CheckoutConfComponent },
-  {path:'user-login', component: UserLoginComponent },
+  {path:'login', component: UserLoginComponent },
   {path:'merchant-login', component: MerchantLoginComponent },
   {path:'merchant-portal', component: MerchantPortalComponent },
   {path: 'product/:pid', component: ProductComponent},
   {path: 'search/:searchQuery', component: SearchComponent},
-  {path: 'user-reg', component: UserRegComponent},
+  {path: 'registration', component: UserRegComponent},
   {path: 'dummyAdd', component:DummyAddProductComponent}
 ];
 
