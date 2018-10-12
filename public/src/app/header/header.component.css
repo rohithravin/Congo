@@ -107,8 +107,9 @@ div.bottom>p.welcomeName{
     margin-top:17px;
     /* border:1px solid green; */
 }
-a.loginLink{
+div.bottom>a.loginLink{
     background:rgb(255, 233, 111);
+    margin-top:20px;
     color:black;
     text-decoration:none;
     font-size:14pt;
@@ -116,6 +117,7 @@ a.loginLink{
     border-radius:6px;
     margin-left:165px;
     height:34px;
+    vertical-align: top;
 }
 a.loginLink:hover{
     background:rgb(185, 169, 79);
@@ -135,9 +137,11 @@ div.accountDropdown>a>img{
 div.accountDropdown{
     background:rgb(255, 233, 111);
     display:inline-block;
-    position:absolute;
-    top:50px;
-    right:60px;
+    position:relative;
+    /* top:50px; */
+    bottom:160px;
+    left:1060px;
+    /* right:60px; */
     z-index:1000;
     padding:5px;
 }
