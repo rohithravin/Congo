@@ -5,6 +5,7 @@
 <section>
   <div class="login-clean" style="background-color: #ffffff;">
         <form method="post" style="padding-bottom: 25px;padding-top: 25px;background-color: #eeeeee;">
+            <p style="color:red;font-size:12pt;"  *ngIf=showErr >{{errMessage}}</p>
             <div class="illustration"><img class="img-fluid panel-title-image" src="assets/img/Congo%20Logo.png"></div>
             <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email or Username" [ngModelOptions]="{standalone: true}" [(ngModel)]='email'></div>
             <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password" [ngModelOptions]="{standalone: true}" [(ngModel)]='password'></div>
