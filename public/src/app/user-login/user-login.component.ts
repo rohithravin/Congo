@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { HttpService }  from '../http.service';
+import { HeaderComponent } from '../header/header.component';
 // import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 // import { CookieService } from 'ngx-cookie-service';
 
@@ -70,6 +71,7 @@ export class UserLoginComponent implements OnInit {
           localStorage.setItem('loggedIn', "true")
           localStorage.setItem('userID', data['userID'])
           localStorage.setItem('firstName', data['first_name'])
+          location.reload(true)
           this._router.navigate(['']);
         }
         
