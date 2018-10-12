@@ -24,6 +24,9 @@ export class UserRegComponent implements OnInit {
   password_err:string;
 
   constructor(private _router: Router,  private _httpService:HttpService) {
+    if(localStorage.getItem('loggedIn')=='true'){
+      this._router.navigate([''])
+    }
     this.first_name = "";
     this.last_name = "";
     this.email = "";

@@ -22,71 +22,6 @@ div.top p.companyName{
     margin-top:20px;
     font-family: 'Chicle', cursive;
 }
-/*
-div.top div.myDropdown{
-    display:inline-block;
-    background:rgb(255, 233, 111);
-    padding:5px;
-    float:right;
-    position: relative;
-    bottom:90px;
-}
-div.top div.myDropdown p{
-    font-size:12pt;
-    margin:0px;
-    display:inline-block;
-}
-div.top div.myDropdown a{
-    display:inline-block;
-    vertical-align: top;
-}
-div.top div.myDropdown a img{
-    width:20px;
-    vertical-align: top;
-    margin-top:2px;
-    margin-left:5px;
-}*/
-
-div.top div.myDropdown{
-    background:rgb(255, 233, 111);
-    display:inline-block;
-    padding:5px;
-    margin-top:11px;
-    margin-left:15px;
-    z-index:100;
-    /*max-height: 100px; 
-    height: 100px;*/
-}
-div.top div.myDropdown p{
-    display:inline-block;
-    margin:0px;
-}
-div.top div.myDropdown a img{
-    width:20px;
-    vertical-align: top;
-    margin-top:2px;
-    
-    /* padding-left:3px; */
-}
-div.top div.myDropdown>a{
-    border-left:1px solid black;
-    margin-left:5px;
-    padding-left:5px;
-}
-div.top div.myDropdown div.categories a{
-    display:block;
-    /* width:132px; */
-    color:black;
-    z-index:100;
-}
-div.top div.myDropdown div.categories{
-    /* position: absolute;
-    left:55px; */
-    position: relative;
-    z-index: 500;
-    background:rgb(255, 233, 111);
-    padding-left:5px;
-}
 div.bottom{
     height:60px;
     background:rgb(58, 58, 58);
@@ -191,3 +126,42 @@ div.bottom>a>img:hover{
 div.searchbar form a:hover{
     background:rgb(185, 169, 79);
 }
+
+div.accountDropdown>a>img{
+    width:20px;
+    vertical-align: top;
+    margin-top:2px;
+}
+div.accountDropdown{
+    background:rgb(255, 233, 111);
+    display:inline-block;
+    position:absolute;
+    top:50px;
+    right:60px;
+    z-index:1000;
+    padding:5px;
+}
+div.accountDropdown p{
+    display:inline-block;
+    margin:0px;
+}
+div.bottom div.accountDropdown>a{
+    border-left:1px solid black;
+    margin-left:5px;
+    padding-left:5px;
+}
+div.bottom div.accountDropdown div.accountCategories a{
+    display:block;
+    /* width:132px; */
+    color:black;
+    z-index:500;
+}
+div.bottom div.accountDropdown div.accountCategories{
+    /* position: absolute;
+    left:55px; */
+    position: relative;
+    z-index: 500;
+    background:rgb(255, 233, 111);
+    padding-left:5px;
+}
+
