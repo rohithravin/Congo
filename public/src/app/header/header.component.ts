@@ -14,10 +14,11 @@ export class HeaderComponent implements OnInit {
     constructor(){
     this.showCategories=false;
     this.searchQuery=''
-    this.first_name=''
+    this.first_name=localStorage.getItem('firstName')
    }
 
   ngOnInit() {
+    this.first_name=localStorage.getItem('firstName')
     // if(this.cookieService.check('loggedIn') && this.cookieService.get('loggedIn')=='true'){
     //   this.first_name=this.cookieService.get('first_name')
     // }

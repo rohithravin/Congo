@@ -156,9 +156,9 @@ app.post('/fetchSearchedProducts', function(request, response){
 })
 
 app.post('/processLogin', function(request, response){
-    if('loggedIn' in request.session && request.session.loggedIn==true){
-        return response.json({success:0, message:"User already logged in"})
-    }
+    // if('loggedIn' in request.session && request.session.loggedIn==true){
+    //     return response.json({success:0, message:"User already logged in"})
+    // }
     var email=request.body['email']
     var password=request.body['password']
     var hashedPW=bcrypt.hashSync(password, NUM_SALTS)
@@ -173,8 +173,8 @@ app.post('/processLogin', function(request, response){
             else{
                 if(bcrypt.compareSync(password, user.password)){
                     //Add stuff to session if express session
-                    request.session.userID=user._id
-                    request.session.loggedIn=true
+                    // request.session.userID=user._id
+                    // request.session.loggedIn=true
                     response.json({success:1, message:"Login successful", userID:user._id, first_name:user.first_name})
                 }
                 else{

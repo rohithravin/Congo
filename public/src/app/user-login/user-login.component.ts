@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { HttpService }  from '../http.service';
+// import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 // import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -16,7 +17,7 @@ export class UserLoginComponent implements OnInit {
   showErr:boolean;
 
   // constructor(private _router: Router,  private _httpService:HttpService, private cookieService: CookieService) {
-    constructor(private _router: Router,  private _httpService:HttpService) {
+  constructor(private _router: Router,  private _httpService:HttpService) {
     this.email = "";
     this.password = "";
     this.showErr = false;
@@ -66,9 +67,12 @@ export class UserLoginComponent implements OnInit {
           // this.cookieService.set('loggedIn', "true")
           // this.cookieService.set('userID', data['userID'])
           // this.cookieService.set('first_name', data['first_name'])
+          localStorage.setItem('loggedIn', "true")
+          localStorage.setItem('userID', data['userID'])
+          localStorage.setItem('firstName', data['first_name'])
           this._router.navigate(['']);
         }
-
+        
       })
   }
 }
