@@ -8,11 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   showCategories:boolean
+  showCategoriesAccount:boolean
   searchQuery:string
   first_name:string
   // constructor(private cookieService: CookieService) {
     constructor(){
     this.showCategories=false;
+    this.showCategoriesAccount=false;
     this.searchQuery=''
     this.first_name=''
    }
@@ -24,6 +26,9 @@ export class HeaderComponent implements OnInit {
   }
   categoriesClicked(){
     this.showCategories=!this.showCategories;
+  }
+  categoriesClickedAccount(){
+    this.showCategoriesAccount=!this.showCategoriesAccount;
   }
 
 }

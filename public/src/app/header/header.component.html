@@ -1,10 +1,15 @@
 <div class='top'>
     <a href='#' [routerLink]="['/']"><img src='https://raw.githubusercontent.com/amahesh98/CongoLogo/master/Congo.png' alt='Logo'></a>
     <p class='companyName'>CONGO</p>
-    <!-- <div class='myDropdown'>
+    <div class='myDropdown'>
       <p>ACCOUNT</p>
-      <a href='#'><img src='https://image.flaticon.com/icons/svg/120/120906.svg' alt='down'></a>
-    </div> -->
+      <a (click)="categoriesClickedAccount()"><img src='https://image.flaticon.com/icons/svg/120/120906.svg' alt='down'></a>
+      <div class='categories' *ngIf="showCategoriesAccount==true">
+        <a href='#'>View Orders</a>
+        <a href='#'>Edit Profile</a>
+        <a href='#'>Logout</a>
+      </div>
+    </div>
 </div>
 <div class='bottom'>
   <div class='myDropdown'>
@@ -13,7 +18,7 @@
     <div class='categories' *ngIf="showCategories==true">
       <a href='#'>Office Supplies</a>
       <a href='#'>Shoes</a>
-      <a href='#'>Apparell</a>
+      <a href='#'>Apparel</a>
       <a href='#'>Food</a>
       <a href='#'>Video Games</a>
       <a href='#'>Electronics</a>
