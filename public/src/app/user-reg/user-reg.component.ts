@@ -112,7 +112,7 @@ export class UserRegComponent implements OnInit {
         }
         else{
           //success==1, registration successful
-          this._router.navigate(['/user-login']);
+          this._router.navigate(['/login']);
         }
 
       })

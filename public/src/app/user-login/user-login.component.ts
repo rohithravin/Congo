@@ -32,11 +32,6 @@ export class UserLoginComponent implements OnInit {
   }
 
   loginButton(){
-    if(this.email == "" || this.password == "" ){
-        this.errMessage ="Please fill out all fields.";
-        this.showErr = true;
-        return;
-    }
     if(this.email.match(/^\S+@\S+/) == null){
       this.errMessage ="Please correct email.";
       this.showErr = true;
