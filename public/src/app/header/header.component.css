@@ -10,7 +10,6 @@ div.top{
     width:1200px;
     margin:auto;
     height:125px;
-    /* height:180px; */
     padding-top:1px;
 }
 div.top p.companyName{
@@ -23,7 +22,8 @@ div.top p.companyName{
     margin-top:20px;
     font-family: 'Chicle', cursive;
 }
-/* div.top div.myDropdown{
+/*
+div.top div.myDropdown{
     display:inline-block;
     background:rgb(255, 233, 111);
     padding:5px;
@@ -45,7 +45,50 @@ div.top div.myDropdown a img{
     vertical-align: top;
     margin-top:2px;
     margin-left:5px;
-} */
+}*/
+
+div.top div.myDropdown{
+    background:rgb(255, 233, 111);
+    display:inline-block;
+    padding:5px;
+    float:right;
+    position:relative;
+    margin-top:11px;
+    margin-left:15px;
+    z-index:100;
+    /*max-height: 100px; 
+    height: 100px;*/
+}
+div.top div.myDropdown p{
+    display:inline-block;
+    margin:0px;
+}
+div.top div.myDropdown a img{
+    width:20px;
+    vertical-align: top;
+    margin-top:2px;
+    
+    /* padding-left:3px; */
+}
+div.top div.myDropdown>a{
+    border-left:1px solid black;
+    margin-left:5px;
+    padding-left:5px;
+}
+div.top div.myDropdown div.categories a{
+    display:block;
+    /* width:132px; */
+    color:black;
+    z-index:100;
+}
+div.top div.myDropdown div.categories{
+    /* position: absolute;
+    left:55px; */
+    position: relative;
+    z-index: 500;
+    background:rgb(255, 233, 111);
+    padding-left:5px;
+}
 div.bottom{
     height:60px;
     background:rgb(58, 58, 58);
@@ -56,7 +99,7 @@ div.bottom div.myDropdown{
     padding:5px;
     margin-top:11px;
     margin-left:15px;
-    z-index:100;
+    z-index:1000;
 }
 div.bottom div.myDropdown p{
     display:inline-block;
@@ -78,7 +121,7 @@ div.bottom div.myDropdown div.categories a{
     display:block;
     /* width:132px; */
     color:black;
-    z-index:100;
+    z-index:500;
 }
 div.bottom div.myDropdown div.categories{
     /* position: absolute;
@@ -130,4 +173,23 @@ div.bottom>p.welcomeName{
     vertical-align: top;
     margin-top:17px;
     /* border:1px solid green; */
+}
+a.loginLink{
+    background:rgb(255, 233, 111);
+    color:black;
+    text-decoration:none;
+    font-size:14pt;
+    padding:5px 10px;
+    border-radius:6px;
+    margin-left:165px;
+    height:34px;
+}
+a.loginLink:hover{
+    background:rgb(185, 169, 79);
+}
+div.bottom>a>img:hover{
+    background:rgb(185, 169, 79);
+}
+div.searchbar form a:hover{
+    background:rgb(185, 169, 79);
 }
