@@ -17,7 +17,7 @@ import { MerchantPortalComponent } from './merchant-portal/merchant-portal.compo
 import { MerchantLoginComponent } from './merchant-login/merchant-login.component';
 import { CheckoutConfComponent } from './checkout-conf/checkout-conf.component';
 import { MerchantaddComponent } from './merchantadd/merchantadd.component';
-import { MerchantproductComponent } from './merchantproduct/merchantproduct.component';
+import { MerchantProductComponent } from './merchantproduct/merchantproduct.component';
 import { UserRegComponent } from './user-reg/user-reg.component';
 import { DummyAddProductComponent } from './dummy-add-product/dummy-add-product.component'
 
@@ -35,7 +35,7 @@ import { DummyAddProductComponent } from './dummy-add-product/dummy-add-product.
     MerchantLoginComponent,
     CheckoutConfComponent,
     MerchantaddComponent,
-    MerchantproductComponent,
+    MerchantProductComponent,
     UserRegComponent,
     DummyAddProductComponent
   ],

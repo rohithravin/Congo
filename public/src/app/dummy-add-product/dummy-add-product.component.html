@@ -1,16 +1,18 @@
 <form>
   <h2>Add Product</h2>
+  <label for="prod_name">Product Name</label>
   <input type='text' name='prod_name' placeholder='name' [(ngModel)]='newProduct.name'>
   <input type='text' name='description' placeholder='description' [(ngModel)]='newProduct.description'>
   <input type='text' name='image' placeholder='image' [(ngModel)]='newProduct.image'>
-  <button (click)='addImage()'>Add image</button>
+  <a href="#"><button>Add image</button></a>
   <input type='text' name='price' placeholder='$' [(ngModel)]='newProduct.price'>
   <input type='text' name='size' placeholder='size' [(ngModel)]='newProduct.size'>
-  <button (click)='addSize()'>Add size</button>
+  <a href="#"><button>Add size</button></a>
   <input type='text' name='color' placeholder='color' [(ngModel)]='newProduct.color'>
-  <button (click)='addColor()'>Add color</button>
+  <a href="#"><button>Add color</button></a>
   <input type='text' name='tag' placeholder='tag' [(ngModel)]='newProduct.tag'>
-  <button (click)='addTag()'>Add tag</button>
+  <a href="#"><button>Add tag</button></a>
+  <input type='text' name='category' placeholder='category' [(ngModel)]='newProduct.category'>
   <button (click)='createProduct()'>Create</button>
 </form>
 

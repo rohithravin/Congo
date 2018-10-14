@@ -7,6 +7,7 @@ import { CheckoutConfComponent } from './checkout-conf/checkout-conf.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { MerchantLoginComponent } from './merchant-login/merchant-login.component';
 import { MerchantPortalComponent } from './merchant-portal/merchant-portal.component';
+import { MerchantProductComponent } from './merchantproduct/merchantproduct.component';
 import { SearchComponent } from './search/search.component';
 import { ProductComponent } from './product/product.component';
 import { UserRegComponent } from './user-reg/user-reg.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path:'login', component: UserLoginComponent },
   {path:'merchant-login', component: MerchantLoginComponent },
   {path:'merchant-portal', component: MerchantPortalComponent },
+  {path:'merchant-product', component: MerchantProductComponent },
   {path: 'product/:pid', component: ProductComponent},
   {path: 'search/:searchQuery', component: SearchComponent},
   {path: 'registration', component: UserRegComponent},
