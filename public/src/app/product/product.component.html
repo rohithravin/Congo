@@ -1,7 +1,32 @@
 <div style="background-color: #ffffff;">
+<link  rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="container" style="padding-top: 50px; background-color: #ffffff;">
         <div class="row">
-            <div class="col"><img src="https://staticshop.o2.co.uk/product/images/iphone-x-space-grey-sku-header.png?cb=25dc5afb0412fc40a28aa29d82cb53d0"></div>
+               
+            <div class="col" >
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    
+                            </ol>
+                            <div class="carousel-inner">
+                              <div class="carousel-item active">
+                                <a href='#'><img class="d-block w-100" src="{{product['images'][0]}}" style="height: 480px; width: 450px;" style alt="First slide"></a>
+                              </div>
+            
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="sr-only">Next</span>
+                            </a>
+                          </div>
+
+            </div>
+           
             <div class="col">
                 <div class="row">
                     <div class="col" style="background-color: #f7f7f7;padding-top: 10px;">
@@ -26,7 +51,7 @@
                     <div class="col" style="background-color: #f7f7f7;margin-top: 10px;">
                         <div class="row" style="margin-top: 10px;">
                             <div class="col">
-                                <h3>${{product['price']}}</h3>
+                                <h2>${{product['price']}}</h2>
                             </div>
                             <div class="col">
                                 <p>Total View: {{product['num_views']}} People</p>
@@ -48,7 +73,66 @@
                     <div class="col"><button class="btn btn-primary" type="button" style="width: 110px;background-color: rgba(170,142,10,0.75);" (click)="updateCountMinus()">-</button></div>
                     <div class="col"><button class="btn btn-primary" type="button" style="background-color: rgba(170,142,10,0.75);">Add To Cart</button></div>
                 </div>
+                <div class="row" style="background-color: #f7f7f7; margin-top: 15px;padding-top: 15px;padding-bottom: 15px;">
+                    <div id="rating" class="col">
+                    <fieldset class="rating" >
+                        <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                        <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+                        <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+                        <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                    </fieldset>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" type="button"  style="background-color: rgba(170,142,10,0.75);" href="#">Leave a review!</button>
+                    
+                    </div>
+                    <div class="col" style="text-align: left;">
+                            <textarea rows="4" cols="50" >
+                                   Enter Review.
+                            </textarea>
+                        
+                            <div>
+                                <div class="row">
+                                    <div class="col" style="color: #FFD700;">
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                    </div>
+                                    <p class="col">User</p>
+                                </div>    
+                            <p>This is a great product!</p>
+                            </div>
+                    </div>
+                </div>
             </div>
+        </div>
+
+        <div class="row">
+                <div class='recommendedProducts'>
+                        <p class='recHeader'>Recommended Products</p>
+                        <div class='recProduct'>
+                          <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
+                          <a href='#'>24-Karat Diamond-Tipped Stapler</a>
+                        </div>
+                        <div class='recProduct'>
+                            <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
+                            <a href='#'>24-Karat Diamond-Tipped Stapler</a>
+                        </div>
+                        <div class='recProduct'>
+                            <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
+                            <a href='#'>24-Karat Diamond-Tipped Stapler</a>
+                        </div>
+                        <div class='recProduct'>
+                            <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
+                            <a href='#'>24-Karat Diamond-Tipped Stapler</a>
+                        </div>
+                        <div class='recProduct'>
+                            <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
+                            <a href='#'>24-Karat Diamond-Tipped Stapler</a>
+                        </div>
         </div>
 </div>
 </div>
