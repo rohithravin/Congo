@@ -11,7 +11,22 @@ export class DummyAddProductComponent implements OnInit {
    
   }
   ngOnInit() {
-    this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:''}
+    this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
+  }
+  addImage(image){
+    this.newProduct={image:image}
+  }
+  addSize(size){
+    this.newProduct={size:size}
+  }
+  addColor(color){
+    this.newProduct={color:color}
+  }
+  addTag(tag){
+    this.newProduct={tag:tag}
+  }
+  addCategory(category){
+    this.newProduct={category:category}
   }
   createProduct(){
     var createObs=this._httpService.createDummyProduct(this.newProduct)
