@@ -19,7 +19,8 @@ import { CheckoutConfComponent } from './checkout-conf/checkout-conf.component';
 import { MerchantaddComponent } from './merchantadd/merchantadd.component';
 import { MerchantProductComponent } from './merchantproduct/merchantproduct.component';
 import { UserRegComponent } from './user-reg/user-reg.component';
-import { DummyAddProductComponent } from './dummy-add-product/dummy-add-product.component'
+import { DummyAddProductComponent } from './dummy-add-product/dummy-add-product.component';
+import { PromoteProductRegComponent } from './promote-product-reg/promote-product-reg.component'
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { DummyAddProductComponent } from './dummy-add-product/dummy-add-product.
     MerchantaddComponent,
     MerchantProductComponent,
     UserRegComponent,
-    DummyAddProductComponent
+    DummyAddProductComponent,
+    PromoteProductRegComponent
   ],
   imports: [
     BrowserModule,
