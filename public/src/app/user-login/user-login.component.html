@@ -12,7 +12,7 @@
             <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password" [ngModelOptions]="{standalone: true}" [(ngModel)]='password'></div>
             <div class="form-group"><button class="btn btn-primary btn-block" type="submit" style="background-color: rgba(198,160,12,0.89);" (click)="loginButton()">Log In</button></div><a href="#" class="forgot" style="margin-bottom: 12px;color: rgba(198,160,12,0.89);"><span style="text-decoration: underline;">Forgot your email or password?</span></a>
             <a
-                href="#" class="forgot" style="margin-top: 0px;color: rgba(198,160,12,0.89);"><span style="text-decoration: underline;">Not a Congo member?</span></a>
+                href="#" class="forgot" style="margin-top: 0px;color: rgba(198,160,12,0.89);" [routerLink]="['/registration']"><span style="text-decoration: underline;">Not a Congo member?</span></a>
         </form>
     </div>
 </section>
