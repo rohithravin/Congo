@@ -95,7 +95,7 @@ var CartSchema = new mongoose.Schema({
     // user:UserSchema,
     userID:{type:String, required:true},
     items:[CartItemSchema],
-    total:{type:Number, default:0}
+    // total:{type:Number, default:0}
 }, {timestamps:true})
 mongoose.model('Cart', CartSchema)
 var Cart=mongoose.model('Cart')
@@ -292,8 +292,8 @@ app.post('/processAddToCart', function(request, response){
 
 app.post('/getCart', function(request, response){
     console.log(request)
-    var userID=request['userID']
-    console.log(request['doubleCheck'])
+    var userID=request.body['userID']
+    console.log(request.body['doubleCheck'])
     // console.log(request['details'])
     // var userID='12893129ansd'
     console.log(userID)
