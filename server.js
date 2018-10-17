@@ -59,7 +59,8 @@ var ProductSchema=new mongoose.Schema({
     images:[{type:String}],
     tags:[{type:String}],
     merchant:MerchantSchema,
-    reviews:["ReviewSchema"]
+    reviews:["ReviewSchema"],
+    category:{type:String, required:[true, "Category is required"]}
 }, {timestamps:true})
 mongoose.model('Product', ProductSchema)
 var Product=mongoose.model('Product')
@@ -77,15 +78,24 @@ var ReviewSchema= new mongoose.Schema({
     product:ProductSchema,
     rating:{type:Number, required:true, min:1, max:5},
     review:{type:String, required:[true, "A review is required"], minlength:20}
-})
+}, {timestamps:true})
 mongoose.model('Review', ReviewSchema)
 var Review=mongoose.model('Review')
 
+var CartItemSchema = new mongoose.Schema({
+    product:ProductSchema,
+    size:{type:String, required:[true, "Size is required"]},
+    color:{type:String, required:[true, "Color is required"]},
+    quantity:{type:Number, min:1, required:true}
+}, {timestamps:true})
+mongoose.model('CartItem', CartItemSchema)
+var CartItem=mongoose.model('CartItem')
+
 var CartSchema = new mongoose.Schema({
     user:UserSchema,
-    items:[ProductSchema],
+    items:[CartItemSchema],
     total:{type:Number, default:0}
-})
+}, {timestamps:true})
 mongoose.model('Cart', CartSchema)
 var Cart=mongoose.model('Cart')
 
@@ -102,7 +112,7 @@ var OrderSchema=new mongoose.Schema({
     state:{type:String, required:[true, "State is required"]},
     zip_code:{type:String, required:[true, "Zip Code is required"]},
     country:{type:String, default:'United States'}
-})
+}, {timestamps:true})
 mongoose.model('Order', OrderSchema)
 var Order=mongoose.model('Order')
 
