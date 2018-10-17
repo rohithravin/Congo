@@ -291,7 +291,9 @@ app.post('/processAddToCart', function(request, response){
 })
 
 app.post('/getCart', function(request, response){
+    console.log(request)
     var userID=request['userID']
+    console.log(request['doubleCheck'])
     // console.log(request['details'])
     // var userID='12893129ansd'
     console.log(userID)

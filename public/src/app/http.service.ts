@@ -39,6 +39,7 @@ export class HttpService {
     return this._http.post('/processAddToCart', {details:productDetails, userID: userID})
   }
   fetchCart(userID){
-    return this._http.post('/getCart', {userID:userID})
+    // return userID
+    return this._http.post('/getCart', {doubleCheck:'10923unas', userID: userID})
   }
 }

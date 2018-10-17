@@ -22,11 +22,11 @@ export class CartComponent implements OnInit {
     if(localStorage.getItem('loggedIn')=='false'){
       this._router.navigate(['login'])
     }
-    var userID=localStorage.getItem('userID')
+    console.log(this.userID)
     var cartObs=this._httpService.fetchCart(this.userID)
     cartObs.subscribe(data=>{
       console.log(data)
-      console.log(this.userID)
+      // console.log(this.userID)
       if(data['success'] =! 1){
         this._router.navigate([''])
       }
