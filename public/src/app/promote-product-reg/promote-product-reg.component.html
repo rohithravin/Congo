@@ -15,11 +15,11 @@
 
   <div class='myDropdown'>
         <p>Promotion Type</p>
-        <a (click)="promotiontypeClicked()"><img src='https://image.flaticon.com/icons/svg/120/120906.svg' alt='down'></a>
-        <div class='promotiontype' *ngIf="showPromotionType==true">
-          <a href='#'>Big Banner</a>
-          <a href='#'>Small Banner</a>
-        </div>
+       <select>
+         <option value="big_banner">Big Banner</option>
+         <option value="small_banner">Small Banner</option>
+         <option value="product_promoted">Product</option>
+       </select>
       </div>
     <p class='red' *ngIf=showErr_firstname>Enter valid first name.</p>
     <!-- {% for message in last_name_errors %} -->
@@ -34,14 +34,12 @@
    
     <div class='myDropdown'>
         <p>Promotion Duration</p>
-        <a (click)="promotiondurationClicked()"><img src='https://image.flaticon.com/icons/svg/120/120906.svg' alt='down'></a>
-        <div class='promotiontype' *ngIf="showPromotionDuration==true">
-          <a href='#'>1</a>
-          <a href='#'>7</a>
-          <a href='#'>14</a>
-          <a href='#'>21</a>
-          <a href='#'>30</a>
-        </div>
+        <select>
+            <option value="promote_oneDay">One day</option>
+            <option value="promote_oneDay">One week</option>
+            <option value="promote_oneDay">One Month</option>
+            <option value="promote_oneDay">One Year</option>
+          </select>
       </div>
        
     <!-- {% endfor %} -->
