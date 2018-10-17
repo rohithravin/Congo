@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
+
 @Component({
   selector: 'app-dummy-add-product',
   templateUrl: './dummy-add-product.component.html',
@@ -31,7 +32,7 @@ export class DummyAddProductComponent implements OnInit {
   createProduct(){
     var createObs=this._httpService.createDummyProduct(this.newProduct)
     createObs.subscribe(data=>{
-      console.log("Recieved response:", data)
+      console.log("Received response:", data)
     })
     this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:''}
   }
