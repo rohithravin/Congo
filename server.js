@@ -34,7 +34,7 @@ var UserSchema = new mongoose.Schema({
     user_level:{type:Number, default:1},
     phone_number:{type:String, required:[true, "Phone number is required"], minlength:[10, "Invalid phone number"], maxlength:[10, "Invalid phone number"]},
     stream:{type:Boolean, default:false, required:[true, "Stream is required"]},
-    cart:["CartSchema"]
+    // cart:"CartSchema"
 }, {timestamps:true});
 mongoose.model('User', UserSchema)
 var User = mongoose.model('User')
@@ -59,7 +59,8 @@ var ProductSchema=new mongoose.Schema({
     images:[{type:String}],
     tags:[{type:String}],
     merchant:MerchantSchema,
-    reviews:["ReviewSchema"]
+    reviews:["ReviewSchema"],
+    category:{type:String /*, required:[false, "Category is required"]*/}
 }, {timestamps:true})
 mongoose.model('Product', ProductSchema)
 var Product=mongoose.model('Product')
@@ -77,15 +78,25 @@ var ReviewSchema= new mongoose.Schema({
     product:ProductSchema,
     rating:{type:Number, required:true, min:1, max:5},
     review:{type:String, required:[true, "A review is required"], minlength:20}
-})
+}, {timestamps:true})
 mongoose.model('Review', ReviewSchema)
 var Review=mongoose.model('Review')
 
+var CartItemSchema = new mongoose.Schema({
+    product:ProductSchema,
+    size:{type:String, required:[true, "Size is required"]},
+    color:{type:String, required:[true, "Color is required"]},
+    quantity:{type:Number, min:1, required:true}
+}, {timestamps:true})
+mongoose.model('CartItem', CartItemSchema)
+var CartItem=mongoose.model('CartItem')
+
 var CartSchema = new mongoose.Schema({
-    user:UserSchema,
-    items:[ProductSchema],
+    // user:UserSchema,
+    userID:{type:String, required:true},
+    items:[CartItemSchema],
     total:{type:Number, default:0}
-})
+}, {timestamps:true})
 mongoose.model('Cart', CartSchema)
 var Cart=mongoose.model('Cart')
 
@@ -102,7 +113,7 @@ var OrderSchema=new mongoose.Schema({
     state:{type:String, required:[true, "State is required"]},
     zip_code:{type:String, required:[true, "Zip Code is required"]},
     country:{type:String, default:'United States'}
-})
+}, {timestamps:true})
 mongoose.model('Order', OrderSchema)
 var Order=mongoose.model('Order')
 
@@ -230,6 +241,68 @@ app.post('/createDummyProduct', function(request, response){
         }
         else{
             response.json({success:1, message:"Successfully created the product!", product:newProduct})
+        }
+    })
+})
+
+app.post('/processAddToCart', function(request, response){
+    // var cartProduct=request.body['details']
+    var userID=request.body['userID']
+    var newCartItem=new CartItem(request.body['details'])
+    newCartItem.save(function(error){
+        if(error){
+            response.json({success:0, message:"Unable to add to Cart", error:error})
+        }
+        else{
+            //Created new Cart Product
+            User.findOne({_id: userID}, function(findUserErr, user){
+                if(findUserErr){
+                    response.json({success:0, message:"Unable to find User"})
+                }
+                else{
+                    //Found user whose cart to add to
+                    //Now check if cart exists
+                    Cart.findOneAndUpdate({userID: user._id}, {$push:{items: newCartItem}}, function(error, cart){
+                        if(error){
+                            response.json({success:-1, message:"Server error"})
+                        }
+                        else{
+                            if(cart!=null){
+                                response.json({success:1, message:"Successfully added to an old cart", cart:cart})
+                            }
+                            else{
+                                //Cart doesn't exist, create cart then add to it
+                                var newCart=new Cart({userID: user._id, items:[newCartItem], total:newCartItem.product.price})
+                                newCart.save(function(error){
+                                    if(error){
+                                        response.json({success:0, message:"Failed when creating a new cart for this user"})
+                                    }
+                                    else{
+                                        response.json({success:1, message:"Successfully added to new cart", cart:newCart})
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+        }
+    })
+})
+
+app.post('/getCart', function(request, response){
+    console.log(request)
+    var userID=request['userID']
+    console.log(request['doubleCheck'])
+    // console.log(request['details'])
+    // var userID='12893129ansd'
+    console.log(userID)
+    Cart.findOne({userID:userID}, function(error, cart){
+        if(error){
+            response.json({success:0, response:'Cart does not exist'})
+        }
+        else{
+            response.json({success:1, response:"Successfully found your cart", cart:cart})
         }
     })
 })

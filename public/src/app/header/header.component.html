@@ -26,7 +26,7 @@
   <a href='#' [routerLink]="['/cart']"><img src='https://image.flaticon.com/icons/png/512/2/2772.png' alt='Cart'></a>
   <div class='accountDropdown' *ngIf='loggedIn==true'>
       <p>ACCOUNT</p>
-      <a href='#' (click)="accountClicked()"><img src='https://image.flaticon.com/icons/svg/120/120906.svg' alt='down'></a>
+      <a (click)="accountClicked()"><img src='https://image.flaticon.com/icons/svg/120/120906.svg' alt='down'></a>
       <div class='accountCategories' *ngIf='showAccount==true'>
         <a href='#'>Orders</a>
         <a href='#'>Account</a>
