@@ -23,6 +23,7 @@ export class UserRegComponent implements OnInit {
   showErr_phoneNum:boolean;
   password_err:string;
 
+
   constructor(private _router: Router,  private _httpService:HttpService) {
     if(localStorage.getItem('loggedIn')=='true'){
       this._router.navigate([''])
@@ -115,6 +116,8 @@ export class UserRegComponent implements OnInit {
         }
         else{
           //success==1, registration successful
+          localStorage.setItem("registered","True");
+          console.log("Local storage in reg:", localStorage.getItem("registered"))
           this._router.navigate(['/login']);
         }
 

@@ -1,0 +1,278 @@
+.login-clean{
+    background:#ffffff;
+    padding:80px 0
+  }
+
+form{
+    /* margin-top:30px; */
+    margin:auto;
+    margin-top:10px;
+    display:block;
+    border:1px solid black;
+    width:fit-content;
+    text-align:left;
+    /* background:rgb(79,91,106); */
+    background-color: rgba(198,160,12,0.5);
+    border-radius:0;
+    margin-bottom:30px;
+    padding:15px 30px 15px 30px;
+    border-radius:8px;
+    /* border:2px solid rgb(235,235,235); */
+    border:2px solid rgb(180,180,180)
+  }
+  form p{
+    /* width:fit-content; */
+    font-size:13pt;
+  }
+  form input{
+    font-size:13pt;
+    width:250px;
+    padding:3px 5px;
+    border-radius:5px;
+    margin-bottom:15px;
+    /* border:none; */
+  }
+  form p.big{
+    font-size:24pt;
+    font-weight:bold;
+    text-align:center;
+  }
+  form p.small{
+    font-size:12pt;
+  }
+  form input.login{
+    background:none;
+    border:1px solid black;
+    border-radius:5px;
+    padding-top:5px;
+    padding-bottom:5px;
+  }
+  form input.login:hover{
+    background:white;
+    font-weight:bold;
+  }
+  div.single_input>*{
+    display:inline-block;
+    width:fit-content;
+  }
+  div.single_input p{
+    margin-left:15px;
+  }
+  form p.red{
+    font-size:12pt;
+    color:red;
+    font-style:italic;
+    margin-top:0px;
+  }
+  input.login{
+    display:block;
+  }
+  input.register{
+    margin-top:30px;
+  }
+  form select{
+    font-size:14pt;
+    margin-left:20px;
+    font-weight:normal;
+  }
+  form p{
+    font-weight:bold;
+  }
+  form.login{
+    margin-top:30px;
+  }
+  form.login p.green{
+    text-align:center;
+    color:rgb(0, 172, 0);
+    font-style:italic;
+    margin:0px;
+    font-size:14pt;
+  }
+  @media only screen and (min-width:600px){
+    div.single *{
+        display:inline-block;
+        width:fit-content;
+    }
+    div.single input{
+        float:right;
+        margin:0px;
+        margin-bottom:10px;
+        width:230px;
+    }
+    div.single p{
+        margin-top:5px;
+        margin-bottom:20px;
+    }
+    form.register{
+        width:430px;
+    }
+    select{
+        float:right;
+    }
+    input.register{
+        margin:auto;
+        margin-top:30px;
+    }
+  }
+
+  div.single div.myDropdown{
+    background:rgb(255, 255, 255);
+    display:inline-block;
+    padding:5px;
+    margin-top:9px;
+    margin-left:12px;
+    z-index:1000;
+}
+ div.myDropdown p{
+    display:inline-block;
+    margin:0px;
+}
+ div.myDropdown a img{
+    width:15px;
+    vertical-align: top;
+    margin-top:2px;
+    
+    /* padding-left:3px; */
+}
+ div.myDropdown>a{
+    border-left:1px solid black;
+    margin-left:3px;
+    padding-left:3px;
+}
+ div.myDropdown div.promotiontype a{
+    display:block;
+    /* width:132px; */
+    color:black;
+    z-index:300;
+}
+ div.myDropdown div.promotiontype{
+    /* position: absolute;
+    left:55px; */
+    position: relative;
+    z-index: 300;
+    background:rgb(255, 255, 255);
+    padding-left:3px;
+}
+
+/************credit card stuff************/
+
+
+/* Credit Card */
+
+.credit-card {
+    width: 360px;
+    height: 400px;
+    margin: 60px auto 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    box-shadow: 1px 2px 3px 0px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-header {
+    height: 60px;
+    padding: 20px 30px 0;
+    border-bottom: 1px solid #e1e8ee;
+  }
+  
+  .form-body {
+    height: 340px;
+    padding: 30px 30px 20px;
+  }
+  
+  /* Title */
+  
+  .title {
+    margin: 0;
+    color: #5e6977;
+    font-size: 18px;
+  }
+  
+  /* Common */
+  
+  .card-number,
+  .cvv-input input,
+  .month select,
+  .paypal-btn,
+  .proceed-btn,
+  .year select {
+    height: 42px;
+  }
+  
+  .card-number,
+  .month select,
+  .year select {
+    font-size: 14px;
+    font-weight: 100;
+    line-height: 14px;
+  }
+  
+  .card-number,
+  .cvv-details,
+  .cvv-input input,
+  .month select,
+  .year select {
+    color: black;
+    opacity: 0.7;
+  }
+  
+  /* Card Number */
+  
+  .card-number {
+    width: 100%;
+    margin-bottom: 20px;
+    padding-left: 20px;
+    border: 2px solid black;
+    background: #fff;
+    border-radius: 6px;
+  }
+  
+  /* Date Field */
+  
+  .month select,
+  .year select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    width: 145px;
+    margin-bottom: 20px;
+    padding-left: 20px;
+    border: 2px solid black;
+    border-radius: 6px;
+    background: url("https://designmodo.com/demo/creditcardform/caret.png")
+      no-repeat;
+    background-position: 85% 50%;
+  }
+  
+  .month select {
+    float: left;
+  }
+  
+  .year select {
+    float: right;
+  }
+  
+  /* Card Verification Field */
+  
+  .cvv-input input {
+    width: 145px;
+    float: left;
+    padding-left: 20px;
+    border: 2px solid black;
+    border-radius: 6px;
+    background: #fff;
+  }
+  
+  .cvv-details {
+    float: right;
+    margin-bottom: 20px;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 16px;
+  }
+  
+  .cvv-details p {
+    margin-top: 6px;
+  }
+  
+
+/***********credit card stuff*************/

@@ -7,10 +7,12 @@ import { CheckoutConfComponent } from './checkout-conf/checkout-conf.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { MerchantLoginComponent } from './merchant-login/merchant-login.component';
 import { MerchantPortalComponent } from './merchant-portal/merchant-portal.component';
+import { MerchantProductComponent } from './merchantproduct/merchantproduct.component';
 import { SearchComponent } from './search/search.component';
 import { ProductComponent } from './product/product.component';
 import { UserRegComponent } from './user-reg/user-reg.component';
 import { DummyAddProductComponent } from './dummy-add-product/dummy-add-product.component';
+import {PromoteProductRegComponent} from './promote-product-reg/promote-product-reg.component';
 
 const routes: Routes = [
   {path:'', component:HomepageComponent},
@@ -20,10 +22,12 @@ const routes: Routes = [
   {path:'login', component: UserLoginComponent },
   {path:'merchant-login', component: MerchantLoginComponent },
   {path:'merchant-portal', component: MerchantPortalComponent },
+  {path:'merchant-product', component: MerchantProductComponent },
   {path: 'product/:pid', component: ProductComponent},
   {path: 'search/:searchQuery', component: SearchComponent},
   {path: 'registration', component: UserRegComponent},
-  {path: 'dummyAdd', component:DummyAddProductComponent}
+  {path: 'dummyAdd', component:DummyAddProductComponent},
+  {path: 'promoteprod/:pid', component: PromoteProductRegComponent}
 ];
 
 @NgModule({

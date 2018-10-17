@@ -6,3 +6,70 @@ div.body{
     width:1200px;
     margin:auto;
 }
+
+div.homeWrapper{
+    width:1200px;
+    display:block;
+    margin:auto;
+    background:rgb(238, 234, 207);
+}
+div.promotedBanner img{
+    height:500px;
+}
+div.recommendedProducts p.recHeader{
+    font-size:16pt;
+    color:rgb(77, 77, 77);
+    margin-left:20px;
+    margin-top:10px;
+}
+div.recommendedProducts div.recProduct a img{
+    width:150px;
+    height:150px;
+    border-radius:10px;
+}
+div.recommendedProducts div.recProduct{
+    width:180px;
+    height:220px;
+    /* border:1px solid black; */
+    margin-left:10px;
+    margin-right:10px;
+    display:inline-block;
+}
+div.recProduct a{
+    margin-top:8px;
+    text-align: center;
+    display:block;
+    font-size:12pt;
+}
+p.prevHeader{
+    font-size:16pt;
+    color:rgb(77, 77, 77);
+    margin-left:20px;
+    margin-top:10px;
+}
+div.previouslyViewed div.viewedProduct{
+    width:180px;
+    height:220px;
+    /* border:1px solid black; */
+    margin-left:10px;
+    margin-right:10px;
+    display:inline-block;
+}
+div.viewedProduct a{
+    margin-top:8px;
+    text-align: center;
+    display:block;
+    font-size:12pt;
+}
+div.viewedProduct a img{
+    width:150px;
+    height:150px;
+    border-radius:10px;
+}
+div.sponsorSmall a img{
+    width:1200px;
+    height:100px;
+}
+div.sponsorSmall{
+    margin-top:10px;
+}
