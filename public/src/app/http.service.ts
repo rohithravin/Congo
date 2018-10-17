@@ -35,4 +35,10 @@ export class HttpService {
   processLogin(email, password){
     return this._http.post('/processLogin', {email:email, password:password}, {withCredentials:true})
   }
+  addToCart(productDetails, userID){
+    return this._http.post('/processAddToCart', {details:productDetails, userID: userID})
+  }
+  fetchCart(userID){
+    return this._http.post('/getCart', {userID:userID})
+  }
 }
