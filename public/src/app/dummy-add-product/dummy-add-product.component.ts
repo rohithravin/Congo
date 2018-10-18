@@ -8,7 +8,9 @@ import { HttpService } from '../http.service';
 })
 export class DummyAddProductComponent implements OnInit {
   newProduct:any
-
+  image_name:string;
+  images:any;
+  images_size:number;
   showErr_name:boolean;
   showErr_description:boolean;
   showErr_image:boolean;
@@ -26,10 +28,27 @@ export class DummyAddProductComponent implements OnInit {
         this.showErr_color = false;
         this.showErr_tag = false;
         this.showErr_category = false;
+        this.images = {};
+        this.images[0] = "Enter Image";
+        this.images_size = 0;
   }
   ngOnInit() {
     this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
+    
   }
+
+  updateCountPlus(){
+    if(this.image_name){
+    console.log(this.image_name);
+    this.images[this.images_size] = this.image_name;
+    this.images_size++;
+    this.showErr_image = false;
+    }else{
+      this.showErr_image = true;
+    }
+  }
+
+
   addImage(image){
     this.newProduct={image:image}
   }
@@ -60,14 +79,16 @@ export class DummyAddProductComponent implements OnInit {
           console.log("image: ", item);
     });*/
 
-    if(this.newProduct.name.match(/^[A-Za-z]+$/) == null || this.newProduct.name.length < 2 ){
+    
+
+    if(this.newProduct.name.length < 2 ){
       this.showErr_name = true;
       console.log("check name");
     }else{
       this.showErr_name = false;
     }
 
-    if(this.newProduct.description.match(/^[A-Za-z]+\s/) == null || this.newProduct.description.length < 2 ){
+    if(this.newProduct.description.length < 2 ){
       this.showErr_description = true;
       console.log("check description");
     }else{
@@ -80,28 +101,28 @@ export class DummyAddProductComponent implements OnInit {
     }else{
       this.showErr_price = false;
     }
-    if(this.newProduct.size.match(/^[A-Za-z]+$/) == null || this.newProduct.size.length < 2 ){
+    if( this.newProduct.size.length < 5 ){
       this.showErr_size = true;
       console.log("check size");
     }else{
       this.showErr_size = false;
     }
 
-    if(this.newProduct.color.match(/^[A-Za-z]+$/) == null || this.newProduct.color.length < 2 ){
+    if( this.newProduct.color.length < 2 ){
       this.showErr_color = true;
       console.log("check color");
     }else{
       this.showErr_color = false;
     }
 
-    if(this.newProduct.tag.match(/^[A-Za-z]+\s/) == null || this.newProduct.tag.length < 2 ){
+    if( this.newProduct.tag.length < 2 ){
       this.showErr_tag = true;
       console.log("check tag");
     }else{
       this.showErr_tag = false;
     }
 
-    if(this.newProduct.category.match(/^[A-Za-z]+$/) == null || this.newProduct.category.length < 2 ){
+    if( this.newProduct.category.length < 2 ){
       this.showErr_category = true;
       console.log("check 6");
     }else{
