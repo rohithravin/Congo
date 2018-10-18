@@ -196,6 +196,13 @@ app.post('/processLogin', function(request, response){
     })
 })
 
+app.post('/processMerchantRegistration', function(request, response){
+  console.log("here");
+    var url  = request.body['url'];
+    console.log(url);
+})
+
+
 app.post('/processRegister', function(request, response){
     var first_name=request.body['first_name']
     var last_name=request.body['last_name']
