@@ -166,6 +166,13 @@ app.post('/fetchSearchedProducts', function(request, response){
     })
 })
 
+
+app.post('/processLoginMerchant', function(request, response){
+  var license=request.body['license']
+  var password=request.body['password']
+  console.log("we made it " + license);
+})
+
 app.post('/processLogin', function(request, response){
     // if('loggedIn' in request.session && request.session.loggedIn==true){
     //     return response.json({success:0, message:"User already logged in"})
@@ -195,6 +202,13 @@ app.post('/processLogin', function(request, response){
         }
     })
 })
+
+app.post('/processMerchantRegistration', function(request, response){
+  console.log("here");
+    var url  = request.body['url'];
+    console.log(url);
+})
+
 
 app.post('/processRegister', function(request, response){
     var first_name=request.body['first_name']
