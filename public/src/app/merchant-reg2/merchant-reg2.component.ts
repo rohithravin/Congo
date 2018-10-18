@@ -12,6 +12,7 @@ export class MerchantReg2Component implements OnInit {
   showErr_cardNum:boolean;
   showErr_expDate:boolean;
   showErr_cvc:boolean;
+  showErr_err:boolean;
 
   url:string;
   email:string;
@@ -19,6 +20,7 @@ export class MerchantReg2Component implements OnInit {
   companyName:string;
   bankNum:number;
   accountNum:number;
+  password:string;
 
   cardNum:number;
   cvc:number;
@@ -29,12 +31,14 @@ export class MerchantReg2Component implements OnInit {
     this.showErr_cvc = false;
     this.showErr_expDate = false;
     this.showErr_cardNum = false;
+    this.showErr_err = false;
 
     this.cardNum;
     this.cvc;
     this.expDate = "";
 
     this.url = localStorage.getItem('merchant-url');
+    this.password = localStorage.getItem('merchant-password');
     this.email = localStorage.getItem('merchant-email');
     this.description = localStorage.getItem('merchant-description');
     this.companyName = localStorage.getItem('merchant-companyName');
@@ -67,8 +71,35 @@ export class MerchantReg2Component implements OnInit {
     if (this.showErr_cvc == false && this.showErr_cardNum == false &&
       this.showErr_expDate == false){
        console.log("everything is good here." + this.companyName);
-       var err=this._httpService.createMerchant(this.url, this.email, this.description, this.companyName, this.bankNum, this.accountNum, this.cardNum, this.expDate, this.cvc);
-       this._router.navigate(['/merchant-reg-conf']);
+       var err=this._httpService.createMerchant(this.url, this.email, this.description, this.companyName, this.bankNum, this.accountNum, this.cardNum, this.expDate, this.cvc, this.password);
+       err.subscribe(data=>{
+         console.log("response:", data)
+         if(data['success']==-1){
+           //Server error
+           this.showErr_err = true;
+           return;
+         }
+         else if(data['success']==0){
+           //CLient error, check message, User probably exists with email
+          this.showErr_err = true;
+           return;
+         }
+         else{
+           //success==1, registration successful
+           // this.cookieService.set('loggedIn', "true")
+           // this.cookieService.set('userID', data['userID'])
+           // this.cookieService.set('first_name', data['first_name'])
+       //    localStorage.setItem('loggedIn', "true")
+       //    localStorage.setItem('userID', data['userID'])
+     //      localStorage.setItem('firstName', data['first_name'])
+     //      location.reload(true)
+            this.showErr_err = false;
+           this._router.navigate(['/merchant-reg-conf']);
+         }
+
+       })
+
+       //NEED TO FINISH THIS
     }
   }
 
