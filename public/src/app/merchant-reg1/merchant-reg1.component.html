@@ -3,8 +3,11 @@
        <form method="post" style="max-width: 600px; background-color: rgba(198,160,12,0.5);">
            <h2 class="text-center">Become A Merchant</h2>
            <h4 style="margin-bottom: 10px;">General Information</h4>
-           <p style="margin-top: 10px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-               irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+           <p style="margin-top: 10px;">Thank you for wanting to be a merchant with us at Congo.
+             Before you can start selling your products here, we are going to need some information about you so that we can
+              verify your actually an establish company. Once you have completed your registration and have been accepted,
+              you will receive an email in a couple of days with your license number so that you can login to your merchant portal
+              and start selling your products!</p>
            <div class="form-group">
              <input class="form-control" type="text" name="name" placeholder="URL" [(ngModel)]='url'>
              <small class="form-text text-danger" *ngIf=showErr_url>Please enter a correct url.</small>
@@ -30,8 +33,9 @@
              <small class="form-text text-danger" *ngIf=showErr_confirmPassword>Does not match password entered above.</small>
            </div>
            <h4>Bank Information</h4>
-           <p style="margin-top: 10px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-               irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+           <p style="margin-top: 10px;">We are going to need your bank information so when consumers buy your product we can directly
+             transfer the money they have paid to your bank account. We want to make sure that your money is delivered to you in a
+             fast and efficient manner. Don’t worry, the entire process is completely secure and your information is safe with us!!</p>
            <div class="form-group">
              <input class="form-control" type="text" name="name" placeholder="Bank Account #" [(ngModel)]='bankNum'>
              <small class="form-text text-danger" *ngIf=showErr_bankNum>Please enter a valid bank account number.</small>

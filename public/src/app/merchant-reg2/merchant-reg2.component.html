@@ -2,9 +2,10 @@
 <div class="contact-clean" style="background-color: #ffffff;">
         <form method="post" style=" background-color: rgba(198,160,12,0.5);">
             <h2 class="text-center">Become A Merchant</h2>
+            <small class="form-text text-danger" style="margin-bottom: 20px;" *ngIf=showErr_err>Registration could not be processed. Please Try Again.</small>
             <h4>Payment Information</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p>You’re almost done! The last thing we need is your credit card information.
+              This will be used to your charge you with your monthly subscription to be a merchant with us. Also, if you ever decide to promote your products on any of your pages, we will be using this information to charge you with you. Don’t worry you information is completely secure and encrypted so no one can see it or use it!</p>
             <div class="form-group">
               <input class="form-control" type="email" name="email" placeholder="Card Number" [(ngModel)]='cardNum'>
               <small class="form-text text-danger" *ngIf=showErr_cardNum>Please enter a valid card number.</small>
