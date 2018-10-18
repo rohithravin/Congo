@@ -3,15 +3,25 @@
   <label for="prod_name">Product Name</label>
   <input type='text' name='prod_name' placeholder='name' [(ngModel)]='newProduct.name'>
   <input type='text' name='description' placeholder='description' [(ngModel)]='newProduct.description'>
+  <label for="description"><small class="form-text text-danger">Only letters. No numbers. (i.e. 100 = one hundred)</small></label>
   <input type='text' name='image' placeholder='image' [(ngModel)]='newProduct.image'>
   <a href="#"><button>Add image</button></a>
+
   <input type='text' name='price' placeholder='$' [(ngModel)]='newProduct.price'>
   <input type='text' name='size' placeholder='size' [(ngModel)]='newProduct.size'>
+
+  <label for="sizes"><small class="form-text text-danger">Small, medium, or large</small></label>
   <a href="#"><button>Add size</button></a>
+
   <input type='text' name='color' placeholder='color' [(ngModel)]='newProduct.color'>
   <a href="#"><button>Add color</button></a>
+
   <input type='text' name='tag' placeholder='tag' [(ngModel)]='newProduct.tag'>
+  <!--<label for="multiple_tags">Separate multiple tags by a comma ","</label><-->
+
+  <label for="multiple_tags">Separate tags by space, NO COMMAS.</label>
   <a href="#"><button>Add tag</button></a>
+
   <input type='text' name='category' placeholder='category' [(ngModel)]='newProduct.category'>
   <button (click)='createProduct()'>Create</button>
 </form>
@@ -19,37 +29,37 @@
 <!--
 <form class='register' method='post'>
   <p class='big'>Registration</p>
-  
+
   <div class='single'>
       <p>First Name:</p>
       <input type='text' name='first_name' placeholder='first name' [(ngModel)]='first_name'>
   </div>
   <p class='red' *ngIf=showErr_firstname>Enter valid first name.</p>
-     
+
   <div class='single'>
       <p>Last Name:</p>
       <input type='text' name='last_name' placeholder='last name' [(ngModel)]='last_name'>
   </div>
   <p class='red' *ngIf=showErr_lastname>Enter valid last name.</p>
- 
+
   <div class='single'>
       <p>Phone Number:</p>
       <input type='text' name='phone_number' placeholder='phone number' [(ngModel)]='phone_num'>
   </div>
   <p class='red' *ngIf=showErr_phoneNum>Enter valid phone number.</p>
-     
+
   <div class='single'>
       <p>Email:</p>
       <input type='text' name='email' placeholder='email' [(ngModel)]='email'>
   </div>
   <p class='red' *ngIf=showErr_email>Enter valid email.</p>
-     
+
   <div class='single'>
       <p>Password:</p>
       <input type='password' name='password' placeholder='password' [(ngModel)]='password'>
   </div>
   <p class='red' *ngIf=showErr_password>{{password_err}}</p>
-      
+
   <div class='single'>
       <p>Confirm PW:</p>
       <input type='password' name='confirm' placeholder='confirm' [(ngModel)]='password_validated'>
