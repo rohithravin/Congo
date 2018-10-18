@@ -66,9 +66,9 @@ export class MerchantReg2Component implements OnInit {
     }
     if (this.showErr_cvc == false && this.showErr_cardNum == false &&
       this.showErr_expDate == false){
-
        console.log("everything is good here." + this.companyName);
        var err=this._httpService.createMerchant(this.url, this.email, this.description, this.companyName, this.bankNum, this.accountNum, this.cardNum, this.expDate, this.cvc);
+       this._router.navigate(['/merchant-reg-conf']);
     }
   }
 
