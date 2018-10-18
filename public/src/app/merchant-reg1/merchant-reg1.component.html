@@ -21,6 +21,14 @@
              <input class="form-control" type="text" name="name" placeholder="Company Name" [(ngModel)]='companyName'>
              <small class="form-text text-danger" *ngIf=showErr_companyName>Please enter a company name.</small>
            </div>
+           <div class="form-group">
+             <input class="form-control" type="text" name="name" placeholder="Password" [(ngModel)]='password'>
+             <small class="form-text text-danger" *ngIf=showErr_password>Please enter a password.</small>
+           </div>
+           <div class="form-group">
+             <input class="form-control" type="text" name="name" placeholder="Confirm Password" [(ngModel)]='confirmPassword'>
+             <small class="form-text text-danger" *ngIf=showErr_confirmPassword>Does not match password entered above.</small>
+           </div>
            <h4>Bank Information</h4>
            <p style="margin-top: 10px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>

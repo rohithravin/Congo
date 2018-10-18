@@ -13,7 +13,7 @@ export class MerchantLoginComponent implements OnInit {
   password:string;
 
   showErr_license:boolean;
-  showErr_password:boolean:
+  showErr_password:boolean;
   showErr_showErr:boolean;
 
   constructor(private _router: Router,  private _httpService:HttpService) {
