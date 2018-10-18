@@ -18,6 +18,16 @@ form h2{
     text-align: center;
     margin-top:10px;
 }
+form label{
+    display: block;
+    text-align: center;
+    line-height: 150%;
+    font-size: 1em;
+}
+.contact-clean .form-group:last-child {
+  margin-bottom: 5px;
+  text-align: center;
+}
 form button{
     display:block;
     margin:auto;
