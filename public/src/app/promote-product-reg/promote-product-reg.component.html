@@ -13,37 +13,33 @@
     <p>this is a test description for the page.</p>
   </div>
 
-  <div class='myDropdown'>
+  <div class='row'  style="margin: 10px;">
         <p>Promotion Type</p>
-       <select>
-         <option value="big_banner">Big Banner</option>
-         <option value="small_banner">Small Banner</option>
-         <option value="product_promoted">Product</option>
+       <select [(ngModel)]="selectedPromoType" [ngModelOptions]="{standalone: true}">
+         <option *ngFor="let _t of promo_types">
+           {{_t.name}}</option>
        </select>
       </div>
-    <p class='red' *ngIf=showErr_firstname>Enter valid first name.</p>
+    <p class='red' *ngIf=showErr_promotype>Enter promotion type.</p>  
     <!-- {% for message in last_name_errors %} -->
        
     <!-- {% endfor %} -->
-    <div class='single'>
+    <div class='row' style="margin: 10px;">
         <p>Image(size):</p>
-        <input type='text' name='promotion_image' placeholder='img url' [(ngModel)]='promotion_image'>
+        <input type='text'  [(ngModel)]='promotion_image' placeholder='img url' [ngModelOptions]="{standalone: true}" [(ngModel)]='promotion_image'>
     </div>
     <p class='red' *ngIf=showErr_imgurl>Enter image url.</p>
-    <!-- {% for message in reg_phonenum_errors %} -->
+    <!-- {% for message in reg_phonenum_errors   %} -->
    
-    <div class='myDropdown'>
+    <div class='row' style="margin: 10px;">
         <p>Promotion Duration</p>
-        <select>
-            <option value="promote_oneDay">One day</option>
-            <option value="promote_oneDay">One week</option>
-            <option value="promote_oneDay">One Month</option>
-            <option value="promote_oneDay">One Year</option>
+        <select [(ngModel)]="selectedPromoTime" [ngModelOptions]="{standalone: true}">
+            <option *ngFor="let _t of promo_times">{{_t.name}}</option>
           </select>
       </div>
-       
+    <p class='red' *ngIf=showErr_duration>Enter duration.</p>
     <!-- {% endfor %} -->
-    <div class='single'>
+    <div class='row' style="margin: 10px;">
         <p>Cost:</p>
         <p style="margin-left: 100px;">$99.99</p>
     </div>
@@ -59,52 +55,50 @@
     <div class="single">
         <p class="big">Credit Card:</p>
       </div>
-
+     
       <!-- Card Number -->
-      <input type="text" class="card-number" placeholder="Card Number">
+      <input type="number" [ngModelOptions]="{standalone: true}" class="card-number" [(ngModel)]='card_number' placeholder="Card Number">
+      <p class='red' *ngIf=showErr_ccn>Enter Credit Card Number.</p>
+
       <!-- Date Field -->
       <p>Expiration Date:</p>
-      <div class="date-field">
+      <div class="date-field row">
           <div class="month">
-            <select name="Month">
-              <option value="january">January</option>
-              <option value="february">February</option>
-              <option value="march">March</option>
-              <option value="april">April</option>
-              <option value="may">May</option>
-              <option value="june">June</option>
-              <option value="july">July</option>
-              <option value="august">August</option>
-              <option value="september">September</option>
-              <option value="october">October</option>
-              <option value="november">November</option>
-              <option value="december">December</option>
+            <select name="Month" [(ngModel)]="selectedCCDate" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let _d of expiration_dates">{{_d.name}}</option>
             </select>
           </div>
+           
     <div class="year">
-        <select name="Year">
-          <option value="2016">2016</option>
-          <option value="2017">2017</option>
-          <option value="2018">2018</option>
-          <option value="2019">2019</option>
-          <option value="2020">2020</option>
-          <option value="2021">2021</option>
-          <option value="2022">2022</option>
-          <option value="2023">2023</option>
-          <option value="2024">2024</option>
+        <select name="Year" [(ngModel)]="selectedCCYear" [ngModelOptions]="{standalone: true}">
+          <option  *ngFor="let _y of expiration_years">{{_y.name}}</option>
         </select>
       </div>
+    </div>
+    <div class="row">
+      <p class='red' style="margin-left: 40px;" *ngIf=showErr_date>Enter date.</p>
+      <p class='red' style="margin-left: 80px;" *ngIf=showErr_year>Enter year.</p>
     </div>
        <!-- Card Verification Field -->
        <div class="card-verification">
           <div class="cvv-input">
-            <input type="text" placeholder="CVV">
+            <input type="number" placeholder="CVV" [ngModelOptions]="{standalone: true}" [(ngModel)]='cvv_number'>
           </div>
           <div class="cvv-details">
             <p>3 or 4 digits usually found <br> on the signature strip</p>
           </div>
         </div>
-
+        <p class='red' *ngIf=showErr_cvv>Enter CVV.</p>
+        
     <input class='register login' type='submit' (click)="submitPromote()" value='Promote'>
 </form>
+
+<!-- <div class="alert">
+    <i class="close" (click)="toggle();">&#10006;</i>
+    <div class="content">
+      <i>&#9888;</i>
+      <div class="context">Insert your error here.</div>
+    </div>
+  </div> -->
+
 </div>
