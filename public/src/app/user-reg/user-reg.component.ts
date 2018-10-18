@@ -22,6 +22,7 @@ export class UserRegComponent implements OnInit {
   showErr_confirm:boolean;
   showErr_phoneNum:boolean;
   password_err:string;
+  errMessage_email:string;
 
 
   constructor(private _router: Router,  private _httpService:HttpService) {
@@ -40,6 +41,7 @@ export class UserRegComponent implements OnInit {
     this.showErr_password = false;
     this.showErr_confirm = false;
     this.password_err = "";
+    this.errMessage_email = "";
 
   }
 
@@ -70,6 +72,7 @@ export class UserRegComponent implements OnInit {
 
     if(this.email.match(/^\S+@\S+\.\S/) == null){
       // if(this.email.match())
+      this.errMessage_email = "Enter valid email.";
       this.showErr_email = true;
     }else{
       this.showErr_email = false;
@@ -110,8 +113,8 @@ export class UserRegComponent implements OnInit {
         }
         else if(data['success']==0){
           //CLient error, check message, User probably exists with email
-          //this.errMessage ="User already exists";
-          //this.showErr = true;
+          this.errMessage_email ="Email is already used.";
+          this.showErr_email = true;
           return;
         }
         else{

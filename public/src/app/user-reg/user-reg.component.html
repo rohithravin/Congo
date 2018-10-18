@@ -65,7 +65,7 @@
         <p>Email:</p>
         <input type='text' name='email' placeholder='email' [(ngModel)]='email'>
     </div>
-    <p class='red' *ngIf=showErr_email>Enter valid email.</p>
+    <p class='red' *ngIf=showErr_email>{{errMessage_email}}</p>
     <!-- {% for message in password_errors %} -->
        
     <!-- {% endfor %} -->
