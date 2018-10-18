@@ -28,6 +28,11 @@ export class HttpService {
     return this._http.post('/processLogin', {email:email , password:password})
   }
 
+  loginMerchant(license, password){
+    console.log("checkpoint 2." + license + " " + password);
+    return this._http.post('/processLoginMerchant', {license:license , password:password})
+  }
+
   createMerchant(url, email, description, companyName, bankNum, accountNum, cardNum, expDate, cvc){
     console.log("HttpService here. " + url);
     return this._http.post('/processMerchantRegistration', {url:url, email:email, description:description, companyName:companyName, bankNum:bankNum, accountNum:accountNum, cardNum:cardNum, expDate:expDate, cvc:cvc})
