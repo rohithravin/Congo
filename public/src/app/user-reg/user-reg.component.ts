@@ -23,6 +23,8 @@ export class UserRegComponent implements OnInit {
   showErr_phoneNum:boolean;
   password_err:string;
   errMessage_email:string;
+  errMessage:string;
+  showErr:boolean
 
 
   constructor(private _router: Router,  private _httpService:HttpService) {
@@ -42,6 +44,8 @@ export class UserRegComponent implements OnInit {
     this.showErr_confirm = false;
     this.password_err = "";
     this.errMessage_email = "";
+    this.errMessage = "";
+    this.showErr = false;
 
   }
 
@@ -50,13 +54,17 @@ export class UserRegComponent implements OnInit {
   }
 
   submitButton(){
+    console.log(this.phone_num);
+    console.log(this.password);
+
+
     //clear everything first
     this.showErr_firstname = false;
     this.showErr_lastname = false;
     this.showErr_email = false;
     this.showErr_password = false;
     this.showErr_confirm = false;
-    
+
     if(this.first_name.match(/^[A-Za-z]+$/) == null || this.first_name.length < 2 ){
       this.showErr_firstname = true;
     }else{
@@ -107,8 +115,8 @@ export class UserRegComponent implements OnInit {
         console.log("response:", data)
         if(data['success']==-1){
           //Server error
-          //this.errMessage ="Server crashed! Try again later!";
-          //this.showErr = true;
+          this.errMessage ="Server crashed! Try again later!";
+          this.showErr = true;
           return;
         }
         else if(data['success']==0){
