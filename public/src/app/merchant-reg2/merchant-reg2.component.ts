@@ -97,13 +97,13 @@ export class MerchantReg2Component implements OnInit {
          if(data['success']==-1){
            this.errMessage_err = "Could Not Process Information. Contact Us.";
            console.log("Incorrect Information Provided.");
-           localStorage.setItem("merchant-url","");
-           localStorage.setItem("merchant-password","");
-           localStorage.setItem("merchant-email", "");
-           localStorage.setItem("merchant-companyName", "");
-           localStorage.setItem("merchant-description", "");
-           localStorage.setItem("merchant-bankNum", "");
-           localStorage.setItem("merchant-accountNum", "");
+           localStorage.removeItem("merchant-url");
+           localStorage.removeItem("merchant-password");
+           localStorage.removeItem("merchant-email");
+           localStorage.removeItem("merchant-companyName");
+           localStorage.removeItem("merchant-description");
+           localStorage.removeItem("merchant-bankNum");
+           localStorage.removeItem("merchant-accountNum");
            this.showErr_err = true;
            return;
          }
@@ -115,13 +115,13 @@ export class MerchantReg2Component implements OnInit {
          }
          else{
            console.log("Registration successful");
-           localStorage.setItem("merchant-url","");
-           localStorage.setItem("merchant-password","");
-           localStorage.setItem("merchant-email", "");
-           localStorage.setItem("merchant-companyName", "");
-           localStorage.setItem("merchant-description", "");
-           localStorage.setItem("merchant-bankNum", "");
-           localStorage.setItem("merchant-accountNum", "");
+           localStorage.removeItem("merchant-url");
+           localStorage.removeItem("merchant-password");
+           localStorage.removeItem("merchant-email");
+           localStorage.removeItem("merchant-companyName");
+           localStorage.removeItem("merchant-description");
+           localStorage.removeItem("merchant-bankNum");
+           localStorage.removeItem("merchant-accountNum");
            this.showErr_err = false;
            this._router.navigate(['/merchant-reg-conf']);
          }
