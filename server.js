@@ -334,11 +334,14 @@ app.post('/processMerchantRegistration', function(request, response){
         return response.json({success:0, message:'No user ID provided'})
     }
     var info=request.body['info']
-    User.findById(request.body['userID'], function(error, user){
+    console.log(info);
+    var userID=request.body['userID']
+    User.findOne({_id:userID}, function(error, user){
         if(error){
             response.json({success:0, message:"Could not find a user with request id"})
         }
         else{
+          
             info['user']=user
             var newMerchant = new Merchant(info)
             newMerchant.save(function(error){
