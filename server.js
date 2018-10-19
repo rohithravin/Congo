@@ -340,7 +340,7 @@ app.post('/checkMerchantReg', function(request, response){
 
 app.post('/processMerchantRegistration', function(request, response){
     var info=request.body['info']
-    var newMerchant=
+  //  var newMerchant=
 })
 
 app.all('*', (request, response, next)=>{

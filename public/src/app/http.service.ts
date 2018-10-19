@@ -33,9 +33,14 @@ export class HttpService {
     return this._http.post('/processLoginMerchant', {license:license , password:password})
   }
 
-  createMerchant(url, email, description, companyName, bankNum, accountNum, cardNum, expDate, cvc, password){
-    console.log("HttpService here. " + password);
-    return this._http.post('/processMerchantRegistration', {url:url, email:email, description:description, name:companyName, routingNumber:bankNum, bankAccountNumber:accountNum, creditCardNum:cardNum, creditCardExp_month:'01', creditCardExp_year:'20', creditCard_CVV:cvc})
+  verifyMerchantReg(url, name){
+    console.log("HttpService here. verfit merchant reg " + name);
+    return this._http.post('/checkMerchantReg', {url:url ,name:name})
+  }
+
+  createMerchant(url, email, description, companyName, bankNum, accountNum, cardNum, creditCardExp_month, creditCardExp_year, cvc, password){
+    console.log("HttpService here. " + creditCardExp_year);
+    return this._http.post('/processMerchantRegistration', {url:url, email:email, description:description, name:companyName, routingNumber:bankNum, bankAccountNumber:accountNum, creditCardNum:cardNum, creditCardExp_month:creditCardExp_year, creditCardExp_year:creditCardExp_year, creditCard_CVV:cvc})
   }
 
   createNewUser(first_name, last_name, email, phone_num, password){
