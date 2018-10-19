@@ -85,7 +85,7 @@ export class MerchantReg2Component implements OnInit {
     if (this.showErr_cvc == false && this.showErr_cardNum == false &&
       this.showErr_expDate == false && this.showErr_expDate2 == false){
        console.log("everything is good here." + this.companyName);
-       var err=this._httpService.createMerchant(this.url, this.email, this.description, this.companyName, this.bankRoutingNum, this.accountNum, this.cardNum, this.expDate,this.expDate2, this.cvc, this.password);
+       var err=this._httpService.createMerchant(this.url, this.email, this.description, this.companyName, this.bankRoutingNum, this.accountNum, this.cardNum, this.expDate,this.expDate2, this.cvc, localStorage.getItem('userID'));
        err.subscribe(data=>{
          console.log("response:", data)
          if(data['success']==-2){
