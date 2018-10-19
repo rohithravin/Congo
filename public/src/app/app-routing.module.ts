@@ -25,7 +25,7 @@ const routes: Routes = [
   {path:'login', component: UserLoginComponent },
   {path:'merchant-login', component: MerchantLoginComponent },
   {path:'merchant-portal', component: MerchantPortalComponent },
-  {path:'merchantproduct', component: MerchantProductComponent },
+  {path:'merchant/products', component: MerchantProductComponent },
   {path: 'product/:pid', component: ProductComponent},
   {path: 'search/:searchQuery', component: SearchComponent},
   {path: 'registration', component: UserRegComponent},
@@ -33,7 +33,8 @@ const routes: Routes = [
   {path: 'promoteprod/:pid', component: PromoteProductRegComponent},
   {path: 'merchant-reg1', component: MerchantReg1Component},
   {path: 'merchant-reg2', component: MerchantReg2Component},
-  {path: 'merchant-reg-conf', component: MerchantRegConfComponent}
+  {path: 'merchant-reg-conf', component: MerchantRegConfComponent},
+   //Path any, = home
 ];
 
 @NgModule({

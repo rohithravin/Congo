@@ -1,5 +1,5 @@
 form{
-    width:400px;
+    width:500px;
     background:rgb(255, 232, 99);
     display:block;
     margin:auto;
@@ -33,6 +33,14 @@ form button{
     margin:auto;
     margin-top:10px;
 }
+
+form  p.red{
+    font-size:12pt;
+    color:red;
+    font-style:italic;
+    margin-top:0px;
+    margin-left:120px;
+  }
 
 /*
 @media only screen and (min-width:600px){

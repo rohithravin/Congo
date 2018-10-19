@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #PageFrame{
   width:970px;
   background:white/*radial-gradient( rgb(174, 111, 194),rgb(66, 5, 33))*/;
@@ -236,25 +237,96 @@ a.button:hover{
   width: 2em;
   background: #000000;
   border-radius: 1em;
+=======
+div.thisWrapper{
+  background:rgb(53, 53, 53);
+  padding-top:1px;
+  padding-bottom:1px;
 }
-
-.switch div {
-  height: 1em;
-  width: 1em;
-  border-radius: 1em;
-  background: #fff;
-  box-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.3);
-  -webkit-transition: all 300ms;
-  -moz-transition: all 300ms;
-  transition: all 300ms;
+p.pageTitle{
+  font-size:32pt;
+  font-weight:bold;
+  text-align:center;
+  margin-top:10pt;
+  font-family: 'Ubuntu', sans-serif;
+  color:white;
 }
-
-.switch input:checked + div {
-  -webkit-transform: translate3d(100%, 0, 0);
-  -moz-transform: translate3d(100%, 0, 0);
-  transform: translate3d(100%, 0, 0);
-  background: #a67c00;
+button.addButton{
+  width:500px;
+  height:45px;
+  font-family: 'Ubuntu', sans-serif;
+  background:rgb(92, 92, 255);
+  color:white;
+  font-size: 16pt;
+  border-radius:5px;
+  display:block;
+  margin:auto;
 }
+button.addButton:hover{
+  background:rgb(63, 63, 175);
+  color:rgb(190, 190, 190);
+}
+div.products{
+  text-align: center;
+}
+div.product{
+  width:260px;
+  /* border:1px solid red; */
+  margin-top:20px;
+  margin-left:20px;
+  margin-right:20px;
+  background:rgb(87, 87, 87);
+  border-radius:5px;
+  padding:1px 0px;
+  border:1px solid white;
+  display:inline-block;
+  margin-bottom:20px;
+}
+div.product img{
+  max-width:210px;
+  max-height:210px;
+  display:block;
+  margin:auto;
+  margin-top:10px;
+  border-radius:7px;
+}
+div.product p.productName{
+  /* border:1px solid green; */
+  color:white;
+  font-family: 'Ubuntu', sans-serif;
+  text-align:center;
+  height: 75px;
+  margin-top:6px;
+  margin-bottom:0px;
+}
+div.product div.buttons{
+  display: block;
+  text-align:center;
+  margin-bottom:10px;
+}
+div.product div.buttons button{
+  color:white;
+  height:35px;
+  width:55px;
+  font-size:16pt;
+  font-family: 'Ubuntu', sans-serif;
+  margin-left:7px;
+  margin-right:7px;
+  margin-top:0px;
+  border:none;
+  border-radius:5px;
+}
+button.green{
+  background:rgb(117, 211, 117)
+>>>>>>> 5fe2d008c46992cd4c3c487c3ba02b28fc9b3709
+}
+button.green:hover{
+  background:rgb(75, 134, 75)
+}
+button.red{
+  background:rgb(216, 91, 91);
+}
+<<<<<<< HEAD
 
 a.button{
   padding:10px;
@@ -281,3 +353,17 @@ a.button:hover{
   color: orange;
 }
 */
+=======
+button.red:hover{
+  background:rgb(172, 74, 74);
+}
+button.blue{
+  background:rgb(110, 110, 223);
+}
+button.blue:hover{
+  background:rgb(82, 82, 165);
+}
+button.hover{
+  color:rgb(209, 209, 209);
+}
+>>>>>>> 5fe2d008c46992cd4c3c487c3ba02b28fc9b3709
