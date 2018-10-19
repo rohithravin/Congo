@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router,ActivatedRoute }  from '@angular/router';
 import { HttpService } from '../http.service';
 
 @Component({
@@ -7,11 +8,17 @@ import { HttpService } from '../http.service';
   styleUrls: ['./merchantproduct.component.css']
 })
 export class MerchantProductComponent implements OnInit {
-  currProduct:any
-  constructor(private _httpService: HttpService) { 
-   
+  products: any;
+  constructor(private _Activatedroute: ActivatedRoute, private _router:Router, private _httpService:HttpService ) {
+    this.products = {};
   }
   ngOnInit() {
+    this._Activatedroute.params.subscribe(
+      params => {
+        this.searchQuery =params['searchQuery']
+        console.log(this.searchQuery);
+        this.fetchProduct();
+      });
     this.currProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
   }
   setImage(image){
@@ -28,6 +35,15 @@ export class MerchantProductComponent implements OnInit {
   }
   setCategory(category){
     this.currProduct={category:category}
+  }
+  edit(item){
+    
+  }
+  remove(item){
+
+  }
+  promote(item){
+
   }
   setProduct(){
     var setObs=this._httpService.createDummyProduct(this.currProduct)
