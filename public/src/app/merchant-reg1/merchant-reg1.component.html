@@ -2,6 +2,7 @@
 <div class="contact-clean" style="background-color: #ffffff;">
        <form method="post" style="max-width: 600px; background-color: rgba(198,160,12,0.5);">
            <h2 class="text-center">Become A Merchant</h2>
+           <small class="form-text text-danger" style="margin-bottom: 10px;" *ngIf=showErr_err >{{errMessage_err}}</small>
            <h4 style="margin-bottom: 10px;">General Information</h4>
            <p style="margin-top: 10px;">Thank you for wanting to be a merchant with us at Congo.
              Before you can start selling your products here, we are going to need some information about you so that we can
@@ -24,20 +25,12 @@
              <input class="form-control" type="text" name="name" placeholder="Company Name" [(ngModel)]='companyName'>
              <small class="form-text text-danger" *ngIf=showErr_companyName>Please enter a company name.</small>
            </div>
-           <div class="form-group">
-             <input class="form-control" type="text" name="name" placeholder="Password" [(ngModel)]='password'>
-             <small class="form-text text-danger" *ngIf=showErr_password>Please enter a password.</small>
-           </div>
-           <div class="form-group">
-             <input class="form-control" type="text" name="name" placeholder="Confirm Password" [(ngModel)]='confirmPassword'>
-             <small class="form-text text-danger" *ngIf=showErr_confirmPassword>Does not match password entered above.</small>
-           </div>
            <h4>Bank Information</h4>
            <p style="margin-top: 10px;">We are going to need your bank information so when consumers buy your product we can directly
              transfer the money they have paid to your bank account. We want to make sure that your money is delivered to you in a
              fast and efficient manner. Don’t worry, the entire process is completely secure and your information is safe with us!!</p>
            <div class="form-group">
-             <input class="form-control" type="text" name="name" placeholder="Bank Account #" [(ngModel)]='bankNum'>
+             <input class="form-control" type="text" name="name" placeholder="Bank Account Routing Number#" [(ngModel)]='bankNum'>
              <small class="form-text text-danger" *ngIf=showErr_bankNum>Please enter a valid bank account number.</small>
            </div>
            <div class="form-group">

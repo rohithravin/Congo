@@ -30,7 +30,7 @@ export class MerchantLoginComponent implements OnInit {
 
 
   loginButton(){
-    if(this.license.length  < 1 || this.password.length < 1){
+    if(this.license.length  < 5 || this.password.length < 8){
       this.showErr_showErr = true;
     }
     else{

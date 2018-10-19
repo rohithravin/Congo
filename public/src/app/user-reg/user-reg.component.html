@@ -1,87 +1,35 @@
-<!-- <section style="background-color: #ffffff;">
-  <div class="row register-form">
-        <div class="col-md-8 offset-md-2">
-            <form class="custom-form" style="background-color: rgb(238,238,238);">
-                <h1>SIGN UP!</h1><br>
-                <h1 style="color:red;"  *ngIf=showErr >{{errMessage}}</h1>
-                <div class="form-row form-group">
-                    <div class="col-sm-4 label-column"><label class="col-form-label" for="name-input-field">First Name </label></div>
-                    <div class="col-sm-6 input-column"><input class="form-control" type="text" required [ngModelOptions]="{standalone: true}" [(ngModel)]='first_name'></div>
-                </div>
-                <div class="form-row form-group">
-                    <div class="col-sm-4 label-column"><label class="col-form-label" for="name-input-field">Last Name </label></div>
-                    <div class="col-sm-6 input-column"><input class="form-control" type="text" required  [ngModelOptions]="{standalone: true}" [(ngModel)]='last_name'></div>
-                </div>
-                <div class="form-row form-group">
-                    <div class="col-sm-4 label-column"><label class="col-form-label" for="email-input-field">Email </label></div>
-                    <div class="col-sm-6 input-column"><input class="form-control" type="email" required  [ngModelOptions]="{standalone: true}" [(ngModel)]='email'></div>
-                </div>
-                <div class="form-row form-group">
-                    <div class="col-sm-4 label-column"><label class="col-form-label" for="email-input-field">Phone Number </label></div>
-                    <div class="col-sm-6 input-column"><input class="form-control" type="phone" required  [ngModelOptions]="{standalone: true}" [(ngModel)]='phone_num'></div>
-                </div>
-                <div class="form-row form-group">
-                    <div class="col-sm-4 label-column"><label class="col-form-label" for="pawssword-input-field">Password </label></div>
-                    <div class="col-sm-6 input-column"><input class="form-control" type="password" required  [ngModelOptions]="{standalone: true}" [(ngModel)]='password'></div>
-                </div>
-                <div class="form-row form-group">
-                    <div class="col-sm-4 label-column"><label class="col-form-label" for="repeat-pawssword-input-field">Repeat Password </label></div>
-                    <div class="col-sm-6 input-column"><input class="form-control" type="password" required   [ngModelOptions]="{standalone: true}" [(ngModel)]='password_validated'></div>
-                </div>
-                <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">I've read and accept the terms and conditions</label></div>
-                <button class="btn btn-light submit-button" type="submit" style="background-color: rgba(198,160,12,0.89);" (click)="submitButton()" >Submit Form</button>
-              </form>
-        </div>
-    </div>
-</section> -->
-<form class='register' method='post'>
-    <p class='big'>Registration</p>
-    
-    <div class='single'>
-        <p>First Name:</p>
-        <input type='text' name='first_name' placeholder='first name' [(ngModel)]='first_name'>
-    </div>
-    <p class='red' *ngIf=showErr_firstname>Enter valid first name.</p>
-    <!-- {% for message in last_name_errors %} -->
-       
-    <!-- {% endfor %} -->
-    <div class='single'>
-        <p>Last Name:</p>
-        <input type='text' name='last_name' placeholder='last name' [(ngModel)]='last_name'>
-    </div>
-    <p class='red' *ngIf=showErr_lastname>Enter valid last name.</p>
-    <!-- {% for message in reg_phonenum_errors %} -->
-   
-    <!-- {% endfor %} -->
-    <div class='single'>
-        <p>Phone Number:</p>
-        <input type='text' name='phone_number' placeholder='phone number' [(ngModel)]='phone_num'>
-    </div>
-    <p class='red' *ngIf=showErr_phoneNum>Enter valid phone number.</p>
-    <!-- {% for message in reg_email_errors %} -->
-       
-    <!-- {% endfor %} -->
-    <div class='single'>
-        <p>Email:</p>
-        <input type='text' name='email' placeholder='email' [(ngModel)]='email'>
-    </div>
-    <p class='red' *ngIf=showErr_email>{{errMessage_email}}</p>
-    <!-- {% for message in password_errors %} -->
-       
-    <!-- {% endfor %} -->
-    <div class='single'>
-        <p>Password:</p>
-        <input type='password' name='password' placeholder='password' [(ngModel)]='password'>
-    </div>
-    <p class='red' *ngIf=showErr_password>{{password_err}}</p>
-    <!-- {% for message in confirm_errors %} -->
-        
-    <!-- {% endfor %} -->
-    <div class='single'>
-        <p>Confirm PW:</p>
-        <input type='password' name='confirm' placeholder='confirm' [(ngModel)]='password_validated'>
-    </div>
-    <p class='red' *ngIf=showErr_confirm>Password doesn't match.</p>
-
-    <input class='register login' type='submit' (click)="submitButton()" value='Register'>
-</form>
+<section style="background-color: #ffffff;">
+<div class="contact-clean" style="background-color: #ffffff;">
+      <form style="background-color: #eeeeee;">
+          <h2 class="text-center">Create An Account!</h2>
+          <small class="form-text text-danger" style="margin-bottom: 20px;" *ngIf=showErr>{{errMessage}}</small>
+          <div class="form-group">
+            <input class="form-control form-control-sm " type="email" name="email" placeholder="First Name" [(ngModel)]='first_name'[ngModelOptions]="{standalone: true}">
+            <small class="form-text text-danger" *ngIf=showErr_firstname>Please enter a valid first name.</small>
+          </div>
+          <div class="form-group">
+            <input class="form-control form-control-sm " type="email" name="email" placeholder="Last Name" [(ngModel)]='last_name' [ngModelOptions]="{standalone: true}">
+            <small class="form-text text-danger" *ngIf=showErr_lastname>Please enter a valid last name.</small>
+          </div>
+          <div class="form-group">
+            <input class="form-control form-control-sm " type="email" name="email" placeholder="Email" [(ngModel)]='email' [ngModelOptions]="{standalone: true}">
+            <small class="form-text text-danger"*ngIf=showErr_email >{{errMessage_email}}</small>
+          </div>
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="tel" placeholder="Phone Number" [(ngModel)]='phone_num' [ngModelOptions]="{standalone: true}">
+            <small class="form-text text-danger" *ngIf=showErr_phoneNum >Please enter a valid phone number.</small>
+          </div>
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="password" placeholder="Password" [(ngModel)]='password' [ngModelOptions]="{standalone: true}">
+            <small class="form-text text-danger" *ngIf=showErr_password >  {{password_err}} </small>
+          </div>
+          <div class="form-group">
+            <input class="form-control form-control-sm" type="password" placeholder="Confirm Password" [(ngModel)]='password_validated' [ngModelOptions]="{standalone: true}">
+            <small class="form-text text-danger" *ngIf=showErr_confirm>Password doesn't match.</small>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-secondary" type="submit" style="background-color: rgba(198,160,12,0.9);margin-left: 120px;" (click)="submitButton()">Register</button>
+          </div>
+      </form>
+  </div>
+</section>

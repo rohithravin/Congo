@@ -18,6 +18,8 @@ export class MerchantReg1Component implements OnInit {
   showErr_accountNum:boolean;
   showErr_password:boolean;
   showErr_confirmPassword:boolean;
+  showErr_err:boolean;
+  errMessage_err:string;
 
   url:string;
   email:string;
@@ -36,16 +38,14 @@ export class MerchantReg1Component implements OnInit {
     this.showErr_companyName = false;
     this.showErr_bankNum = false;
     this.showErr_accountNum = false;
-    this.showErr_password = false;
-    this.showErr_confirmPassword = false;
+    this.showErr_err =false;
+    this.errMessage_err = "";
 
     this.url = "";
     this.email = "";
     this.description = "";
     this.companyName = "";
     this.bankNum;
-    this.password = "";
-    this.confirmPassword = "";
     this.accountNum;
   }
 
@@ -54,6 +54,7 @@ export class MerchantReg1Component implements OnInit {
 
 
   nextButton(){
+    console.log("hi");
     if(this.url.match(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/) == null){
       this.showErr_url = true;
     }
@@ -90,33 +91,39 @@ export class MerchantReg1Component implements OnInit {
     else{
       this.showErr_accountNum = false;
     }
-    if(this.password.length < 8){
-      this.showErr_password = true;
-    }
-    else{
-      this.showErr_password = false;
-    }
-    if(this.confirmPassword.localeCompare(this.password)){
-      this.showErr_confirmPassword = true;
-    }
-    else{
-      this.showErr_confirmPassword =false;
-    }
+    console.log("check23df");
     if(this.showErr_url == false && this.showErr_email == false &&
        this.showErr_bankNum == false && this.showErr_description == false &&
-       this. showErr_companyName == false && this.showErr_accountNum == false &&
-       this.showErr_password == false && this.showErr_confirmPassword == false){
-         // go to next page
-         console.log("All Fields Valid.");
-         localStorage.setItem("merchant-url",this.url);
-         localStorage.setItem("merchant-password",this.password);
-         localStorage.setItem("merchant-email", this.email);
-         localStorage.setItem("merchant-companyName", this.companyName);
-         localStorage.setItem("merchant-description", this.description);
-         localStorage.setItem("merchant-bankNum", this.bankNum.toString());
-         localStorage.setItem("merchant-accountNum", this.accountNum.toString());
-         console.log("All Fields Stored In Local Storage.")
-         this._router.navigate(['/merchant-reg2']);
-       }
+       this. showErr_companyName == false && this.showErr_accountNum == false){
+      console.log("check23");
+      var err=this._httpService.verifyMerchantReg(this.url, this.companyName);
+      err.subscribe(data=>{
+        console.log("response:", data)
+        if(data['success']==-1){
+          this.errMessage_err = "Company Name Already Exists";
+          this.showErr_err = true;
+          return;
+        }
+        else if(data['success']== -2){
+          this.errMessage_err = "URL Already Exists";
+          this.showErr_err = true;
+          return;
+        }
+        else{
+          console.log("Passed Verification.");
+          localStorage.setItem("merchant-url",this.url);
+          localStorage.setItem("merchant-password",this.password);
+          localStorage.setItem("merchant-email", this.email);
+          localStorage.setItem("merchant-companyName", this.companyName);
+          localStorage.setItem("merchant-description", this.description);
+          localStorage.setItem("merchant-bankNum", this.bankNum.toString());
+          localStorage.setItem("merchant-accountNum", this.accountNum.toString());
+          console.log("All Fields Stored In Local Storage.")
+          // location.reload(true)
+          localStorage.setItem('reloadMerch2', 'XXXXTrue')
+          this._router.navigate(['/merchant-reg2']);
+        }
+      })
+    }
   }
 }
