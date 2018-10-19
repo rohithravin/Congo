@@ -51,7 +51,9 @@ var MerchantSchema = new mongoose.Schema({
     creditCardNum:{type:String, required:[true, "Credit card number is required"]},
     creditCardExp_month:{type:String, required:[true, "Expiration month is required"]},
     creditCardExp_year:{type:String, required:[true, "Expiration year is required"]},
-    creditCard_CVV:{type:String, required:[true, "CVV is required"]}
+    creditCard_CVV:{type:String, required:[true, "CVV is required"]},
+    license:{type:String},
+    approved:{type:Boolean, default:false}
 }, {timestamps:true})
 mongoose.model('Merchant', MerchantSchema)
 var Merchant = mongoose.model('Merchant');
@@ -182,9 +184,6 @@ app.post('/processLoginMerchant', function(request, response){
 })
 
 app.post('/processLogin', function(request, response){
-    // if('loggedIn' in request.session && request.session.loggedIn==true){
-    //     return response.json({success:0, message:"User already logged in"})
-    // }
     var email=request.body['email']
     var password=request.body['password']
     var hashedPW=bcrypt.hashSync(password, NUM_SALTS)
@@ -198,9 +197,6 @@ app.post('/processLogin', function(request, response){
             }
             else{
                 if(bcrypt.compareSync(password, user.password)){
-                    //Add stuff to session if express session
-                    // request.session.userID=user._id
-                    // request.session.loggedIn=true
                     response.json({success:1, message:"Login successful", userID:user._id, first_name:user.first_name})
                 }
                 else{
@@ -306,12 +302,7 @@ app.post('/processAddToCart', function(request, response){
 })
 
 app.post('/getCart', function(request, response){
-    console.log(request)
     var userID=request.body['userID']
-    console.log(request.body['doubleCheck'])
-    // console.log(request['details'])
-    // var userID='12893129ansd'
-    console.log(userID)
     Cart.findOne({userID:userID}, function(error, cart){
         if(error){
             response.json({success:0, response:'Cart does not exist'})
@@ -339,8 +330,27 @@ app.post('/checkMerchantReg', function(request, response){
 })
 
 app.post('/processMerchantRegistration', function(request, response){
+    if(!('userID' in request.body)){
+        response.json({success:0, message:'No user ID provided'})
+    }
     var info=request.body['info']
-    var newMerchant=
+    User.findById(request.body['userID'], function(error, user){
+        if(error){
+            response.json({success:0, message:"Could not find a user with request id"})
+        }
+        else{
+            info['user']=user
+            var newMerchant = new Merchant(info)
+            newMerchant.save(function(error){
+                if(error){
+                    response.json({success:-1, message:'Could not create merchant'})
+                }
+                else{
+                    response.json({success:1, message:'Successfully registered!', merchant:newMerchant})
+                }
+            })
+        }
+    })
 })
 
 app.all('*', (request, response, next)=>{

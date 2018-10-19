@@ -77,22 +77,22 @@ div.product div.buttons button{
   border-radius:5px;
 }
 button.green{
-  background:rgb(0, 177, 0)
+  background:rgb(117, 211, 117)
 }
 button.green:hover{
-  background:rgb(0, 136, 0)
+  background:rgb(75, 134, 75)
 }
 button.red{
-  background:rgb(255, 62, 62);
+  background:rgb(216, 91, 91);
 }
 button.red:hover{
-  background:rgb(201, 47, 47);
+  background:rgb(172, 74, 74);
 }
 button.blue{
-  background:rgb(92, 92, 255);
+  background:rgb(110, 110, 223);
 }
 button.blue:hover{
-  background:rgb(66, 66, 185);
+  background:rgb(82, 82, 165);
 }
 button.hover{
   color:rgb(209, 209, 209);
