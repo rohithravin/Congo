@@ -331,7 +331,7 @@ app.post('/checkMerchantReg', function(request, response){
 
 app.post('/processMerchantRegistration', function(request, response){
     if(!('userID' in request.body)){
-        response.json({success:0, message:'No user ID provided'})
+        return response.json({success:0, message:'No user ID provided'})
     }
     var info=request.body['info']
     User.findById(request.body['userID'], function(error, user){
@@ -343,7 +343,7 @@ app.post('/processMerchantRegistration', function(request, response){
             var newMerchant = new Merchant(info)
             newMerchant.save(function(error){
                 if(error){
-                    response.json({success:-1, message:'Could not create merchant'})
+                    response.json({success:-1, message:'Could not create merchant', error:error})
                 }
                 else{
                     response.json({success:1, message:'Successfully registered!', merchant:newMerchant})
