@@ -41,9 +41,17 @@ var User = mongoose.model('User')
 
 var MerchantSchema = new mongoose.Schema({
     name:{type:String, required:[true, "Merchant name is required"], minlength:3},
+    email:{type:String, required:[true, "Email is required"]},
+    url:{type:String, required:[true, "URL is required"]},
     user:UserSchema,
     description:{type:String, required:[true, "Description is required"]},
     products:["ProductSchema"],
+    bankAccountNumber:{type:String, required:[true, "Bank account is required"]},
+    routingNumber:{type:String, required:[true, "Routing number is required"]},
+    creditCartNum:{type:String, required:[true, "Credit card number is required"]},
+    creditCardExp_month:{type:String, required:[true, "Expiration month is required"]},
+    creditCardExp_year:{type:String, required:[true, "Expiration year is required"]},
+    creditCard_CVV:{type:String, required:[true, "CVV is required"]}
 }, {timestamps:true})
 mongoose.model('Merchant', MerchantSchema)
 var Merchant = mongoose.model('Merchant');
@@ -319,6 +327,22 @@ app.post('/getCart', function(request, response){
             response.json({success:1, response:"Successfully found your cart", cart:cart})
         }
     })
+})
+
+app.post('/checkMerchantReg', function(request, response){
+    var merchantName=request.body['name']
+    var merchantURL=request.body['url']
+    Merchant.findOne({name:merchantName}, function(error, merchant){
+        if(!error){
+            return response.json({success:-1, response:'Merchant with that name already exists'})
+        }
+    })
+    Merchant.findOne({url:merchantURL}, function(error, merchant){
+        if(!error){
+            return response.json({success:-2, response:'URL is already being used for another merchant'})
+        }
+    })
+    response.json({success:1, response:'No merchant exists yet with this info.'})
 })
 
 app.all('*', (request, response, next)=>{
