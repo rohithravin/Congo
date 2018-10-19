@@ -1,4 +1,18 @@
 
+
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+  }
+
+  p.red{
+    font-size:12pt;
+    color:red;
+    font-style:italic;
+    margin-left: 50px;
+  }
+
 .credit-card-box .panel-title {
   font-weight: bold;
   overflow: hidden;
