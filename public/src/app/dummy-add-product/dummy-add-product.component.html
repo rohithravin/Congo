@@ -2,27 +2,43 @@
   <h2>Add Product</h2>
   <label for="prod_name">Product Name</label>
   <input type='text' name='prod_name' placeholder='name' [(ngModel)]='newProduct.name'>
-  <input type='text' name='description' placeholder='description' [(ngModel)]='newProduct.description'>
-  <label for="description"><small class="form-text text-danger">Only letters. No numbers. (i.e. 100 = one hundred)</small></label>
-  <input type='text' name='image' placeholder='image' [(ngModel)]='newProduct.image'>
-  <a href="#"><button>Add image</button></a>
+<div class="row">
+  <p class="red" *ngIf=showErr_name>Enter a name.</p>
+</div>
+    <div class="col" style="text-align: center;">
+        <label>Description</label>
+            <textarea rows="4" cols="30" ></textarea>
+    </div>
+  
+ <label>Add Images</label>
+ <div class="row">
+        <button class="btn btn-primary" type="button" style="width: 60px;background-color: black;" (click)="updateCountMinus()">-</button>
+        <button class="btn btn-primary" type="button" style="width: 60px;background-color: black;" (click)="updateCountPlus()">+</button>
+    </div>
+ <div class="row" >
+        <input type='text' name='image' placeholder='image'  [(ngModel)]='images[0]'>
+ </div>
+ <p class="red" *ngIf=showErr_image>Enter image url.</p>
+
 
   <input type='text' name='price' placeholder='$' [(ngModel)]='newProduct.price'>
+  <p class="red" *ngIf=showErr_price>Enter price.</p>
   <input type='text' name='size' placeholder='size' [(ngModel)]='newProduct.size'>
-
+  <p class="red" *ngIf=showErr_size>Enter sizes as comma seperated list.</p>
   <label for="sizes"><small class="form-text text-danger">Small, medium, or large</small></label>
-  <a href="#"><button>Add size</button></a>
+
 
   <input type='text' name='color' placeholder='color' [(ngModel)]='newProduct.color'>
-  <a href="#"><button>Add color</button></a>
+  <p class="red" *ngIf=showErr_color>Enter colors as comma seperated list.</p>
 
   <input type='text' name='tag' placeholder='tag' [(ngModel)]='newProduct.tag'>
   <!--<label for="multiple_tags">Separate multiple tags by a comma ","</label><-->
-
+  <p class="red" *ngIf=showErr_tag>Enter tags as comma seperated list.</p>
   <label for="multiple_tags">Separate tags by space, NO COMMAS.</label>
-  <a href="#"><button>Add tag</button></a>
+  
 
   <input type='text' name='category' placeholder='category' [(ngModel)]='newProduct.category'>
+  <p class="red" *ngIf=showErr_category>Enter category.</p>
   <button (click)='createProduct()'>Create</button>
 </form>
 
