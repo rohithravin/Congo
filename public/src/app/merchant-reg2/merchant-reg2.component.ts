@@ -11,6 +11,7 @@ export class MerchantReg2Component implements OnInit {
 
   showErr_cardNum:boolean;
   showErr_expDate:boolean;
+  showErr_expDate2:boolean;
   showErr_cvc:boolean;
   showErr_err:boolean;
 
@@ -18,31 +19,36 @@ export class MerchantReg2Component implements OnInit {
   email:string;
   description:string;
   companyName:string;
-  bankNum:number;
+  bankRoutingNum:number;
   accountNum:number;
   password:string;
+  errMessage_err:string;
 
   cardNum:number;
   cvc:number;
   expDate:string;
+  expDate2:string;
 
   constructor(private _router: Router,  private _httpService:HttpService) {
 
     this.showErr_cvc = false;
     this.showErr_expDate = false;
+    this.showErr_expDate2 = false;
     this.showErr_cardNum = false;
     this.showErr_err = false;
+    this.errMessage_err = "";
 
     this.cardNum;
     this.cvc;
     this.expDate = "";
+    this.expDate2 = "";
 
     this.url = localStorage.getItem('merchant-url');
     this.password = localStorage.getItem('merchant-password');
     this.email = localStorage.getItem('merchant-email');
     this.description = localStorage.getItem('merchant-description');
     this.companyName = localStorage.getItem('merchant-companyName');
-    this.bankNum = parseInt(localStorage.getItem('merchant-bankNum'),10);
+    this.bankRoutingNum = parseInt(localStorage.getItem('merchant-bankNum'),10);
     this.accountNum = parseInt(localStorage.getItem('merchant-accountNum'),10);
 
   }
@@ -50,6 +56,7 @@ export class MerchantReg2Component implements OnInit {
   ngOnInit() {}
 
   submitButton(){
+
     if (this.cardNum == null || this.cardNum.toString().length != 16){
       this.showErr_cardNum = true;
     }
@@ -62,24 +69,31 @@ export class MerchantReg2Component implements OnInit {
     else{
       this.showErr_cvc = false;
     }
-    if(this.expDate.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/) == null){
+    if(this.expDate.length != 2){
       this.showErr_expDate = true;
     }
     else{
       this.showErr_expDate = false;
     }
+    if(this.expDate2.length != 2){
+      this.showErr_expDate2 = true;
+      console.log(this.expDate2);
+    }
+    else{
+      this.showErr_expDate2 = false;
+    }
     if (this.showErr_cvc == false && this.showErr_cardNum == false &&
-      this.showErr_expDate == false){
+      this.showErr_expDate == false && this.showErr_expDate2 == false){
        console.log("everything is good here." + this.companyName);
-       var err=this._httpService.createMerchant(this.url, this.email, this.description, this.companyName, this.bankNum, this.accountNum, this.cardNum, this.expDate, this.cvc, this.password, localStorage.getItem('userID'));
+       var err=this._httpService.createMerchant(this.url, this.email, this.description, this.companyName, this.bankRoutingNum, this.accountNum, this.cardNum, this.expDate,this.expDate2, this.cvc, this.password);
        err.subscribe(data=>{
          console.log("response:", data)
-         if(data['success']==-1){
+         if(data['success']==-2){
            //Server error
            this.showErr_err = true;
            return;
          }
-         else if(data['success']==0){
+         else if(data['success']== -1){
            //CLient error, check message, User probably exists with email
           this.showErr_err = true;
            return;

@@ -2,7 +2,7 @@
 <div class="contact-clean" style="background-color: #ffffff;">
         <form method="post" style=" background-color: rgba(198,160,12,0.5);">
             <h2 class="text-center">Become A Merchant</h2>
-            <small class="form-text text-danger" style="margin-bottom: 20px;" *ngIf=showErr_err>Registration could not be processed. Please Try Again.</small>
+            <small class="form-text text-danger" style="margin-bottom: 20px;" *ngIf=showErr_err>{{errMessage_err}}</small>
             <h4>Payment Information</h4>
             <p>You’re almost done! The last thing we need is your credit card information.
               This will be used to your charge you with your monthly subscription to be a merchant with us. Also, if you ever decide to promote your products on any of your pages, we will be using this information to charge you with you. Don’t worry you information is completely secure and encrypted so no one can see it or use it!</p>
@@ -13,8 +13,14 @@
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
-                      <input class="form-control " type="email" name="email" placeholder="Expiration Date" [(ngModel)]='expDate'>
-                      <small class="form-text text-danger" *ngIf=showErr_expDate>Please enter a valid date.</small>
+                      <input class="form-control " type="email" name="email" placeholder="Exp Month" [(ngModel)]='expDate'>
+                      <small class="form-text text-danger" *ngIf=showErr_expDate>Please enter a valid year (2 Numbers).</small>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                      <input class="form-control " type="email" name="email" placeholder="Exp Year" [(ngModel)]='expDate2'>
+                      <small class="form-text text-danger" *ngIf=showErr_expDate2>Please enter a valid year (2 Numbers).</small>
                     </div>
                 </div>
                 <div class="col">
