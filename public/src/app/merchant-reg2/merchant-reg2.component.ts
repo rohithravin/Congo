@@ -53,7 +53,14 @@ export class MerchantReg2Component implements OnInit {
 
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // location.reload(true)
+    // if(localStorage.getItem('reloadMerch2') == 'XXXXTrue'){
+    //     localStorage.setItem('reloadMerch2', '')
+    //     localStorage.removeItem('reloadMerch2')
+    //     location.reload(true)
+    // }
+  }
 
   submitButton(){
     if (this.cardNum == null || this.cardNum.toString().length != 16){
@@ -83,7 +90,7 @@ export class MerchantReg2Component implements OnInit {
     }
     if (this.showErr_cvc == false && this.showErr_cardNum == false &&
       this.showErr_expDate == false && this.showErr_expDate2 == false){
-       console.log("everything is good here." + this.companyName);
+      console.log("everything is good here." + this.companyName);
       var err=this._httpService.createMerchant(this.url, this.email, this.description, this.companyName, this.bankRoutingNum, this.accountNum, this.cardNum, this.expDate,this.expDate2, this.cvc, localStorage.getItem('userID'));
       err.subscribe(data=>{
          console.log("response:", data)
@@ -118,7 +125,6 @@ export class MerchantReg2Component implements OnInit {
            this.showErr_err = false;
            this._router.navigate(['/merchant-reg-conf']);
          }
-
        })
        //NEED TO FINISH THIS
     }

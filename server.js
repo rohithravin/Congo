@@ -316,45 +316,58 @@ app.post('/getCart', function(request, response){
 app.post('/checkMerchantReg', function(request, response){
     var merchantName=request.body['name']
     var merchantURL=request.body['url']
+    foundError=false;
     Merchant.findOne({name:merchantName}, function(error, merchant){
         if(!error){
+            foundError=true;
             return response.json({success:-1, response:'Merchant with that name already exists'})
         }
     })
-    Merchant.findOne({url:merchantURL}, function(error, merchant){
-        if(!error){
-            return response.json({success:-2, response:'URL is already being used for another merchant'})
-        }
-    })
-    response.json({success:1, response:'No merchant exists yet with this info.'})
+    if(foundError==false){
+        Merchant.findOne({url:merchantURL}, function(error, merchant){
+            if(!error){
+                foundError=true;
+                return response.json({success:-2, response:'URL is already being used for another merchant'})
+            }
+        })
+    }
+    if(foundError==false){
+        return response.json({success:1, response:'No merchant exists yet with this info.'})
+    }
 })
 
 app.post('/processMerchantRegistration', function(request, response){
-    if(!('userID' in request.body)){
-        return response.json({success:0, message:'No user ID provided'})
-    }
-    var info=request.body['info']
-    console.log(info);
-    var userID=request.body['userID']
-    User.findOne({_id:userID}, function(error, user){
-        if(error){
-            response.json({success:0, message:"Could not find a user with request id"})
-        }
-        else{
-          
-            info['user']=user
-            var newMerchant = new Merchant(info)
-            newMerchant.save(function(error){
-                if(error){
-                    response.json({success:-1, message:'Could not create merchant', error:error})
-                }
-                else{
-                    response.json({success:1, message:'Successfully registered!', merchant:newMerchant})
-                }
-            })
-        }
-    })
+    response.json({success:1, message:'This is just a test'})
+    // if(!('userID' in request.body)){
+    //     return response.json({success:0, message:'No user ID provided'})
+    // }
+    // else if(request.body['userID']==null){
+    //     return response.json({success:0, message:'No user ID provided'})
+    // }
+    // var info=request.body['info']
+    // console.log('Info:',info);
+    // var userID=request.body['userID']
+    // console.log('UserID:',userID)
+    // User.findOne({_id: userID}, function(error, user){
+    //     if(error){
+    //         return response.json({success:0, message:"Could not find a user with request id"})
+    //     }
+    //     else{
+    //         // info['user']=user
+    //         return response.json({success:1, message:'Successfully found user'})
+    //         // var newMerchant = new Merchant({url:info['url'], email:info['email'], description:info['description'], name:info['name'], routingNumber:info['routingNumber'], bankAccountNumber:info['bankAccountNumber'], creditCardNum:info['creditCardNum'], creditCardExp_month:info['creditCardExp_month'], creditCardExp_year:info['creditCardExp_year'], creditCard_CVV:info['creditCard_CVV'], user:user})
+    //         // newMerchant.save(function(error){
+    //         //     if(error){
+    //         //         response.json({success:-1, message:'Could not create merchant', error:error})
+    //         //     }
+    //         //     else{
+    //         //         response.json({success:1, message:'Successfully registered!', merchant:newMerchant})
+    //         //     }
+    //         // })
+    //     }
+    // })
 })
+
 
 app.all('*', (request, response, next)=>{
     response.sendFile(path.resolve('./public/dist/public/index.html'))
