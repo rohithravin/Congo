@@ -56,7 +56,6 @@ export class MerchantReg2Component implements OnInit {
   ngOnInit() {}
 
   submitButton(){
-
     if (this.cardNum == null || this.cardNum.toString().length != 16){
       this.showErr_cardNum = true;
     }
@@ -85,34 +84,42 @@ export class MerchantReg2Component implements OnInit {
     if (this.showErr_cvc == false && this.showErr_cardNum == false &&
       this.showErr_expDate == false && this.showErr_expDate2 == false){
        console.log("everything is good here." + this.companyName);
-       var err=this._httpService.createMerchant(this.url, this.email, this.description, this.companyName, this.bankRoutingNum, this.accountNum, this.cardNum, this.expDate,this.expDate2, this.cvc, localStorage.getItem('userID'));
-       err.subscribe(data=>{
+      var err=this._httpService.createMerchant(this.url, this.email, this.description, this.companyName, this.bankRoutingNum, this.accountNum, this.cardNum, this.expDate,this.expDate2, this.cvc, localStorage.getItem('userID'));
+      err.subscribe(data=>{
          console.log("response:", data)
-         if(data['success']==-2){
-           //Server error
+         if(data['success']==-1){
+           this.errMessage_err = "Could Not Process Information. Contact Us.";
+           console.log("Incorrect Information Provided.");
+           localStorage.setItem("merchant-url","");
+           localStorage.setItem("merchant-password","");
+           localStorage.setItem("merchant-email", "");
+           localStorage.setItem("merchant-companyName", "");
+           localStorage.setItem("merchant-description", "");
+           localStorage.setItem("merchant-bankNum", "");
+           localStorage.setItem("merchant-accountNum", "");
            this.showErr_err = true;
            return;
          }
-         else if(data['success']== -1){
-           //CLient error, check message, User probably exists with email
-          this.showErr_err = true;
+         else if(data['success']== 0) {
+           this.errMessage_err = "Server Error.";
+           console.log("Server Error.");
+           this.showErr_err = true;
            return;
          }
          else{
-           //success==1, registration successful
-           // this.cookieService.set('loggedIn', "true")
-           // this.cookieService.set('userID', data['userID'])
-           // this.cookieService.set('first_name', data['first_name'])
-       //    localStorage.setItem('loggedIn', "true")
-       //    localStorage.setItem('userID', data['userID'])
-     //      localStorage.setItem('firstName', data['first_name'])
-     //      location.reload(true)
-            this.showErr_err = false;
+           console.log("Registration successful");
+           localStorage.setItem("merchant-url","");
+           localStorage.setItem("merchant-password","");
+           localStorage.setItem("merchant-email", "");
+           localStorage.setItem("merchant-companyName", "");
+           localStorage.setItem("merchant-description", "");
+           localStorage.setItem("merchant-bankNum", "");
+           localStorage.setItem("merchant-accountNum", "");
+           this.showErr_err = false;
            this._router.navigate(['/merchant-reg-conf']);
          }
 
        })
-
        //NEED TO FINISH THIS
     }
   }
