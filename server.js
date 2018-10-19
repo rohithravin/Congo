@@ -48,7 +48,7 @@ var MerchantSchema = new mongoose.Schema({
     products:["ProductSchema"],
     bankAccountNumber:{type:String, required:[true, "Bank account is required"]},
     routingNumber:{type:String, required:[true, "Routing number is required"]},
-    creditCartNum:{type:String, required:[true, "Credit card number is required"]},
+    creditCardNum:{type:String, required:[true, "Credit card number is required"]},
     creditCardExp_month:{type:String, required:[true, "Expiration month is required"]},
     creditCardExp_year:{type:String, required:[true, "Expiration year is required"]},
     creditCard_CVV:{type:String, required:[true, "CVV is required"]}
@@ -211,13 +211,6 @@ app.post('/processLogin', function(request, response){
     })
 })
 
-app.post('/processMerchantRegistration', function(request, response){
-  console.log("here");
-    var url  = request.body['url'];
-    console.log(url);
-})
-
-
 app.post('/processRegister', function(request, response){
     var first_name=request.body['first_name']
     var last_name=request.body['last_name']
@@ -343,6 +336,11 @@ app.post('/checkMerchantReg', function(request, response){
         }
     })
     response.json({success:1, response:'No merchant exists yet with this info.'})
+})
+
+app.post('/processMerchantRegistration', function(request, response){
+    var info=request.body['info']
+    var newMerchant=
 })
 
 app.all('*', (request, response, next)=>{

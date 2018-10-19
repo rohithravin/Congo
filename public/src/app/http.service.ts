@@ -35,7 +35,7 @@ export class HttpService {
 
   createMerchant(url, email, description, companyName, bankNum, accountNum, cardNum, expDate, cvc, password){
     console.log("HttpService here. " + password);
-    return this._http.post('/processMerchantRegistration', {url:url, email:email, description:description, companyName:companyName, bankNum:bankNum, accountNum:accountNum, cardNum:cardNum, expDate:expDate, cvc:cvc, password:password})
+    return this._http.post('/processMerchantRegistration', {url:url, email:email, description:description, name:companyName, routingNumber:bankNum, bankAccountNumber:accountNum, creditCardNum:cardNum, expDate:expDate, creditCard_CVV:cvc})
   }
 
   createNewUser(first_name, last_name, email, phone_num, password){
