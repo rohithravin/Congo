@@ -16,6 +16,7 @@ import {PromoteProductRegComponent} from './promote-product-reg/promote-product-
 import { MerchantReg1Component } from './merchant-reg1/merchant-reg1.component';
 import { MerchantReg2Component } from './merchant-reg2/merchant-reg2.component';
 import { MerchantRegConfComponent } from './merchant-reg-conf/merchant-reg-conf.component';
+import { PurchaseHistoryComponent } from './purchase-history/purchase-history.component';
 
 const routes: Routes = [
   {path:'', component:HomepageComponent},
@@ -34,6 +35,7 @@ const routes: Routes = [
   {path: 'merchant-reg1', component: MerchantReg1Component},
   {path: 'merchant-reg2', component: MerchantReg2Component},
   {path: 'merchant-reg-conf', component: MerchantRegConfComponent},
+  {path: 'purchase-history', component: PurchaseHistoryComponent}
    //Path any, = home
 ];
 

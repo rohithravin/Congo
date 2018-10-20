@@ -23,7 +23,8 @@ import { DummyAddProductComponent } from './dummy-add-product/dummy-add-product.
 import { PromoteProductRegComponent } from './promote-product-reg/promote-product-reg.component';
 import { MerchantReg1Component } from './merchant-reg1/merchant-reg1.component';
 import { MerchantReg2Component } from './merchant-reg2/merchant-reg2.component';
-import { MerchantRegConfComponent } from './merchant-reg-conf/merchant-reg-conf.component'
+import { MerchantRegConfComponent } from './merchant-reg-conf/merchant-reg-conf.component';
+import { PurchaseHistoryComponent } from './purchase-history/purchase-history.component'
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { MerchantRegConfComponent } from './merchant-reg-conf/merchant-reg-conf.
     PromoteProductRegComponent,
     MerchantReg1Component,
     MerchantReg2Component,
-    MerchantRegConfComponent
+    MerchantRegConfComponent,
+    PurchaseHistoryComponent
   ],
   imports: [
     BrowserModule,
