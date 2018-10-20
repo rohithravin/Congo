@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router,ActivatedRoute }  from '@angular/router';
 import { HttpService } from '../http.service';
 
 @Component({
@@ -28,6 +29,15 @@ export class MerchantProductComponent implements OnInit {
   }
   setCategory(category){
     // this.currProduct={category:category}
+  }
+  edit(item){
+    
+  }
+  remove(item){
+
+  }
+  promote(item){
+
   }
   setProduct(){
     // var setObs=this._httpService.createDummyProduct(this.currProduct)

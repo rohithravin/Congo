@@ -14,17 +14,25 @@
                                     <div class="form-row">
                                         <div class="col-12">
                                             <div class="form-group"><label for="cardNumber">Full Name:</label>
-                                                <div class="input-group"><input class="form-control form-control-sm" type="text">
+                                                <div class="input-group"><input [ngModelOptions]="{standalone: true}" [(ngModel)]="full_name" class="form-control form-control-sm" type="text">
+            
                                                     <div class="input-group-append"></div>
+                                                   
                                                 </div>
+                                                <div class="row" *ngIf='showErr_fullname'>
+                                                        <p class="red">Enter valid name.</p>
+                                                       </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="col-12">
                                             <div class="form-group"><label for="cardNumber">Address Line #1</label>
-                                                <div class="input-group"><input class="form-control form-control-sm" type="text" placeholder="Street Name and Number">
+                                                <div class="input-group"><input [ngModelOptions]="{standalone: true}" [(ngModel)]='address_lineone' class="form-control form-control-sm" type="text" placeholder="Street Name and Number">
                                                     <div class="input-group-append"></div>
+                                                </div>
+                                                <div class="row" *ngIf='showErr_addr1'>
+                                                        <p class="red">Enter address line.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -32,7 +40,7 @@
                                     <div class="form-row">
                                         <div class="col-12">
                                             <div class="form-group"><label for="cardNumber">Address Line #2</label>
-                                                <div class="input-group"><input class="form-control form-control-sm" type="text" placeholder="Apartment, Suite, Unit  etc.">
+                                                <div class="input-group"><input [ngModelOptions]="{standalone: true}" [(ngModel)]='address_linetwo' class="form-control form-control-sm" type="text" placeholder="Apartment, Suite, Unit  etc.">
                                                     <div class="input-group-append"></div>
                                                 </div>
                                             </div>
@@ -40,11 +48,19 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="col-7">
-                                            <div class="form-group"><label for="cardExpiry">City</label><input class="form-control" type="text"></div>
+                                            <div class="form-group"><label for="cardExpiry">City</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]='city' class="form-control" type="text"></div>
+                                            <div class="row" *ngIf='showErr_city'>
+                                                    <p class="red">Enter valid city.</p>
+                                            </div>
                                         </div>
+                                        
                                         <div class="col-5 pull-right">
-                                            <div class="form-group"><label for="cardCVC">State</label><input class="form-control" type="text"></div>
+                                            <div class="form-group"><label for="cardCVC">State</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]='state' class="form-control" type="text"></div>
+                                            <div class="row" *ngIf='showErr_state'>
+                                                    <p class="red">Enter valid state.</p>
+                                            </div>
                                         </div>
+
                                     </div>
                                 </form>
                             </div>
@@ -62,25 +78,40 @@
                                     <div class="form-row">
                                         <div class="col-12">
                                             <div class="form-group"><label for="cardNumber">Card number </label>
-                                                <div class="input-group"><input class="form-control" type="tel" required="" placeholder="Valid Card Number" id="cardNumber">
+                                                <div class="input-group"><input [ngModelOptions]="{standalone: true}" [(ngModel)]='cc_number' class="form-control" type="tel" required="" placeholder="Valid Card Number" id="cardNumber">
+                                        
                                                     <div class="input-group-append"><span class="input-group-text"><i class="fa fa-credit-card"></i></span></div>
+                                                   
                                                 </div>
+                                            </div>
+                                            <div class="row" *ngIf='showErr_ccNumber'>
+                                                    <p class="red">Enter credit card number.</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="col-7">
-                                            <div class="form-group"><label for="cardExpiry"><span>EXP </span>Date</label><input class="form-control" type="tel" required="" placeholder="MM / YY" id="cardExpiry"></div>
+                                            <div class="form-group"><label for="cardExpiry"><span>EXP </span>Date</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]='expiration_date' class="form-control" type="tel" required="" placeholder="MM / YY" id="cardExpiry"></div>
+                                            <div class="row" *ngIf='showErr_exprDate'>
+                                                    <p class="red">Enter expiration date.</p>
+                                            </div>
                                         </div>
+                                        
                                         <div class="col-5 pull-right">
-                                            <div class="form-group"><label for="cardCVC">CV Code</label><input class="form-control" type="tel" required="" placeholder="CVC" id="cardCVC"></div>
+                                            <div class="form-group"><label for="cardCVC">CV Code</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]= 'cvv_code' class="form-control" type="tel" required="" placeholder="CVC" id="cardCVC"></div>
+                                            <div class="row" *ngIf='showErr_cvvCode'>
+                                                    <p class="red">Enter cvv number.</p>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="col-12">
                                             <div class="form-group"><label for="cardNumber">Email:</label>
-                                                <div class="input-group"><input class="form-control form-control-sm" type="text">
+                                                <div class="input-group"><input [ngModelOptions]="{standalone: true}" [(ngModel)]="email" class="form-control form-control-sm" type="text">
                                                     <div class="input-group-append"></div>
+                                                </div>
+                                                <div class="row"  *ngIf='showErr_email'>
+                                                        <p class="red">Enter valid email.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -89,8 +120,12 @@
                                         <div class="col-12">
                                             <div class="form-group"><label for="cardNumber">Phone Number:</label>
                                                 <div class="input-group">
-                                                    <div class="input-group-append"></div><input class="form-control" type="tel"></div>
+                                                    <div class="input-group-append"></div><input [ngModelOptions]="{standalone: true}" [(ngModel)]="phone_num" class="form-control" type="tel"></div>
                                             </div>
+                                            <div class="row"  *ngIf='showErr_phoneNumber'>
+                                                    <p class="red">Enter valid phone number.</p>
+                                            </div>
+                                            <button (click)="submitBilling()" style="background: none;">Submit Billing Information.</button>
                                         </div>
                                     </div>
                                 </form>
