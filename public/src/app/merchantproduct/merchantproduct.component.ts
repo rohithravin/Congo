@@ -7,33 +7,33 @@ import { HttpService } from '../http.service';
   styleUrls: ['./merchantproduct.component.css']
 })
 export class MerchantProductComponent implements OnInit {
-  currProduct:any
+  // currProduct:any
   constructor(private _httpService: HttpService) { 
    
   }
   ngOnInit() {
-    this.currProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
+    // this.currProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
   }
   setImage(image){
-    this.currProduct={image:image}
+    // this.currProduct={image:image}
   }
   setSize(size){
-    this.currProduct={size:size}
+    // this.currProduct={size:size}
   }
   setColor(color){
-    this.currProduct={color:color}
+    // this.currProduct={color:color}
   }
   setTag(tag){
-    this.currProduct={tag:tag}
+    // this.currProduct={tag:tag}
   }
   setCategory(category){
-    this.currProduct={category:category}
+    // this.currProduct={category:category}
   }
   setProduct(){
-    var setObs=this._httpService.createDummyProduct(this.currProduct)
-    setObs.subscribe(data=>{
-      console.log("Received response:", data)
-    })
-    this.currProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:''}
+    // var setObs=this._httpService.createDummyProduct(this.currProduct)
+    // setObs.subscribe(data=>{
+    //   console.log("Received response:", data)
+    // })
+    // this.currProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:''}
   }
 }
