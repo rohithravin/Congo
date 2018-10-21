@@ -260,43 +260,6 @@ app.post('/createDummyProduct', function(request, response){
     })
 })
 
-app.post('/processMerchantReg', function(request, response){
-
-})
-
-app.post('/processMerchantRegistration', function(request, response){
-    console.log(request.body)
-    response.json({success:1, message:'This is just a test'})
-    // if(!('userID' in request.body)){
-    //     return response.json({success:0, message:'No user ID provided'})
-    // }
-    // else if(request.body['userID']==null){
-    //     return response.json({success:0, message:'No user ID provided'})
-    // }
-    // var info=request.body['info']
-    // console.log('Info:',info);
-    // var userID=request.body['userID']
-    // console.log('UserID:',userID)
-    // User.findOne({_id: userID}, function(error, user){
-    //     if(error){
-    //         return response.json({success:0, message:"Could not find a user with request id"})
-    //     }
-    //     else{
-    //         // info['user']=user
-    //         return response.json({success:1, message:'Successfully found user'})
-    //         // var newMerchant = new Merchant({url:info['url'], email:info['email'], description:info['description'], name:info['name'], routingNumber:info['routingNumber'], bankAccountNumber:info['bankAccountNumber'], creditCardNum:info['creditCardNum'], creditCardExp_month:info['creditCardExp_month'], creditCardExp_year:info['creditCardExp_year'], creditCard_CVV:info['creditCard_CVV'], user:user})
-    //         // newMerchant.save(function(error){
-    //         //     if(error){
-    //         //         response.json({success:-1, message:'Could not create merchant', error:error})
-    //         //     }
-    //         //     else{
-    //         //         response.json({success:1, message:'Successfully registered!', merchant:newMerchant})
-    //         //     }
-    //         // })
-    //     }
-    // })
-})
-
 app.post('/processAddToCart', function(request, response){
     // var cartProduct=request.body['details']
     var userID=request.body['userID']
@@ -377,6 +340,51 @@ app.post('/checkMerchantReg', function(request, response){
     }
 })
 
+app.post('/processMerchantRegistration', function(request, response){
+    // console.log(request.body)
+    // response.json({success:1, message:'This is just a test'})
+    if(!('userID' in request.body)){
+        return response.json({success:0, message:'No user ID provided'})
+    }
+    else if(request.body['userID']==null){
+        return response.json({success:0, message:'No user ID provided'})
+    }
+    var info=request.body['info']
+    console.log('Info:',info);
+    var userID=request.body['userID']
+    console.log('UserID:',userID)
+    User.findOne({_id: userID}, function(error, user){
+        if(error){
+            return response.json({success:0, message:"Could not find a user with request id"})
+        }
+        else{
+            // info['user']=user
+            // return response.json({success:1, message:'Successfully found user'})
+            Merchant.find({$or:[{name:info['name']}, {url:info['url']}]}, function(error, merchants){
+                if(error){
+                    response.json({success:-2, message:'Server error'})
+                }
+                else{
+                    if(merchants.length!=0){
+                        response.json({success:-3, message:'Merchant already exists with this info'})
+                    }
+                    else{
+                        var newMerchant = new Merchant({url:info['url'], email:info['email'], description:info['description'], name:info['name'], routingNumber:info['routingNumber'], bankAccountNumber:info['bankAccountNumber'], creditCardNum:info['creditCardNum'], creditCardExp_month:info['creditCardExp_month'], creditCardExp_year:info['creditCardExp_year'], creditCard_CVV:info['creditCard_CVV'], user:user})
+                        newMerchant.save(function(error){
+                            if(error){
+                                response.json({success:-1, message:'Could not create merchant', error:error})
+                            }
+                            else{
+                                response.json({success:1, message:'Successfully registered!', merchant:newMerchant})
+                            }
+                        })
+                    }
+                }
+            })
+            
+        }
+    })
+})
 
 
 
