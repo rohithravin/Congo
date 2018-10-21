@@ -122,7 +122,7 @@ a.button:hover{
   border: 2px solid #000000;
   grid-area: Filter; }
 
-.Pagenumbers { 
+.Pagenumbers {
     display: grid;
     grid-area: Pagenumbers;
     grid-template-columns: 1.3fr 1.3fr 0.4fr;
@@ -153,7 +153,7 @@ a.button:hover{
     grid-template-rows: 1fr 1fr;
     grid-gap: 1px 1px;
     grid-template-areas: "Category SearchBy" "Category SearchBy";
-    
+
 }
 
 .Category { grid-area: Category;}
@@ -162,15 +162,15 @@ a.button:hover{
 
 .number { grid-area: number; }
 
-.showNumber { 
+.showNumber {
   text-align: center;
   vertical-align: bottom;
   grid-area: showNumber; }
 
 .per { grid-area: per; }
 
-.Products { 
-  grid-area: Products; 
+.Products {
+  grid-area: Products;
 }
 
 @media all and (-ms-high-contrast: none){
@@ -222,7 +222,7 @@ a.button:hover{
         -ms-grid-row: 2;
         -ms-grid-row-span: 1;
         -ms-grid-column: 1;
-        -ms-grid-column-span: 2; 
+        -ms-grid-column-span: 2;
     }
 }
 
@@ -372,4 +372,3 @@ button.hover{
 <<<<<<< Updated upstream
 =======
 */
->>>>>>> Stashed changes
