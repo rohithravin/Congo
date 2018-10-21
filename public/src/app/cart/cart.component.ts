@@ -22,11 +22,14 @@ export class CartComponent implements OnInit {
     this.tax = 0.0925;
     this.shipping = 5.99;
     this.total = 0;
+
+
     //this.fetchCart()
   }
 
   ngOnInit() {
     this.fetchCart()
+
   }
   fetchCart(){
     if(localStorage.getItem('loggedIn')=='false'){
@@ -42,7 +45,10 @@ export class CartComponent implements OnInit {
       }
       this.cart=data['cart']
       //console.log(this.cart)
-
+      this.subtotal = this.getSubtotal();
+      this.tax = this.getTax();
+      this.shipping = this.getShipping();
+      this.total = this.getTotal();
     })
 
     //this.getSubtotal();
@@ -60,11 +66,13 @@ export class CartComponent implements OnInit {
   getShipping(){
         this.shipping = 5.99;
         console.log("Shipping & handling: ", this.shipping);
+        Math.round(this.tax * 100) / 100;
         return this.shipping;
   }
   getTax(){
     this.tax = this.subtotal * 0.08;
     console.log("tax: ", this.tax);
+    Math.round(this.tax * 100) / 100;
     return this.tax;
   }
 
@@ -76,7 +84,7 @@ export class CartComponent implements OnInit {
       //console.log(this.subtotal);
       i++;
     }
-    this.subtotal += 0.00;
+    Math.round(this.subtotal *100) / 100;
     console.log("subtotal: ", this.subtotal);
     return this.subtotal;
   }
