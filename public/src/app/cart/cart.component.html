@@ -16,31 +16,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" style="background-color: #aa8e0a;">
-                                            <span id="selected">  1 </span>
-                                        </button>
-                                        <div class="dropdown-menu" role="menu">
-                                            <a class="dropdown-item" role="presentation" href="#">1</a>
-                                            <a class="dropdown-item" role="presentation" href="#">2</a>
-                                            <a class="dropdown-item" role="presentation" href="#">3</a>
-                                            <a class="dropdown-item" role="presentation" href="#">4</a>
-                                            <a class="dropdown-item" role="presentation" href="#">5</a>
-                                            <a class="dropdown-item" role="presentation" href="#">7</a>
-                                            <a class="dropdown-item" role="presentation" href="#">8</a>
-                                            <a class="dropdown-item" role="presentation" href="#">9</a>
-                                            <a class="dropdown-item" role="presentation" href="#">10</a>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>299.99</td>
-                                <td><button class="btn btn-primary btn-sm justify-content-center align-items-center align-content-center align-self-center" type="button" style="background-color: #aa8e0a;">X</button></td>
-                            </tr>
+                            <!--><figure ><-->
+                                  <tr *ngFor="let item of this.cart['items']">
+                                        <img src="{{item['product']['images'][0]}}" alt="product image" width='100' height='100'>
+                                        <td>{{item['product']['name']}}</td>
+                                        <td>${{item['product']['price']}}</td>
+                                        <td>{{item['quantity']}}</td>
+                                        <td>${{item['product']['price']}}</td>
+                                        <td><button class="btn btn-primary btn-sm justify-content-center align-items-center align-content-center align-self-center" type="button" style="background-color: #aa8e0a;">X</button></td>
+                                  </tr>
+                          <!--> </figure><-->
                         </tbody>
                     </table>
                 </div>
@@ -58,7 +43,7 @@
                                 <p>Subtotal:</p>
                             </div>
                             <div class="col">
-                                <p class="text-right">${{subtotal}}</p>
+                                <p class="text-right">${{getSubtotal()}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -66,7 +51,7 @@
                                 <p>Shipping &amp; Handling:</p>
                             </div>
                             <div class="col">
-                                <p class="text-right">$5.99</p>
+                                <p class="text-right">${{getShipping()}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -74,7 +59,7 @@
                                 <p>Tax:</p>
                             </div>
                             <div class="col">
-                                <p class="text-right">${{((subtotal+5.99)*0.0925).toFixed(2)}}</p>
+                                <p class="text-right">${{getTax()}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -82,7 +67,7 @@
                                 <p style="color: #d81e05;">TOTAL:</p>
                             </div>
                             <div class="col">
-                                <p class="text-right" style="color: #d81e05;">${{((subtotal+5.99+((subtotal+5.99)*0.0925)).toFixed(2))}}</p>
+                                <p class="text-right" style="color: #d81e05;">${{getTotal()}}</p>
                             </div>
                         </div>
                     </div>
@@ -101,7 +86,7 @@
                             <div class="col">
                                 <!-- <p class="text-right">
                                     <form id="form1" runat="server">
-                                        
+
                                     </form>
                                 </p> -->
                             </div>

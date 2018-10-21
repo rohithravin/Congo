@@ -12,10 +12,17 @@ export class CartComponent implements OnInit {
   cart:any;
   userID:string
   subtotal: number
-  constructor(private _httpService:HttpService, private _router:Router) { 
+  tax:number
+  shipping:number
+  total:number
+  constructor(private _httpService:HttpService, private _router:Router) {
     this.cart={}
     this.userID=localStorage.getItem('userID');
     this.subtotal = 0;
+    this.tax = 0;
+    this.shipping = 0;
+    this.total = 0;
+    //this.fetchCart()
   }
 
   ngOnInit() {
@@ -35,18 +42,42 @@ export class CartComponent implements OnInit {
       }
       this.cart=data['cart']
       //console.log(this.cart)
-      this.getTotal()
+
     })
+
+    //this.getSubtotal();
+    //this.getTax();
+    //this.getShipping();
+    //this.getTotal();
+
   }
+
   getTotal(){
+       this.total = this.subtotal + this.tax + this.shipping;
+       console.log("Total: ", this.total);
+       return this.total;
+  }
+  getShipping(){
+        this.shipping = 5.99;
+        console.log("Shipping & handling: ", this.shipping);
+        return this.shipping;
+  }
+  getTax(){
+    this.tax = this.subtotal * 0.08;
+    console.log("tax: ", this.tax);
+    return this.tax;
+  }
+
+  getSubtotal(){
     var i=0;
     while(i<this.cart['items'].length){
       //console.log('in loop');
       this.subtotal+=parseFloat(this.cart['items'][i]['product']['price']) * parseInt(this.cart['items'][i]['quantity']);
-      console.log(this.subtotal);
+      //console.log(this.subtotal);
       i++;
     }
-    //console.log(this.subtotal);
+    this.subtotal += 0.00;
+    console.log("subtotal: ", this.subtotal);
     return this.subtotal;
   }
 }
