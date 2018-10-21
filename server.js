@@ -386,7 +386,10 @@ app.post('/processMerchantRegistration', function(request, response){
     })
 })
 
-
+app.post('/promoteProduct', function(request, response){
+    console.log(request.body)
+    response.json({success:1, message:'Reciever your response', yourRequest:request.body})
+})
 
 app.all('*', (request, response, next)=>{
     response.sendFile(path.resolve('./public/dist/public/index.html'))
