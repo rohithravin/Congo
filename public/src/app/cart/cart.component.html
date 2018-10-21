@@ -59,7 +59,7 @@
                                 <p>Tax:</p>
                             </div>
                             <div class="col">
-                                <p class="text-right">${{getTax()}}</p>
+                                <p class="text-right">${{((subtotal+shipping)*tax).toFixed(2)}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -67,7 +67,7 @@
                                 <p style="color: #d81e05;">TOTAL:</p>
                             </div>
                             <div class="col">
-                                <p class="text-right" style="color: #d81e05;">${{getTotal()}}</p>
+                                <p class="text-right" style="color: #d81e05;">${{((subtotal+shipping+((subtotal+shipping)*tax)).toFixed(2))}}</p>
                             </div>
                         </div>
                     </div>
