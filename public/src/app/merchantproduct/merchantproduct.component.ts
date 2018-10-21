@@ -13,10 +13,23 @@ export class MerchantProductComponent implements OnInit {
    
   }
   ngOnInit() {
+<<<<<<< Updated upstream
     // this.currProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
   }
   setImage(image){
     // this.currProduct={image:image}
+=======
+    /*this._Activatedroute.params.subscribe(
+      params => {
+        this.searchQuery =params['searchQuery']
+        console.log(this.searchQuery);
+        this.fetchProduct();
+      });
+    this.currProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}*/
+  }
+  /*setImage(image){
+    this.currProduct={image:image}
+>>>>>>> Stashed changes
   }
   setSize(size){
     // this.currProduct={size:size}
@@ -40,10 +53,19 @@ export class MerchantProductComponent implements OnInit {
 
   }
   setProduct(){
+<<<<<<< Updated upstream
     // var setObs=this._httpService.createDummyProduct(this.currProduct)
     // setObs.subscribe(data=>{
     //   console.log("Received response:", data)
     // })
     // this.currProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:''}
   }
+=======
+    var setObs=this._httpService.createDummyProduct(this.currProduct)
+    setObs.subscribe(data=>{
+      console.log("Received response:", data)
+    })
+    this.currProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:''}
+  }*/
+>>>>>>> Stashed changes
 }

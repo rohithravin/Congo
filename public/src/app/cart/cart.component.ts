@@ -12,6 +12,7 @@ export class CartComponent implements OnInit {
   cart:any;
   userID:string
   subtotal: number
+<<<<<<< Updated upstream
   tax:number
   shipping:number
   total:number
@@ -23,6 +24,16 @@ export class CartComponent implements OnInit {
     this.shipping = 0;
     this.total = 0;
     //this.fetchCart()
+=======
+  tax: number
+  shipping: number
+  constructor(private _httpService:HttpService, private _router:Router) { 
+    this.cart={}
+    this.userID=localStorage.getItem('userID');
+    this.subtotal = 0;
+    this.tax = 0.0925;
+    this.shipping = 5.99;
+>>>>>>> Stashed changes
   }
 
   ngOnInit() {
