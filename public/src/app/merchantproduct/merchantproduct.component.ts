@@ -9,16 +9,16 @@ import { HttpService } from '../http.service';
 })
 export class MerchantProductComponent implements OnInit {
   // currProduct:any
-  constructor(private _httpService: HttpService) { 
-   
+  constructor(private _httpService: HttpService) {
+
   }
   ngOnInit() {
-<<<<<<< Updated upstream
+
     // this.currProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
   }
   setImage(image){
     // this.currProduct={image:image}
-=======
+
     /*this._Activatedroute.params.subscribe(
       params => {
         this.searchQuery =params['searchQuery']
@@ -44,7 +44,7 @@ export class MerchantProductComponent implements OnInit {
     // this.currProduct={category:category}
   }
   edit(item){
-    
+
   }
   remove(item){
 

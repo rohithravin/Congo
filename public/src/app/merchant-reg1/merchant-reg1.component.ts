@@ -95,21 +95,6 @@ export class MerchantReg1Component implements OnInit {
     if(this.showErr_url == false && this.showErr_email == false &&
        this.showErr_bankNum == false && this.showErr_description == false &&
        this. showErr_companyName == false && this.showErr_accountNum == false){
-      console.log("check23");
-      var err=this._httpService.verifyMerchantReg(this.url, this.companyName);
-      err.subscribe(data=>{
-        console.log("response:", data)
-        if(data['success']==-1){
-          this.errMessage_err = "Company Name Already Exists";
-          this.showErr_err = true;
-          return;
-        }
-        else if(data['success']== -2){
-          this.errMessage_err = "URL Already Exists";
-          this.showErr_err = true;
-          return;
-        }
-        else{
           console.log("Passed Verification.");
           localStorage.setItem("merchant-url",this.url);
           localStorage.setItem("merchant-password",this.password);
@@ -120,10 +105,7 @@ export class MerchantReg1Component implements OnInit {
           localStorage.setItem("merchant-accountNum", this.accountNum.toString());
           console.log("All Fields Stored In Local Storage.")
           // location.reload(true)
-          localStorage.setItem('reloadMerch2', 'XXXXTrue')
           this._router.navigate(['/merchant-reg2']);
-        }
-      })
     }
   }
 }
