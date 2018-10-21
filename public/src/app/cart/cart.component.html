@@ -2,15 +2,17 @@
   <div class="container">
         <h1 style="padding-top: 15px;">My Cart</h1>
         <div class="row">
-            <div class="col box2" style="background-color: rgba(0,0,0,0.03);padding-right: 15px;margin-right: 10px;">
+            <div class="col box2 formBox" style="background-color: rgba(0,0,0,0.03);padding-right: 15px;margin-right: 10px;">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table cartTable">
                         <thead>
                             <tr>
                                 <th></th>
                                 <th>Name</th>
                                 <th>Price</th>
                                 <th>Quantity</th>
+                                <th>Color</th>
+                                <th>Size</th>
                                 <th>Total</th>
                                 <th>Remove</th>
                             </tr>
@@ -22,6 +24,8 @@
                                         <td>{{item['product']['name']}}</td>
                                         <td>${{item['product']['price']}}</td>
                                         <td>{{item['quantity']}}</td>
+                                        <td>{{item['color']}}</td>
+                                        <td>{{item['size']}}</td>
                                         <td>${{item['product']['price']}}</td>
                                         <td><button class="btn btn-primary btn-sm justify-content-center align-items-center align-content-center align-self-center" type="button" style="background-color: #aa8e0a;">X</button></td>
                                   </tr>
@@ -30,7 +34,7 @@
                     </table>
                 </div>
             </div>
-            <div class="col-lg-4 box2" style="background-color: rgba(0,0,0,0.03);margin-top: 0px;margin-bottom: 0px;max-height: 620px;">
+            <div class="col-lg-4 box2 paymentBox" style="background-color: rgba(0,0,0,0.03);margin-top: 0px;margin-bottom: 0px;max-height: 620px;">
                 <div class="row" style="margin-top: 10px;">
                     <div class="col">
                         <div class="row">
@@ -43,7 +47,7 @@
                                 <p>Subtotal:</p>
                             </div>
                             <div class="col">
-                                <p class="text-right">${{getSubtotal()}}</p>
+                                <p class="text-right">${{subtotal}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -51,7 +55,7 @@
                                 <p>Shipping &amp; Handling:</p>
                             </div>
                             <div class="col">
-                                <p class="text-right">${{getShipping()}}</p>
+                                <p class="text-right">${{shipping}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -59,7 +63,7 @@
                                 <p>Tax:</p>
                             </div>
                             <div class="col">
-                                <p class="text-right">${{((subtotal+shipping)*tax).toFixed(2)}}</p>
+                                <p class="text-right">${{tax}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -67,7 +71,7 @@
                                 <p style="color: #d81e05;">TOTAL:</p>
                             </div>
                             <div class="col">
-                                <p class="text-right" style="color: #d81e05;">${{((subtotal+shipping+((subtotal+shipping)*tax)).toFixed(2))}}</p>
+                                <p class="text-right" style="color: #d81e05;">${{total}}</p>
                             </div>
                         </div>
                     </div>

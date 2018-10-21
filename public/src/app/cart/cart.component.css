@@ -6,6 +6,12 @@
   border-color: rgba(0,0,0,0.1);
   box-shadow:0.5px 0.5px 0.5px 0.5px #ccc
 }
+div.formBox{
+      width:700px;
+}
+table.cartTable{
+      width:650px;
+}
 
 /*!
  * Bootstrap v4.1.3 (https://getbootstrap.com/)
