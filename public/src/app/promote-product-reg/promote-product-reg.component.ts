@@ -22,33 +22,6 @@ export class PromoteProductRegComponent implements OnInit {
     {name: "One Year", value: 4}
   ]
 
-  expiration_dates = [
-    {name: "01", value: 1},
-    {name: "02", value: 2},
-    {name: "03", value: 3},
-    {name: "04", value: 4},
-    {name: "05", value: 5},
-    {name: "06", value: 6},
-    {name: "07", value: 7},
-    {name: "08", value: 8},
-    {name: "09", value: 9},
-    {name: "10", value: 10},
-    {name: "11", value: 11},
-    {name: "12", value: 12}
-  ]
-
-  expiration_years = [
-    {name: "2019", value: 1},
-    {name: "2020", value: 2},
-    {name: "2021", value: 3},
-    {name: "2022", value: 4},
-    {name: "2023", value: 5},
-    {name: "2024", value: 6},
-    {name: "2025", value: 7},
-    {name: "2026", value: 8},
-    {name: "2027", value: 9},
-  ]
-
   selectedCCDate:string;
   selectedPromoType:string;
   selectedPromoTime:string;
@@ -68,6 +41,8 @@ export class PromoteProductRegComponent implements OnInit {
   str_card_number:string;
   str_cvv_number:string;
   cvv_number:number;
+  product_id:any;
+  merchant_license:any;
 
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router:Router) {
@@ -187,8 +162,22 @@ export class PromoteProductRegComponent implements OnInit {
         }else if(this.selectedPromoTime == "Four Weeks"){
           endDate.setDate(currentDate.getDate() + 28);
         }
-        
-        
+        //now send all the data to the database to be updated
+        //productID, promotionType, endDate, license, promotionImage='false@IOnoa99okaXXa67'
+     
+        var error = this._httpService.promoteProduct(this.product_id,this.selectedPromoType,endDate,this.merchant_license,this.promotion_image);
+        error.subscribe(data=>{
+          console.log("response: ",data);
+          if (data['success']==-1){
+            //server error
+
+          }else if(data['success']==0){
+            //client error
+          }else{
+            console.log("succ p2");
+          }
+        })
+  
 
         
         
