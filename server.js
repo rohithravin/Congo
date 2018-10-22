@@ -40,9 +40,9 @@ mongoose.model('User', UserSchema)
 var User = mongoose.model('User')
 
 var MerchantSchema = new mongoose.Schema({
-    name:{type:String, required:[true, "Merchant name is required"], minlength:3},
+    name:{type:String, required:[true, "Merchant name is required"], minlength:5},
     email:{type:String, required:[true, "Email is required"]},
-    url:{type:String, required:[true, "URL is required"]},
+    url:{type:String, required:[true, "URL is required"], minlength:5},
     user:UserSchema,
     description:{type:String, required:[true, "Description is required"]},
     products:["ProductSchema"],
