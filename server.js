@@ -42,8 +42,9 @@ var User = mongoose.model('User')
 var MerchantSchema = new mongoose.Schema({
     name:{type:String, required:[true, "Merchant name is required"], minlength:5},
     email:{type:String, required:[true, "Email is required"]},
-    url:{type:String, required:[true, "URL is required"], minlength:5},
-    user:UserSchema,
+    url:{type:String, required:[true, "URL is required"], minlength:10},
+    // user:UserSchema,
+    userID:{type:String, required:[true, "UserID is required"]},
     description:{type:String, required:[true, "Description is required"]},
     products:["ProductSchema"],
     bankAccountNumber:{type:String, required:[true, "Bank account is required"]},
@@ -181,10 +182,32 @@ app.post('/fetchSearchedProducts', function(request, response){
 })
 
 
-app.post('/processLoginMerchant', function(request, response){
+app.post('/processMerchantLogin', function(request, response){
   var license=request.body['license']
   var password=request.body['password']
-  console.log("we made it " + license);
+//   var hashedhPW=bcrypt.hashSync(password, NUM_SALTS)
+  Merchant.findOne({license:license}, function(error, merchant){
+    if(error){
+        response.json({success:0, message:'Invalid credentials'})
+    }
+    else{
+        //Found merchant
+        User.findOne({_id:merchant.userID}, function(error, user){
+            if(error){
+                response.json({success:-1, message:'Server error'})
+            }
+            else{
+                //found user
+                if(bcrypt.compareSync(password, user.password)){
+                    response.json({success:1, message:'Login successful'})
+                }
+                else{
+                    response.json({success:0, message:'Invalid credentials'})
+                }
+            }
+        })
+    }
+  })
 })
 
 app.post('/processLogin', function(request, response){
@@ -370,7 +393,7 @@ app.post('/processMerchantRegistration', function(request, response){
                     }
                     else{
                         var license=createHash(info['name'], info['url'])
-                        var newMerchant = new Merchant({url:info['url'], email:info['email'], description:info['description'], name:info['name'], routingNumber:info['routingNumber'], bankAccountNumber:info['bankAccountNumber'], creditCardNum:info['creditCardNum'], creditCardExp_month:info['creditCardExp_month'], creditCardExp_year:info['creditCardExp_year'], creditCard_CVV:info['creditCard_CVV'], user:user, license:license})
+                        var newMerchant = new Merchant({url:info['url'], email:info['email'], description:info['description'], name:info['name'], routingNumber:info['routingNumber'], bankAccountNumber:info['bankAccountNumber'], creditCardNum:info['creditCardNum'], creditCardExp_month:info['creditCardExp_month'], creditCardExp_year:info['creditCardExp_year'], creditCard_CVV:info['creditCard_CVV'], userID:userID, license:license})
                         newMerchant.save(function(error){
                             if(error){
                                 response.json({success:-1, message:'Could not create merchant', error:error})
