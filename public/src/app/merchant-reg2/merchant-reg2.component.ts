@@ -132,7 +132,6 @@ export class MerchantReg2Component implements OnInit {
            this._router.navigate(['/merchant-reg-conf']);
          }
        })
-       //NEED TO FINISH THIS
     }
   }
 
