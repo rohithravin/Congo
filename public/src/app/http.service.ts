@@ -57,7 +57,7 @@ export class HttpService {
     // return userID
     return this._http.post('/getCart', {doubleCheck:'10923unas', userID: userID})
   }
-  promoteProduct(productID, promotionType, endDate, userID, promotionImage='false@IOnoa99okaXXa67'){
-    return this._http.post('/promoteProduct', {productID:productID, promotionType:promotionType, endDate:endDate, userID:userID, promotionImage:promotionImage})
+  promoteProduct(productID, promotionType, endDate, license, promotionImage='false@IOnoa99okaXXa67'){
+    return this._http.post('/promoteProduct', {productID:productID, promotionType:promotionType, endDate:endDate, license:license, promotionImage:promotionImage})
   }
 }

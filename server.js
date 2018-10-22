@@ -389,7 +389,8 @@ app.post('/processMerchantRegistration', function(request, response){
 app.post('/promoteProduct', function(request, response){
     console.log(request.body)
     var productID=request.body['productID']
-    var userID=request.body['userID']
+    // var userID=request.body['userID']
+    var license=request.body['license']
     var promotionType=request.body['promotionType']
     var endDate=request.body['endDate']
     var promotionImage=request.body['promotionImage']
@@ -399,8 +400,8 @@ app.post('/promoteProduct', function(request, response){
         }
         else{
             //Product id is valid
-            if(product.merchant.user._id!=userID){
-                return response.json({success:-1, message:'This product does not belong to this user'})
+            if(product.merchant.license!=license){
+                return response.json({success:-1, message:'This product does not belong to this merchant'})
             }
             if(product.promoted==true){
                 return response.json({success:-2, message:'This product is already being promoted'})
