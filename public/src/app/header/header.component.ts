@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
   loggedIn:boolean
   userID:string
   showAccount:boolean
+  merchantLoggedIn:boolean
   // constructor(private cookieService: CookieService) {
   constructor(){
     this.showCategories=false;
@@ -29,6 +30,12 @@ export class HeaderComponent implements OnInit {
     }
     else{
       this.loggedIn=false
+    }
+    if(localStorage.getItem('merchantLoggedIn')==null || localStorage.getItem('merchantLoggedIn')=='false'){
+      this.merchantLoggedIn=false
+    }
+    else{
+      this.merchantLoggedIn=true
     }
    }
 

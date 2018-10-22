@@ -207,7 +207,7 @@ app.post('/processMerchantLogin', function(request, response){
             else{
                 //found user
                 if(bcrypt.compareSync(password, user.password)){
-                    response.json({success:1, message:'Login successful'})
+                    response.json({success:1, message:'Login successful', name:merchant.name})
                 }
                 else{
                     response.json({success:0, message:'Invalid credentials'})

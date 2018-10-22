@@ -7,10 +7,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./merchant-portal.component.css']
 })
 export class MerchantPortalComponent implements OnInit {
-
+  merchantName:string;
   constructor(private _router:Router) {
 
-   }
+  }
 
   ngOnInit() {
     if(localStorage.getItem('merchantLoggedIn')==null || localStorage.getItem('merchantLoggedIn')=='false'){
@@ -19,6 +19,14 @@ export class MerchantPortalComponent implements OnInit {
     else if(localStorage.getItem('loggedIn')==null || localStorage.getItem('loggedIn')=='false'){
       this._router.navigate(['']);
     }
+    this.merchantName=localStorage.getItem('merchantName')
+  }
+  merchantLogout(){
+    localStorage.setItem('merchantLoggedIn', 'false')
+    localStorage.removeItem('licenseNo')
+    localStorage.removeItem('merchantName')
+    location.reload(true)
+    this._router.navigate(['']);
   }
 
 }
