@@ -62,6 +62,7 @@ export class ProductComponent implements OnInit {
     console.log("Adding to cart")
     if(localStorage.getItem('loggedIn')=='false'){
       this._router.navigate(['login'])
+      return;
     }
     var productDetails={product:this.product, size:this.size, color:this.color, quantity:this.count}
     var addCartObs=this._httpService.addToCart(productDetails, localStorage.getItem('userID'))
