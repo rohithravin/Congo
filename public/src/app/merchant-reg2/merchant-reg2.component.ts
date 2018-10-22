@@ -54,12 +54,12 @@ export class MerchantReg2Component implements OnInit {
   }
 
   ngOnInit() {
-    // location.reload(true)
-    // if(localStorage.getItem('reloadMerch2') == 'XXXXTrue'){
-    //     localStorage.setItem('reloadMerch2', '')
-    //     localStorage.removeItem('reloadMerch2')
-    //     location.reload(true)
-    // }
+    if(localStorage.getItem('merchantLoggedIn')!=null && localStorage.getItem('merchantLoggedIn')=='true'){
+      this._router.navigate(['']);
+    }
+    else if(localStorage.getItem('loggedIn')==null || localStorage.getItem('loggedIn')=='false'){
+      this._router.navigate(['']);
+    }
   }
 
   submitButton(){

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dummy-add-product',
@@ -19,7 +20,7 @@ export class DummyAddProductComponent implements OnInit {
   showErr_color:boolean;
   showErr_tag:boolean;
   showErr_category:boolean;
-  constructor(private _httpService: HttpService) {
+  constructor(private _httpService: HttpService, private _router:Router) {
         this.showErr_name = false;
         this.showErr_description = false;
         this.showErr_image = false;
@@ -33,8 +34,13 @@ export class DummyAddProductComponent implements OnInit {
         this.images_size = 0;
   }
   ngOnInit() {
+    if(localStorage.getItem('merchantLoggedIn')==null || localStorage.getItem('merchantLoggedIn')=='false'){
+      this._router.navigate(['']);
+    }
+    else if(localStorage.getItem('loggedIn')==null || localStorage.getItem('loggedIn')=='false'){
+      this._router.navigate(['']);
+    }
     this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
-    
   }
 
   updateCountPlus(){

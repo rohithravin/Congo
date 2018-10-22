@@ -27,7 +27,14 @@ export class MerchantLoginComponent implements OnInit {
     this.showErr_password = false;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if(localStorage.getItem('merchantLoggedIn')!=null && localStorage.getItem('merchantLoggedIn')=='true'){
+      this._router.navigate(['/merchant-portal']);
+    }
+    if(localStorage.getItem('loggedIn')==null || localStorage.getItem('loggedIn')=='false'){
+      this._router.navigate(['/merchant-portal']);
+    }
+  }
 
 
   loginButton(){
@@ -53,7 +60,8 @@ export class MerchantLoginComponent implements OnInit {
           return;
         }
         else{
-          // localStorage.setItem('merchantLoggedIn')
+          localStorage.setItem('merchantLoggedIn', 'true')
+          localStorage.setItem('licenseNo',this.license)
           this._router.navigate(['/merchant-portal']);
         }
       })
