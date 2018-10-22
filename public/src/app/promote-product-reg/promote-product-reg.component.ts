@@ -17,8 +17,8 @@ export class PromoteProductRegComponent implements OnInit {
   ]
   promo_times = [
     {name: "One day", value: 1},
-    {name: "One Week", value: 2},
-    {name: "One Month", value: 3},
+    {name: "Seven days", value: 2},
+    {name: "Thirty days", value: 3},
     {name: "One Year", value: 4}
   ]
 
@@ -39,14 +39,14 @@ export class PromoteProductRegComponent implements OnInit {
 
   expiration_years = [
     {name: "2019", value: 1},
-    {name: "2020", value: 1},
-    {name: "2021", value: 1},
-    {name: "2022", value: 1},
-    {name: "2023", value: 1},
-    {name: "2024", value: 1},
-    {name: "2025", value: 1},
-    {name: "2026", value: 1},
-    {name: "2027", value: 1},
+    {name: "2020", value: 2},
+    {name: "2021", value: 3},
+    {name: "2022", value: 4},
+    {name: "2023", value: 5},
+    {name: "2024", value: 6},
+    {name: "2025", value: 7},
+    {name: "2026", value: 8},
+    {name: "2027", value: 9},
   ]
 
   selectedCCDate:string;
@@ -109,6 +109,7 @@ export class PromoteProductRegComponent implements OnInit {
       }else{
         this.showErr_imgurl = false;
       }
+      
 
       //check to assert that the credit card was entered
       if(this.card_number == null) {
@@ -140,18 +141,15 @@ export class PromoteProductRegComponent implements OnInit {
       //get the options from selectors
      
       if(this.selectedCCDate.length == 0){
-        console.log("error");
         this.showErr_date = true;
       }else{
         this.showErr_date = false;
       }
 
       if (this.selectedCCYear.length == 0 || this.selectedCCYear.length == 10){
-       //console.log("error");
        this.showErr_year = true;
       }else{
         this.showErr_year = false;
-        console.log(this.selectedCCYear);
       }
 
 
@@ -166,9 +164,33 @@ export class PromoteProductRegComponent implements OnInit {
       }else{
         this.showErr_promotype = false;
       }
+     
+      if( !this.showErr_ccn && !this.showErr_cvv && !this.showErr_date && !this.showErr_duration && !this.showErr_imgurl && !this.showErr_promotype && !this.showErr_year){
+        console.log("succ");
+        //all promotions begin the day after the purchase date
+        var currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() + 1);
+        //the end date is calculated
+        var endDate = new Date();
+        if(this.selectedPromoTime == "One Week"){
+          endDate.setDate(currentDate.getDate() + 7);
+        }else if(this.selectedPromoTime == "Two Weeks"){
+          endDate.setDate(currentDate.getDate() + 14);
+        }else if(this.selectedPromoTime == "Three Weeks"){
+          endDate.setDate(currentDate.getDate() + 21);
+        }else if(this.selectedPromoTime == "Four Weeks"){
+          endDate.setDate(currentDate.getDate() + 28);
+        }
+        
+        
 
+        
+        
+      }
 
   }
+
+
 
   /* toggle(){
     var el = document.querySelector(".alert");
