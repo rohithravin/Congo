@@ -26,7 +26,7 @@
                           <h5 style="margin-top: 5px;">Promotion Type:</h5>
                       </div>
                       <div class="col">
-                          <select>
+                          <select  [(ngModel)]="selectedPromoType" [ngModelOptions]="{standalone: true}">
                             <option value="Small Banner">Small Banner</option>
                             <option value="Big Banner">Big Banner</option>
                             <option value="Featured Products">Featured Products</option>
@@ -38,11 +38,11 @@
                           <h5 style="margin-top: 5px;">Weeks:</h5>
                       </div>
                       <div class="col">
-                          <select>
+                          <select [(ngModel)]="selectedPromoTime" [ngModelOptions]="{standalone: true}" >
                             <option value="One Week">One Week</option>
-                            <option value="Four Week">Two Weeks</option>
-                            <option value="Three Week">Three Weeks</option>
-                            <option value="Four Weekudi">Four Weeks</option>
+                            <option value="Two Weeks">Two Weeks</option>
+                            <option value="Three Weeks">Three Weeks</option>
+                            <option value="Four Weeks">Four Weeks</option>
                           </select>
                       </div>
                   </div>
@@ -52,10 +52,10 @@
                       </div>
                       <div class="col">
                           <div class="row">
-                              <div class="col"><input type="email" placeholder="Enter Url"></div>
+                              <div class="col"><input type="email"  [(ngModel)]='promotion_image' [ngModelOptions]="{standalone: true}" placeholder="Enter Url"></div>
                           </div>
                           <div class="row">
-                              <div class="col"><small class="form-text text-danger" style="color: rgb(114,29,119);">Enter A Valid Url</small></div>
+                              <div class="col"><small class="form-text text-danger" *ngIf=showErr_imgurl style="color: rgb(114,29,119);">Enter A Valid Url</small></div>
                           </div>
                       </div>
                   </div>
@@ -96,24 +96,24 @@
                                               <div class="form-row">
                                                   <div class="col-12">
                                                       <div class="form-group"><label for="cardNumber">Card number </label>
-                                                          <div class="input-group"><input class="form-control" type="tel" required="" placeholder="Valid Card Number" id="cardNumber">
+                                                          <div class="input-group"><input class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]='card_number' type="number" required="" placeholder="Valid Card Number" id="cardNumber">
                                                               <div class="input-group-append"><span class="input-group-text"><i class="fa fa-credit-card"></i></span></div>
-                                                          </div><small class="form-text text-danger">Enter A Valid Card Number</small></div>
+                                                          </div><small *ngIf=showErr_ccn class="form-text text-danger">Enter A Valid Card Number</small></div>
                                                   </div>
                                               </div>
                                               <div class="form-row">
                                                   <div class="col-7 col-lg-4">
-                                                      <div class="form-group"><label for="cardExpiry"><span>&nbsp;</span><span>Exp&nbsp;</span>&nbsp;Month</label><input class="form-control" type="tel" required="" placeholder="MM" id="cardExpiry"><small class="form-text text-danger">Enter Valid Month</small></div>
+                                                      <div class="form-group"><label for="cardExpiry"><span>&nbsp;</span><span>Exp&nbsp;</span>&nbsp;Month</label><input class="form-control" type="number" required="" [ngModelOptions]="{standalone: true}" [(ngModel)]='selectedCCDate' placeholder="MM" id="cardExpiry"><small *ngIf=showErr_date class="form-text text-danger">Enter Valid Month</small></div>
                                                   </div>
                                                   <div class="col-7 col-lg-4">
-                                                      <div class="form-group"><label for="cardExpiry"><span>&nbsp;</span><span>Exp&nbsp;</span>&nbsp;Year</label><input class="form-control" type="tel" required="" placeholder="YY" id="cardExpiry"><small class="form-text text-danger">Enter Valid Year</small></div>
+                                                      <div class="form-group"><label for="cardExpiry"><span>&nbsp;</span><span>Exp&nbsp;</span>&nbsp;Year</label><input class="form-control" type="number" required="" [ngModelOptions]="{standalone: true}" [(ngModel)]='selectedCCYear' placeholder="YY" id="cardExpiry"><small *ngIf=showErr_year class="form-text text-danger">Enter Valid Year</small></div>
                                                   </div>
                                                   <div class="col-7 col-lg-4">
-                                                      <div class="form-group"><label for="cardExpiry">CVC Code</label><input class="form-control" type="tel" required="" placeholder="CVC" id="cardExpiry"><small class="form-text text-danger">Enter Valid CVC</small></div>
+                                                      <div class="form-group"><label for="cardExpiry">CVC Code</label><input class="form-control" type="number" required="" placeholder="CVC" [(ngModel)]='cvv_number' [ngModelOptions]="{standalone: true}"  id="cardExpiry"><small *ngIf=showErr_cvv class="form-text text-danger">Enter Valid CVC</small></div>
                                                   </div>
                                               </div>
                                               <div class="form-row">
-                                                  <div class="col-12"><button class="btn btn-light btn-block btn-lg" type="submit" style="background-color: rgba(198,160,12,0.9);">Submit Promotion Order</button></div>
+                                                  <div class="col-12"><button class="btn btn-light btn-block btn-lg" type="submit" (click)="submitPromote()" style="background-color: rgba(198,160,12,0.9);">Submit Promotion Order</button></div>
                                               </div>
                                           </form>
                                       </div>
