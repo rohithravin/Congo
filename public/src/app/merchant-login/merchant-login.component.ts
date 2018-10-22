@@ -11,6 +11,7 @@ export class MerchantLoginComponent implements OnInit {
 
   license:string;
   password:string;
+  errMessage:string;
 
   showErr_license:boolean;
   showErr_password:boolean;
@@ -19,18 +20,19 @@ export class MerchantLoginComponent implements OnInit {
   constructor(private _router: Router,  private _httpService:HttpService) {
     this.license = "";
     this.password = "";
+    this.errMessage = "";
 
     this.showErr_license = false;
     this.showErr_showErr = false;
     this.showErr_password = false;
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 
   loginButton(){
-    if(this.license.length  < 5 || this.password.length < 8){
+    if(this.license.length  < 1 || this.password.length < 8){
+      this.errMessage = "Enter Correct Credentials."
       this.showErr_showErr = true;
     }
     else{
@@ -40,26 +42,19 @@ export class MerchantLoginComponent implements OnInit {
         console.log("response:", data)
         if(data['success']==-1){
           //Server error
+          this.errMessage = "Server Error. Try Again Later."
           this.showErr_showErr = true;
           return;
         }
         else if(data['success']==0){
           //CLient error, check message, User probably exists with email
+          this.errMessage = "Invalid Credentials. Please Try Again."
           this.showErr_showErr = true;
           return;
         }
         else{
-          //success==1, registration successful
-          // this.cookieService.set('loggedIn', "true")
-          // this.cookieService.set('userID', data['userID'])
-          // this.cookieService.set('first_name', data['first_name'])
-      //    localStorage.setItem('loggedIn', "true")
-      //    localStorage.setItem('userID', data['userID'])
-    //      localStorage.setItem('firstName', data['first_name'])
-    //      location.reload(true)
           this._router.navigate(['/merchant-portal']);
         }
-
       })
     }
   }
