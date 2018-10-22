@@ -12,7 +12,6 @@ export class HttpService {
   fetchFeatured(){
     return this._http.get('/getFeatured')
   }
-
   fetchProduct(productID){
     return this._http.get(`/getProduct/${productID}`)
   }
@@ -30,7 +29,7 @@ export class HttpService {
 
   loginMerchant(license, password){
     console.log("checkpoint 2." + license + " " + password);
-    return this._http.post('/processLoginMerchant', {license:license , password:password})
+    return this._http.post('/processMerchantLogin', {license:license , password:password})
   }
 
   verifyMerchantReg(url, name){

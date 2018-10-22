@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { HttpService } from '../http.service';
 
 
@@ -70,7 +70,7 @@ export class PromoteProductRegComponent implements OnInit {
   cvv_number:number;
 
 
-  constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService) {
+  constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router:Router) {
     this.showPromotionType = false;
     this.showPromotionDuration = false;
     this.showErr_ccn = false;
@@ -91,6 +91,12 @@ export class PromoteProductRegComponent implements OnInit {
    }
 
   ngOnInit() {
+    if(localStorage.getItem('merchantLoggedIn')==null || localStorage.getItem('merchantLoggedIn')=='false'){
+      this._router.navigate(['']);
+    }
+    else if(localStorage.getItem('loggedIn')==null || localStorage.getItem('loggedIn')=='false'){
+      this._router.navigate(['']);
+    }
   }
 
   promotiontypeClicked(){

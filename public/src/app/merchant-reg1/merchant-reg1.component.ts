@@ -50,6 +50,12 @@ export class MerchantReg1Component implements OnInit {
   }
 
   ngOnInit() {
+    if(localStorage.getItem('merchantLoggedIn')!=null && localStorage.getItem('merchantLoggedIn')=='true'){
+      this._router.navigate(['']);
+    }
+    else if(localStorage.getItem('loggedIn')==null || localStorage.getItem('loggedIn')=='false'){
+      this._router.navigate(['']);
+    }
   }
 
 
