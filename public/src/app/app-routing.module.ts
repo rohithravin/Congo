@@ -32,8 +32,8 @@ const routes: Routes = [
   {path: 'registration', component: UserRegComponent},
   {path: 'dummyAdd', component:DummyAddProductComponent},
   {path: 'promoteprod/:pid', component: PromoteProductRegComponent},
-  {path: 'merchant-reg1', component: MerchantReg1Component},
-  {path: 'merchant-reg2', component: MerchantReg2Component},
+  {path: 'merchant/register', component: MerchantReg1Component},
+  {path: 'merchant/register2', component: MerchantReg2Component},
   {path: 'merchant-reg-conf', component: MerchantRegConfComponent},
   {path: 'purchase-history', component: PurchaseHistoryComponent}
    //Path any, = home

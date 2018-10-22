@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
       this.merchantLoggedIn=false
     }
     else{
-      this.merchantLoggedIn=true;
+      this.merchantLoggedIn=true
     }
    }
 

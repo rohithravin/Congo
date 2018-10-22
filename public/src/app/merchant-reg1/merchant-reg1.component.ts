@@ -111,7 +111,7 @@ export class MerchantReg1Component implements OnInit {
           localStorage.setItem("merchant-accountNum", this.accountNum.toString());
           console.log("All Fields Stored In Local Storage.")
           // location.reload(true)
-          this._router.navigate(['/merchant-reg2']);
+          this._router.navigate(['/merchant/register2']);
     }
   }
 }

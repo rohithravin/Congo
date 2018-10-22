@@ -31,6 +31,7 @@
         <a href='#'>Orders</a>
         <a href='#'>Account</a>
         <a *ngIf='merchantLoggedIn==true' [routerLink]="['/merchant/portal']">Merchant</a>
+        <a *ngIf='merchantLoggedIn==false' [routerLink]="['/merchant/login']">Merchant</a>
         <a href='#' (click)="logout()">Logout</a>
       </div>
   </div>
