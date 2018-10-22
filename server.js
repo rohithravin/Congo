@@ -183,11 +183,16 @@ app.post('/fetchSearchedProducts', function(request, response){
 
 
 app.post('/processMerchantLogin', function(request, response){
+  
   var license=request.body['license']
   var password=request.body['password']
+  console.log('License:', license, 'Password:', password)
 //   var hashedhPW=bcrypt.hashSync(password, NUM_SALTS)
   Merchant.findOne({license:license}, function(error, merchant){
     if(error){
+        response.json({success:0, message:'Invalid credentials'})
+    }
+    else if(merchant==null){
         response.json({success:0, message:'Invalid credentials'})
     }
     else{
