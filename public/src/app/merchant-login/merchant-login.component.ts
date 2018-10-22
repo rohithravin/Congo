@@ -29,10 +29,10 @@ export class MerchantLoginComponent implements OnInit {
 
   ngOnInit() {
     if(localStorage.getItem('merchantLoggedIn')!=null && localStorage.getItem('merchantLoggedIn')=='true'){
-      this._router.navigate(['/merchant-portal']);
+      this._router.navigate(['/merchant/portal']);
     }
     if(localStorage.getItem('loggedIn')==null || localStorage.getItem('loggedIn')=='false'){
-      this._router.navigate(['/merchant-portal']);
+      this._router.navigate(['']);
     }
   }
 
@@ -62,7 +62,8 @@ export class MerchantLoginComponent implements OnInit {
         else{
           localStorage.setItem('merchantLoggedIn', 'true')
           localStorage.setItem('licenseNo',this.license)
-          this._router.navigate(['/merchant-portal']);
+          localStorage.setItem('merchantName', data['name'])
+          this._router.navigate(['/merchant/portal']);
         }
       })
     }
