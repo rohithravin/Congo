@@ -369,13 +369,14 @@ app.post('/processMerchantRegistration', function(request, response){
                         response.json({success:-3, message:'Merchant already exists with this info'})
                     }
                     else{
-                        var newMerchant = new Merchant({url:info['url'], email:info['email'], description:info['description'], name:info['name'], routingNumber:info['routingNumber'], bankAccountNumber:info['bankAccountNumber'], creditCardNum:info['creditCardNum'], creditCardExp_month:info['creditCardExp_month'], creditCardExp_year:info['creditCardExp_year'], creditCard_CVV:info['creditCard_CVV'], user:user})
+                        var license=createHash(info['name'], info['url'])
+                        var newMerchant = new Merchant({url:info['url'], email:info['email'], description:info['description'], name:info['name'], routingNumber:info['routingNumber'], bankAccountNumber:info['bankAccountNumber'], creditCardNum:info['creditCardNum'], creditCardExp_month:info['creditCardExp_month'], creditCardExp_year:info['creditCardExp_year'], creditCard_CVV:info['creditCard_CVV'], user:user, license:license})
                         newMerchant.save(function(error){
                             if(error){
                                 response.json({success:-1, message:'Could not create merchant', error:error})
                             }
                             else{
-                                response.json({success:1, message:'Successfully registered!', merchant:newMerchant})
+                                response.json({success:1, message:'Successfully registered!', license:license})
                             }
                         })
                     }
@@ -429,3 +430,33 @@ app.all('*', (request, response, next)=>{
 app.listen(8000, function(){
     console.log("Server is listening on port 8000")
 })
+
+function createHash(name, url){
+    var hashed=''
+    for(var i=1; i<name.length-1; i+=2){
+        var currentChar=name[i].charCodeAt(0)
+        var upperLower=Math.random()*2+1
+        currentChar=(((currentChar+62)*27-52)*3)%26
+        if(upperLower==1){
+            currentChar+=65
+        }
+        else if(upperLower==2){
+            currentChar+=97
+        }
+        hashedString+=String.fromCharCode(currentChar)
+    }
+    for(var i=0; i<url.length-1; i+=2){
+        var currentChar=url[i].charCodeAt(0)
+        var upperLower=Math.random()*2+1
+        currentChar=(((currentChar+62)*27-52)*3)%26
+        if(upperLower==1){
+            currentChar+=65
+        }
+        else if(upperLower==2){
+            currentChar+=97
+        }
+        hashedString+=String.fromCharCode(currentChar)
+    }
+    console.log(hashed)
+    return hashed
+}
