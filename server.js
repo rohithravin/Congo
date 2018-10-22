@@ -380,14 +380,45 @@ app.post('/processMerchantRegistration', function(request, response){
                         })
                     }
                 }
-            })
-            
+            }) 
         }
     })
 })
 
 app.post('/promoteProduct', function(request, response){
     console.log(request.body)
+    var productID=request.body['productID']
+    var userID=request.body['userID']
+    var promotionType=request.body['promotionType']
+    var endDate=request.body['endDate']
+    var promotionImage=request.body['promotionImage']
+    Product.findOne({_id:productID}, function(error, product){
+        if(error){
+            response.json({success:0, message:'Could not find product'})
+        }
+        else{
+            //Product id is valid
+            if(product.merchant.user._id!=userID){
+                return response.json({success:-1, message:'This product does not belong to this user'})
+            }
+            if(product.promoted==true){
+                return response.json({success:-2, message:'This product is already being promoted'})
+            }
+            product.promotionType=promotionType
+            product.endDate=endDate
+            if(promotionImage!='false@IOnoa99okaXXa67'){
+                product.promotionImage=promotionImage
+            }
+            product.save(function(error){
+                if(error){
+                    response.json({success:-3, message:'Unable to save product, check your inputs'})
+                }
+                else{
+                    response.json({success:1, message:'Successfully promoted product'})
+                }
+            })
+        }
+    })
     response.json({success:1, message:'Reciever your response', yourRequest:request.body})
 })
 
