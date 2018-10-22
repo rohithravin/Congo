@@ -53,6 +53,7 @@ export class MerchantLoginComponent implements OnInit {
           return;
         }
         else{
+          // localStorage.setItem('merchantLoggedIn')
           this._router.navigate(['/merchant-portal']);
         }
       })
