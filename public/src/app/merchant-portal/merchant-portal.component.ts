@@ -21,5 +21,12 @@ export class MerchantPortalComponent implements OnInit {
     }
     this.merchantName=localStorage.getItem('merchantName')
   }
+  merchantLogout(){
+    localStorage.setItem('merchantLoggedIn', 'false')
+    localStorage.removeItem('licenseNo')
+    localStorage.removeItem('merchantName')
+    location.reload(true)
+    this._router.navigate(['']);
+  }
 
 }
