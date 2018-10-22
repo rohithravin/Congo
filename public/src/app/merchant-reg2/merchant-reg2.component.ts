@@ -107,8 +107,14 @@ export class MerchantReg2Component implements OnInit {
            this.showErr_err = true;
            return;
          }
-         else if(data['success']== 0) {
+         else if(data['success']== -2) {
            this.errMessage_err = "Server Error.";
+           console.log("Server Error.");
+           this.showErr_err = true;
+           return;
+         }
+         else if(data['success']== -3) {
+           this.errMessage_err = "Merchant already exists.";
            console.log("Server Error.");
            this.showErr_err = true;
            return;
