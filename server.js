@@ -422,10 +422,16 @@ app.post('/promoteProduct', function(request, response){
     })
     response.json({success:1, message:'Reciever your response', yourRequest:request.body})
 })
+app.get('/testHash', function(request, response){
+    var license=createHash('MichaelChoiComp', 'www.google.com')
+    console.log(license)
+    response.json({license:license})
+})
 
 app.all('*', (request, response, next)=>{
     response.sendFile(path.resolve('./public/dist/public/index.html'))
 })
+
 
 app.listen(8000, function(){
     console.log("Server is listening on port 8000")
@@ -434,29 +440,44 @@ app.listen(8000, function(){
 function createHash(name, url){
     var hashed=''
     for(var i=1; i<name.length-1; i+=2){
-        var currentChar=name[i].charCodeAt(0)
-        var upperLower=Math.random()*2+1
-        currentChar=(((currentChar+62)*27-52)*3)%26
-        if(upperLower==1){
-            currentChar+=65
+        var numberOrLetter=Math.floor(Math.random()*3+1)
+        if(numberOrLetter==3){
+            var toAdd=Math.floor(Math.random()*9)
+            toAdd+=48
+            hashed+=String.fromCharCode(toAdd)
         }
-        else if(upperLower==2){
-            currentChar+=97
+        else{
+            var currentChar=name[i].charCodeAt(0)
+            var upperLower=Math.floor(Math.random()*2+1)
+            currentChar=(((currentChar+62)*27-52)*3)%26
+            if(upperLower==1){
+                currentChar+=65
+            }
+            else if(upperLower==2){
+                currentChar+=97
+            }
+            hashed+=String.fromCharCode(currentChar)
         }
-        hashedString+=String.fromCharCode(currentChar)
     }
     for(var i=0; i<url.length-1; i+=2){
-        var currentChar=url[i].charCodeAt(0)
-        var upperLower=Math.random()*2+1
-        currentChar=(((currentChar+62)*27-52)*3)%26
-        if(upperLower==1){
-            currentChar+=65
+        var numberOrLetter=Math.floor(Math.random()*3+1)
+        if(numberOrLetter==3){
+            var toAdd=Math.floor(Math.random()*9)
+            toAdd+=48
+            hashed+=String.fromCharCode(toAdd)
         }
-        else if(upperLower==2){
-            currentChar+=97
+        else{
+            var currentChar=url[i].charCodeAt(0)
+            var upperLower=Math.floor(Math.random()*2+1)
+            currentChar=(((currentChar+62)*27-52)*3)%26
+            if(upperLower==1){
+                currentChar+=65
+            }
+            else if(upperLower==2){
+                currentChar+=97
+            }
+            hashed+=String.fromCharCode(currentChar)
         }
-        hashedString+=String.fromCharCode(currentChar)
     }
-    console.log(hashed)
     return hashed
 }
