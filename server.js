@@ -201,6 +201,9 @@ app.post('/processMerchantLogin', function(request, response){
             if(error){
                 response.json({success:-1, message:'Server error'})
             }
+            else if(user==null){
+                response.json({success:-1, message:'Server error'})
+            }
             else{
                 //found user
                 if(bcrypt.compareSync(password, user.password)){

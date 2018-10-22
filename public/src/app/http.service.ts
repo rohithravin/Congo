@@ -12,7 +12,6 @@ export class HttpService {
   fetchFeatured(){
     return this._http.get('/getFeatured')
   }
-
   fetchProduct(productID){
     return this._http.get(`/getProduct/${productID}`)
   }
