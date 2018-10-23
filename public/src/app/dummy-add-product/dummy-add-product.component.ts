@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router,ActivatedRoute } from '@angular/router';
 import { HttpService } from '../http.service';
 import { Router } from '@angular/router';
 
@@ -8,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./dummy-add-product.component.css']
 })
 export class DummyAddProductComponent implements OnInit {
+  product:any;
   newProduct:any
   image_name:string;
   images:any;
@@ -20,7 +22,12 @@ export class DummyAddProductComponent implements OnInit {
   showErr_color:boolean;
   showErr_tag:boolean;
   showErr_category:boolean;
+  isTrue:string
+  edit:boolean;
+
+  randomProductID:string;
   constructor(private _httpService: HttpService, private _router:Router) {
+        this.product = {};
         this.showErr_name = false;
         this.showErr_description = false;
         this.showErr_image = false;
@@ -32,15 +39,54 @@ export class DummyAddProductComponent implements OnInit {
         this.images = {};
         this.images[0] = "Enter Image";
         this.images_size = 0;
+        this.isTrue = 'true';
+        this.randomProductID = localStorage.getItem('randomProductID');
+        console.log(this.randomProductID);
+        //this.edit = true;
+
+        if(localStorage.getItem('checkEdit') != null){
+            console.log("check 1")
+            this.edit = (this.isTrue == localStorage.getItem('checkEdit'));
+            console.log("check 2");
+            localStorage.setItem('checkEdit', 'false');
+      }else{
+            console.log("check false");
+            this.edit = false;
+      }
+
+
+        //console.log("edit: ", this.edit);
   }
   ngOnInit() {
-    if(localStorage.getItem('merchantLoggedIn')==null || localStorage.getItem('merchantLoggedIn')=='false'){
-      this._router.navigate(['']);
-    }
-    else if(localStorage.getItem('loggedIn')==null || localStorage.getItem('loggedIn')=='false'){
-      this._router.navigate(['']);
-    }
-    this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
+        if(this.edit){
+              this.fetchProduct();
+        }else{
+              this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
+        }
+
+  }
+
+  fetchProduct(){
+        console.log("in fetch");
+        if(localStorage.getItem('loggedIn')=='false'){
+             this._router.navigate(['login']);
+        }
+
+        var productObs=this._httpService.fetchProduct(this.randomProductID);
+        productObs.subscribe(data=>{
+             console.log(data);
+
+             if(data['success'] != 1){
+                   this._router.navigate(['']);
+             }
+
+             this.product =data['product'];
+             console.log("hi");
+             console.log(this.product['name']);
+             this.product['category'] = 'hat';
+             //this.editProduct={name:product['name'], description:product['description'], image:product['images'][0], price:product['price'], size:product['sizes'], color:product['colors'][0], tag:product['tags'][0], category:''}
+
+        })
   }
 
   updateCountPlus(){
@@ -85,7 +131,7 @@ export class DummyAddProductComponent implements OnInit {
           console.log("image: ", item);
     });*/
 
-    
+
 
     if(this.newProduct.name.length < 2 ){
       this.showErr_name = true;
