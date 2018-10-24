@@ -6,17 +6,16 @@
           <div class="row">
               <div class="col" style="margin-top: 15px;">
                   <div class="row">
-                      <div class="col-lg-5 offset-lg-1"><img></div>
+                      <div class="col-lg-5 offset-lg-1"><img src="{{product['images']['0']}}" style="max-height: 200px; max-width: 200px;" ></div>
                       <div class="col">
                           <div class="row">
                               <div class="col">
-                                  <h4 style="margin-top: 5px;">Product Name</h4>
+                                  <h4 style="margin-top: 5px;">{{product['name']}}</h4>
                               </div>
                           </div>
                           <div class="row">
                               <div class="col">
-                                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                      consequat.&nbsp;</p>
+                                  <p>{{product['description']}}&nbsp;</p>
                               </div>
                           </div>
                       </div>
@@ -26,10 +25,10 @@
                           <h5 style="margin-top: 5px;">Promotion Type:</h5>
                       </div>
                       <div class="col">
-                          <select  [(ngModel)]="selectedPromoType" [ngModelOptions]="{standalone: true}">
+                          <select (click)="updatePrice()" [(ngModel)]="selectedPromoType" [ngModelOptions]="{standalone: true}">
                             <option value="Small Banner">Small Banner</option>
                             <option value="Big Banner">Big Banner</option>
-                            <option value="Featured Products">Featured Products</option>
+                            <option value="Featured Product">Featured Product</option>
                           </select>
                       </div>
                   </div>
@@ -38,7 +37,7 @@
                           <h5 style="margin-top: 5px;">Weeks:</h5>
                       </div>
                       <div class="col">
-                          <select [(ngModel)]="selectedPromoTime" [ngModelOptions]="{standalone: true}" >
+                          <select (click)="updatePrice()" [(ngModel)]="selectedPromoTime" [ngModelOptions]="{standalone: true}" >
                             <option value="One Week">One Week</option>
                             <option value="Two Weeks">Two Weeks</option>
                             <option value="Three Weeks">Three Weeks</option>
@@ -69,7 +68,7 @@
                                   <h5>Selected Type:</h5>
                               </div>
                               <div class="col">
-                                  <p>Featured Products</p>
+                                  <p>{{selectedPromoType}}</p>
                               </div>
                           </div>
                           <div class="row">
@@ -77,7 +76,7 @@
                                   <h5>Number of Weeks:</h5>
                               </div>
                               <div class="col">
-                                  <p>3 Weeks</p>
+                                  <p>{{selectedPromoTime}}</p>
                               </div>
                           </div>
                           <div class="row" style="margin-top: 16px;">
@@ -85,7 +84,7 @@
                                   <h4>Total:</h4>
                               </div>
                               <div class="col">
-                                  <h4>$500.00</h4>
+                                  <h4>${{total_price}}</h4>
                               </div>
                           </div>
                           <div class="row .payment-dialog-row" style="margin-bottom: 15px;">

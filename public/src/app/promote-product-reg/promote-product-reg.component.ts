@@ -15,12 +15,7 @@ export class PromoteProductRegComponent implements OnInit {
     {name: "Small Banner", value: 2},
     {name: "Product", value: 3}
   ]
-  promo_times = [
-    {name: "One day", value: 1},
-    {name: "Seven days", value: 2},
-    {name: "Thirty days", value: 3},
-    {name: "One Year", value: 4}
-  ]
+  
 
   selectedCCDate:string;
   selectedPromoType:string;
@@ -43,6 +38,8 @@ export class PromoteProductRegComponent implements OnInit {
   cvv_number:number;
   product_id:any;
   merchant_license:any;
+  product:any;
+  total_price:number;
 
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router:Router) {
@@ -63,6 +60,11 @@ export class PromoteProductRegComponent implements OnInit {
     this.selectedPromoTime = "";
     this.selectedPromoType = "";
     this.selectedCCYear = "";
+    this.product_id = "";
+    this.product = {};
+    this.total_price = 0;
+    this.merchant_license =  localStorage.getItem('licenseNo');
+
    }
 
   ngOnInit() {
@@ -72,6 +74,53 @@ export class PromoteProductRegComponent implements OnInit {
     else if(localStorage.getItem('loggedIn')==null || localStorage.getItem('loggedIn')=='false'){
       this._router.navigate(['']);
     }
+
+    this._activaterouter.params.subscribe(
+      params=>{
+        this.product_id = params['pid'];
+      })
+      
+      this.fetchProduct()
+  }
+
+  updatePrice(){
+    if(this.selectedPromoTime != "" && this.selectedPromoType != ""){
+      //now we need to set the prices of this stufff
+        if (this.selectedPromoType == "Big Banner"){
+          this.total_price = 5000;
+         
+        }else if(this.selectedPromoType == "Small Banner"){
+          this.total_price = 3000;
+  
+        }else if(this.selectedPromoType == "Featured Product"){
+          this.total_price = 1000;
+     
+        }
+
+        if (this.selectedPromoTime == "Two Weeks"){
+          this.total_price *= 2;
+        }else if(this.selectedPromoTime == "Three Weeks"){
+          this.total_price *= 3;
+        }else if(this.selectedPromoTime == "Four Weeks"){
+          this.total_price *= 4;
+        }
+        
+    }
+  }
+
+  fetchProduct(){
+   var product = this._httpService.fetchProduct(this.product_id);
+   product.subscribe(data=>{
+    if(data['success']==0 || data['success']==-1){
+      this._router.navigate([''])
+      return;
+    }
+    this.product = data['product'];
+    console.log(this.product);
+    console.log(this.merchant_license);
+    
+  })
+      
   }
 
   promotiontypeClicked(){
