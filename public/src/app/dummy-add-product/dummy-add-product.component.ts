@@ -55,9 +55,6 @@ export class DummyAddProductComponent implements OnInit {
             console.log("check false");
             this.edit = false;
       }
-
-
-        //console.log("edit: ", this.edit);
   }
 
   ngOnInit() {
@@ -67,12 +64,11 @@ export class DummyAddProductComponent implements OnInit {
     else if(localStorage.getItem('loggedIn')==null || localStorage.getItem('loggedIn')=='false'){
       this._router.navigate(['']);
     }
-        if(this.edit){
-              this.fetchProduct();
-        }else{
-              this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
-        }
-
+    if(this.edit){
+          this.fetchProduct();
+    }else{
+          this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
+    }
   }
 
   fetchProduct(){
@@ -147,7 +143,7 @@ export class DummyAddProductComponent implements OnInit {
       this.newProduct.size=splitSizes
       this.newProduct.color=splitColors
       this.newProduct.tag=splitTags
-      var err=this._httpService.createDummyProduct(this.newProduct);
+      var err=this._httpService.createDummyProduct(this.newProduct, localStorage.getItem('licenseNo'));
       err.subscribe(data=>{
         console.log("Received response:", data)
         if(data['success']==-1){

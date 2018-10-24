@@ -18,8 +18,8 @@ export class HttpService {
   fetchSearchedProducts(searchQuery){
     return this._http.post('/fetchSearchedProducts', {searchQuery:searchQuery})
   }
-  createDummyProduct(product){
-    return this._http.post('/createDummyProduct', {product: product}, {withCredentials:true})
+  createDummyProduct(product, licenseNo){
+    return this._http.post('/createDummyProduct', {product: product, license:licenseNo}, {withCredentials:true})
   }
 
   loginUser(email, password){
