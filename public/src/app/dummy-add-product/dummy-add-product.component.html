@@ -1,22 +1,24 @@
 <form>
+  {{newProduct | json}}
   <h2>Add Product</h2>
   <label for="prod_name">Product Name</label>
   <input type='text' name='prod_name' placeholder='name' [(ngModel)]='newProduct.name'>
-<div class="row">
-  <p class="red" *ngIf=showErr_name>Enter a name.</p>
-</div>
+    <div class="row">
+    <p class="red" *ngIf=showErr_name>Enter a name.</p>
+    </div>
     <div class="col" style="text-align: center;">
         <label>Description</label>
-            <textarea rows="4" cols="30" ></textarea>
+            <textarea [(ngModel)]='newProduct.description' rows="4" cols="30" name='newProduct.description' >Value</textarea>
     </div>
-  
+    
  <label>Add Images</label>
- <div class="row">
+ <!-- <div class="row">
         <button class="btn btn-primary" type="button" style="width: 60px;background-color: black;" (click)="updateCountMinus()">-</button>
         <button class="btn btn-primary" type="button" style="width: 60px;background-color: black;" (click)="updateCountPlus()">+</button>
-    </div>
+    </div> -->
  <div class="row" >
-        <input type='text' name='image' placeholder='image'  [(ngModel)]='images[0]'>
+        <!-- <input type='text' name='image' placeholder='image'  [(ngModel)]='images[0]'> -->
+    <input type='text' name='image' placeholder='image'  [(ngModel)]='newProduct.image'>
  </div>
  <p class="red" *ngIf=showErr_image>Enter image url.</p>
 
@@ -35,7 +37,7 @@
   <!--<label for="multiple_tags">Separate multiple tags by a comma ","</label><-->
   <p class="red" *ngIf=showErr_tag>Enter tags as comma seperated list.</p>
   <label for="multiple_tags">Separate tags by space, NO COMMAS.</label>
-  
+
 
   <input type='text' name='category' placeholder='category' [(ngModel)]='newProduct.category'>
   <p class="red" *ngIf=showErr_category>Enter category.</p>
