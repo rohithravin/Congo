@@ -169,18 +169,29 @@ export class PromoteProductRegComponent implements OnInit {
       }
 
       //get the options from selectors
-     
-      if(this.selectedCCDate.length == 0){
+      if (this.selectedCCDate == null){
         this.showErr_date = true;
       }else{
-        this.showErr_date = false;
+        var date = this.selectedCCDate.toString();
+        if(date.length != 2){
+          this.showErr_date = true;
+        }else{
+          this.showErr_date = false;
+        }
       }
 
-      if (this.selectedCCYear.length == 0 || this.selectedCCYear.length == 10){
-       this.showErr_year = true;
+      if(this.selectedCCYear == null){
+        this.showErr_year = true;
       }else{
-        this.showErr_year = false;
+        var year = this.selectedCCYear.toString();
+        if (year.length != 2){
+          this.showErr_year = true;
+         }else{
+           this.showErr_year = false;
+         }
       }
+      
+      
 
 
       if(this.selectedPromoTime.length == 0){
@@ -224,6 +235,7 @@ export class PromoteProductRegComponent implements OnInit {
             //client error
           }else{
             console.log("succ p2");
+          
           }
         })
   
