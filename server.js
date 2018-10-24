@@ -69,7 +69,8 @@ var ProductSchema=new mongoose.Schema({
     num_views:{type:Number, default:0},
     images:[{type:String}],
     tags:[{type:String}],
-    merchant:MerchantSchema,
+    // merchant:MerchantSchema,
+    merchantLicense:{type:String},
     reviews:["ReviewSchema"],
     category:{type:String /*, required:[false, "Category is required"]*/},
     promoted:{type:Boolean, default:false},
@@ -165,7 +166,6 @@ app.get('/getProduct/:productID', function(request, response){
         }
     })
 })
-
 
 app.post('/fetchSearchedProducts', function(request, response){
     var searchQuery=request.body['searchQuery']
@@ -288,14 +288,23 @@ app.post('/createDummyProduct', function(request, response){
         }
         else{
             console.log(product)
-            var newProduct=new Product({name:product.name, price:parseFloat(product.price), description:product.description, sizes:product.size, colors:product.color, images:[product.image], tags:product.tag, merchant:merchant})
+            var newProduct=new Product({name:product.name, price:parseFloat(product.price), description:product.description, sizes:product.size, colors:product.color, images:[product.image], tags:product.tag, merchantLicense:license})
             newProduct.save(function(error){
                 console.log("Inside save function")
                 if(error){
                     response.json({success:0, message:"There was an error creating your product"})
                 }
                 else{
-                    response.json({success:1, message:"Successfully created the product!", product:newProduct})
+                    merchant.products.push(newProduct)
+                    merchant.save(function(error){
+                        if(error){
+                            response.json({success:0, message:"There was an error saving product to merchant"})
+                        }
+                        else{
+                            response.json({success:1, message:"Successfully created the product!", product:newProduct})
+                        }
+                    })
+                    // response.json({success:1, message:"Successfully created the product!", product:newProduct})
                 }
             })
         }
@@ -329,7 +338,7 @@ app.post('/processAddToCart', function(request, response){
                                 response.json({success:1, message:"Successfully added to an old cart", cart:cart})
                             }
                             else{
-                                //Cart doesn't exist, create cart then add to it
+                                // Cart doesn't exist, create cart then add to it
                                 var newCart=new Cart({userID: user._id, items:[newCartItem], total:newCartItem.product.price})
                                 newCart.save(function(error){
                                     if(error){
@@ -465,6 +474,29 @@ app.post('/promoteProduct', function(request, response){
         }
     })
 })
+app.post('/fetchMerchantProducts', function(request, response){
+    var license=request.body['license']
+    // Product.find({merchant['license']:license})
+    Merchant.findOne({license:license}, function(error, merchant){
+        if(error){
+            response.json({success:-1, message:'Server'})
+        }
+        else if(merchant==null){
+            response.json({success:0, message:'No merchant with this license number'})
+        }
+        else{
+            // var productsRaw=merchant.products
+            // var products=[]
+            // for(product in productsRaw){
+            //     var productData={name:product.name, image:product.image, _id:product._id}
+            //     products.push(productData)
+            // }
+            var products=merchant.products
+            response.json({success:1, message:"Successfully fetched your products", products:products})
+        }
+    })
+})
+
 app.get('/testHash', function(request, response){
     var license=createHash('MichaelChoiComp', 'www.google.com')
     console.log(license)

@@ -32,7 +32,7 @@ const routes: Routes = [
   {path: 'search/:searchQuery', component: SearchComponent},
   {path: 'registration', component: UserRegComponent},
   {path: 'dummyAdd', component:DummyAddProductComponent},
-  {path: 'promoteprod/:pid', component: PromoteProductRegComponent},
+  {path: 'promote/:pid', component: PromoteProductRegComponent},
   {path: 'merchant/register', component: MerchantReg1Component},
   {path: 'merchant/register2', component: MerchantReg2Component},
   {path: 'merchant-reg-conf', component: MerchantRegConfComponent},

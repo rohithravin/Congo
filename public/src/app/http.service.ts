@@ -59,4 +59,7 @@ export class HttpService {
   promoteProduct(productID, promotionType, endDate, license, promotionImage='false@IOnoa99okaXXa67'){
     return this._http.post('/promoteProduct', {productID:productID, promotionType:promotionType, endDate:endDate, license:license, promotionImage:promotionImage})
   }
+  fetchMerchantProducts(license){
+    return this._http.post('/fetchMerchantProducts', {license:license})
+  }
 }
