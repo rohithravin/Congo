@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./dummy-add-product.component.css']
 })
 export class DummyAddProductComponent implements OnInit {
+
   newProduct:any
   image_name:string;
   images:any;
@@ -20,6 +21,7 @@ export class DummyAddProductComponent implements OnInit {
   showErr_color:boolean;
   showErr_tag:boolean;
   showErr_category:boolean;
+
   constructor(private _httpService: HttpService, private _router:Router) {
         this.showErr_name = false;
         this.showErr_description = false;
@@ -32,7 +34,9 @@ export class DummyAddProductComponent implements OnInit {
         this.images = {};
         this.images[0] = "Enter Image";
         this.images_size = 0;
+        this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
   }
+
   ngOnInit() {
     if(localStorage.getItem('merchantLoggedIn')==null || localStorage.getItem('merchantLoggedIn')=='false'){
       this._router.navigate(['']);
@@ -40,7 +44,6 @@ export class DummyAddProductComponent implements OnInit {
     else if(localStorage.getItem('loggedIn')==null || localStorage.getItem('loggedIn')=='false'){
       this._router.navigate(['']);
     }
-    this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
   }
 
   updateCountPlus(){
@@ -54,131 +57,58 @@ export class DummyAddProductComponent implements OnInit {
     }
   }
 
-
-  addImage(image){
-    this.newProduct={image:image}
-  }
-  addSize(size){
-    this.newProduct={size:size}
-  }
-  addColor(color){
-    this.newProduct={color:color}
-  }
-  addTag(tag){
-    this.newProduct={tag:tag}
-  }
-  addCategory(category){
-    this.newProduct={category:category}
-  }
   createProduct(){
-    // var createObs=this._httpService.createDummyProduct(this.newProduct)
-    // createObs.subscribe(data=>{
-    //   console.log("Received response:", data)
-    // })
-    // this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:''}
-
-
-
-   /* var splitImage = image.split(",");
-    splitTag.forEach((item, index) => {
-          console.log("index: ", index);
-          console.log("image: ", item);
-    });*/
-
-    
+    this.showErr_name=false
+    this.showErr_description = false;
+    this.showErr_price = false;
+    this.showErr_size = false;
+    this.showErr_color = false;
+    this.showErr_tag = false;
+    this.showErr_category = false;
 
     if(this.newProduct.name.length < 2 ){
       this.showErr_name = true;
-      console.log("check name");
-    }else{
-      this.showErr_name = false;
     }
-
     if(this.newProduct.description.length < 2 ){
       this.showErr_description = true;
-      console.log("check description");
-    }else{
-      this.showErr_description = false;
     }
-
     if(this.newProduct.price.length < 3){
       this.showErr_price = true;
-      console.log("check price");
-    }else{
-      this.showErr_price = false;
     }
-    if( this.newProduct.size.length < 5 ){
+    if( this.newProduct.size.length < 1 ){
       this.showErr_size = true;
-      console.log("check size");
-    }else{
-      this.showErr_size = false;
     }
-
     if( this.newProduct.color.length < 2 ){
       this.showErr_color = true;
-      console.log("check color");
-    }else{
-      this.showErr_color = false;
     }
-
     if( this.newProduct.tag.length < 2 ){
       this.showErr_tag = true;
-      console.log("check tag");
-    }else{
-      this.showErr_tag = false;
     }
-
     if( this.newProduct.category.length < 2 ){
       this.showErr_category = true;
-      console.log("check 6");
-    }else{
-      this.showErr_category = false;
     }
-
 
     if(!this.showErr_tag && !this.showErr_name && !this.showErr_size && !this.showErr_image && !this.showErr_price && !this.showErr_color && !this.showErr_description && !this.showErr_category){
-          var err=this._httpService.createDummyProduct(this.newProduct);
-          err.subscribe(data=>{
-            console.log("Received response:", data)
-            if(data['success']==-1){
-                  //Server error
-                  return;
-            }else if(data['success']==0){
-                  //client error,check message;
-                  return;
-            }else{
-                  //localStorage stuff?
-            }
-          })
-          this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:''};
-          console.log("Successfully added product!!");
-    }else{
-          console.log("error! didn't add product.");
-
+      var splitSizes=this.newProduct.size.split(",")
+      var splitColors=this.newProduct.color.split(",")
+      var splitTags=this.newProduct.tag.split(",")
+      this.newProduct.size=splitSizes
+      this.newProduct.color=splitColors
+      this.newProduct.tag=splitTags
+      var err=this._httpService.createDummyProduct(this.newProduct);
+      err.subscribe(data=>{
+        console.log("Received response:", data)
+        if(data['success']==-1){
+            //Server error
+            return;
+        }else if(data['success']==0){
+            //client error,check message;
+            return;
+        }else{
+            //localStorage stuff?
+            this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:''};
+        }
+      })
     }
-
-
-
-/*    var splitSize = this.newProduct.size.split(",");
-    splitSize.forEach((item, index) => {
-          console.log("index: ", index);
-          console.log("size: ", item);
-    });
-
-    var splitColor = this.newProduct.color.split(",");
-    splitColor.forEach((item, index) => {
-          console.log("index: ", index);
-          console.log("color: ", item);
-    });
-
-    var splitTag = this.newProduct.tag.split(",");
-    splitTag.forEach((item, index) => {
-          console.log("index: ", index);
-          console.log("tag: ", item);
-    });*/
-
-
   }
-
-
 }

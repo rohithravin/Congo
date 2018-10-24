@@ -186,7 +186,7 @@ app.post('/processMerchantLogin', function(request, response){
   
   var license=request.body['license']
   var password=request.body['password']
-  console.log('License:', license, 'Password:', password)
+//   console.log('License:', license, 'Password:', password)
 //   var hashedhPW=bcrypt.hashSync(password, NUM_SALTS)
   Merchant.findOne({license:license}, function(error, merchant){
     if(error){
@@ -279,7 +279,7 @@ app.post('/createDummyProduct', function(request, response){
     // console.log("Doing this for the change")
     var product=request.body['product']
     console.log(product)
-    var newProduct=new Product({name:product.name, price:parseFloat(product.price), description:product.description, sizes:[product.size], colors:[product.color], images:[product.image], tags:[product.tag]})
+    var newProduct=new Product({name:product.name, price:parseFloat(product.price), description:product.description, sizes:product.size, colors:product.color, images:[product.image], tags:product.tag})
     newProduct.save(function(error){
         console.log("Inside save function")
         if(error){
