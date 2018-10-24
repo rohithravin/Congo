@@ -60,19 +60,20 @@ export class CartComponent implements OnInit {
 
   getTotal(){
        this.total = this.subtotal + this.tax + this.shipping;
-       console.log("Total: ", this.total);
+       console.log("Total: ", this.total.toFixed(2));
+       this.total = Math.floor(this.total * 100) / 100;
        return this.total;
   }
   getShipping(){
         this.shipping = 5.99;
         console.log("Shipping & handling: ", this.shipping);
-        Math.round(this.tax * 100) / 100;
+       this.shipping =  Math.floor(this.shipping * 100) / 100;
         return this.shipping;
   }
   getTax(){
     this.tax = this.subtotal * 0.08;
     console.log("tax: ", this.tax);
-    Math.round(this.tax * 100) / 100;
+    this.tax = Math.floor(this.tax * 100) / 100;
     return this.tax;
   }
 
@@ -84,8 +85,7 @@ export class CartComponent implements OnInit {
       //console.log(this.subtotal);
       i++;
     }
-    Math.round(this.subtotal *100) / 100;
-    console.log("subtotal: ", this.subtotal);
+    this.subtotal = Math.floor(this.subtotal * 100) / 100;
     return this.subtotal;
   }
 }

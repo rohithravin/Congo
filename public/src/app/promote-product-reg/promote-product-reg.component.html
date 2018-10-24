@@ -26,10 +26,12 @@
                       </div>
                       <div class="col">
                           <select (click)="updatePrice()" [(ngModel)]="selectedPromoType" [ngModelOptions]="{standalone: true}">
+                            <option value="" selected disabled hidden>Choose Type</option>
                             <option value="Small Banner">Small Banner</option>
                             <option value="Big Banner">Big Banner</option>
                             <option value="Featured Product">Featured Product</option>
                           </select>
+                          <div class="col"><small class="form-text text-danger" *ngIf=showErr_promotype style="color: rgb(114,29,119);">Choose Type</small></div>
                       </div>
                   </div>
                   <div class="row" style="margin-bottom: 5px;padding-bottom: 10px;">
@@ -38,11 +40,13 @@
                       </div>
                       <div class="col">
                           <select (click)="updatePrice()" [(ngModel)]="selectedPromoTime" [ngModelOptions]="{standalone: true}" >
+                            <option value="" selected disabled hidden>Choose Duration</option>
                             <option value="One Week">One Week</option>
                             <option value="Two Weeks">Two Weeks</option>
                             <option value="Three Weeks">Three Weeks</option>
                             <option value="Four Weeks">Four Weeks</option>
                           </select>
+                          <div class="col"><small class="form-text text-danger" *ngIf=showErr_duration style="color: rgb(114,29,119);">Choose Duration</small></div>
                       </div>
                   </div>
                   <div class="row" style="padding-bottom: 10px;">
