@@ -439,7 +439,7 @@ app.post('/promoteProduct', function(request, response){
     var promotionImage=request.body['promotionImage']
     Product.findOne({_id:productID}, function(error, product){
         if(error){
-            response.json({success:0, message:'Could not find product'})
+            return response.json({success:0, message:'Could not find product'})
         }
         else{
             //Product id is valid
@@ -459,12 +459,11 @@ app.post('/promoteProduct', function(request, response){
                     response.json({success:-3, message:'Unable to save product, check your inputs'})
                 }
                 else{
-                    response.json({success:1, message:'Successfully promoted product'})
+                    return response.json({success:1, message:'Successfully promoted product'})
                 }
             })
         }
     })
-    response.json({success:1, message:'Reciever your response', yourRequest:request.body})
 })
 app.get('/testHash', function(request, response){
     var license=createHash('MichaelChoiComp', 'www.google.com')
