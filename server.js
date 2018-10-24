@@ -278,17 +278,29 @@ app.post('/createDummyProduct', function(request, response){
     // }
     // console.log("Doing this for the change")
     var product=request.body['product']
-    console.log(product)
-    var newProduct=new Product({name:product.name, price:parseFloat(product.price), description:product.description, sizes:product.size, colors:product.color, images:[product.image], tags:product.tag})
-    newProduct.save(function(error){
-        console.log("Inside save function")
+    var license=request.body['license']
+    Merchant.findOne({license:license}, function(error, merchant){
         if(error){
-            response.json({success:0, message:"There was an error creating your product"})
+            response.json({success:-1, message:"There was an error"})
+        }
+        else if(merchant==null){
+            response.json({success:-1, message:"There was an error"})
         }
         else{
-            response.json({success:1, message:"Successfully created the product!", product:newProduct})
+            console.log(product)
+            var newProduct=new Product({name:product.name, price:parseFloat(product.price), description:product.description, sizes:product.size, colors:product.color, images:[product.image], tags:product.tag, merchant:merchant})
+            newProduct.save(function(error){
+                console.log("Inside save function")
+                if(error){
+                    response.json({success:0, message:"There was an error creating your product"})
+                }
+                else{
+                    response.json({success:1, message:"Successfully created the product!", product:newProduct})
+                }
+            })
         }
     })
+    
 })
 
 app.post('/processAddToCart', function(request, response){
@@ -511,5 +523,6 @@ function createHash(name, url){
             hashed+=String.fromCharCode(currentChar)
         }
     }
+    //Check db to see if license exists, if it does, replace the website with the hashed String and make a recursive return call to this hash Function
     return hashed
 }

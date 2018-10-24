@@ -28,14 +28,8 @@ export class MerchantProductComponent implements OnInit {
         localStorage.setItem('randomProductID', item);
       //  console.log("checkpoint 1");
         //this.checkEdit = true;
-
-        if(localStorage.getItem('loggedIn')=='false'){
-             this._router.navigate(['login']);
-        }
         //console.log("checkpoint 2");
-
         this._router.navigate(['dummyAdd']);
-
         //this.cart = localStorage.getItem("items");
 
   }
