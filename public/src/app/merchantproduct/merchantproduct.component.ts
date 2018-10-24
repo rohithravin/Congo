@@ -8,9 +8,10 @@ import { HttpService } from '../http.service';
   styleUrls: ['./merchantproduct.component.css']
 })
 export class MerchantProductComponent implements OnInit {
-  // currProduct:any
-  constructor(private _httpService: HttpService, private _router:Router) {
-
+  checkEdit:boolean
+  randomProductID:string
+  constructor(private _httpService: HttpService,private _router:Router) {
+      this.checkEdit = false;
   }
   ngOnInit() {
     if(localStorage.getItem('merchantLoggedIn')==null || localStorage.getItem('merchantLoggedIn')=='false'){
@@ -19,5 +20,23 @@ export class MerchantProductComponent implements OnInit {
     else if(localStorage.getItem('loggedIn')==null || localStorage.getItem('loggedIn')=='false'){
       this._router.navigate(['']);
     }
+  }
+  edit(item){
+        //console.log("we are in edit(item)");
+        localStorage.setItem('checkEdit','true');
+        this.checkEdit = false;
+        localStorage.setItem('randomProductID', item);
+      //  console.log("checkpoint 1");
+        //this.checkEdit = true;
+
+        if(localStorage.getItem('loggedIn')=='false'){
+             this._router.navigate(['login']);
+        }
+        //console.log("checkpoint 2");
+
+        this._router.navigate(['dummyAdd']);
+
+        //this.cart = localStorage.getItem("items");
+
   }
 }

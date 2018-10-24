@@ -1,6 +1,5 @@
 <form>
   {{newProduct | json}}
-  <p>Description: {{description}}</p>
   <h2>Add Product</h2>
   <label for="prod_name">Product Name</label>
   <input type='text' name='prod_name' placeholder='name' [(ngModel)]='newProduct.name'>
@@ -38,7 +37,7 @@
   <!--<label for="multiple_tags">Separate multiple tags by a comma ","</label><-->
   <p class="red" *ngIf=showErr_tag>Enter tags as comma seperated list.</p>
   <label for="multiple_tags">Separate tags by space, NO COMMAS.</label>
-  
+
 
   <input type='text' name='category' placeholder='category' [(ngModel)]='newProduct.category'>
   <p class="red" *ngIf=showErr_category>Enter category.</p>
