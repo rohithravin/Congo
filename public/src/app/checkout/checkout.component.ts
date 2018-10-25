@@ -35,8 +35,16 @@ export class CheckoutComponent implements OnInit {
   shipping:number;
   total:number;
   subtotal: number;
+  showErr_year:boolean;
+  showErr_date:boolean;
+  selectedCCDate:string;
+  selectedCCYear:string;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
+    this.selectedCCDate = "";
+    this.selectedCCYear = "";
+    this.showErr_year = false;
+    this.showErr_date = false;
     this.str_cc_number = "";
     this.str_cvv_code = "";
     this.full_name = "";
@@ -105,19 +113,16 @@ export class CheckoutComponent implements OnInit {
 
   getTotal(){
     this.total = this.subtotal + this.tax + this.shipping;
-    console.log("Total: ", this.total.toFixed(2));
     this.total = Math.floor(this.total * 100) / 100;
     return this.total;
     }
     getShipping(){
         this.shipping = 5.99;
-        console.log("Shipping & handling: ", this.shipping);
         this.shipping =  Math.floor(this.shipping * 100) / 100;
         return this.shipping;
     }
     getTax(){
     this.tax = this.subtotal * 0.08;
-    console.log("tax: ", this.tax);
     this.tax = Math.floor(this.tax * 100) / 100;
     return this.tax;
     }
@@ -138,29 +143,40 @@ export class CheckoutComponent implements OnInit {
     if (this.full_name.length < 2){
       this.showErr_fullname = true;
     }else{
-    console.log(this.full_name);
     this.showErr_fullname = false;
     }
    
    
    if (this.address_lineone.length < 5){
-    console.log(this.address_lineone);
     this.showErr_addr1 = true;
    }else{
      this.showErr_addr1 = false;
    }
 
 
-    console.log(this.expiration_date);
-   if(this.expiration_date == 0){
-     this.showErr_exprDate = true;
-   }else{
-     var expr = this.expiration_date.toString();
-     this.showErr_exprDate = false;
-   }
+   if (this.selectedCCDate == null){
+    this.showErr_date = true;
+  }else{
+    var date = this.selectedCCDate.toString();
+    if(date.length != 2){
+      this.showErr_date = true;
+    }else{
+      this.showErr_date = false;
+    }
+  }
+
+  if(this.selectedCCYear == null){
+    this.showErr_year = true;
+  }else{
+    var year = this.selectedCCYear.toString();
+    if (year.length != 2){
+      this.showErr_year = true;
+     }else{
+       this.showErr_year = false;
+     }
+  }
 
    if (this.city.length < 4){
-    console.log(this.city);
     this.showErr_city = true;
    }else{
      this.showErr_city = false;
@@ -168,13 +184,12 @@ export class CheckoutComponent implements OnInit {
 
 
   if (this.state.length < 2){
-    console.log(this.state);
     this.showErr_state = true;
   }else{
     this.showErr_state = false;
   }
 
-    console.log(this.cc_number);
+  
     if(this.cc_number == null) {
       this.showErr_ccNumber = true;
     }else{
@@ -187,7 +202,6 @@ export class CheckoutComponent implements OnInit {
       }
     }
 
-    console.log(this.cvv_code);
     if(this.cvv_code == null){
       this.showErr_cvvCode = true;
     }else {
@@ -201,10 +215,8 @@ export class CheckoutComponent implements OnInit {
     }
 
 
-    console.log(this.phone_num);
+   
     if(this.phone_num.length != 10  || '0123456789'.indexOf(this.phone_num) !== -1){
-      console.log(this.phone_num.length);
-      console.log('0123456789'.indexOf(this.phone_num));
       this.showErr_phoneNumber = true;
     }else{
       this.showErr_phoneNumber = false;
@@ -217,7 +229,6 @@ export class CheckoutComponent implements OnInit {
   
       this.showErr_email = true;
     }else{
-      console.log(this.email);
       this.showErr_email = false;
     }
 

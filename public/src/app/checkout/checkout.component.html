@@ -91,7 +91,12 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="col-7">
-                                            <div class="form-group"><label for="cardExpiry"><span>EXP </span>Date</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]='expiration_date' class="form-control" type="tel" required="" placeholder="MM / YY" id="cardExpiry"></div>
+                                            <div >
+                                                <div class="form-group"><label for="cardExpiry"><span>&nbsp;</span><span>Exp&nbsp;</span>&nbsp;Month</label><input class="form-control" type="number" required="" [ngModelOptions]="{standalone: true}" [(ngModel)]='selectedCCDate' placeholder="MM" id="cardExpiry"><small *ngIf=showErr_date class="form-text text-danger">Enter Valid Month</small></div>
+                                            </div>
+                                            <div >
+                                                <div class="form-group"><label for="cardExpiry"><span>&nbsp;</span><span>Exp&nbsp;</span>&nbsp;Year</label><input class="form-control" type="number" required="" [ngModelOptions]="{standalone: true}" [(ngModel)]='selectedCCYear' placeholder="YY" id="cardExpiry"><small *ngIf=showErr_year class="form-text text-danger">Enter Valid Year</small></div>
+                                            </div>
                                             <div class="row" *ngIf='showErr_exprDate'>
                                                     <p class="red">Enter expiration date.</p>
                                             </div>

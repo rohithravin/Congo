@@ -169,7 +169,7 @@ export class PromoteProductRegComponent implements OnInit {
         }
       }
 
-      //get the options from selectors
+     
       if (this.selectedCCDate == null){
         this.showErr_date = true;
       }else{
