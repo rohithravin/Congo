@@ -40,6 +40,7 @@ export class PromoteProductRegComponent implements OnInit {
   merchant_license:any;
   product:any;
   total_price:number;
+  
 
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router:Router) {

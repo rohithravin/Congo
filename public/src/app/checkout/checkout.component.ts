@@ -28,7 +28,13 @@ export class CheckoutComponent implements OnInit {
   showErr_email:boolean;
   str_cvv_code:string;
   str_cc_number:string;
-  
+  userID:string
+  cart:any;
+  shipping_date:string;
+  tax:number;
+  shipping:number;
+  total:number;
+  subtotal: number;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
     this.str_cc_number = "";
@@ -52,12 +58,80 @@ export class CheckoutComponent implements OnInit {
     this.showErr_phoneNumber = false;
     this.email = "";
     this.showErr_email =false;
+    this.cart={};
+    this.subtotal = 0;
+    this.tax = 0.0925;
+    this.shipping = 5.99;
+    this.total = 0;
+    this.userID=localStorage.getItem('userID');
+    var currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 7);
+    this.shipping_date = currentDate.getMonth()+"/"+currentDate.getDay()+"/"+currentDate.getFullYear();
    }
 
   ngOnInit() {
 
+    this.fetchCart();
+  }
+
+
+  fetchCart(){
+    if(localStorage.getItem('loggedIn')=='false'){
+      this._router.navigate(['login'])
+    }
+    console.log(this.userID)
+    var cartObs=this._httpService.fetchCart(this.userID)
+    cartObs.subscribe(data=>{
+      console.log(data)
+      // console.log(this.userID)
+      if(data['success'] =! 1){
+        this._router.navigate([''])
+      }
+      this.cart=data['cart']['items']
+      console.log(this.cart)
+      this.subtotal = this.getSubtotal();
+      this.tax = this.getTax();
+      this.shipping = this.getShipping();
+      this.total = this.getTotal();
+    })
+
+    //this.getSubtotal();
+    //this.getTax();
+    //this.getShipping();
+    //this.getTotal();
 
   }
+
+
+  getTotal(){
+    this.total = this.subtotal + this.tax + this.shipping;
+    console.log("Total: ", this.total.toFixed(2));
+    this.total = Math.floor(this.total * 100) / 100;
+    return this.total;
+    }
+    getShipping(){
+        this.shipping = 5.99;
+        console.log("Shipping & handling: ", this.shipping);
+        this.shipping =  Math.floor(this.shipping * 100) / 100;
+        return this.shipping;
+    }
+    getTax(){
+    this.tax = this.subtotal * 0.08;
+    console.log("tax: ", this.tax);
+    this.tax = Math.floor(this.tax * 100) / 100;
+    return this.tax;
+    }
+    getSubtotal(){
+      var i=0;
+      while(i<this.cart.length){
+        //console.log('in loop');
+        this.subtotal+=parseFloat(this.cart[i]['product']['price']) * parseInt(this.cart[i]['quantity']);
+        //console.log(this.subtotal);
+        i++;
+      }
+      this.subtotal = Math.floor(this.subtotal * 100) / 100;
+      return this.subtotal;
+    }
 
   submitBilling(){
 
@@ -150,3 +224,5 @@ export class CheckoutComponent implements OnInit {
   }
 
 }
+
+

@@ -120,12 +120,12 @@
                                         <div class="col-12">
                                             <div class="form-group"><label for="cardNumber">Phone Number:</label>
                                                 <div class="input-group">
-                                                    <div class="input-group-append"></div><input [ngModelOptions]="{standalone: true}" [(ngModel)]="phone_num" class="form-control" type="tel"></div>
+                                                    <div class="input-group-append"></div><input [ngModelOptions]="{standalone: true}" [(ngModel)]="phone_num" class="form-control" type="number"></div>
                                             </div>
                                             <div class="row"  *ngIf='showErr_phoneNumber'>
                                                     <p class="red">Enter valid phone number.</p>
                                             </div>
-                                            <button (click)="submitBilling()" style="background: none;">Submit Billing Information.</button>
+                                           
                                         </div>
                                     </div>
                                 </form>
@@ -142,44 +142,21 @@
                                 <h3>Order Summary</h3>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" *ngFor="let item of this.cart">
                             <div class="col">
-                                <p>Product #1&nbsp;</p>
+                                <p>{{item['product']['name']}}&nbsp;</p>
                             </div>
                             <div class="col">
-                                <p class="text-right">$100.99</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <p>Product #2&nbsp;</p>
-                            </div>
-                            <div class="col">
-                                <p class="text-right">$100.99</p>
+                                <p class="text-right">${{item['product']['price']}}</p>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <p>Product #3&nbsp;</p>
-                            </div>
-                            <div class="col">
-                                <p class="text-right">$100.99</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <p>Product #4</p>
-                            </div>
-                            <div class="col">
-                                <p class="text-right">$100.99</p>
-                            </div>
-                        </div>
+                        
                         <div class="row">
                             <div class="col">
                                 <p>Shipping &amp; Handling:</p>
                             </div>
                             <div class="col">
-                                <p class="text-right">$5.99</p>
+                                <p class="text-right">${{shipping}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -187,7 +164,7 @@
                                 <p>Tax:</p>
                             </div>
                             <div class="col">
-                                <p class="text-right">$7.99</p>
+                                <p class="text-right">${{tax}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -195,7 +172,7 @@
                                 <p style="color: #d81e05;">TOTAL:</p>
                             </div>
                             <div class="col">
-                                <p class="text-right" style="color: #d81e05;">$100.99</p>
+                                <p class="text-right" style="color: #d81e05;">${{total}}</p>
                             </div>
                         </div>
                     </div>
@@ -212,13 +189,13 @@
                                 <p>Estimated Shipping:</p>
                             </div>
                             <div class="col">
-                                <p class="text-right">09/20/2018</p>
+                                <p class="text-right">{{shipping_date}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row " style="margin-top: 50px;margin-bottom: 5px;">
-                    <div class="col" style="padding-left: 0px;"><button class="btn btn-primary active btn-lg justify-content-center align-items-center align-content-center" type="button" style="width: 198px;background-color: #aa8e0a;margin-left: 70px;padding-left: 0px;" [routerLink]="['/checkout-conf']">Place Order</button></div>
+                    <div class="col" (click)="submitBilling()" style="padding-left: 0px;"><button class="btn btn-primary active btn-lg justify-content-center align-items-center align-content-center" type="button" style="width: 198px;background-color: #aa8e0a;margin-left: 70px;padding-left: 0px;" >Place Order</button></div>
                 </div>
             </div>
         </div>
