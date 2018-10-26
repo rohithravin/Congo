@@ -516,7 +516,29 @@ app.get('/testHash', function(request, response){
 })
 
 app.post('/getFeatured', function(request, response){
-    Product.find({})
+    var bigBannerProducts=[]
+    var smallBannerProducts=[]
+    var featuredProducts=[]
+    Product.find({promotionType:'BB'}, function(error, products){
+        if(error){
+            response.json({success:-1, message:'Server error'})
+        }
+        else{
+            //Fetch 5 random indeces of products
+            //Append to big banner products
+        }
+    })
+    Product.find({promotionType:'SB'}, function(error, products){
+        if(error){
+            //send error response
+        }
+        else{
+            //Get 2 random indeces, make sure no repeats
+            //Append to small Banner products
+        }
+    })
+    //Same thing for featured products
+    return response.json({success:1, message:"Successfully fetched all featured products", bigBanner:bigBannerProducts, smallBanner:smallBannerProducts, featuredProducts:featuredProducts})
 })
 
 app.all('*', (request, response, next)=>{
