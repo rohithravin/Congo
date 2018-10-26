@@ -9,6 +9,15 @@ export class HttpService {
   constructor(private _http: HttpClient) {
 
   }
+
+  purchaseInformation(fullName,address,city,state){
+    console.log("check 2");
+    console.log(fullName);
+    console.log(address);
+    console.log(city);
+    console.log(state);
+  }
+
   fetchFeatured(){
     return this._http.get('/getFeatured')
   }

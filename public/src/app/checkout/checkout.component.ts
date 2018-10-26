@@ -18,8 +18,6 @@ export class CheckoutComponent implements OnInit {
   showErr_state:boolean;
   cc_number:number;
   showErr_ccNumber:boolean;
-  expiration_date:number;
-  showErr_exprDate:boolean;
   cvv_code:number;
   showErr_cvvCode:boolean;
   phone_num:string;
@@ -56,11 +54,9 @@ export class CheckoutComponent implements OnInit {
     this.showErr_city = false;
     this.state="";
     this.showErr_state = false;
-    this.cc_number= 0;
+    this.cc_number;
     this.showErr_ccNumber = false;
-    this.expiration_date = 0;
-    this.showErr_exprDate = false;
-    this.cvv_code = 0;
+    this.cvv_code;
     this.showErr_cvvCode = false;
     this.phone_num = "";
     this.showErr_phoneNumber = false;
@@ -231,6 +227,12 @@ export class CheckoutComponent implements OnInit {
     }else{
       this.showErr_email = false;
     }
+
+    if( !this.showErr_addr1 && !this.showErr_city  && !this.showErr_fullname && !this.showErr_state ){
+        console.log("shipping info");
+        this._httpService.purchaseInformation(this.full_name,this.address_lineone,this.city,this.state);
+
+      }
 
   }
 
