@@ -452,7 +452,8 @@ app.post('/promoteProduct', function(request, response){
         }
         else{
             //Product id is valid
-            if(product.merchant.license!=license){
+            // if(product.merchant.license!=license){
+            if(product.merchantLicense!=license){
                 return response.json({success:-1, message:'This product does not belong to this merchant'})
             }
             if(product.promoted==true){
