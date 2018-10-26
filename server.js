@@ -136,7 +136,7 @@ var Order=mongoose.model('Order')
 app.use(express.static(path.join(__dirname, './public/dist/public')))
 app.use(bodyParser.json())
 
-app.get('/getFeatured', function(request, response){
+app.get('/getFeaturedFirebase', function(request, response){
     console.log("Recieved function request")
     var ref=db.collection("products")
     ref.where("bigBanner", "==", false).get().then(snapshot=>{
@@ -458,6 +458,18 @@ app.post('/promoteProduct', function(request, response){
             if(product.promoted==true){
                 return response.json({success:-2, message:'This product is already being promoted'})
             }
+            if(promotionType=="Big Banner"){
+                product.promotionType="BB"
+            }
+            else if(promotionType=="Small Banner"){
+                product.promotionType="SB"
+            }
+            else if(promotionType=="Featured Product"){
+                product.promotionType="FP"
+            }
+            else{
+                return response.json({success:-4, message:'Promotion Type Invalid'})
+            }
             product.promotionType=promotionType
             product.endDate=endDate
             if(promotionImage!='false@IOnoa99okaXXa67'){
@@ -465,7 +477,7 @@ app.post('/promoteProduct', function(request, response){
             }
             product.save(function(error){
                 if(error){
-                    response.json({success:-3, message:'Unable to save product, check your inputs'})
+                    return response.json({success:-3, message:'Unable to save product, check your inputs'})
                 }
                 else{
                     return response.json({success:1, message:'Successfully promoted product'})
@@ -489,7 +501,7 @@ app.post('/fetchMerchantProducts', function(request, response){
             // var products=[]
             // for(product in productsRaw){
             //     var productData={name:product.name, image:product.image, _id:product._id}
-            //     products.push(productData)
+            //     products.push(productData)p
             // }
             var products=merchant.products
             response.json({success:1, message:"Successfully fetched your products", products:products})
@@ -501,6 +513,10 @@ app.get('/testHash', function(request, response){
     var license=createHash('MichaelChoiComp', 'www.google.com')
     console.log(license)
     response.json({license:license})
+})
+
+app.post('/getFeatured', function(request, response){
+    Product.find({})
 })
 
 app.all('*', (request, response, next)=>{
