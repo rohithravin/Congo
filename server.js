@@ -529,15 +529,22 @@ app.get('/getFeatured', function(request, response){
             //Append to big banner products
             //bigBannerProducts = products;
             var _numProducts = 5;
+            var _pickedIndexes = [];
+            for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
             var _actualSize = products.length - 1;
             console.log("big banner");
             console.log(products.length);
             for(var i = 0; i < _numProducts; i++){
-                var randIndex = Math.floor(Math.random() * (_actualSize - 0 + 1)) + 0;
+                
+                do{
+                var randIndex = Math.floor(Math.random() * (products.length));
+                }while(_pickedIndexes[randIndex] != 0){
+                _pickedIndexes[randIndex] = 1;
                 bigBannerProducts[i] = products[randIndex];
                 console.log("adding.. " + randIndex );
                 console.log(bigBannerProducts[i]);
                 console.log("------------------------------------------------------");
+                }
             }
             //return response.json({success: 1, bigBannerProducts})
         }
@@ -552,6 +559,22 @@ app.get('/getFeatured', function(request, response){
             //Append to small Banner products
             console.log("small banner");
             //console.log(products);
+            var _numProducts = 2;
+            var _pickedIndexes = [];
+            if(products.length == 0){
+                resonpse.json({success: -1, message:'error no small banners'});
+            }
+            for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
+            for(var i =0; i < _numProducts; i++){
+                do{
+                    var randIndex = Math.floor(Math.random() * (products.length));
+                }while(_pickedIndexes[randIndex] != 0){
+                    smallBannerProducts[i] = products[randIndex];
+                    console.log("adding... "+randIndex);
+                    console.log(smallBannerProducts[i]);
+                    console.log("------------------------------------------------------");
+                }
+            }
             smallBannerProducts = products;
             //return response.json({success: 1,smallBannerProducts})
         }
@@ -566,6 +589,8 @@ app.get('/getFeatured', function(request, response){
             console.log("featured products");
             //console.log(products);
             featuredProducts = products;
+            console.log(featuredProducts);
+            console.log("------------------------------------------------------");
             //return response.json({success: 1, featuredProducts})
             
         }
