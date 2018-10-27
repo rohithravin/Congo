@@ -6,13 +6,10 @@
   <div class='myDropdown'>
     <p>CATEGORIES</p>
     <a (click)="categoriesClicked()"><img src='https://image.flaticon.com/icons/svg/120/120906.svg' alt='down'></a>
-    <div class='categories' *ngIf="showCategories==true">
-      <a href='#'>Office Supplies</a>
-      <a href='#'>Shoes</a>
-      <a href='#'>Apparel</a>
-      <a href='#'>Food</a>
-      <a href='#'>Video Games</a>
-      <a href='#'>Electronics</a>
+    <div class='categories' *ngIf="showCategories==true" >
+      <div *ngFor="let item of categories">
+        <a href='#'>{{item}}</a>
+      </div>
     </div>
   </div>
   <div class='searchbar'>
@@ -24,7 +21,8 @@
   <p class='welcomeName' *ngIf="loggedIn==true">Welcome, {{first_name}}</p>
   <a href='#' class='loginLink' [routerLink]="['/login']" *ngIf='loggedIn==false'>LOGIN</a>
   <a href='#' [routerLink]="['/cart']"><img src='https://image.flaticon.com/icons/png/512/2/2772.png' alt='Cart'></a>
-  <div class='accountDropdown' *ngIf='loggedIn==true'>
+  
+    <div class='accountDropdown' *ngIf='loggedIn==true'>
       <p>ACCOUNT</p>
       <a (click)="accountClicked()"><img src='https://image.flaticon.com/icons/svg/120/120906.svg' alt='down'></a>
       <div class='accountCategories' *ngIf='showAccount==true'>
@@ -34,5 +32,6 @@
         <a *ngIf='merchantLoggedIn==false' [routerLink]="['/merchant/login']">Merchant</a>
         <a href='#' (click)="logout()">Logout</a>
       </div>
-  </div>
+    </div>
+  
 </div>

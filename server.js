@@ -515,26 +515,59 @@ app.get('/testHash', function(request, response){
     response.json({license:license})
 })
 
-app.post('/getFeatured', function(request, response){
+app.get('/getFeatured', function(request, response){
     var bigBannerProducts=[]
     var smallBannerProducts=[]
     var featuredProducts=[]
-    Product.find({promotionType:'BB'}, function(error, products){
+    console.log("featured");
+    Product.find({promotionType:'Big Banner'}, function(error, products){
         if(error){
             response.json({success:-1, message:'Server error'})
         }
         else{
             //Fetch 5 random indeces of products
             //Append to big banner products
+            //bigBannerProducts = products;
+            var _numProducts = 5;
+            var _actualSize = products.length - 1;
+            console.log("big banner");
+            console.log(products.length);
+            for(var i = 0; i < _numProducts; i++){
+                var randIndex = Math.floor(Math.random() * (_actualSize - 0 + 1)) + 0;
+                bigBannerProducts[i] = products[randIndex];
+                console.log("adding.. " + randIndex );
+                console.log(bigBannerProducts[i]);
+                console.log("------------------------------------------------------");
+            }
+            //return response.json({success: 1, bigBannerProducts})
         }
     })
-    Product.find({promotionType:'SB'}, function(error, products){
+    Product.find({promotionType:'Small Banner'}, function(error, products){
         if(error){
             //send error response
+            response.json({success:-1, message:'Server error'});
         }
         else{
             //Get 2 random indeces, make sure no repeats
             //Append to small Banner products
+            console.log("small banner");
+            //console.log(products);
+            smallBannerProducts = products;
+            //return response.json({success: 1,smallBannerProducts})
+        }
+    })
+    Product.find({promotionType:'Featured Product'}, function(error,products){
+        if(error){
+            response.json({success:-1, message:'Server error'});
+            
+        }
+        else{
+            //get 
+            console.log("featured products");
+            //console.log(products);
+            featuredProducts = products;
+            //return response.json({success: 1, featuredProducts})
+            
         }
     })
     //Same thing for featured products
