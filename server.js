@@ -509,6 +509,49 @@ app.post('/fetchMerchantProducts', function(request, response){
     })
 })
 
+app.post('/processEdit', function(request, response){
+    if(!('productID' in request.body)){
+        return response.json({success:-1, message:"Product ID not in body"})
+    }
+    var oldProduct=request.body['product']
+    Product.findOne({_id:request.body['productID']}, function(error, product){
+        if(error){
+            response.json({success:-1, message:"Server error"})
+        }
+        else if(product==null){
+            response.json({success:0, message:'Invalid product id'})
+        }
+        else{
+            //found product
+            if(!('license' in request.body)){
+                return response.json({success:-1, message:'License in not request'})
+            }
+            console.log("License: ", request.body['license'])
+            console.log("Product License:", product.merchantLicense)
+            if(product.merchantLicense!=request.body['license']){
+                return response.json({success:0, message:'Licenses do not match'})
+            }
+
+            product.name=oldProduct.name
+            product.price=parseFloat(oldProduct.price)
+            product.description=oldProduct.description
+            product.sizes=oldProduct.size
+            product.colors=oldProduct.color
+            product.tags=oldProduct.tag
+            product.category=oldProduct.category
+
+            product.save(function(error){
+                if(error){
+                    response.json({success:0, message:'Could not make these changes'})
+                }
+                else{
+                    response.json({success:1, message:'Successfully edited product', product:product})
+                }
+            })        
+        }
+    })
+})
+
 app.get('/testHash', function(request, response){
     var license=createHash('MichaelChoiComp', 'www.google.com')
     console.log(license)

@@ -71,4 +71,7 @@ export class HttpService {
   fetchMerchantProducts(license){
     return this._http.post('/fetchMerchantProducts', {license:license})
   }
+  editProduct(license, product, productID){
+    return this._http.post('/processEdit', {license:license, product:product, productID:productID})
+  }
 }

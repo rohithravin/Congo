@@ -71,6 +71,8 @@ export class DummyAddProductComponent implements OnInit {
       }
       else{
         var product=data['product']
+        console.log("Product:", product)
+        console.log("License:", localStorage.getItem('licenseNo'))
         var tags=product.tags[0]
         for(var i=1; i<product.tags.length; i++){
           tags+=','
@@ -159,5 +161,9 @@ export class DummyAddProductComponent implements OnInit {
 
   editProduct(){
     console.log("Editing product")
+    var editObs=this._httpService.editProduct(localStorage.getItem('licenseNo'), this.newProduct, this.editID)
+    editObs.subscribe(data=>{
+      console.log("Response:", data)
+    })
   }
 }
