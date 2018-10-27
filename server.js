@@ -489,24 +489,32 @@ app.post('/promoteProduct', function(request, response){
 app.post('/fetchMerchantProducts', function(request, response){
     var license=request.body['license']
     // Product.find({merchant['license']:license})
-    Merchant.findOne({license:license}, function(error, merchant){
+    Product.find({merchantLicense:license}, function(error, products){
         if(error){
-            response.json({success:-1, message:'Server'})
-        }
-        else if(merchant==null){
-            response.json({success:0, message:'No merchant with this license number'})
+            response.json({success:-1, message:'Server error'})
         }
         else{
-            // var productsRaw=merchant.products
-            // var products=[]
-            // for(product in productsRaw){
-            //     var productData={name:product.name, image:product.image, _id:product._id}
-            //     products.push(productData)p
-            // }
-            var products=merchant.products
             response.json({success:1, message:"Successfully fetched your products", products:products})
         }
     })
+    // Merchant.findOne({license:license}, function(error, merchant){
+    //     if(error){
+    //         response.json({success:-1, message:'Server'})
+    //     }
+    //     else if(merchant==null){
+    //         response.json({success:0, message:'No merchant with this license number'})
+    //     }
+    //     else{
+    //         // var productsRaw=merchant.products
+    //         // var products=[]
+    //         // for(product in productsRaw){
+    //         //     var productData={name:product.name, image:product.image, _id:product._id}
+    //         //     products.push(productData)p
+    //         // }
+    //         var products=merchant.products
+    //         response.json({success:1, message:"Successfully fetched your products", products:products})
+    //     }
+    // })
 })
 
 app.post('/processEdit', function(request, response){
