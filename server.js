@@ -471,7 +471,6 @@ app.post('/promoteProduct', function(request, response){
             else{
                 return response.json({success:-4, message:'Promotion Type Invalid'})
             }
-            product.promotionType=promotionType
             product.endDate=endDate
             if(promotionImage!='false@IOnoa99okaXXa67'){
                 product.promotionImage=promotionImage
