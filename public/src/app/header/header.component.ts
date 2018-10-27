@@ -7,6 +7,7 @@ import { Component, OnInit, Input} from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  categories:any;
   showCategories:boolean
   showCategoriesAccount:boolean
   searchQuery:string
@@ -17,6 +18,7 @@ export class HeaderComponent implements OnInit {
   merchantLoggedIn:boolean
   // constructor(private cookieService: CookieService) {
   constructor(){
+    this.categories = ["Technology", "Video Games", "Clothing", "Office Supplies", "Food", "Furniture", "Hardware", "Sports", "Music", "Laboratory", "Other" ];
     this.showCategories=false;
     this.showAccount=false;
     this.searchQuery=''
