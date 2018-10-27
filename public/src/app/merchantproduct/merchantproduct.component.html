@@ -9,7 +9,7 @@
       <p class='productName'>{{product.name}}</p>
       <div class='buttons'>
         <!--><button class='green'>E</button><-->
-        <button class='green' (click)="edit(product._id)">E</button>
+        <button class='green' (click)="editAlt(product._id)">E</button>
         <button class='red'>R</button>
         <button class='blue' [routerLink]="['/promote', product._id]">P</button>
       </div>

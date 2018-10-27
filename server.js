@@ -288,7 +288,7 @@ app.post('/createDummyProduct', function(request, response){
         }
         else{
             console.log(product)
-            var newProduct=new Product({name:product.name, price:parseFloat(product.price), description:product.description, sizes:product.size, colors:product.color, images:[product.image], tags:product.tag, merchantLicense:license})
+            var newProduct=new Product({name:product.name, price:parseFloat(product.price), description:product.description, sizes:product.size, colors:product.color, images:[product.image], tags:product.tag, merchantLicense:license, category:product.category})
             newProduct.save(function(error){
                 console.log("Inside save function")
                 if(error){

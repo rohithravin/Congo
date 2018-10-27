@@ -1,6 +1,5 @@
 <form>
-  {{newProduct | json}}
-  <h2>Add Product</h2>
+  <h2>{{addEditTitle}} Product</h2>
   <label for="prod_name">Product Name</label>
   <input type='text' name='prod_name' placeholder='name' [(ngModel)]='newProduct.name'>
     <div class="row">
@@ -37,58 +36,7 @@
 
   <input type='text' name='category' placeholder='category' [(ngModel)]='newProduct.category'>
   <p class="red" *ngIf=showErr_category>Enter category.</p>
-  <button (click)='createProduct()'>Create</button>
+  <button *ngIf='edit==false' (click)='createProduct()'>Create</button>
+  <button *ngIf='edit' (click)='editProduct()'>Make Changes</button>
 </form>
 
-<!--
-<form class='register' method='post'>
-  <p class='big'>Registration</p>
-
-  <div class='single'>
-      <p>First Name:</p>
-      <input type='text' name='first_name' placeholder='first name' [(ngModel)]='first_name'>
-  </div>
-  <p class='red' *ngIf=showErr_firstname>Enter valid first name.</p>
-
-  <div class='single'>
-      <p>Last Name:</p>
-      <input type='text' name='last_name' placeholder='last name' [(ngModel)]='last_name'>
-  </div>
-  <p class='red' *ngIf=showErr_lastname>Enter valid last name.</p>
-
-  <div class='single'>
-      <p>Phone Number:</p>
-      <input type='text' name='phone_number' placeholder='phone number' [(ngModel)]='phone_num'>
-  </div>
-  <p class='red' *ngIf=showErr_phoneNum>Enter valid phone number.</p>
-
-  <div class='single'>
-      <p>Email:</p>
-      <input type='text' name='email' placeholder='email' [(ngModel)]='email'>
-  </div>
-  <p class='red' *ngIf=showErr_email>Enter valid email.</p>
-
-  <div class='single'>
-      <p>Password:</p>
-      <input type='password' name='password' placeholder='password' [(ngModel)]='password'>
-  </div>
-  <p class='red' *ngIf=showErr_password>{{password_err}}</p>
-
-  <div class='single'>
-      <p>Confirm PW:</p>
-      <input type='password' name='confirm' placeholder='confirm' [(ngModel)]='password_validated'>
-  </div>
-  <p class='red' *ngIf=showErr_confirm>Password doesn't match.</p>
-
-  <input class='register login' type='submit' (click)="submitButton()" value='Register'>
-</form>
--->
-
-<!--
-<div class="input-group">
-  <input type="text" class="form-control">
-  <span class="input-group-btn">
-       <button class="btn btn-default" type="button">Go!</button>
-  </span>
-</div>
--->

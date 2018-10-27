@@ -35,6 +35,11 @@ export class MerchantProductComponent implements OnInit {
         this._router.navigate(['dummyAdd']);
         //this.cart = localStorage.getItem("items");
   }
+  editAlt(productID){
+      localStorage.setItem('checkEdit', 'true')
+      localStorage.setItem('editProdID', productID)
+      this._router.navigate(['dummyAdd'])
+  }
   fetchAllProducts(){
     var license=localStorage.getItem('licenseNo')
     var productsObs=this._httpService.fetchMerchantProducts(license)

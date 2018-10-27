@@ -22,39 +22,36 @@ export class DummyAddProductComponent implements OnInit {
   showErr_color:boolean;
   showErr_tag:boolean;
   showErr_category:boolean;
-
-  isTrue:string
   edit:boolean;
+  addEditTitle:string
+  editID:string
 
-  randomProductID:string;
   constructor(private _httpService: HttpService, private _router:Router) {
-        this.product = {};
-        this.showErr_name = false;
-        this.showErr_description = false;
-        this.showErr_image = false;
-        this.showErr_price = false;
-        this.showErr_size = false;
-        this.showErr_color = false;
-        this.showErr_tag = false;
-        this.showErr_category = false;
-        this.images = {};
-        this.images[0] = "Enter Image";
-        this.images_size = 0;
-        this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
-        this.isTrue = 'true';
-        this.randomProductID = localStorage.getItem('randomProductID');
-        console.log(this.randomProductID);
-        //this.edit = true;
-
-        if(localStorage.getItem('checkEdit') != null){
-            console.log("check 1")
-            this.edit = (this.isTrue == localStorage.getItem('checkEdit'));
-            console.log("check 2");
-            localStorage.setItem('checkEdit', 'false');
-      }else{
-            console.log("check false");
-            this.edit = false;
-      }
+    this.showErr_name = false;
+    this.showErr_description = false;
+    this.showErr_image = false;
+    this.showErr_price = false;
+    this.showErr_size = false;
+    this.showErr_color = false;
+    this.showErr_tag = false;
+    this.showErr_category = false;
+    this.images = {};
+    this.images[0] = "Enter Image";
+    this.images_size = 0;
+    this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
+    this.edit=false
+    this.addEditTitle='Add'
+    this.editID='-1'
+    
+    if(localStorage.getItem('checkEdit')!=null && localStorage.getItem('checkEdit')=='true'){
+      this.edit=true;
+      this.editID=localStorage.getItem('editProdID')
+      localStorage.removeItem('checkEdit')
+      localStorage.removeItem('editProdID')
+      this.addEditTitle='Edit'
+      this.fetchProduct()
+    }
+  
   }
 
   ngOnInit() {
@@ -64,46 +61,46 @@ export class DummyAddProductComponent implements OnInit {
     else if(localStorage.getItem('loggedIn')==null || localStorage.getItem('loggedIn')=='false'){
       this._router.navigate(['']);
     }
-    if(this.edit){
-          this.fetchProduct();
-    }else{
-          this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
-    }
   }
 
   fetchProduct(){
-        console.log("in fetch");
-        if(localStorage.getItem('loggedIn')=='false'){
-             this._router.navigate(['login']);
+    var productObs=this._httpService.fetchProduct(this.editID)
+    productObs.subscribe(data=>{
+      if(data['success']!=1){
+        return this._router.navigate(['dummyAdd'])
+      }
+      else{
+        var product=data['product']
+        var tags=product.tags[0]
+        for(var i=1; i<product.tags.length; i++){
+          tags+=','
+          tags+=product.tags[i]
         }
-
-        var productObs=this._httpService.fetchProduct(this.randomProductID);
-        productObs.subscribe(data=>{
-             console.log(data);
-
-             if(data['success'] != 1){
-                   this._router.navigate(['']);
-             }
-
-             this.product =data['product'];
-             console.log("hi");
-             console.log(this.product['name']);
-             this.product['category'] = 'hat';
-             //this.editProduct={name:product['name'], description:product['description'], image:product['images'][0], price:product['price'], size:product['sizes'], color:product['colors'][0], tag:product['tags'][0], category:''}
-
-        })
+        var colors=product.colors[0]
+        for(var i=1; i<product.colors.length; i++){
+          colors+=','
+          colors+=product.colors[i]
+        }
+        var sizes=product.sizes[0]
+        for(var i=1; i<product.sizes.length; i++){
+          sizes+=','
+          sizes+=product.sizes[i]
+        }
+        this.newProduct={name:product.name, description:product.description, image:product.images[0], price:product.price, size:sizes, color:colors, tag:tags, category:product.category}
+      }
+    })
   }
 
-  updateCountPlus(){
-    if(this.image_name){
-    console.log(this.image_name);
-    this.images[this.images_size] = this.image_name;
-    this.images_size++;
-    this.showErr_image = false;
-    }else{
-      this.showErr_image = true;
-    }
-  }
+  // updateCountPlus(){
+  //   if(this.image_name){
+  //   console.log(this.image_name);
+  //   this.images[this.images_size] = this.image_name;
+  //   this.images_size++;
+  //   this.showErr_image = false;
+  //   }else{
+  //     this.showErr_image = true;
+  //   }
+  // }
 
   createProduct(){
     this.showErr_name=false
@@ -158,5 +155,9 @@ export class DummyAddProductComponent implements OnInit {
         }
       })
     }
+  }
+
+  editProduct(){
+    console.log("Editing product")
   }
 }
