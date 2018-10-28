@@ -643,11 +643,12 @@ app.get('/getFeatured', function(request, response){
             console.log(featuredProducts);
             console.log("------------------------------------------------------");
             //return response.json({success: 1, featuredProducts})
-            
+            response.json({success: 1, message: "Successfully fetched all featured products", bigBanner: bigBannerProducts, smallBanner: smallBannerProducts, featuredProducts: featuredProducts}); 
         }
     })
     //Same thing for featured products
-    return response.json({success:1, message:"Successfully fetched all featured products", bigBanner:bigBannerProducts, smallBanner:smallBannerProducts, featuredProducts:featuredProducts})
+    //response.json({success: 1, message: "Successfully fetched all featured products", bigBanner: bigBannerProducts, smallBanner: smallBannerProducts, featuredProducts: featuredProducts});
+    //return response.json({success:1, message:"Successfully fetched all featured products", bigBanner:bigBannerProducts, smallBanner:smallBannerProducts, featuredProducts:featuredProducts})
 })
 
 app.all('*', (request, response, next)=>{

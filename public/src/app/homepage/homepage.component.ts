@@ -7,8 +7,14 @@ import { HttpService } from '../http.service';
   styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent implements OnInit {
-
-  constructor(private _httpService:HttpService) { }
+  bigBannerPromo:any;
+  smallBannerPromo:any;
+  featuredProductsPromo:any;
+  constructor(private _httpService:HttpService) {
+    this.bigBannerPromo = [];
+    this.smallBannerPromo = [];
+    this.featuredProductsPromo = [];
+   }
 
   ngOnInit() {
      this.fetchFeatured()
@@ -18,6 +24,11 @@ export class HomepageComponent implements OnInit {
     var featuredObs=this._httpService.fetchFeatured()
     featuredObs.subscribe(data=>{
       console.log(data)
+      this.bigBannerPromo = data['bigBanner'];
+      this.smallBannerPromo = data['smallBanner'];
+      this.featuredProductsPromo = data['featuredProducts'];
+      console.log(this.smallBannerPromo);
+      console.log(this.featuredProductsPromo);
     }) 
   }
 
