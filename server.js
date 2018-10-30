@@ -475,6 +475,8 @@ app.post('/promoteProduct', function(request, response){
             if(promotionImage!='false@IOnoa99okaXXa67'){
                 product.promotionImage=promotionImage
             }
+
+            product.promoted = true;
             product.save(function(error){
                 if(error){
                     return response.json({success:-3, message:'Unable to save product, check your inputs'})
@@ -626,7 +628,7 @@ app.get('/getFeatured', function(request, response){
     var smallBannerProducts=[]
     var featuredProducts=[]
     console.log("featured");
-    Product.find({promotionType:'Big Banner'}, function(error, products){
+    Product.find({promotionType:'BB'}, function(error, products){
         if(error){
             response.json({success:-1, message:'Server error'})
         }
@@ -655,7 +657,7 @@ app.get('/getFeatured', function(request, response){
             //return response.json({success: 1, bigBannerProducts})
         }
     })
-    Product.find({promotionType:'Small Banner'}, function(error, products){
+    Product.find({promotionType:'SB'}, function(error, products){
         if(error){
             //send error response
             response.json({success:-1, message:'Server error'});
@@ -667,9 +669,7 @@ app.get('/getFeatured', function(request, response){
             //console.log(products);
             var _numProducts = 2;
             var _pickedIndexes = [];
-            if(products.length == 0){
-                resonpse.json({success: -1, message:'error no small banners'});
-            }
+            if (products.length != 0){
             for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
             for(var i =0; i < _numProducts; i++){
                 do{
@@ -681,11 +681,12 @@ app.get('/getFeatured', function(request, response){
                     console.log("------------------------------------------------------");
                 }
             }
+        }
             smallBannerProducts = products;
             //return response.json({success: 1,smallBannerProducts})
         }
     })
-    Product.find({promotionType:'Featured Product'}, function(error,products){
+    Product.find({promotionType:'FP'}, function(error,products){
         if(error){
             response.json({success:-1, message:'Server error'});
             
