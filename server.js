@@ -517,29 +517,6 @@ app.post('/fetchMerchantProducts', function(request, response){
     // })
 })
 
-app.post('/removeProduct', function(request, response){
-    console.log("remove product");
-    //console.log(request);
-    if(!('productID' in request.body)){
-        return response.json({success:-1, message:"Product ID not in body"})
-    }
-    if(!('license' in request.body)){
-        return resposne.json({success:-1, message:"License not in body"})
-    }
-
-    Product.deleteOne({_id:request.body['productID']}, function(error, product){
-        if (error){
-            response.json({success:-1, message:"Server error"})
-        }
-        console.log(product);
-
-        response.json({success:1, message:"Product Removed"})
-    })
-    
-
-    
-})
-
 app.post('/processEdit', function(request, response){
     if(!('productID' in request.body)){
         return response.json({success:-1, message:"Product ID not in body"})
@@ -555,7 +532,7 @@ app.post('/processEdit', function(request, response){
         else{
             //found product
             if(!('license' in request.body)){
-                return response.json({success:-1, message:'License not in  request'})
+                return response.json({success:-1, message:'License in not request'})
             }
             console.log("License: ", request.body['license'])
             console.log("Product License:", product.merchantLicense)
@@ -588,8 +565,6 @@ app.get('/testHash', function(request, response){
     console.log(license)
     response.json({license:license})
 })
-
-
 
 app.get('/getFeatured', function(request, response){
     var bigBannerProducts=[]

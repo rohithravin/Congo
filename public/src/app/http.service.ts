@@ -74,8 +74,4 @@ export class HttpService {
   editProduct(license, product, productID){
     return this._http.post('/processEdit', {license:license, product:product, productID:productID})
   }
-
-  removeProduct(license,productID){
-    return this._http.post('/removeProduct', {license:license,productID:productID})
-  }
 }
