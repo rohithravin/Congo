@@ -15,6 +15,8 @@ export class CartComponent implements OnInit {
   tax:number
   shipping:number
   total:number
+  alertMessage:string
+  showAlert:boolean
   constructor(private _httpService:HttpService, private _router:Router) {
     this.cart={}
     this.userID=localStorage.getItem('userID');
@@ -22,7 +24,8 @@ export class CartComponent implements OnInit {
     this.tax = 0.0925;
     this.shipping = 5.99;
     this.total = 0;
-
+    this.alertMessage = "Successfully removed product";
+    this.showAlert = false;
 
     //this.fetchCart()
   }
@@ -56,6 +59,31 @@ export class CartComponent implements OnInit {
     //this.getShipping();
     //this.getTotal();
 
+  }
+
+  removeProduct(productID,productName){
+    if(confirm("Remove from Cart")){
+      console.log("remove: " + productID);
+      var removeProductObs = this._httpService.removeProductFromCart(this.userID,productID);
+      removeProductObs.subscribe(data=>{
+        if(data['success'] == 1){
+        console.log("succ");
+        this.subtotal = 0;
+        this.tax = 0;
+        this.shipping = 0;
+        this.total = 0;
+        this.fetchCart();
+        this.showAlert = true;
+        this.alertMessage = "Successfully removed "+productName;
+        }else if (data['success'] == -1){
+          console.log("server error");
+          this.showAlert = true;
+          this.alertMessage = "Server Error Try again later"
+        }
+      })
+    }else{
+      console.log("remove cancelled");
+    }
   }
 
   getTotal(){
