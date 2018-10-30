@@ -40,6 +40,28 @@ export class MerchantProductComponent implements OnInit {
       localStorage.setItem('editProdID', productID)
       this._router.navigate(['dummyAdd'])
   }
+
+  removeProduct(productID){
+    if (confirm("Confirm Remove")){
+    console.log("remove: "+productID);
+    //call serivce to remove the product
+    var license = localStorage.getItem('licenseNo')
+    var removeProductObs = this._httpService.removeProduct(license,productID)
+    removeProductObs.subscribe(data=>{
+      console.log("returned: ", data)
+      if(data['success'] == 1){
+        console.log("succ");
+        this.fetchAllProducts();
+      }else if (data['success'] == -1){
+        console.log("server error");
+      }
+    })
+    }else{
+      //do nothing
+      console.log("remove canceled");
+    }
+    
+  }
   fetchAllProducts(){
     var license=localStorage.getItem('licenseNo')
     var productsObs=this._httpService.fetchMerchantProducts(license)
