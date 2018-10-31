@@ -4,11 +4,11 @@
 </div>
 <div class='bottom'>
   <div class='myDropdown'>
-    <p>CATEGORIES</p>
+    <p>{{categoriesTitle}}</p>
     <a (click)="categoriesClicked()"><img src='https://image.flaticon.com/icons/svg/120/120906.svg' alt='down'></a>
     <div class='categories' *ngIf="showCategories==true" >
       <div *ngFor="let item of categories">
-        <a href='#'>{{item}}</a>
+        <a (click)="changeCategory(item)" >{{item}}</a>
       </div>
     </div>
   </div>
@@ -21,7 +21,7 @@
   <p class='welcomeName' *ngIf="loggedIn==true">Welcome, {{first_name}}</p>
   <a href='#' class='loginLink' [routerLink]="['/login']" *ngIf='loggedIn==false'>LOGIN</a>
   <a href='#' [routerLink]="['/cart']"><img src='https://image.flaticon.com/icons/png/512/2/2772.png' alt='Cart'></a>
-  
+
     <div class='accountDropdown' *ngIf='loggedIn==true'>
       <p>ACCOUNT</p>
       <a (click)="accountClicked()"><img src='https://image.flaticon.com/icons/svg/120/120906.svg' alt='down'></a>
@@ -33,5 +33,5 @@
         <a href='#' (click)="logout()">Logout</a>
       </div>
     </div>
-  
+
 </div>
