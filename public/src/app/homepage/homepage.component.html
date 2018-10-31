@@ -1,6 +1,6 @@
 
 <div class='homeWrapper'>   
-  <div class='promotedBanner'>
+  <div *ngIf=showBB class='promotedBanner'>
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -9,18 +9,18 @@
         <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
       </ol>
-      <div class="carousel-inner">
+      <div  class="carousel-inner">
         <div class="carousel-item active">
           <a href='#'><img class="d-block w-100" src="{{bigBannerPromo[0]['promotionImage']}}" alt="First slide"></a>
         </div>
         <div class="carousel-item">
-            <a href='#'><img class="d-block w-100" src="{{bigBannerPromo[1]['promotionImage']}}" alt="Second slide"></a>
+                <a href='#'><img class="d-block w-100" src="{{bigBannerPromo[1]['promotionImage']}}" alt="Second slide"></a>
         </div>
         <div class="carousel-item">
             <a href='#'><img class="d-block w-100" src="{{bigBannerPromo[2]['promotionImage']}}" alt="Third slide"></a>
         </div>
         <div class="carousel-item">
-         <a href='#'><img class="d-block w-100" src="{{bigBannerPromo[3]['promotionImage']}}" alt="Fourth slide"></a>
+            <a href='#'><img class="d-block w-100" src="{{bigBannerPromo[3]['promotionImage']}}" alt="Fourth slide"></a>
         </div>
         <div class="carousel-item">
             <a href='#'><img class="d-block w-100" src="{{bigBannerPromo[4]['promotionImage']}}" alt="Fifth slide"></a>
@@ -63,7 +63,7 @@
         <a href='#'>24-Karat Diamond-Tipped Stapler</a>
     </div>
   </div>
-  <div class='previouslyViewed'>
+  <div class='previouslyViewed' *ngIf=showFP>
     <p class='prevHeader'>Featured Products</p>
     <div class='viewedProduct'>
         <a href='#'><img src="{{featuredProductsPromo[0]['images'][0]}}" alt='featured'></a>
@@ -90,7 +90,7 @@
         <a href='#' [routerLink]="['/product',featuredProductsPromo[5]['_id']]">{{featuredProductsPromo[5]['name']}}</a>
     </div>
   </div>
-  <div class='sponsorSmall'>
+  <div *ngIf=showSB class='sponsorSmall'>
     <a href='#'><img src="{{smallBannerPromo[0]['promotionImage']}}" alt='Sponsor'></a>
   </div>
   <div class='previouslyViewed'>
@@ -120,7 +120,7 @@
           <a href='#'>Lululemon Men's Athletic Shorts</a>
       </div>
     </div>
-    <div class='sponsorSmall'>
+    <div *ngIf=showSB class='sponsorSmall'>
       <a href='#'><img src="{{smallBannerPromo[1]['promotionImage']}}" alt='Promoted Product'></a>
     </div>
     <div class='previouslyViewed'>
