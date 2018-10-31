@@ -76,7 +76,8 @@ var ProductSchema=new mongoose.Schema({
     promoted:{type:Boolean, default:false},
     promotionType:{type:String},
     endDate:{type:Date},
-    promotionImage:{type:String}
+    promotionImage:{type:String},
+    quantity:{type:Number, required:[true, "Quantity is required"], min:1}
 }, {timestamps:true})
 mongoose.model('Product', ProductSchema)
 var Product=mongoose.model('Product')
@@ -288,11 +289,11 @@ app.post('/createDummyProduct', function(request, response){
         }
         else{
             console.log(product)
-            var newProduct=new Product({name:product.name, price:parseFloat(product.price), description:product.description, sizes:product.size, colors:product.color, images:[product.image], tags:product.tag, merchantLicense:license, category:product.category})
+            var newProduct=new Product({name:product.name, price:parseFloat(product.price), description:product.description, sizes:product.size, colors:product.color, images:[product.image], tags:product.tag, merchantLicense:license, category:product.category, quantity:product.quantity})
             newProduct.save(function(error){
                 console.log("Inside save function")
                 if(error){
-                    response.json({success:0, message:"There was an error creating your product"})
+                    response.json({success:0, message:"There was an error creating your product", error:error})
                 }
                 else{
                     merchant.products.push(newProduct)
@@ -627,6 +628,7 @@ app.get('/getFeatured', function(request, response){
     var bigBannerProducts=[]
     var smallBannerProducts=[]
     var featuredProducts=[]
+   
     console.log("featured");
     Product.find({promotionType:'BB'}, function(error, products){
         if(error){
