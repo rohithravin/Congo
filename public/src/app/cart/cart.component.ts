@@ -53,7 +53,6 @@ export class CartComponent implements OnInit {
       this.cart=data['cart']
      var item_leng = data['cart']['items'].length;
       if (item_leng == 0){
-        console.log("empty")
         this.showCartEmpty = true;
       }else{
         this.showCartEmpty = false;
@@ -84,6 +83,12 @@ export class CartComponent implements OnInit {
           this.alertMessage = "Server Error Try again later"
         }
       })
+    }
+  }
+
+  checkout(){
+    if(!this.showCartEmpty){
+      this._router.navigate(['/checkout']);
     }
   }
 
