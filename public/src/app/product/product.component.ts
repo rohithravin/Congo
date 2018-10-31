@@ -14,13 +14,15 @@ export class ProductComponent implements OnInit {
   count:number;
   size:string;
   color:string;
+  showErr_quantity:boolean
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
     this.productID = '';
     this.product={};
     this.count = 1;
-    this.size=''
-    this.color=''
+    this.size='';
+    this.color='';
+    this.showErr_quantity = false;
   }
 
   ngOnInit() {
@@ -64,6 +66,11 @@ export class ProductComponent implements OnInit {
       this._router.navigate(['login'])
       return;
     }
+    if(this.count > this.product['quantity']){
+      console.log("can't buy that many")
+      this.showErr_quantity = true;
+    }else{
+      this.showErr_quantity = false;
     var productDetails={product:this.product, size:this.size, color:this.color, quantity:this.count}
     var addCartObs=this._httpService.addToCart(productDetails, localStorage.getItem('userID'))
     addCartObs.subscribe(data=>{
@@ -72,6 +79,7 @@ export class ProductComponent implements OnInit {
         this._router.navigate(['cart'])
       }
     })
+  }
   }
 
 }

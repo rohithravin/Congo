@@ -71,7 +71,10 @@
                         <p>{{count}}</p>
                     </div>
                     <div class="col"><button class="btn btn-primary" type="button" style="width: 110px;background-color: rgba(170,142,10,0.75);" (click)="updateCountPlus()">+</button></div>
-                    <div class="col"><button class="btn btn-primary" type="button" style="background-color: rgba(170,142,10,0.75);" (click)="addToCart()">Add To Cart</button></div>
+                    <div class="col"><button class="btn btn-primary" type="button" style="background-color: rgba(170,142,10,0.75);" (click)="addToCart()">Add To Cart</button>
+                        <small class="form-text text-danger" *ngIf=showErr_quantity style="color: rgb(114,29,119);">Lower Quantity</small>
+                    </div>
+
                 </div>
                 <div class="row" style="background-color: #f7f7f7; margin-top: 15px;padding-top: 15px;padding-bottom: 15px;">
                     <div id="rating" class="col">
