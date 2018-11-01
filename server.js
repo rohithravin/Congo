@@ -194,6 +194,20 @@ app.post('/fetchSearchedProducts', function(request, response){
     })
 })
 
+app.post('/fetchSearchedProductsWithCategory', function(request, response){
+    var searchQuery=request.body['searchQuery']
+    var category=request.body['category']
+    var queryRegex= new RegExp(searchQuery, 'i')
+    Product.find({$or:[{name: {$regex: queryRegex}}, {description: {$regex: queryRegex}}, {tags: {$regex: queryRegex}}]}, function(error, products){
+        if(error){
+            response.json({success:0, message:"There was an error"})
+        }
+        else{
+            response.json({success:1, message:"Successfully fetched products", products:products})
+        }
+    })
+})
+
 
 app.post('/processMerchantLogin', function(request, response){
   
@@ -746,7 +760,7 @@ app.post('/getOrderItems', function(request, response){
                 }
             })
         }
-    }
+    })
 })
 
 app.get('/testHash', function(request, response){
