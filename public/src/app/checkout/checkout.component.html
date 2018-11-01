@@ -15,9 +15,9 @@
                                         <div class="col-12">
                                             <div class="form-group"><label for="cardNumber">Full Name:</label>
                                                 <div class="input-group"><input [ngModelOptions]="{standalone: true}" [(ngModel)]="full_name" class="form-control form-control-sm" type="text">
-            
+
                                                     <div class="input-group-append"></div>
-                                                   
+
                                                 </div>
                                                 <div class="row" *ngIf='showErr_fullname'>
                                                         <p class="red">Enter valid name.</p>
@@ -37,7 +37,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                   
+
                                     <div class="form-row">
                                         <div class="col-7">
                                             <div class="form-group"><label for="cardExpiry">City</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]='city' class="form-control" type="text"></div>
@@ -45,7 +45,7 @@
                                                     <p class="red">Enter valid city.</p>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="col-5 pull-right">
                                             <div class="form-group"><label for="cardCVC">State</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]='state' class="form-control" type="text"></div>
                                             <div class="row" *ngIf='showErr_state'>
@@ -71,9 +71,9 @@
                                         <div class="col-12">
                                             <div class="form-group"><label for="cardNumber">Card number </label>
                                                 <div class="input-group"><input [ngModelOptions]="{standalone: true}" [(ngModel)]='cc_number' class="form-control" type="number" required="" placeholder="Valid Card Number" id="cardNumber">
-                                        
+
                                                     <div class="input-group-append"><span class="input-group-text"><i class="fa fa-credit-card"></i></span></div>
-                                                   
+
                                                 </div>
                                             </div>
                                             <div class="row" *ngIf='showErr_ccNumber'>
@@ -93,7 +93,7 @@
                                                     <p class="red">Enter expiration date.</p>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="col-5 pull-right">
                                             <div class="form-group"><label for="cardCVC">CV Code</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]= 'cvv_code' class="form-control" type="number" required="" placeholder="CVC" id="cardCVC"></div>
                                             <div class="row" *ngIf='showErr_cvvCode'>
@@ -122,7 +122,7 @@
                                             <div class="row"  *ngIf='showErr_phoneNumber'>
                                                     <p class="red">Enter valid phone number.</p>
                                             </div>
-                                           
+
                                         </div>
                                     </div>
                                 </form>
@@ -147,7 +147,7 @@
                                 <p class="text-right">${{item['product']['price']}}</p>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col">
                                 <p>Shipping &amp; Handling:</p>
