@@ -69,8 +69,8 @@ export class CheckoutComponent implements OnInit {
     this.total = 0;
     this.userID=localStorage.getItem('userID');
     var currentDate = new Date();
-    var nextWeek = new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000);
-    this.shipping_date = nextWeek.toDateString();
+    currentDate.setDate(currentDate.getDate() + 7);
+    this.shipping_date = currentDate.getMonth()+"/"+currentDate.getDay()+"/"+currentDate.getFullYear();
    }
 
   ngOnInit() {
