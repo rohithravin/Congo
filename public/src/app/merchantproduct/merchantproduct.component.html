@@ -7,10 +7,12 @@
     <div class='product' *ngFor='let product of products'>
       <img [routerLink]="['/product', product._id]" src="{{product['images'][0]}}" alt='Product image'>
       <p class='productName'>{{product.name}}</p>
+      <p class='productState' *ngIf="product.active">Active</p>
+      <p class='productState' *ngIf="product.active==false">Inactive</p>
       <div class='buttons'>
         <!--><button class='green'>E</button><-->
         <button class='green' (click)="editAlt(product._id)">E</button>
-        <button class='red'>R</button>
+        <button class='red' (click)="changeProductState(product._id)">R</button>
         <button class='blue' *ngIf=!product.promoted [routerLink]="['/promote', product._id]">P</button>
       </div>
     </div>

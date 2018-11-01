@@ -41,11 +41,31 @@ export class MerchantProductComponent implements OnInit {
       this._router.navigate(['dummyAdd'])
   }
   fetchAllProducts(){
+    this.products=[]
     var license=localStorage.getItem('licenseNo')
     var productsObs=this._httpService.fetchMerchantProducts(license)
     productsObs.subscribe(data=>{
       console.log("Recieved response:", data)
       this.products=data['products']
+    })
+  }
+  changeProductState(productID){
+    var license=localStorage.getItem('licenseNo')
+    var stateObs=this._httpService.changeProductState(productID, license)
+    stateObs.subscribe(data=>{
+      console.log("Recieved response:", data)
+      if(data['success']==1){
+        this.fetchAllProducts()
+        // for(var product in this.products){
+        //     if(product['_id']==productID){
+        //       product['active']=data['product']['active']
+        //     }
+        // }
+
+      }
+      else{
+        
+      }
     })
   }
 }

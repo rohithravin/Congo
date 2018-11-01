@@ -69,6 +69,7 @@ var ProductSchema=new mongoose.Schema({
     num_views:{type:Number, default:0},
     images:[{type:String}],
     tags:[{type:String}],
+    active:{type:Boolean, default:true},
     // merchant:MerchantSchema,
     merchantLicense:{type:String},
     reviews:["ReviewSchema"],
@@ -184,7 +185,7 @@ app.post('/fetchSearchedProducts', function(request, response){
     var searchQuery=request.body['searchQuery']
     console.log(searchQuery)
     var queryRegex= new RegExp(searchQuery, 'i')
-    Product.find({$or:[{name: {$regex: queryRegex}}, {description: {$regex: queryRegex}}, {tags: {$regex: queryRegex}}]}, function(error, products){
+    Product.find({$and:[{$or:[{name: {$regex: queryRegex}}, {description: {$regex: queryRegex}}, {tags: {$regex: queryRegex}}]},{active:true}]}, function(error, products){
         if(error){
             response.json({success:0, message:"There was an error"})
         }
@@ -198,7 +199,7 @@ app.post('/fetchSearchedProductsWithCategory', function(request, response){
     var searchQuery=request.body['searchQuery']
     var category=request.body['category']
     var queryRegex= new RegExp(searchQuery, 'i')
-    Product.find({$and:[{$or:[{name: {$regex: queryRegex}}, {description: {$regex: queryRegex}}, {tags: {$regex: queryRegex}}]},{category:category}]}, function(error, products){
+    Product.find({$and:[{$or:[{name: {$regex: queryRegex}}, {description: {$regex: queryRegex}}, {tags: {$regex: queryRegex}}]},{category:category}, {active:true}]}, function(error, products){
         if(error){
             response.json({success:0, message:"There was an error"})
         }
@@ -336,13 +337,46 @@ app.post('/createDummyProduct', function(request, response){
             })
         }
     })
-    
+})
+
+app.post('/changeProductActiveState', function(request, response){
+    var productID=request.body['productID']
+    // var userID=request.body['userID']
+    var license=request.body['license']
+    Product.findOne({_id:productID}, function(error, product){
+        if(error){
+            return response.json({success:-1, message:'Server Error'})
+        }
+        else if(product==null){
+            return response.json({success:0, message:'Unable to find product'})
+        }
+        else{
+            //Successfully found product
+            if(product.merchantLicense!=license){
+                return response.json({success:0, message:'This is not your product'})
+            }
+            else{
+                product.active=!product.active
+                product.save(function(error){
+                    if(error){
+                        return response.json({success:0, message:'Unable to save product'})
+                    }
+                    else{
+                        return response.json({success:1, message:'Successfully changed product state', product:product})
+                    }
+                })
+            }
+        }
+    })
 })
 
 app.post('/processAddToCart', function(request, response){
     // var cartProduct=request.body['details']
     var userID=request.body['userID']
     var newCartItem=new CartItem(request.body['details'])
+    if(newCartItem.product.active==false){
+        return response.json({success:-1, message:'This product is inactived'})
+    }
     newCartItem.save(function(error){
         if(error){
             response.json({success:0, message:"Unable to add to Cart", error:error})
