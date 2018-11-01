@@ -517,61 +517,6 @@ app.post('/fetchMerchantProducts', function(request, response){
     // })
 })
 
-app.post('/removeProductFromCart', function(request,response){
-    console.log("remove product from cart");
-    if(!('productID' in request.body)){
-        return response.json({success:-1, message:"Product ID not in body"})
-    }
-    console.log(request.body['productID'])
-    var userID=request.body['userID']
-   
-
-    User.findOne({_id: userID}, function(findUserError,results){
-        if(findUserError){
-            response.json({success:0, message:"Unable to find user"})
-        }
-        else{
-            //found user 
-           
-            console.log("found user")
-            Cart.findOne({userID:userID}, function(error,cart){
-                console.log("found cart")
-               
-                if(error){
-                    response.json({success:0, response:'Cart does not exist'})
-                }
-                //console.log(cart);
-                if(cart){
-                    console.log("find product")
-                    console.log(cart['items'].length)
-                    for (var i = 0; i < cart['items'].length; i++){
-                        //console.log(cart['items'][i])
-                        if(cart['items'][i]['_id'] == request.body['productID']){
-                            console.log("got prod to delete")
-                            console.log(cart['items'][i]['_id'])
-                            cart['items'].splice(i,1);
-                            cart.save(function(error){
-                                if(error){
-                                    response.json({success:0, message:"Failed when removing from cart for this user"})
-                                }
-                                else{
-                                    response.json({success:1, message:"Successfully removed from cart"})
-                                }
-                            })
-                        }
-                    }
-                    console.log("after delete");
-                    console.log(cart);
-
-                    
-                  
-                }
-            })
-        }
-    })
-    //return response.json({success:1, message:"Product Removed from cart"})
-})
-
 app.post('/processEdit', function(request, response){
     if(!('productID' in request.body)){
         return response.json({success:-1, message:"Product ID not in body"})

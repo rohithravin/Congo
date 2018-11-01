@@ -27,7 +27,7 @@
                                         <td>{{item['color']}}</td>
                                         <td>{{item['size']}}</td>
                                         <td>${{item['product']['price']}}</td>
-                                        <td><button class="btn btn-primary btn-sm justify-content-center align-items-center align-content-center align-self-center" type="button" style="background-color: #aa8e0a;" (click)="removeProduct(item['_id'],item['product']['name'])">X</button></td>
+                                        <td><button class="btn btn-primary btn-sm justify-content-center align-items-center align-content-center align-self-center" type="button" style="background-color: #aa8e0a;">X</button></td>
                                   </tr>
                           <!--> </figure><-->
                         </tbody>
@@ -101,10 +101,6 @@
                     <div class="col" style="padding-left: 0px;"><button class="btn btn-primary active btn-lg justify-content-center align-items-center align-content-center" type="button" style="width: 198px;background-color: #aa8e0a;margin-left: 70px;padding-left: 0px;" [routerLink]="['/checkout']">Checkout</button></div>
                 </div>
             </div>
-        </div>
-        <div *ngIf=showAlert class="alert">
-            <span class="closebtn" (click)="showAlert = false">&times;</span>
-            <strong>Attention!</strong> {{alertMessage}}
         </div>
     </div>
 </section>
