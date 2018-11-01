@@ -10,13 +10,13 @@ export class HttpService {
 
   }
 
-  purchaseInformation(fullName,address,city,state){
-    console.log("check 2");
-    console.log(fullName);
-    console.log(address);
-    console.log(city);
-    console.log(state);
-  }
+  // purchaseInformation(fullName,address,city,state){
+  //   console.log("check 2");
+  //   console.log(fullName);
+  //   console.log(address);
+  //   console.log(city);
+  //   console.log(state);
+  // }
 
   fetchFeatured(){
     return this._http.get('/getFeatured')
@@ -73,5 +73,8 @@ export class HttpService {
   }
   editProduct(license, product, productID){
     return this._http.post('/processEdit', {license:license, product:product, productID:productID})
+  }
+  createOrder(userID, street, city, state, zip_code, shipping, tax){
+    return this._http.post('/createOrder', {userID:userID, street:street, city:city, state:state, zip:zip_code, shipping:shipping, tax:tax})
   }
 }
