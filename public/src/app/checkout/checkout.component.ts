@@ -234,6 +234,9 @@ export class CheckoutComponent implements OnInit {
         var orderObs=this._httpService.createOrder(localStorage.getItem('userID'), this.address_lineone, this.city, this.state, tempZip, this.shipping, this.tax)
         orderObs.subscribe(data=>{
           console.log("Response:", data)
+          if(data['success']==1){
+            this._router.navigate([''])
+          }
         })
         // this._httpService.purchaseInformation(this.full_name,this.address_lineone,this.city,this.state);
 

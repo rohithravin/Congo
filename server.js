@@ -121,7 +121,8 @@ var OrderItemSchema=new mongoose.Schema({
     size:{type:String, required:[true, "Size is required"]},
     color:{type:String, required:[true, "Color is required"]},
     quantity:{type:Number, min:1, required:true},
-    total:{type:Number, default:0}
+    total:{type:Number, default:0},
+    orderID:{type:String}
 }, {timestamps:true})
 mongoose.model('OrderItem', OrderItemSchema)
 var OrderItem=mongoose.model('OrderItem')
@@ -138,7 +139,9 @@ var OrderSchema=new mongoose.Schema({
     city:{type:String, required:[true, "Street address is required"]},
     state:{type:String, required:[true, "State is required"]},
     zip_code:{type:String, required:[true, "Zip Code is required"]},
-    country:{type:String, default:'United States'}
+    country:{type:String, default:'United States'},
+    tempID:{type:String},
+    items:{type:Number, default:0, required:[true, "Number of items is required"]}
 }, {timestamps:true})
 mongoose.model('Order', OrderSchema)
 var Order=mongoose.model('Order')
@@ -508,24 +511,6 @@ app.post('/fetchMerchantProducts', function(request, response){
             response.json({success:1, message:"Successfully fetched your products", products:products})
         }
     })
-    // Merchant.findOne({license:license}, function(error, merchant){
-    //     if(error){
-    //         response.json({success:-1, message:'Server'})
-    //     }
-    //     else if(merchant==null){
-    //         response.json({success:0, message:'No merchant with this license number'})
-    //     }
-    //     else{
-    //         // var productsRaw=merchant.products
-    //         // var products=[]
-    //         // for(product in productsRaw){
-    //         //     var productData={name:product.name, image:product.image, _id:product._id}
-    //         //     products.push(productData)p
-    //         // }
-    //         var products=merchant.products
-    //         response.json({success:1, message:"Successfully fetched your products", products:products})
-    //     }
-    // })
 })
 
 app.post('/processEdit', function(request, response){
@@ -571,8 +556,33 @@ app.post('/processEdit', function(request, response){
     })
 })
 
+async function createItems(cart, newOrder, currentTotal){
+    for(var i=0; i<cart.items.length; i++){
+        // for(const item of cart.items){
+        // cart.items.forEach(async (item) =>{
+            var item=cart.items[i]
+            var thisItem={}
+            thisItem.product=item.product
+            thisItem.size=item.size
+            thisItem.color=item.color
+            thisItem.quantity=item.quantity
+            thisItem.total=item.product.price * item.quantity
+            currentTotal.total+=parseFloat(thisItem.total)
+            // items.push(thisItem)
+            var newOrderItem=new OrderItem(thisItem)
+            newOrderItem.save(function(error){
+                if(error){
+                    return response.json({success:0, message:'Unable to create OrderItem'})
+                }
+                else{
+                    console.log("Successfully creating Item:", i)
+                    newOrder.items.push(newOrderItem)
+                }
+            })
+        }
+}
+
 app.post('/createOrder', function(request, response){
-    console.log(request.body)
     if(!('userID' in request.body)){
         return response.json({success:-1, message:'UserID not in request.body'})
     }
@@ -584,24 +594,23 @@ app.post('/createOrder', function(request, response){
             return response.json({success:0, message:'No user exists with this id'})
         }
         else{
-            Cart.findOne({userID:request.body['userID']}, function(error, cart){
+            Cart.findOne({userID:request.body['userID']},async function(error, cart){
                 if(error){
                     return response.json({success:-1, message:'Server error'})
                 }
                 else if(cart==null){
                     return response.json({success:0, message:'No Cart yet exists for this user'})
                 }
-                // console.log("Found Cart: ", cart)
-                // var userCart=cart;
                 var street=request.body['street']
                 var city=request.body['city']
                 var state=request.body['state']
                 var zip_code=request.body['zip']
                 var shipping=request.body['shipping']
                 var tax=request.body['tax']
-
-                var items=[]
+                var tempID=createTempID()
                 var currentTotal=0;
+                console.log("tempID:", tempID)
+                var items=[]
                 for(var i=0; i<cart.items.length; i++){
                     var item=cart.items[i]
                     var thisItem={}
@@ -611,25 +620,46 @@ app.post('/createOrder', function(request, response){
                     thisItem.quantity=item.quantity
                     thisItem.total=item.product.price * item.quantity
                     currentTotal+=parseFloat(thisItem.total)
-                    var newOrderItem=new OrderItem(thisItem)
-                    newOrderItem.save(function(error){
-                        if(error){
-                            return response.json({success:0, message:'Unable to create OrderItem'})
-                        }
-                        else{
-                            items.push(thisItem)
-                        }
-                    })
+                    items.push(thisItem)
                 }
-                //ITEMS EXIST, but not being stored in newOrder, Maybe need to use $PUSH
+                var newOrder = new Order({userID:request.body['userID'], street_address:street, city:city, state:state, zip_code:zip_code, country:'United States', shipping:parseFloat(shipping), tempID:tempID, total:0, items:items.length})
+                
                 currentTotal=currentTotal+parseFloat(shipping)+parseFloat(tax);
-                var newOrder = new Order({userID:request.body['userID'], street_address:street, city:city, state:state, zip_code:zip_code, country:'United States', shipping:parseFloat(shipping), total:currentTotal, items:items})
+                newOrder.total=currentTotal
                 newOrder.save(function(error){
                     if(error){
-                        return response.json({success:-1, message:'Unable to create order'})
+                        return response.json({success:0, message:"Unable to create order"})
                     }
                     else{
-                        return response.json({success:1, message:'Successfully created order', order:newOrder})
+                        Order.findOne({tempID:tempID}, function(error, order){
+                            if(error){
+                                return response.json({success:-1, message:'Unable to find order to add items'})
+                            }
+                            else{
+                                var j;
+                                for(j=0; j<items.length; j++){
+                                    var item=items[j]
+                                    item.orderID=order._id
+                                    var newOrderItem = new OrderItem(item)
+                                    newOrderItem.save(function(error){
+                                        if(error){
+                                            console.log("Unable to save a product")
+                                            return response.json({success:0, message:'Unable to save'})
+                                        }
+                                    })
+                                }
+                                if(j==items.length){
+                                    Cart.deleteOne({userID:request.body['userID']}, function(error){
+                                        if(error){
+                                            return response.json({success:0, message:'There was an error deleting the Cart'})
+                                        }
+                                        else{
+                                            return response.json({success:1, message:'Successfully created Order'})
+                                        }
+                                    })
+                                }
+                            }
+                        })
                     }
                 })
             })
@@ -677,6 +707,31 @@ app.all('*', (request, response, next)=>{
 app.listen(8000, function(){
     console.log("Server is listening on port 8000")
 })
+
+function createTempID(){
+    var hashed=''
+    for(var i=0; i<12; i++){
+        var numberOrLetter=Math.floor(Math.random()*3+1)
+        if(numberOrLetter==3){
+            var toAdd=Math.floor(Math.random()*9)
+            toAdd+=48
+            hashed+=String.fromCharCode(toAdd)
+        }
+        else{
+            if(numberOrLetter==2){
+                var toAdd=String.fromCharCode(Math.floor(Math.random()*26+65))
+                hashed+=toAdd
+                //Random lowerCase letter
+            }
+            else{
+                var toAdd=String.fromCharCode(Math.floor(Math.random()*26+97))
+                hashed+=toAdd
+                //Random upperCase letter
+            }
+        }
+    }
+    return hashed
+}
 
 function createHash(name, url){
     var hashed=''
