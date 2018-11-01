@@ -528,6 +528,45 @@ app.post('/fetchMerchantProducts', function(request, response){
     // })
 })
 
+app.post('/removeProductFromCart', function(request,response){
+    console.log("remove product from cart");
+    if(!('productID' in request.body)){
+        return response.json({success:-1, message:"Product ID not in body"})
+    }
+    console.log(request.body['productID'])
+    var userID=request.body['userID']
+   
+
+    User.findOne({_id: userID}, function(findUserError,results){
+        if(findUserError){
+           return response.json({success:0, message:"Unable to find user"})
+        }
+        else{
+            //found user 
+            Cart.findOne({userID:userID}, function(error,cart){
+                if(error){
+                   return response.json({success:0, response:'Cart does not exist'})
+                }
+                if(cart){
+                    for (var i = 0; i < cart['items'].length; i++){
+                        if(cart['items'][i]['_id'] == request.body['productID']){
+                            cart['items'].splice(i,1);
+                            cart.save(function(error){
+                                if(error){
+                                   return response.json({success:0, message:"Failed when removing from cart for this user"})
+                                }
+                                else{
+                                  return  response.json({success:1, message:"Successfully removed from cart"})
+                                }
+                            })
+                        }
+                    }
+                }
+            })
+        }
+    })
+})
+
 app.post('/processEdit', function(request, response){
     if(!('productID' in request.body)){
         return response.json({success:-1, message:"Product ID not in body"})
