@@ -36,16 +36,12 @@
   <div class="red" style="margin-left: 170px;" >
     <select [(ngModel)]='newProduct.category' [ngModelOptions]="{standalone: true}">
       <option value="" selected disabled hidden>Choose Categories</option>
-      <option value="Technology">Technology</option>
-      <option value="Video Games">Video Games</option>
-      <option value="Clothing">Clothing</option>
+      <option value="Office Supplies">Office Supplies</option>
+      <option value="Shoes">Shoes</option>
+      <option value="Apparel">Apparel</option>
       <option value="Food">Food</option>
-      <option value="Furniture">Furniture</option>
-      <option value="Hardware">Hardware</option>
-      <option value="Sports">Sports</option>
-      <option value="Music">Music</option>
-      <option value="Labratory">Labratory</option>
-      <option value="Other">Other</option>
+      <option value="Video Games">Video Games</option>
+      <option value="Electronics">Electronics</option>
     </select>
   </div>
   <p class="red" *ngIf=showErr_category>Enter category.</p>
