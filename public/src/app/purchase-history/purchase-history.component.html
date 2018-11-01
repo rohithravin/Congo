@@ -13,78 +13,80 @@
                            </ul>
                            <div class="tab-content">
                                <div class="tab-pane" role="tabpanel" id="tab-1">
-                                   <div class="box" style="background-color: rgba(198,160,12,0.25);margin-top: 10px;">
-                                       <div class="row" style="padding-top: 5px;">
-                                           <div class="col" style="margin-left: 10px;">
-                                               <div class="row">
-                                                   <div class="col">
-                                                       <p style="font-size: 12px;margin-bottom: 5px;">Ordered Place</p>
-                                                   </div>
-                                               </div>
-                                               <div class="row">
-                                                   <div class="col">
-                                                       <p style="font-size: 13px;">Oct 9, 2018</p>
-                                                   </div>
-                                               </div>
-                                           </div>
-                                           <div class="col">
-                                               <div class="row">
-                                                   <p style="font-size: 12px;margin-bottom: 5px;">Total</p>
-                                               </div>
-                                               <div class="row">
-                                                   <p style="font-size: 13px;">$100.99</p>
-                                               </div>
-                                           </div>
-                                           <div class="col">
-                                               <div class="row">
-                                                   <p style="font-size: 12px;margin-bottom: 5px;">Ship To</p>
-                                               </div>
-                                               <div class="row">
-                                                   <p style="font-size: 13px;">City Name</p>
-                                               </div>
-                                           </div>
-                                           <div class="col">
-                                               <div class="row">
-                                                   <p style="font-size: 12px;margin-bottom: 5px;">Order #</p>
-                                               </div>
-                                               <div class="row">
-                                                   <p style="font-size: 13px;">000-000-23-00</p>
-                                               </div>
-                                           </div>
-                                       </div>
-                                       <div class="row">
-                                           <div class="col" style="padding-left: 35px;">
-                                               <div class="row">
-                                                   <div class="col" style="padding-left: 1px;">
-                                                       <h4>Devliverd &nbsp;or In Progress</h4>
-                                                   </div>
-                                               </div>
-                                               <div class="row">
-                                                   <div class="col-lg-3"><img></div>
-                                                   <div class="col">
-                                                       <div class="row">
-                                                           <div class="col">
-                                                               <h5>Product Name</h5>
-                                                           </div>
-                                                       </div>
-                                                       <div class="row">
-                                                           <div class="col">
-                                                               <p style="font-size: 12px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                           </div>
-                                                       </div>
-                                                   </div>
-                                               </div>
-                                           </div>
-                                           <div class="col-lg-3">
-                                               <div class="row">
-                                                   <div class="col" style="padding-left: 0px;"><button class="btn btn-secondary btn-sm" type="button" style="width: 124px;margin-bottom: 5px;margin-top: 45px;background-color: rgba(198,160,12,0.8);">Track Order</button></div>
-                                               </div>
-                                               <div class="row">
-                                                   <div class="col" style="padding-left: 0px;"><button class="btn btn-secondary btn-sm" type="button" style="width: 124px;margin-bottom: 5px;background-color: rgba(198,160,12,0.8);">Cancel Order</button></div>
-                                               </div>
-                                           </div>
-                                       </div>
-                                   </div>
+                                   <div *ngFor="let order of orders">
+                                        <div class="box" style="background-color: rgba(198,160,12,0.25);margin-top: 10px;">
+                                            <div class="row" style="padding-top: 5px;">
+                                                <div class="col" style="margin-left: 10px;">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <p style="font-size: 12px;margin-bottom: 5px;">Ordered Place</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <p style="font-size: 13px;">{{order['createdAt'] | date}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col">
+                                                    <div class="row">
+                                                        <p style="font-size: 12px;margin-bottom: 5px;">Total</p>
+                                                    </div>
+                                                    <div class="row">
+                                                        <p style="font-size: 13px;">${{order['total']}}</p>
+                                                    </div>
+                                                </div> -->
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <p style="font-size: 12px;margin-bottom: 5px;">Ship To</p>
+                                                    </div>
+                                                    <div class="row">
+                                                        <p style="font-size: 13px;">{{order['city']}}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <p style="font-size: 12px;margin-bottom: 5px;">Order #</p>
+                                                    </div>
+                                                    <div class="row">
+                                                        <p style="font-size: 13px;">{{order['tempID']}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col" style="padding-left: 35px;">
+                                                    <div class="row">
+                                                        <div class="col" style="padding-left: 1px;">
+                                                            <h5>Number of Items:&nbsp;{{order['items']}}</h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-3"><img></div>
+                                                        <div class="col">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <h5>Total:&nbsp;${{order['total']}}</h5>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <p style="font-size: 12px;">Shipping Address:&nbsp;{{order['street_address']}}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="row">
+                                                        <div class="col" style="padding-left: 0px;"><button class="btn btn-secondary btn-sm" type="button" style="width: 124px;margin-bottom: 5px;margin-top: 45px;background-color: rgba(198,160,12,0.8);">Track Order</button></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col" style="padding-left: 0px;"><button class="btn btn-secondary btn-sm" type="button" style="width: 124px;margin-bottom: 5px;background-color: rgba(198,160,12,0.8);">Cancel Order</button></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
                                </div>
                                <div class="tab-pane active" role="tabpanel" id="tab-2">
                                    <div class="box" style="background-color: rgba(198,160,12,0.25);margin-top: 10px;">
