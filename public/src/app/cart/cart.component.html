@@ -18,6 +18,9 @@
                             </tr>
                         </thead>
                         <tbody>
+                                <div *ngIf=showCartEmpty>
+                                    <h1>Empty:(</h1>
+                                </div>
                             <!--><figure ><-->
                                   <tr *ngFor="let item of this.cart['items']">
                                         <img src="{{item['product']['images'][0]}}" alt="product image" width='100' height='100'>
@@ -27,7 +30,7 @@
                                         <td>{{item['color']}}</td>
                                         <td>{{item['size']}}</td>
                                         <td>${{item['product']['price']}}</td>
-                                        <td><button class="btn btn-primary btn-sm justify-content-center align-items-center align-content-center align-self-center" type="button" style="background-color: #aa8e0a;">X</button></td>
+                                        <td><button class="btn btn-primary btn-sm justify-content-center align-items-center align-content-center align-self-center" type="button" (click)="removeProduct(item['_id'],item['product']['name'])" style="background-color: #aa8e0a;">X</button></td>
                                   </tr>
                           <!--> </figure><-->
                         </tbody>
@@ -98,9 +101,13 @@
                     </div>
                 </div>
                 <div class="row" style="margin-top: 10px;margin-bottom: 15px;">
-                    <div class="col" style="padding-left: 0px;"><button class="btn btn-primary active btn-lg justify-content-center align-items-center align-content-center" type="button" style="width: 198px;background-color: #aa8e0a;margin-left: 70px;padding-left: 0px;" [routerLink]="['/checkout']">Checkout</button></div>
+                    <div class="col" style="padding-left: 0px;"><button class="btn btn-primary active btn-lg justify-content-center align-items-center align-content-center" type="button" style="width: 198px;background-color: #aa8e0a;margin-left: 70px;padding-left: 0px;" (click)="checkout()">Checkout</button></div>
                 </div>
             </div>
         </div>
+    </div>
+    <div *ngIf=showAlertSuccess class="alert_success">
+        <span class="closebtn" (click)="showAlertSuccess = false">&times;</span>
+            <strong>Product removed!</strong> {{alertMessage}}
     </div>
 </section>
