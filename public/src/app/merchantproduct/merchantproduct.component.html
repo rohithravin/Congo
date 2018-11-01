@@ -11,7 +11,7 @@
         <!--><button class='green'>E</button><-->
         <button class='green' (click)="editAlt(product._id)">E</button>
         <button class='red'>R</button>
-        <button class='blue' [routerLink]="['/promote', product._id]">P</button>
+        <button class='blue' *ngIf=!product.promoted [routerLink]="['/promote', product._id]">P</button>
       </div>
     </div>
   </div>
