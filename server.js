@@ -117,13 +117,23 @@ var CartSchema = new mongoose.Schema({
 mongoose.model('Cart', CartSchema)
 var Cart=mongoose.model('Cart')
 
+var OrderItemSchema=new mongoose.Schema({
+    product:ProductSchema,
+    size:{type:String, required:[true, "Size is required"]},
+    color:{type:String, required:[true, "Color is required"]},
+    quantity:{type:Number, min:1, required:true},
+    total:{type:Number, default:0}
+}, {timestamps:true})
+mongoose.model('OrderItem', OrderItemSchema)
+var OrderItem=mongoose.model('OrderItem')
+
 var OrderSchema=new mongoose.Schema({
-    total:{type:Number, default:0},
+    total:{type:Number, required:[true, "Total is required"]},
     shipping:{type:Number, default:0},
-    user:UserSchema,
-    stripe_key:{type:String, required:true},
+    userID:{type:String, required:[true, 'User ID is required']},
+    stripe_key:{type:String/*, required:true*/},
     //Change ProductSchema to orderItemSchema and in cart schema, create cart item
-    items:[ProductSchema],
+    items:[OrderItemSchema],
     refunded:{type:Boolean, default:false},
     street_address:{type:String, required:[true, "Street address is required"]},
     city:{type:String, required:[true, "Street address is required"]},
@@ -614,6 +624,72 @@ app.post('/processEdit', function(request, response){
                     response.json({success:1, message:'Successfully edited product', product:product})
                 }
             })        
+        }
+    })
+})
+
+app.post('/createOrder', function(request, response){
+    console.log(request.body)
+    if(!('userID' in request.body)){
+        return response.json({success:-1, message:'UserID not in request.body'})
+    }
+    User.findOne({_id:request.body['userID']}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'No user exists with this id'})
+        }
+        else{
+            Cart.findOne({userID:request.body['userID']}, function(error, cart){
+                if(error){
+                    return response.json({success:-1, message:'Server error'})
+                }
+                else if(cart==null){
+                    return response.json({success:0, message:'No Cart yet exists for this user'})
+                }
+                // console.log("Found Cart: ", cart)
+                // var userCart=cart;
+                var street=request.body['street']
+                var city=request.body['city']
+                var state=request.body['state']
+                var zip_code=request.body['zip']
+                var shipping=request.body['shipping']
+                var tax=request.body['tax']
+
+                var items=[]
+                var currentTotal=0;
+                for(var i=0; i<cart.items.length; i++){
+                    var item=cart.items[i]
+                    var thisItem={}
+                    thisItem.product=item.product
+                    thisItem.size=item.size
+                    thisItem.color=item.color
+                    thisItem.quantity=item.quantity
+                    thisItem.total=item.product.price * item.quantity
+                    currentTotal+=parseFloat(thisItem.total)
+                    var newOrderItem=new OrderItem(thisItem)
+                    newOrderItem.save(function(error){
+                        if(error){
+                            return response.json({success:0, message:'Unable to create OrderItem'})
+                        }
+                        else{
+                            items.push(thisItem)
+                        }
+                    })
+                }
+                //ITEMS EXIST, but not being stored in newOrder, Maybe need to use $PUSH
+                currentTotal=currentTotal+parseFloat(shipping)+parseFloat(tax);
+                var newOrder = new Order({userID:request.body['userID'], street_address:street, city:city, state:state, zip_code:zip_code, country:'United States', shipping:parseFloat(shipping), total:currentTotal, items:items})
+                newOrder.save(function(error){
+                    if(error){
+                        return response.json({success:-1, message:'Unable to create order'})
+                    }
+                    else{
+                        return response.json({success:1, message:'Successfully created order', order:newOrder})
+                    }
+                })
+            })
         }
     })
 })
