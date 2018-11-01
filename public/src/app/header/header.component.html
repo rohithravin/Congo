@@ -26,8 +26,8 @@
       <p>ACCOUNT</p>
       <a (click)="accountClicked()"><img src='https://image.flaticon.com/icons/svg/120/120906.svg' alt='down'></a>
       <div class='accountCategories' *ngIf='showAccount==true'>
-        <a href='#'>Orders</a>
-        <a href='#'>Account</a>
+        <a [routerLink]="['/orders']">Orders</a>
+        <a >Account</a>
         <a *ngIf='merchantLoggedIn==true' [routerLink]="['/merchant/portal']">Merchant</a>
         <a *ngIf='merchantLoggedIn==false' [routerLink]="['/merchant/login']">Merchant</a>
         <a href='#' (click)="logout()">Logout</a>

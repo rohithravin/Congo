@@ -77,8 +77,10 @@ export class HttpService {
   removeProductFromCart(userID,productID){
     return this._http.post('/removeProductFromCart',{userID:userID,productID:productID})
   }
-
   createOrder(userID, street, city, state, zip_code, shipping, tax){
     return this._http.post('/createOrder', {userID:userID, street:street, city:city, state:state, zip:zip_code, shipping:shipping, tax:tax})
+  }
+  getOrders(userID){
+    return this._http.post('/getUserOrders', {userID:userID})
   }
 }

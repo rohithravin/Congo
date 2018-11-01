@@ -37,7 +37,7 @@ const routes: Routes = [
   {path: 'merchant/register2', component: MerchantReg2Component},
   {path: 'merchant-reg-conf', component: MerchantRegConfComponent},
   {path: 'merchantadd', component: MerchantaddComponent},
-  {path: 'purchase-history', component: PurchaseHistoryComponent}
+  {path: 'orders', component: PurchaseHistoryComponent}
    //Path any, = home
 ];
 
