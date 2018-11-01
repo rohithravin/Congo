@@ -7,7 +7,6 @@ import { Component, OnInit, Input} from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  categories:any;
   showCategories:boolean
   showCategoriesAccount:boolean
   searchQuery:string
@@ -15,13 +14,14 @@ export class HeaderComponent implements OnInit {
   loggedIn:boolean
   userID:string
   showAccount:boolean
+  categoriesTitle:string
   merchantLoggedIn:boolean
   // constructor(private cookieService: CookieService) {
   constructor(){
-    this.categories = ["Technology", "Video Games", "Clothing", "Office Supplies", "Food", "Furniture", "Hardware", "Sports", "Music", "Laboratory", "Other" ];
     this.showCategories=false;
     this.showAccount=false;
-    this.searchQuery=''
+    this.searchQuery='';
+    this.categoriesTitle = 'CATEGORIES'
     if(localStorage.getItem('loggedIn')===null){
       localStorage.setItem('loggedIn', 'false')
     }
@@ -39,6 +39,13 @@ export class HeaderComponent implements OnInit {
     else{
       this.merchantLoggedIn=true
     }
+   }
+
+   changeCategory(item){
+     this.showCategories=!this.showCategories;
+     this.categoriesTitle = item;
+     localStorage.setItem('category', 'item')
+
    }
 
   ngOnInit() {

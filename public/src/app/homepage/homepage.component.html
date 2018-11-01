@@ -1,29 +1,21 @@
 
 <div class='homeWrapper'>   
-  <div *ngIf=showBB class='promotedBanner'>
+  <div class='promotedBanner'>
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
       </ol>
-      <div  class="carousel-inner">
+      <div class="carousel-inner">
         <div class="carousel-item active">
-          <a href='#'><img class="d-block w-100" src="{{bigBannerPromo[0]['promotionImage']}}" alt="First slide"></a>
+          <a href='#'><img class="d-block w-100" src="https://i.kinja-img.com/gawker-media/image/upload/s--A-6kwF5N--/c_scale,f_auto,fl_progressive,q_80,w_800/o72g1zffzy31sw8ej6gf.jpg" alt="First slide"></a>
         </div>
         <div class="carousel-item">
-                <a href='#'><img class="d-block w-100" src="{{bigBannerPromo[1]['promotionImage']}}" alt="Second slide"></a>
+            <a href='#'><img class="d-block w-100" src="https://static01.nyt.com/images/2018/09/26/business/26STATE/26STATE-superJumbo.jpg?quality=90&auto=webp" alt="Second slide"></a>
         </div>
         <div class="carousel-item">
-            <a href='#'><img class="d-block w-100" src="{{bigBannerPromo[2]['promotionImage']}}" alt="Third slide"></a>
-        </div>
-        <div class="carousel-item">
-            <a href='#'><img class="d-block w-100" src="{{bigBannerPromo[3]['promotionImage']}}" alt="Fourth slide"></a>
-        </div>
-        <div class="carousel-item">
-            <a href='#'><img class="d-block w-100" src="{{bigBannerPromo[4]['promotionImage']}}" alt="Fifth slide"></a>
+            <a href='#'><img class="d-block w-100" src="https://www.futurebrand.com/uploads/case-studies/_sliderHd/Nesquik-PackShots-06.jpg" alt="Third slide"></a>
         </div>
       </div>
       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -36,27 +28,6 @@
       </a>
     </div>
   </div>
-  <div *ngIf=!showBB class='promotedBanner'>
-        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                  <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                </ol>
-                <div  class="carousel-inner">
-                  <div class="carousel-item active">
-                    <a href='#'><img class="d-block w-100" src="data:image/png;base64,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" alt="First slide"></a>
-                  </div>
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="sr-only">Next</span>
-                </a>
-              </div>
-  </div>
-
   <div class='recommendedProducts'>
     <p class='recHeader'>Recommended Products</p>
     <div class='recProduct'>
@@ -84,35 +55,35 @@
         <a href='#'>24-Karat Diamond-Tipped Stapler</a>
     </div>
   </div>
-  <div class='previouslyViewed' *ngIf=showFP>
-    <p class='prevHeader'>Featured Products</p>
+  <div class='previouslyViewed'>
+    <p class='prevHeader'>Previously Viewed</p>
     <div class='viewedProduct'>
-        <a href='#'><img src="{{featuredProductsPromo[0]['images'][0]}}" alt='featured'></a>
-        <a href='#' [routerLink]="['/product',featuredProductsPromo[0]['_id']]">{{featuredProductsPromo[0]['name']}}</a>
+        <a href='#'><img src='https://cdn8.bigcommerce.com/s-o4c7dqc6he/images/stencil/1280x1280/products/119/383/chip1__53818.1474401519.jpg?c=2&imbypass=on' alt='Previously Viewed'></a>
+        <a href='#'>Half-Eaten Chipotle Chicken Burrito</a>
     </div>
     <div class='viewedProduct'>
-        <a href='#'><img src="{{featuredProductsPromo[1]['images'][0]}}" alt='featured'></a>
-        <a href='#' [routerLink]="['/product',featuredProductsPromo[1]['_id']]">{{featuredProductsPromo[1]['name']}}</a>
+        <a href='#'><img src='https://cdn8.bigcommerce.com/s-o4c7dqc6he/images/stencil/1280x1280/products/119/383/chip1__53818.1474401519.jpg?c=2&imbypass=on' alt='Previously Viewed'></a>
+        <a href='#'>Half-Eaten Chipotle Chicken Burrito</a>
     </div>
     <div class='viewedProduct'>
-        <a href='#'><img src="{{featuredProductsPromo[2]['images'][0]}}" alt='featured'></a>
-        <a href='#' [routerLink]="['/product',featuredProductsPromo[2]['_id']]">{{featuredProductsPromo[2]['name']}}</a>
+        <a href='#'><img src='https://cdn8.bigcommerce.com/s-o4c7dqc6he/images/stencil/1280x1280/products/119/383/chip1__53818.1474401519.jpg?c=2&imbypass=on' alt='Previously Viewed'></a>
+        <a href='#'>Half-Eaten Chipotle Chicken Burrito</a>
     </div>
     <div class='viewedProduct'>
-        <a href='#'><img src="{{featuredProductsPromo[3]['images'][0]}}" alt='featured'></a>
-        <a href='#' [routerLink]="['/product',featuredProductsPromo[3]['_id']]">{{featuredProductsPromo[3]['name']}}</a>
+        <a href='#'><img src='https://cdn8.bigcommerce.com/s-o4c7dqc6he/images/stencil/1280x1280/products/119/383/chip1__53818.1474401519.jpg?c=2&imbypass=on' alt='Previously Viewed'></a>
+        <a href='#'>Half-Eaten Chipotle Chicken Burrito</a>
     </div>
     <div class='viewedProduct'>
-        <a href='#'><img src="{{featuredProductsPromo[4]['images'][0]}}" alt='featured'></a>
-        <a href='#' [routerLink]="['/product',featuredProductsPromo[4]['_id']]">{{featuredProductsPromo[4]['name']}}</a>
+        <a href='#'><img src='https://cdn8.bigcommerce.com/s-o4c7dqc6he/images/stencil/1280x1280/products/119/383/chip1__53818.1474401519.jpg?c=2&imbypass=on' alt='Previously Viewed'></a>
+        <a href='#'>Half-Eaten Chipotle Chicken Burrito</a>
     </div>
     <div class='viewedProduct'>
-        <a href='#'><img src="{{featuredProductsPromo[5]['images'][0]}}" alt='featured'></a>
-        <a href='#' [routerLink]="['/product',featuredProductsPromo[5]['_id']]">{{featuredProductsPromo[5]['name']}}</a>
+        <a href='#'><img src='https://cdn8.bigcommerce.com/s-o4c7dqc6he/images/stencil/1280x1280/products/119/383/chip1__53818.1474401519.jpg?c=2&imbypass=on' alt='Previously Viewed'></a>
+        <a href='#'>Half-Eaten Chipotle Chicken Burrito</a>
     </div>
   </div>
-  <div *ngIf=showSB class='sponsorSmall'>
-    <a href='#'><img src="{{smallBannerPromo[0]['promotionImage']}}" alt='Sponsor'></a>
+  <div class='sponsorSmall'>
+    <a href='#'><img src='https://static1.squarespace.com/static/52000104e4b08f2e358d94a9/t/59edf2f8be42d63a0c0aecb2/1508766472179/lululemonfulllogo.jpeg' alt='Sponsor'></a>
   </div>
   <div class='previouslyViewed'>
       <p class='prevHeader'>Previously Viewed</p>
@@ -141,8 +112,8 @@
           <a href='#'>Lululemon Men's Athletic Shorts</a>
       </div>
     </div>
-    <div *ngIf=showSB class='sponsorSmall'>
-      <a href='#'><img src="{{smallBannerPromo[1]['promotionImage']}}" alt='Promoted Product'></a>
+    <div class='sponsorSmall'>
+      <a href='#'><img src='data:image/jpeg;base64,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' alt='Promoted Product'></a>
     </div>
     <div class='previouslyViewed'>
       <p class='prevHeader'>Previously Viewed</p>

@@ -22,7 +22,6 @@ export class DummyAddProductComponent implements OnInit {
   showErr_color:boolean;
   showErr_tag:boolean;
   showErr_category:boolean;
-  showErr_quantity:boolean;
   edit:boolean;
   addEditTitle:string
   editID:string
@@ -36,11 +35,10 @@ export class DummyAddProductComponent implements OnInit {
     this.showErr_color = false;
     this.showErr_tag = false;
     this.showErr_category = false;
-    this.showErr_quantity = false;
     this.images = {};
     this.images[0] = "Enter Image";
     this.images_size = 0;
-    this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:'', quantity:''}
+    this.newProduct={name:'', description:'', image:'', price:'', size:'', color:'', tag:'', category:''}
     this.edit=false
     this.addEditTitle='Add'
     this.editID='-1'
@@ -90,7 +88,7 @@ export class DummyAddProductComponent implements OnInit {
           sizes+=','
           sizes+=product.sizes[i]
         }
-        this.newProduct={name:product.name, description:product.description, image:product.images[0], price:product.price, size:sizes, color:colors, tag:tags, category:product.category, quantity:product.quantity}
+        this.newProduct={name:product.name, description:product.description, image:product.images[0], price:product.price, size:sizes, color:colors, tag:tags, category:product.category}
       }
     })
   }
@@ -114,11 +112,7 @@ export class DummyAddProductComponent implements OnInit {
     this.showErr_color = false;
     this.showErr_tag = false;
     this.showErr_category = false;
-    this.showErr_quantity = false;
 
-    if(this.newProduct.quantity <= 0){
-      this.showErr_quantity = true;
-    }
     if(this.newProduct.name.length < 2 ){
       this.showErr_name = true;
     }

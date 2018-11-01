@@ -76,8 +76,7 @@ var ProductSchema=new mongoose.Schema({
     promoted:{type:Boolean, default:false},
     promotionType:{type:String},
     endDate:{type:Date},
-    promotionImage:{type:String},
-    quantity:{type:Number, required:[true, "Quantity is required"], min:1}
+    promotionImage:{type:String}
 }, {timestamps:true})
 mongoose.model('Product', ProductSchema)
 var Product=mongoose.model('Product')
@@ -299,11 +298,11 @@ app.post('/createDummyProduct', function(request, response){
         }
         else{
             console.log(product)
-            var newProduct=new Product({name:product.name, price:parseFloat(product.price), description:product.description, sizes:product.size, colors:product.color, images:[product.image], tags:product.tag, merchantLicense:license, category:product.category, quantity:product.quantity})
+            var newProduct=new Product({name:product.name, price:parseFloat(product.price), description:product.description, sizes:product.size, colors:product.color, images:[product.image], tags:product.tag, merchantLicense:license, category:product.category})
             newProduct.save(function(error){
                 console.log("Inside save function")
                 if(error){
-                    response.json({success:0, message:"There was an error creating your product", error:error})
+                    response.json({success:0, message:"There was an error creating your product"})
                 }
                 else{
                     merchant.products.push(newProduct)
@@ -486,7 +485,6 @@ app.post('/promoteProduct', function(request, response){
             if(promotionImage!='false@IOnoa99okaXXa67'){
                 product.promotionImage=promotionImage
             }
-
             product.promoted = true;
             product.save(function(error){
                 if(error){
@@ -528,61 +526,6 @@ app.post('/fetchMerchantProducts', function(request, response){
     //         response.json({success:1, message:"Successfully fetched your products", products:products})
     //     }
     // })
-})
-
-app.post('/removeProductFromCart', function(request,response){
-    console.log("remove product from cart");
-    if(!('productID' in request.body)){
-        return response.json({success:-1, message:"Product ID not in body"})
-    }
-    console.log(request.body['productID'])
-    var userID=request.body['userID']
-   
-
-    User.findOne({_id: userID}, function(findUserError,results){
-        if(findUserError){
-            response.json({success:0, message:"Unable to find user"})
-        }
-        else{
-            //found user 
-           
-            console.log("found user")
-            Cart.findOne({userID:userID}, function(error,cart){
-                console.log("found cart")
-               
-                if(error){
-                    response.json({success:0, response:'Cart does not exist'})
-                }
-                //console.log(cart);
-                if(cart){
-                    console.log("find product")
-                    console.log(cart['items'].length)
-                    for (var i = 0; i < cart['items'].length; i++){
-                        //console.log(cart['items'][i])
-                        if(cart['items'][i]['_id'] == request.body['productID']){
-                            console.log("got prod to delete")
-                            console.log(cart['items'][i]['_id'])
-                            cart['items'].splice(i,1);
-                            cart.save(function(error){
-                                if(error){
-                                    response.json({success:0, message:"Failed when removing from cart for this user"})
-                                }
-                                else{
-                                    response.json({success:1, message:"Successfully removed from cart"})
-                                }
-                            })
-                        }
-                    }
-                    console.log("after delete");
-                    console.log(cart);
-
-                    
-                  
-                }
-            })
-        }
-    })
-    //return response.json({success:1, message:"Product Removed from cart"})
 })
 
 app.post('/processEdit', function(request, response){
@@ -700,12 +643,10 @@ app.get('/testHash', function(request, response){
     response.json({license:license})
 })
 
-app.get('/getFeatured', function(request, response){
+app.post('/getFeatured', function(request, response){
     var bigBannerProducts=[]
     var smallBannerProducts=[]
     var featuredProducts=[]
-   
-    console.log("featured");
     Product.find({promotionType:'BB'}, function(error, products){
         if(error){
             response.json({success:-1, message:'Server error'})
@@ -713,76 +654,19 @@ app.get('/getFeatured', function(request, response){
         else{
             //Fetch 5 random indeces of products
             //Append to big banner products
-            //bigBannerProducts = products;
-            var _numProducts = 5;
-            var _pickedIndexes = [];
-            for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
-            var _actualSize = products.length - 1;
-            console.log("big banner");
-            console.log(products.length);
-            for(var i = 0; i < _numProducts; i++){
-                
-                do{
-                var randIndex = Math.floor(Math.random() * (products.length));
-                }while(_pickedIndexes[randIndex] != 0){
-                _pickedIndexes[randIndex] = 1;
-                bigBannerProducts[i] = products[randIndex];
-                console.log("adding.. " + randIndex );
-                console.log(bigBannerProducts[i]);
-                console.log("------------------------------------------------------");
-                }
-            }
-            //return response.json({success: 1, bigBannerProducts})
         }
     })
     Product.find({promotionType:'SB'}, function(error, products){
         if(error){
             //send error response
-            response.json({success:-1, message:'Server error'});
         }
         else{
             //Get 2 random indeces, make sure no repeats
             //Append to small Banner products
-            console.log("small banner");
-            //console.log(products);
-            var _numProducts = 2;
-            var _pickedIndexes = [];
-            if (products.length != 0){
-            for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
-            for(var i =0; i < _numProducts; i++){
-                do{
-                    var randIndex = Math.floor(Math.random() * (products.length));
-                }while(_pickedIndexes[randIndex] != 0){
-                    smallBannerProducts[i] = products[randIndex];
-                    console.log("adding... "+randIndex);
-                    console.log(smallBannerProducts[i]);
-                    console.log("------------------------------------------------------");
-                }
-            }
-        }
-            smallBannerProducts = products;
-            //return response.json({success: 1,smallBannerProducts})
-        }
-    })
-    Product.find({promotionType:'FP'}, function(error,products){
-        if(error){
-            response.json({success:-1, message:'Server error'});
-            
-        }
-        else{
-            //get 
-            console.log("featured products");
-            //console.log(products);
-            featuredProducts = products;
-            console.log(featuredProducts);
-            console.log("------------------------------------------------------");
-            //return response.json({success: 1, featuredProducts})
-            response.json({success: 1, message: "Successfully fetched all featured products", bigBanner: bigBannerProducts, smallBanner: smallBannerProducts, featuredProducts: featuredProducts}); 
         }
     })
     //Same thing for featured products
-    //response.json({success: 1, message: "Successfully fetched all featured products", bigBanner: bigBannerProducts, smallBanner: smallBannerProducts, featuredProducts: featuredProducts});
-    //return response.json({success:1, message:"Successfully fetched all featured products", bigBanner:bigBannerProducts, smallBanner:smallBannerProducts, featuredProducts:featuredProducts})
+    return response.json({success:1, message:"Successfully fetched all featured products", bigBanner:bigBannerProducts, smallBanner:smallBannerProducts, featuredProducts:featuredProducts})
 })
 
 app.all('*', (request, response, next)=>{
