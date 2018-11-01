@@ -25,6 +25,7 @@ import { MerchantReg1Component } from './merchant-reg1/merchant-reg1.component';
 import { MerchantReg2Component } from './merchant-reg2/merchant-reg2.component';
 import { MerchantRegConfComponent } from './merchant-reg-conf/merchant-reg-conf.component';
 import { PurchaseHistoryComponent } from './purchase-history/purchase-history.component'
+//import {NgxStripeModule} from 'ngx-stripe';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { PurchaseHistoryComponent } from './purchase-history/purchase-history.co
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+  //  NgxStripeModule.forRoot('pk_test_lFRUSGrB96hXbSFpTUVDxzJ3')
   ],
   providers: [HttpService, CookieService],
   bootstrap: [AppComponent]

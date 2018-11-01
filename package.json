@@ -23,5 +23,9 @@
     "ngx-cookie-service": "^1.0.10",
     "path": "^0.12.7",
     "rxjs": "^6.3.3"
+  },
+  "devDependencies": {
+    "angular-stripe": "^5.0.0",
+    "ngx-stripe": "^6.0.0-rc.0"
   }
 }
