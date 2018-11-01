@@ -235,8 +235,7 @@ export class PromoteProductRegComponent implements OnInit {
           }else if(data['success']==0){
             //client error
           }else{
-            console.log("succ p2");
-          
+            this._router.navigate(['/merchant/products']);
           }
         })
   
