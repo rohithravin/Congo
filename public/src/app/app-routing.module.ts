@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { HeaderComponent } from './header/header.component'
 import { Routes, RouterModule } from '@angular/router';
 import { HomepageComponent } from './homepage/homepage.component'
 import { CartComponent } from './cart/cart.component';
@@ -37,7 +38,8 @@ const routes: Routes = [
   {path: 'merchant/register2', component: MerchantReg2Component},
   {path: 'merchant-reg-conf', component: MerchantRegConfComponent},
   {path: 'merchantadd', component: MerchantaddComponent},
-  {path: 'purchase-history', component: PurchaseHistoryComponent}
+  {path: 'purchase-history', component: PurchaseHistoryComponent},
+  {path:'header-only', component:HeaderComponent}
    //Path any, = home
 ];
 
