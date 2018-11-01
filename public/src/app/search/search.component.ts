@@ -72,11 +72,11 @@ export class SearchComponent implements OnInit {
       console.log("In the fetchCategorySearchedProducts method!!");
       console.log("category: ", category);
 
-    //  var productsObs=this._httpService.fetchCategorySearchedProducts(this.searchQuery, category)
-    //  productsObs.subscribe(data=>{
-    //    console.log("Queried products: ", data)
-    //    this.products = data['products'];
-    //  })
+      var productsObs=this._httpService.fetchCategorySearchedProducts(this.searchQuery, category)
+      productsObs.subscribe(data=>{
+        console.log("Queried products: ", data)
+        this.products = data['products'];
+      })
 
   }
 
