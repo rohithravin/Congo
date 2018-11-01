@@ -10,14 +10,6 @@ export class HttpService {
 
   }
 
-  // purchaseInformation(fullName,address,city,state){
-  //   console.log("check 2");
-  //   console.log(fullName);
-  //   console.log(address);
-  //   console.log(city);
-  //   console.log(state);
-  // }
-
   fetchFeatured(){
     return this._http.get('/getFeatured')
   }
@@ -82,5 +74,8 @@ export class HttpService {
   }
   getOrders(userID){
     return this._http.post('/getUserOrders', {userID:userID})
+  }
+  changeProductState(productID, license){
+    return this._http.post('/changeProductActiveState', {license:license, productID:productID})
   }
 }
