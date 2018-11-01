@@ -230,7 +230,12 @@ export class CheckoutComponent implements OnInit {
 
     if( !this.showErr_addr1 && !this.showErr_city  && !this.showErr_fullname && !this.showErr_state ){
         console.log("shipping info");
-        this._httpService.purchaseInformation(this.full_name,this.address_lineone,this.city,this.state);
+        var tempZip='47906'
+        var orderObs=this._httpService.createOrder(localStorage.getItem('userID'), this.address_lineone, this.city, this.state, tempZip, this.shipping, this.tax)
+        orderObs.subscribe(data=>{
+          console.log("Response:", data)
+        })
+        // this._httpService.purchaseInformation(this.full_name,this.address_lineone,this.city,this.state);
 
       }
 

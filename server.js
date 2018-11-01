@@ -116,13 +116,23 @@ var CartSchema = new mongoose.Schema({
 mongoose.model('Cart', CartSchema)
 var Cart=mongoose.model('Cart')
 
+var OrderItemSchema=new mongoose.Schema({
+    product:ProductSchema,
+    size:{type:String, required:[true, "Size is required"]},
+    color:{type:String, required:[true, "Color is required"]},
+    quantity:{type:Number, min:1, required:true},
+    total:{type:Number, default:0}
+}, {timestamps:true})
+mongoose.model('OrderItem', OrderItemSchema)
+var OrderItem=mongoose.model('OrderItem')
+
 var OrderSchema=new mongoose.Schema({
-    total:{type:Number, default:0},
+    total:{type:Number, required:[true, "Total is required"]},
     shipping:{type:Number, default:0},
-    user:UserSchema,
-    stripe_key:{type:String, required:true},
+    userID:{type:String, required:[true, 'User ID is required']},
+    stripe_key:{type:String/*, required:true*/},
     //Change ProductSchema to orderItemSchema and in cart schema, create cart item
-    items:[ProductSchema],
+    items:[OrderItemSchema],
     refunded:{type:Boolean, default:false},
     street_address:{type:String, required:[true, "Street address is required"]},
     city:{type:String, required:[true, "Street address is required"]},
@@ -518,6 +528,45 @@ app.post('/fetchMerchantProducts', function(request, response){
     // })
 })
 
+app.post('/removeProductFromCart', function(request,response){
+    console.log("remove product from cart");
+    if(!('productID' in request.body)){
+        return response.json({success:-1, message:"Product ID not in body"})
+    }
+    console.log(request.body['productID'])
+    var userID=request.body['userID']
+   
+
+    User.findOne({_id: userID}, function(findUserError,results){
+        if(findUserError){
+           return response.json({success:0, message:"Unable to find user"})
+        }
+        else{
+            //found user 
+            Cart.findOne({userID:userID}, function(error,cart){
+                if(error){
+                   return response.json({success:0, response:'Cart does not exist'})
+                }
+                if(cart){
+                    for (var i = 0; i < cart['items'].length; i++){
+                        if(cart['items'][i]['_id'] == request.body['productID']){
+                            cart['items'].splice(i,1);
+                            cart.save(function(error){
+                                if(error){
+                                   return response.json({success:0, message:"Failed when removing from cart for this user"})
+                                }
+                                else{
+                                  return  response.json({success:1, message:"Successfully removed from cart"})
+                                }
+                            })
+                        }
+                    }
+                }
+            })
+        }
+    })
+})
+
 app.post('/processEdit', function(request, response){
     if(!('productID' in request.body)){
         return response.json({success:-1, message:"Product ID not in body"})
@@ -561,36 +610,151 @@ app.post('/processEdit', function(request, response){
     })
 })
 
+app.post('/createOrder', function(request, response){
+    console.log(request.body)
+    if(!('userID' in request.body)){
+        return response.json({success:-1, message:'UserID not in request.body'})
+    }
+    User.findOne({_id:request.body['userID']}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'No user exists with this id'})
+        }
+        else{
+            Cart.findOne({userID:request.body['userID']}, function(error, cart){
+                if(error){
+                    return response.json({success:-1, message:'Server error'})
+                }
+                else if(cart==null){
+                    return response.json({success:0, message:'No Cart yet exists for this user'})
+                }
+                // console.log("Found Cart: ", cart)
+                // var userCart=cart;
+                var street=request.body['street']
+                var city=request.body['city']
+                var state=request.body['state']
+                var zip_code=request.body['zip']
+                var shipping=request.body['shipping']
+                var tax=request.body['tax']
+
+                var items=[]
+                var currentTotal=0;
+                for(var i=0; i<cart.items.length; i++){
+                    var item=cart.items[i]
+                    var thisItem={}
+                    thisItem.product=item.product
+                    thisItem.size=item.size
+                    thisItem.color=item.color
+                    thisItem.quantity=item.quantity
+                    thisItem.total=item.product.price * item.quantity
+                    currentTotal+=parseFloat(thisItem.total)
+                    var newOrderItem=new OrderItem(thisItem)
+                    newOrderItem.save(function(error){
+                        if(error){
+                            return response.json({success:0, message:'Unable to create OrderItem'})
+                        }
+                        else{
+                            items.push(thisItem)
+                        }
+                    })
+                }
+                //ITEMS EXIST, but not being stored in newOrder, Maybe need to use $PUSH
+                currentTotal=currentTotal+parseFloat(shipping)+parseFloat(tax);
+                var newOrder = new Order({userID:request.body['userID'], street_address:street, city:city, state:state, zip_code:zip_code, country:'United States', shipping:parseFloat(shipping), total:currentTotal, items:items})
+                newOrder.save(function(error){
+                    if(error){
+                        return response.json({success:-1, message:'Unable to create order'})
+                    }
+                    else{
+                        return response.json({success:1, message:'Successfully created order', order:newOrder})
+                    }
+                })
+            })
+        }
+    })
+})
+
 app.get('/testHash', function(request, response){
     var license=createHash('MichaelChoiComp', 'www.google.com')
     console.log(license)
     response.json({license:license})
 })
 
-app.post('/getFeatured', function(request, response){
-    var bigBannerProducts=[]
-    var smallBannerProducts=[]
-    var featuredProducts=[]
+app.get('/getFeatured', function(request, response){
+    var bigBannerProducts = [];
+    var smallBannerProducts = [];
+    var featuredProducts = [];
+
     Product.find({promotionType:'BB'}, function(error, products){
         if(error){
-            response.json({success:-1, message:'Server error'})
+           return response.json({success:-1, message:'Server error'})
         }
         else{
             //Fetch 5 random indeces of products
             //Append to big banner products
+            var _numProducts = 5;
+            var _pickedIndexes = [];
+            for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
+            if (products.length != 0) {
+                for (var i = 0; i < _numProducts; i++) {
+                    do {
+                        var randIndex = Math.floor(Math.random() * (products.length));
+                    } while (_pickedIndexes[randIndex] != 0) {
+                        _pickedIndexes[randIndex] = 1;
+                        bigBannerProducts[i] = products[randIndex];
+                    }
+                }
+            }
         }
     })
     Product.find({promotionType:'SB'}, function(error, products){
         if(error){
-            //send error response
+           return response.json({success:-1, message:'Server error'});
         }
         else{
             //Get 2 random indeces, make sure no repeats
             //Append to small Banner products
+            var _numProducts = 2;
+            var _pickedIndexes = [];
+            if (products.length != 0){
+                for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
+                for(var i =0; i < _numProducts; i++){
+                    do{
+                        var randIndex = Math.floor(Math.random() * (products.length));
+                    } while (_pickedIndexes[randIndex] != 0) {
+                        _pickedIndexes[randIndex] = 1;
+                        smallBannerProducts[i] = products[randIndex];
+                    }
+                }
+            }
         }
     })
-    //Same thing for featured products
-    return response.json({success:1, message:"Successfully fetched all featured products", bigBanner:bigBannerProducts, smallBanner:smallBannerProducts, featuredProducts:featuredProducts})
+    Product.find({promotionType:'FP'}, function(error,products){
+        if(error){
+          return  response.json({success:-1, message:'Server error'});
+            
+        }
+        else{
+            //get 6 random indeces, make sure no repeats
+            //append to featured products
+            var _numProducts = 6;
+            var _pickedIndexes = [];
+            if (products.length != 0) {
+                for (var i = 0; i < products.length; i++) { _pickedIndexes[i] = 0; }
+                for (var i = 0; i < _numProducts; i++) {
+                    do {
+                        var randIndex = Math.floor(Math.random() * (products.length));
+                    } while (_pickedIndexes[randIndex] != 0) {
+                        _pickedIndexes[randIndex] = 1;
+                        featuredProducts[i] = products[randIndex];
+                    }
+                }
+            }
+          return response.json({success: 1, message: "Successfully fetched all featured products", bigBanner: bigBannerProducts, smallBanner: smallBannerProducts, featuredProducts: featuredProducts}); 
+        }
+    })
 })
 
 app.all('*', (request, response, next)=>{
