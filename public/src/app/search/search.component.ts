@@ -40,9 +40,10 @@ export class SearchComponent implements OnInit {
       this.searchQuery =params['searchQuery']
       console.log(this.searchQuery);
       this.clearFilter();
-      if(localStorage.getItem('categoryClicked')){
+      if(localStorage.getItem('categoryClicked') == 'true'){
             //console.log('in search: ',localStorage.getItem('category'));
             this.fetchCategorySearchedProducts(localStorage.getItem('category'));
+
       }else{
             this.fetchSearchedProducts();
       }
@@ -57,6 +58,7 @@ export class SearchComponent implements OnInit {
     this.high_low_filter =false;
   }
   fetchSearchedProducts(){
+    console.log("normal search");
     var productsObs=this._httpService.fetchSearchedProducts(this.searchQuery)
     productsObs.subscribe(data=>{
       console.log("Queried products: ", data)
@@ -69,6 +71,13 @@ export class SearchComponent implements OnInit {
   fetchCategorySearchedProducts(category){
       console.log("In the fetchCategorySearchedProducts method!!");
       console.log("category: ", category);
+
+    //  var productsObs=this._httpService.fetchCategorySearchedProducts(this.searchQuery, category)
+    //  productsObs.subscribe(data=>{
+    //    console.log("Queried products: ", data)
+    //    this.products = data['products'];
+    //  })
+
   }
 
   private search_logic (){

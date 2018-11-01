@@ -41,15 +41,25 @@ export class HeaderComponent implements OnInit {
     else{
       this.merchantLoggedIn=true
     }
-    this.categories=['Technology','Video Games','Clothing','Office Supplies','Food','Furniture','Hardware','Sports','Music','Laboratory','Other']
+    this.categories=['All Categories','Technology','Video Games','Clothing','Office Supplies','Food','Furniture','Hardware','Sports','Music','Laboratory','Other']
    }
 
    changeCategory(item){
-     this.showCategories=!this.showCategories;
-     this.categoriesTitle = item;
-     //console.log('item: ',item);
-     localStorage.setItem('categoryClicked','true');
-     localStorage.setItem('category', item)
+
+
+       this.showCategories=!this.showCategories;
+       this.categoriesTitle = item;
+       //console.log('item: ',item);
+       console.log(item)
+       if(item != 'All Categories'){
+       localStorage.setItem('categoryClicked','true');
+       localStorage.setItem('category', item)
+     }
+      else{
+        console.log('all categories clicked')
+        localStorage.setItem('categoryClicked','false');
+        localStorage.setItem('category', '')
+      }
      //console.log("local storage category", localStorage.getItem('category'));
    }
 
