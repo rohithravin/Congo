@@ -475,6 +475,7 @@ app.post('/promoteProduct', function(request, response){
             if(promotionImage!='false@IOnoa99okaXXa67'){
                 product.promotionImage=promotionImage
             }
+            product.promoted = true;
             product.save(function(error){
                 if(error){
                     return response.json({success:-3, message:'Unable to save product, check your inputs'})
