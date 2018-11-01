@@ -644,6 +644,72 @@ app.post('/createOrder', function(request, response){
     })
 })
 
+app.post('/getUserOrders', function(request, response){
+    if(!('userID' in request.body)){
+        return response.json({success:-1, message:'userID not in request.body'})
+    }
+    User.findOne({_id:request.body['userID']}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server Error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'No user found with this ID'})
+        }
+        else{
+            Order.find({userID:user._id}, function(error, orders){
+                if(error){
+                    return response.json({success:-1, message:'Server Error'})
+                }
+                else{
+                    return response.json({success:1, message:'Found your orders', orders:orders})
+                }
+            })
+        }
+    })
+})
+
+app.post('/getOrderItems', function(request, response){
+    if(!('userID' in request.body)){
+        return response.json({success:-1, message:'userID not in request.body'})
+    }
+    if(!('orderID' in request.body)){
+        return response.json({success:-1, message:'orderID not in request.body'})
+    }
+    User.findOne({_id:request.body['userID']}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server Error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'No user found with this ID'})
+        }
+        else{
+            Order.findOne({_id:request.body['orderID']}, function(error, order){
+                if(error){
+                    return response.json({success:-1, message:'Server Error'})
+                }
+                else if(order==null){
+                    return response.json({success:0, message:'No order found with this ID'})
+                }
+                else{
+                    if(order.userID!=request.body['userID']){
+                        return response.json({success:0, message:'This is not your product'})
+                    }
+                    else{
+                        OrderItems.find({orderID:order._id}, function(error, items){
+                            if(error){
+                                return response.json({success:-1, message:'Server Error'})
+                            }
+                            else{
+                                return response.json({success:1, message:'Successfully fetched order items', items:items})
+                            }
+                        })
+                    }
+                }
+            })
+        }
+    }
+})
+
 app.get('/testHash', function(request, response){
     var license=createHash('MichaelChoiComp', 'www.google.com')
     console.log(license)
