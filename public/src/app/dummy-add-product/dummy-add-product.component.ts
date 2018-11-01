@@ -160,6 +160,7 @@ export class DummyAddProductComponent implements OnInit {
   }
 
   editProduct(){
+    //IMPORTANT Split fields by commas
     console.log("Editing product")
     var editObs=this._httpService.editProduct(localStorage.getItem('licenseNo'), this.newProduct, this.editID)
     editObs.subscribe(data=>{
