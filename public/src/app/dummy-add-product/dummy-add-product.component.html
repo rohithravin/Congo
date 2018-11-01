@@ -33,9 +33,6 @@
   <p class="red" *ngIf=showErr_tag>Enter tags as comma seperated list.</p>
   <label for="multiple_tags">Separate tags by space, NO COMMAS.</label>
 
-  <input type='number' style="margin-bottom: 10px" name='quantity' placeholder="Quantity" [(ngModel)]='newProduct.quantity'>
-  <p class="red" *ngIf=showErr_quantity>Enter a quantity above 0.</p>
-
   <div class="red" style="margin-left: 170px;" >
     <select [(ngModel)]='newProduct.category' [ngModelOptions]="{standalone: true}">
       <option value="" selected disabled hidden>Choose Categories</option>

@@ -54,10 +54,6 @@ export class CartComponent implements OnInit {
      var item_leng = data['cart']['items'].length;
       if (item_leng == 0){
         this.showCartEmpty = true;
-        this.subtotal = 0;
-        this.tax = 0;
-        this.shipping = 0;
-        this.total = 0;
       }else{
         this.showCartEmpty = false;
       this.subtotal = this.getSubtotal();
