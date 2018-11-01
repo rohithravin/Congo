@@ -17,7 +17,7 @@ export class HomepageComponent implements OnInit {
    }
 
   ngOnInit() {
-     this.fetchFeatured()
+    // this.fetchFeatured()
   }
   fetchFeatured(){
     console.log("Inside this function")
