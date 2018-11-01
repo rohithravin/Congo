@@ -1,5 +1,5 @@
 import { Component, OnInit, Input} from '@angular/core';
-// import { CookieService } from 'ngx-cookie-service';
+
 
 @Component({
   selector: 'app-header',
@@ -41,12 +41,10 @@ export class HeaderComponent implements OnInit {
     else{
       this.merchantLoggedIn=true
     }
-    this.categories=['All Categories','Technology','Video Games','Clothing','Office Supplies','Food','Furniture','Hardware','Sports','Music','Laboratory','Other']
+    this.categories=['All Categories','Technology','Video Games','Clothing','Office Supplies','Food','Furniture','Hardware','Sports','Music','Outdoors','Laboratory','Other']
    }
 
    changeCategory(item){
-
-
        this.showCategories=!this.showCategories;
        this.categoriesTitle = item;
        //console.log('item: ',item);
