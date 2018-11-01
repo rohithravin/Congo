@@ -374,6 +374,9 @@ app.post('/getCart', function(request, response){
     var userID=request.body['userID']
     Cart.findOne({userID:userID}, function(error, cart){
         if(error){
+            response.json({success:-1, response:'Server error'})
+        }
+        else if(cart==null){
             response.json({success:0, response:'Cart does not exist'})
         }
         else{
@@ -555,32 +558,6 @@ app.post('/processEdit', function(request, response){
         }
     })
 })
-
-async function createItems(cart, newOrder, currentTotal){
-    for(var i=0; i<cart.items.length; i++){
-        // for(const item of cart.items){
-        // cart.items.forEach(async (item) =>{
-            var item=cart.items[i]
-            var thisItem={}
-            thisItem.product=item.product
-            thisItem.size=item.size
-            thisItem.color=item.color
-            thisItem.quantity=item.quantity
-            thisItem.total=item.product.price * item.quantity
-            currentTotal.total+=parseFloat(thisItem.total)
-            // items.push(thisItem)
-            var newOrderItem=new OrderItem(thisItem)
-            newOrderItem.save(function(error){
-                if(error){
-                    return response.json({success:0, message:'Unable to create OrderItem'})
-                }
-                else{
-                    console.log("Successfully creating Item:", i)
-                    newOrder.items.push(newOrderItem)
-                }
-            })
-        }
-}
 
 app.post('/createOrder', function(request, response){
     if(!('userID' in request.body)){

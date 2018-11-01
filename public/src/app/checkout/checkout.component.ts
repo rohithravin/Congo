@@ -88,8 +88,8 @@ export class CheckoutComponent implements OnInit {
     cartObs.subscribe(data=>{
       console.log(data)
       // console.log(this.userID)
-      if(data['success'] =! 1){
-        this._router.navigate([''])
+      if(data['success'] == 0 || data['success'] == -1){
+        return this._router.navigate(['/'])
       }
       this.cart=data['cart']['items']
       console.log(this.cart)
@@ -97,6 +97,9 @@ export class CheckoutComponent implements OnInit {
       this.tax = this.getTax();
       this.shipping = this.getShipping();
       this.total = this.getTotal();
+      if(this.cart.length==0){
+        return this._router.navigate(['/cart']);
+      }
     })
 
     //this.getSubtotal();
