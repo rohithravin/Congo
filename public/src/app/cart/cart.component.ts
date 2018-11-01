@@ -17,8 +17,6 @@ export class CartComponent implements OnInit {
   total:number
   alertMessage:string
   showAlert:boolean
-  showAlertFail:boolean
-  showCartEmpty:boolean
   constructor(private _httpService:HttpService, private _router:Router) {
     this.cart={}
     this.userID=localStorage.getItem('userID');
@@ -28,8 +26,6 @@ export class CartComponent implements OnInit {
     this.total = 0;
     this.alertMessage = "Successfully removed product";
     this.showAlert = false;
-    this.showAlertFail = false;
-    this.showCartEmpty = false;
 
     //this.fetchCart()
   }
@@ -51,18 +47,17 @@ export class CartComponent implements OnInit {
         this._router.navigate([''])
       }
       this.cart=data['cart']
-     var item_leng = data['cart']['items'].length;
-      if (item_leng == 0){
-        console.log("empty")
-        this.showCartEmpty = true;
-      }else{
-        this.showCartEmpty = false;
+      //console.log(this.cart)
       this.subtotal = this.getSubtotal();
       this.tax = this.getTax();
       this.shipping = this.getShipping();
       this.total = this.getTotal();
-      }
     })
+
+    //this.getSubtotal();
+    //this.getTax();
+    //this.getShipping();
+    //this.getTotal();
 
   }
 
@@ -72,6 +67,7 @@ export class CartComponent implements OnInit {
       var removeProductObs = this._httpService.removeProductFromCart(this.userID,productID);
       removeProductObs.subscribe(data=>{
         if(data['success'] == 1){
+        console.log("succ");
         this.subtotal = 0;
         this.tax = 0;
         this.shipping = 0;
@@ -80,28 +76,31 @@ export class CartComponent implements OnInit {
         this.showAlert = true;
         this.alertMessage = "Successfully removed "+productName;
         }else if (data['success'] == -1){
-          this.showAlertFail = true;
+          console.log("server error");
+          this.showAlert = true;
           this.alertMessage = "Server Error Try again later"
         }
       })
+    }else{
+      console.log("remove cancelled");
     }
   }
 
   getTotal(){
        this.total = this.subtotal + this.tax + this.shipping;
-       //console.log("Total: ", this.total.toFixed(2));
+       console.log("Total: ", this.total.toFixed(2));
        this.total = Math.floor(this.total * 100) / 100;
        return this.total;
   }
   getShipping(){
         this.shipping = 5.99;
-        //console.log("Shipping & handling: ", this.shipping);
+        console.log("Shipping & handling: ", this.shipping);
        this.shipping =  Math.floor(this.shipping * 100) / 100;
         return this.shipping;
   }
   getTax(){
     this.tax = this.subtotal * 0.08;
-    //console.log("tax: ", this.tax);
+    console.log("tax: ", this.tax);
     this.tax = Math.floor(this.tax * 100) / 100;
     return this.tax;
   }

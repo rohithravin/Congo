@@ -19,9 +19,6 @@
                         </thead>
                         <tbody>
                             <!--><figure ><-->
-                                <div *ngIf=showCartEmpty>
-                                    <h1>Empty:(</h1>
-                                </div>
                                   <tr *ngFor="let item of this.cart['items']">
                                         <img src="{{item['product']['images'][0]}}" alt="product image" width='100' height='100'>
                                         <td>{{item['product']['name']}}</td>
@@ -105,13 +102,9 @@
                 </div>
             </div>
         </div>
-        <div *ngIf=showAlert class="alert_success">
+        <div *ngIf=showAlert class="alert">
             <span class="closebtn" (click)="showAlert = false">&times;</span>
-            <strong>Success!</strong> {{alertMessage}}
+            <strong>Attention!</strong> {{alertMessage}}
         </div>
-        <div *ngIf=showAlertFail class="alert">
-                <span class="closebtn" (click)="showAlertFail = false">&times;</span>
-                <strong>Attention!</strong> {{alertMessage}}
-            </div>
     </div>
 </section>
