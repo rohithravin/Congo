@@ -165,6 +165,9 @@ export class DummyAddProductComponent implements OnInit {
     var editObs=this._httpService.editProduct(localStorage.getItem('licenseNo'), this.newProduct, this.editID)
     editObs.subscribe(data=>{
       console.log("Response:", data)
+      if(data['success']==1){
+        return this._router.navigate(['/merchant/products'])
+      }
     })
   }
 }

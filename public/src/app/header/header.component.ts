@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit {
     else{
       this.merchantLoggedIn=true
     }
-    this.categories=['All Categories','Technology','Video Games','Clothing','Office Supplies','Food','Furniture','Hardware','Sports','Music','Outdoors','Laboratory','Other']
+    this.categories=['All Categories','Technology','Video Games','Clothing','Office','Food','Furniture','Hardware','Sports','Music','Outdoors','Laboratory','Other']
    }
 
    changeCategory(item){
