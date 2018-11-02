@@ -1,5 +1,5 @@
 import { Component, OnInit, Input} from '@angular/core';
-// import { CookieService } from 'ngx-cookie-service';
+
 
 @Component({
   selector: 'app-header',
@@ -16,6 +16,8 @@ export class HeaderComponent implements OnInit {
   showAccount:boolean
   categoriesTitle:string
   merchantLoggedIn:boolean
+  categories:any
+  categoryClicked:boolean
   // constructor(private cookieService: CookieService) {
   constructor(){
     this.showCategories=false;
@@ -39,14 +41,27 @@ export class HeaderComponent implements OnInit {
     else{
       this.merchantLoggedIn=true
     }
+    this.categories=['All Categories','Technology','Video Games','Clothing','Office Supplies','Food','Furniture','Hardware','Sports','Music','Outdoors','Laboratory','Other']
    }
 
    changeCategory(item){
-     this.showCategories=!this.showCategories;
-     this.categoriesTitle = item;
-     localStorage.setItem('category', 'item')
-
+       this.showCategories=!this.showCategories;
+       this.categoriesTitle = item;
+       //console.log('item: ',item);
+       console.log(item)
+       if(item != 'All Categories'){
+       localStorage.setItem('categoryClicked','true');
+       localStorage.setItem('category', item)
+     }
+      else{
+        console.log('all categories clicked')
+        localStorage.setItem('categoryClicked','false');
+        localStorage.setItem('category', '')
+      }
+     //console.log("local storage category", localStorage.getItem('category'));
    }
+
+
 
   ngOnInit() {
     // this.first_name=localStorage.getItem('firstName')
@@ -55,6 +70,9 @@ export class HeaderComponent implements OnInit {
     // }
   }
   categoriesClicked(){
+    //console.log("in the categoriesClicked function!");
+    //localStorage.setItem('categoryClicked','true');
+    console.log(this.showCategories);
     this.showCategories=!this.showCategories;
   }
   accountClicked(){
