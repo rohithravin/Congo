@@ -424,6 +424,7 @@ app.post('/getCart', function(request, response){
         if(error){
             response.json({success:-1, response:'Server error'})
         }
+        //Change this to create new cart if cart is null
         else if(cart==null){
             response.json({success:0, response:'Cart does not exist'})
         }

@@ -23,7 +23,7 @@ export class HomepageComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.fetchFeatured()
+    // this.fetchFeatured()
   }
   fetchFeatured(){
     var featuredObs=this._httpService.fetchFeatured()
