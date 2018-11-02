@@ -8,9 +8,9 @@ import { HttpService } from '../http.service';
   styleUrls: ['./merchantproduct.component.css']
 })
 export class MerchantProductComponent implements OnInit {
-  checkEdit:boolean
-  randomProductID:string
-  products:any
+  checkEdit:boolean;
+  randomProductID:string;
+  products:any;
   constructor(private _httpService: HttpService,private _router:Router) {
       this.checkEdit = false;
       this.products=[]

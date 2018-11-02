@@ -1,6 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import { Router,ActivatedRoute }  from '@angular/router';
-import { HttpService }  from '../http.service';  
+import { HttpService }  from '../http.service';
 
 @Component({
   selector: 'app-search',
@@ -19,7 +19,7 @@ export class SearchComponent implements OnInit {
   low_high_filter:boolean;
   high_low_filter:boolean;
   /* these are the boolean filters */
- 
+
 
   constructor(private _Activatedroute: ActivatedRoute, private _router:Router, private _httpService:HttpService ) {
     this.products = {};
@@ -40,7 +40,13 @@ export class SearchComponent implements OnInit {
       this.searchQuery =params['searchQuery']
       console.log(this.searchQuery);
       this.clearFilter();
-     this.fetchSearchedProducts();
+      if(localStorage.getItem('categoryClicked') == 'true'){
+            //console.log('in search: ',localStorage.getItem('category'));
+            this.fetchCategorySearchedProducts(localStorage.getItem('category'));
+
+      }else{
+            this.fetchSearchedProducts();
+      }
     });
   }
   clearFilter(){
@@ -52,6 +58,7 @@ export class SearchComponent implements OnInit {
     this.high_low_filter =false;
   }
   fetchSearchedProducts(){
+    console.log("normal search");
     var productsObs=this._httpService.fetchSearchedProducts(this.searchQuery)
     productsObs.subscribe(data=>{
       console.log("Queried products: ", data)
@@ -60,6 +67,19 @@ export class SearchComponent implements OnInit {
       this.search_logic();
     })
   }
+
+  fetchCategorySearchedProducts(category){
+      console.log("In the fetchCategorySearchedProducts method!!");
+      console.log("category: ", category);
+
+      var productsObs=this._httpService.fetchCategorySearchedProducts(this.searchQuery, category)
+      productsObs.subscribe(data=>{
+        console.log("Queried products: ", data)
+        this.products = data['products'];
+      })
+
+  }
+
   private search_logic (){
     console.log("starting search");
     //first thing is to call the getAllProducts service
@@ -68,8 +88,8 @@ export class SearchComponent implements OnInit {
     //decide how many products go on each page?
     //use products array
     console.log(this.products);
-    
-   
+
+
   }
 
   getSearchedProduct(){

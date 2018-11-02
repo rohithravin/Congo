@@ -181,6 +181,21 @@ app.get('/getProduct/:productID', function(request, response){
     })
 })
 
+app.post('/fetchSearchedProductsWithCategory', function(request, response){
+    var searchQuery=request.body['searchQuery']
+    var category=request.body['category']
+    var queryRegex= new RegExp(searchQuery, 'i')
+    Product.find({$and:[{$or:[{name: {$regex: queryRegex}}, {description: {$regex: queryRegex}}, {tags: {$regex: queryRegex}}]},{category:category}]}, function(error, products){
+        if(error){
+            response.json({success:0, message:"There was an error"})
+        }
+        else{
+            response.json({success:1, message:"Successfully fetched products", products:products})
+        }
+    })
+})
+
+
 app.post('/fetchSearchedProducts', function(request, response){
     var searchQuery=request.body['searchQuery']
     console.log(searchQuery)
@@ -211,7 +226,7 @@ app.post('/fetchSearchedProductsWithCategory', function(request, response){
 
 
 app.post('/processMerchantLogin', function(request, response){
-  
+
   var license=request.body['license']
   var password=request.body['password']
 //   console.log('License:', license, 'Password:', password)
@@ -498,7 +513,7 @@ app.post('/processMerchantRegistration', function(request, response){
                         })
                     }
                 }
-            }) 
+            })
         }
     })
 })
@@ -572,14 +587,14 @@ app.post('/removeProductFromCart', function(request,response){
     }
     console.log(request.body['productID'])
     var userID=request.body['userID']
-   
+
 
     User.findOne({_id: userID}, function(findUserError,results){
         if(findUserError){
            return response.json({success:0, message:"Unable to find user"})
         }
         else{
-            //found user 
+            //found user
             Cart.findOne({userID:userID}, function(error,cart){
                 if(error){
                    return response.json({success:0, response:'Cart does not exist'})
@@ -642,7 +657,7 @@ app.post('/processEdit', function(request, response){
                 else{
                     response.json({success:1, message:'Successfully edited product', product:product})
                 }
-            })        
+            })
         }
     })
 })
@@ -688,7 +703,7 @@ app.post('/createOrder', function(request, response){
                     items.push(thisItem)
                 }
                 var newOrder = new Order({userID:request.body['userID'], street_address:street, city:city, state:state, zip_code:zip_code, country:'United States', shipping:parseFloat(shipping), tempID:tempID, total:0, items:items.length})
-                
+
                 currentTotal=currentTotal+parseFloat(shipping)+parseFloat(tax);
                 newOrder.total=currentTotal
                 newOrder.save(function(error){
@@ -856,7 +871,7 @@ app.get('/getFeatured', function(request, response){
     Product.find({promotionType:'FP'}, function(error,products){
         if(error){
           return  response.json({success:-1, message:'Server error'});
-            
+
         }
         else{
             //get 6 random indeces, make sure no repeats
@@ -874,7 +889,7 @@ app.get('/getFeatured', function(request, response){
                     }
                 }
             }
-          return response.json({success: 1, message: "Successfully fetched all featured products", bigBanner: bigBannerProducts, smallBanner: smallBannerProducts, featuredProducts: featuredProducts}); 
+          return response.json({success: 1, message: "Successfully fetched all featured products", bigBanner: bigBannerProducts, smallBanner: smallBannerProducts, featuredProducts: featuredProducts});
         }
     })
 })

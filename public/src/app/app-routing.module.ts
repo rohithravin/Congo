@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { HeaderComponent } from './header/header.component'
 import { Routes, RouterModule } from '@angular/router';
 import { HomepageComponent } from './homepage/homepage.component'
 import { CartComponent } from './cart/cart.component';

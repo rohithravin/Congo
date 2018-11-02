@@ -15,13 +15,12 @@
   <div class='searchbar'>
     <form action='#' method='get'>
       <input type='text' placeholder='search' name='searchRequest' [(ngModel)]='searchQuery'>
-      <a href='#' [routerLink]="['/search', searchQuery]"><img src='https://image.flaticon.com/icons/png/512/49/49116.png' alt='search'></a>
+      <a [routerLink]="['/search', searchQuery]" href='#' ><img src='https://image.flaticon.com/icons/png/512/49/49116.png' alt='search'></a>
     </form>
   </div>
   <p class='welcomeName' *ngIf="loggedIn==true">Welcome, {{first_name}}</p>
   <a href='#' class='loginLink' [routerLink]="['/login']" *ngIf='loggedIn==false'>LOGIN</a>
   <a href='#' [routerLink]="['/cart']"><img src='https://image.flaticon.com/icons/png/512/2/2772.png' alt='Cart'></a>
-
     <div class='accountDropdown' *ngIf='loggedIn==true'>
       <p>ACCOUNT</p>
       <a (click)="accountClicked()"><img src='https://image.flaticon.com/icons/svg/120/120906.svg' alt='down'></a>
