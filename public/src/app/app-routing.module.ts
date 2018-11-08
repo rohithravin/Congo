@@ -20,6 +20,7 @@ import { MerchantRegConfComponent } from './merchant-reg-conf/merchant-reg-conf.
 import { PurchaseHistoryComponent } from './purchase-history/purchase-history.component';
 import { MerchantaddComponent } from './merchantadd/merchantadd.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { AdminPortalComponent } from './admin-portal/admin-portal.component';
 
 const routes: Routes = [
   {path:'', component:HomepageComponent},
@@ -40,7 +41,8 @@ const routes: Routes = [
   {path: 'merchant-reg-conf', component: MerchantRegConfComponent},
   {path: 'merchantadd', component: MerchantaddComponent},
   {path: 'orders', component: PurchaseHistoryComponent},
-  {path: 'admin-login', component: AdminLoginComponent}
+  {path: 'admin-login', component: AdminLoginComponent},
+  {path: 'admin-portal', component: AdminPortalComponent}
    //Path any, = home
 ];
 
