@@ -19,6 +19,7 @@ import { MerchantReg2Component } from './merchant-reg2/merchant-reg2.component';
 import { MerchantRegConfComponent } from './merchant-reg-conf/merchant-reg-conf.component';
 import { PurchaseHistoryComponent } from './purchase-history/purchase-history.component';
 import { MerchantaddComponent } from './merchantadd/merchantadd.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
 
 const routes: Routes = [
   {path:'', component:HomepageComponent},
@@ -38,7 +39,8 @@ const routes: Routes = [
   {path: 'merchant/register2', component: MerchantReg2Component},
   {path: 'merchant-reg-conf', component: MerchantRegConfComponent},
   {path: 'merchantadd', component: MerchantaddComponent},
-  {path: 'orders', component: PurchaseHistoryComponent}
+  {path: 'orders', component: PurchaseHistoryComponent},
+  {path: 'admin-login', component: AdminLoginComponent}
    //Path any, = home
 ];
 
