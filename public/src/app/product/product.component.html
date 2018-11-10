@@ -90,6 +90,7 @@
                     <div class="col" style="text-align: left;">
                             <textarea rows="4" cols="50" [(ngModel)]="reviewText" ></textarea>
                             <div class="col"><small class="form-text text-danger" *ngIf=show_revErr style="color: rgb(114,29,119);">Must be atleast 20 characters.</small></div>
+                            <div class="col"><small class="form-text" *ngIf=show_reviewSuccess style="color: green;">Review Submitted.</small></div>
                     </div>
                 </div>
             </div>
