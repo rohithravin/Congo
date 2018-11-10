@@ -62,6 +62,8 @@ var Merchant = mongoose.model('Merchant');
 
 var ReviewSchema= new mongoose.Schema({
     userID:{type:String, required:[true, "userID is required."]},
+    first_name:{type:String},
+    last_name:{type:String},
     rating:{type:Number, required:true, min:1, max:5},
     review:{type:String, required:[true, "A review is required"], minlength:20},
     productID:{type:String, required:[true, "ProductID is required"]}
@@ -911,7 +913,7 @@ app.post('/processNewReview', function(request, response){
         }
         else{
             //Found user
-            var newReview = new Review({userID:userID, rating:rating, review:review, productID:productID})
+            var newReview = new Review({userID:userID, rating:rating, review:review, productID:productID, first_name:user.first_name, last_name:user.last_name})
             newReview.save(function(error){
                 if(error){
                     return response.json({success:0, message:'Unable to create review'})
@@ -1029,12 +1031,12 @@ function createTempID(){
             if(numberOrLetter==2){
                 var toAdd=String.fromCharCode(Math.floor(Math.random()*26+65))
                 hashed+=toAdd
-                //Random lowerCase letter
+                //Random upperCase letter
             }
             else{
                 var toAdd=String.fromCharCode(Math.floor(Math.random()*26+97))
                 hashed+=toAdd
-                //Random upperCase letter
+                //Random lowerCase letter
             }
         }
     }
