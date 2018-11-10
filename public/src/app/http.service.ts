@@ -83,4 +83,7 @@ export class HttpService {
   changeProductState(productID, license){
     return this._http.post('/changeProductActiveState', {license:license, productID:productID})
   }
+  processNewReview(productID,userID,rating,review){
+    return this._http.post('/processNewReview',{productID:productID,userID:userID,rating:rating,review:review});
+  }
 }
