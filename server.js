@@ -34,7 +34,7 @@ var UserSchema = new mongoose.Schema({
     user_level:{type:Number, default:1},
     phone_number:{type:String, required:[true, "Phone number is required"], minlength:[10, "Invalid phone number"], maxlength:[10, "Invalid phone number"]},
     stream:{type:Boolean, default:false, required:[true, "Stream is required"]},
-    pin:{type:String}
+    pin:{type:String, length:4}
     // cart:"CartSchema"
 }, {timestamps:true});
 mongoose.model('User', UserSchema)
@@ -992,7 +992,19 @@ app.get('/getReviews/:productID', function(request, response){
 })
 
 app.post('/makeAdmin', function(request, response){
-
+    var userID=request.body['userID']
+    var pin=request.body['pin']
+    User.findOneAndUpdate({_id:userID}, {$set: {user_level:9, pin:pin}}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server error or saving error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'Unable to find user'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully made this user an Admin', user:{email:user.email, user_level:user.user_level, pin:user.pin}})
+        }
+    })
 })
 
 app.all('*', (request, response, next)=>{
