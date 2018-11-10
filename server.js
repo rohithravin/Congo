@@ -62,7 +62,8 @@ var Merchant = mongoose.model('Merchant');
 var ReviewSchema= new mongoose.Schema({
     userID:{type:String, required:[true, "userID is required."]},
     rating:{type:Number, required:true, min:1, max:5},
-    review:{type:String, required:[true, "A review is required"], minlength:20}
+    review:{type:String, required:[true, "A review is required"], minlength:20},
+    productID:{type:String, required:[true, "ProductID is required"]}
 }, {timestamps:true})
 mongoose.model('Review', ReviewSchema)
 var Review=mongoose.model('Review')
@@ -97,8 +98,6 @@ var BigBannerSchema=new mongoose.Schema({
 }, {timestamps:true})
 mongoose.model('BigBanner', BigBannerSchema)
 var BigBanner=mongoose.model('BigBanner')
-
-
 
 var CartItemSchema = new mongoose.Schema({
     product:ProductSchema,
@@ -891,6 +890,47 @@ app.get('/getFeatured', function(request, response){
                 }
             }
           return response.json({success: 1, message: "Successfully fetched all featured products", bigBanner: bigBannerProducts, smallBanner: smallBannerProducts, featuredProducts: featuredProducts});
+        }
+    })
+})
+
+app.post('/processNewReview', function(request, response){
+    //ProductID, userID, rating, review
+    var productID=request.body['productID']
+    var userID=request.body['userID']
+    var rating=request.body['rating']
+    var review=request.body['review']
+
+    User.findOne({_id:userID}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'No user exists with this ID'})
+        }
+        else{
+            //Found user
+            var newReview = new Review({userID:userID, rating:rating, review:review, productID:productID})
+            newReview.save(function(error){
+                if(error){
+                    return response.json({success:0, message:'Unable to create review'})
+                }
+                else{
+                    //successfully created newReview
+                    Product.findOneAndUpdate({_id:productID}, {$push: {reviews:newReview}}, function(error, product){
+                        if(error){
+                            return response.json({success:-1, message:'Unable to push review to this product'})
+                        }
+                        else if(product==null){
+                            return response.json({success:0, message:'Unable to find product'})
+                        }
+                        else{
+                            //Found product and successfully pushed new review
+                            return response.json({success:1, messsage:'Successfully placed review', review:newReview})
+                        }
+                    })
+                }
+            })
         }
     })
 })
