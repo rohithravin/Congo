@@ -976,6 +976,25 @@ app.post('/processAdminLogin', function(request, response){
     })
 })
 
+app.get('/getReviews/:productID', function(request, response){
+    var productID=request.params['productID']
+    Product.findOne({_id:productID}, function(error, product){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(product==null){
+            return response.json({success:0, message:'Unable to find product'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully found product', reviews:product.reviews})
+        }
+    })
+})
+
+app.post('/makeAdmin', function(request, response){
+
+})
+
 app.all('*', (request, response, next)=>{
     response.sendFile(path.resolve('./public/dist/public/index.html'))
 })
