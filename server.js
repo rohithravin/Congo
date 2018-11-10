@@ -34,6 +34,7 @@ var UserSchema = new mongoose.Schema({
     user_level:{type:Number, default:1},
     phone_number:{type:String, required:[true, "Phone number is required"], minlength:[10, "Invalid phone number"], maxlength:[10, "Invalid phone number"]},
     stream:{type:Boolean, default:false, required:[true, "Stream is required"]},
+    pin:{type:String}
     // cart:"CartSchema"
 }, {timestamps:true});
 mongoose.model('User', UserSchema)
@@ -933,6 +934,65 @@ app.post('/processNewReview', function(request, response){
             })
         }
     })
+})
+
+app.post('/processAdminLogin', function(request, response){
+    var email=request.body['email']
+    var password=request.body['password']
+    var pin=request.body['pin']
+    User.findOne({email:email}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'Unable to find user'})
+        }
+        else{
+            //Successfully found user
+            if(bcrypt.compareSync(password, user.password)==false){
+                return response.json({success:0, message:'Passwords do not match'})
+            }
+            else{
+                //Passwords match
+                if(user.user_level!=9){
+                    return response.json({success:-2, message:'This user does not have admin privileges'})
+                }
+                else{
+                    //User is an admin
+                    if(user.pin==null){
+                        return response.json({success:-2, message:'This user has a PIN which has not been set up yet. Contact another site administrator'})
+                    }
+                    else{
+                        if(user.pin!=pin){
+                            return response.json({success:0, message:'Invalid PIN'})
+                        }
+                        else{
+                            return response.json({success:1, message:'Admin login successful', userID:user._id, first_name:user.first_name})
+                        }
+                    }
+                }
+            }
+        }
+    })
+})
+
+app.get('/getReviews/:productID', function(request, response){
+    var productID=request.params['productID']
+    Product.findOne({_id:productID}, function(error, product){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(product==null){
+            return response.json({success:0, message:'Unable to find product'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully found product', reviews:product.reviews})
+        }
+    })
+})
+
+app.post('/makeAdmin', function(request, response){
+
 })
 
 app.all('*', (request, response, next)=>{
