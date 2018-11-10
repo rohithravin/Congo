@@ -59,6 +59,14 @@ var MerchantSchema = new mongoose.Schema({
 mongoose.model('Merchant', MerchantSchema)
 var Merchant = mongoose.model('Merchant');
 
+var ReviewSchema= new mongoose.Schema({
+    userID:{type:String, required:[true, "userID is required."]},
+    rating:{type:Number, required:true, min:1, max:5},
+    review:{type:String, required:[true, "A review is required"], minlength:20}
+}, {timestamps:true})
+mongoose.model('Review', ReviewSchema)
+var Review=mongoose.model('Review')
+
 var ProductSchema=new mongoose.Schema({
     name:{type:String, required:[true, "Product name is required"], minlength:5},
     price:{type:Number, required:[true, "Price is required"], min:0},
@@ -72,7 +80,7 @@ var ProductSchema=new mongoose.Schema({
     active:{type:Boolean, default:true},
     // merchant:MerchantSchema,
     merchantLicense:{type:String},
-    reviews:["ReviewSchema"],
+    reviews:[ReviewSchema],
     category:{type:String /*, required:[false, "Category is required"]*/},
     promoted:{type:Boolean, default:false},
     promotionType:{type:String},
@@ -90,14 +98,7 @@ var BigBannerSchema=new mongoose.Schema({
 mongoose.model('BigBanner', BigBannerSchema)
 var BigBanner=mongoose.model('BigBanner')
 
-var ReviewSchema= new mongoose.Schema({
-    user:UserSchema,
-    product:ProductSchema,
-    rating:{type:Number, required:true, min:1, max:5},
-    review:{type:String, required:[true, "A review is required"], minlength:20}
-}, {timestamps:true})
-mongoose.model('Review', ReviewSchema)
-var Review=mongoose.model('Review')
+
 
 var CartItemSchema = new mongoose.Schema({
     product:ProductSchema,
