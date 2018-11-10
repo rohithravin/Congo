@@ -8,19 +8,28 @@ import { HttpService } from '../http.service';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-
+  reviewRating:any;
+  reviewText:string;
   productID:string;
   product:any;
   count:number;
   size:string;
   color:string;
+  userID:any;
+  show_ratingErr:boolean;
+  show_revErr:boolean;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
     this.productID = '';
     this.product={};
     this.count = 1;
-    this.size=''
-    this.color=''
+    this.size='';
+    this.color='';
+    this.reviewRating = 0;
+    this.reviewText = "";
+    this.userID = localStorage.getItem('userID');
+    this.show_ratingErr = false;
+    this.show_revErr = false;
   }
 
   ngOnInit() {
@@ -57,6 +66,28 @@ export class ProductComponent implements OnInit {
       this.color=data['product']['colors'][0]
     })
   }
+
+ submitReview(){
+   console.log("submitting review...");
+   console.log(this.reviewRating);
+   if(this.reviewRating == 0){
+     this.show_ratingErr = true;
+   }else{
+     this.show_ratingErr = false;
+   }
+   console.log(this.reviewText);
+   if(this.reviewText.length < 20){
+     this.show_revErr = true;
+   }else {
+     this.show_revErr = false;
+   }
+   //productID
+   //userID
+
+   if(!this.show_ratingErr && !this.show_revErr){
+     console.log("succ");
+   }
+ }
 
   addToCart(){
     console.log("Adding to cart")
