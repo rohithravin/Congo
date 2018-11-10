@@ -2,10 +2,17 @@
   height: 1000px;
   background-size: cover;
   position: relative;
+  padding-top:1px;
 }
 
 .login-dark form {
-  max-width: 320px;
+  width:320px;
+  margin:auto;
+  background-color: #1e2833;
+  padding: 40px;
+  border-radius: 4px;
+  margin-top:50px;
+  /* max-width: 320px;
   width: 90%;
   background-color: #1e2833;
   padding: 40px;
@@ -16,6 +23,8 @@
   left: 50%;
   color: #fff;
   box-shadow: 3px 3px 4px rgba(0,0,0,0.2);
+  border:1px solid red;
+  height:500px; */
 }
 
 .login-dark .illustration {
@@ -26,15 +35,19 @@
 }
 
 .login-dark form .form-control {
-  background: none;
+  background: white;
   border: none;
   border-bottom: 1px solid #434a52;
   border-radius: 0;
   box-shadow: none;
   outline: none;
-  color: inherit;
+  /* color: inherit; */
+  color:black;
 }
 
+.login-dark form .pin-num {
+  width:100px;
+}
 .login-dark form .btn-primary {
   background: #214a80;
   border: none;
