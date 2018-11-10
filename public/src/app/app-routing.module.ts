@@ -21,6 +21,7 @@ import { PurchaseHistoryComponent } from './purchase-history/purchase-history.co
 import { MerchantaddComponent } from './merchantadd/merchantadd.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { AdminPortalComponent } from './admin-portal/admin-portal.component';
+import { StreamRegistrationComponent } from './stream-registration/stream-registration.component'
 
 const routes: Routes = [
   {path:'', component:HomepageComponent},
@@ -42,7 +43,8 @@ const routes: Routes = [
   {path: 'merchantadd', component: MerchantaddComponent},
   {path: 'orders', component: PurchaseHistoryComponent},
   {path: 'admin-login', component: AdminLoginComponent},
-  {path: 'admin-portal', component: AdminPortalComponent}
+  {path: 'admin-portal', component: AdminPortalComponent},
+  {path: 'stream/register', component:StreamRegistrationComponent}
    //Path any, = home
 ];
 

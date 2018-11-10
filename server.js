@@ -993,6 +993,7 @@ app.get('/getReviews/:productID', function(request, response){
     })
 })
 
+// Dummy functions delete when going live
 app.post('/makeAdmin', function(request, response){
     var userID=request.body['userID']
     var pin=request.body['pin']
@@ -1008,6 +1009,7 @@ app.post('/makeAdmin', function(request, response){
         }
     })
 })
+//End of dummy functions
 
 app.all('*', (request, response, next)=>{
     response.sendFile(path.resolve('./public/dist/public/index.html'))

@@ -1,0 +1,72 @@
+div.streamWrapper{
+  background:rgb(53, 53, 53);
+  padding-top:1px;
+  padding-bottom:1px;
+}
+div.mainBox{
+    background:rgb(165, 165, 165);
+    border-radius:5px;
+    width:450px;
+    display:block;
+    margin:auto;
+    padding:15px;
+    margin-top:30px;
+}
+div.mainBox p.boxTitle{
+    font-size:24pt;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight:bold;
+    text-align: center;
+    color:gold;
+    margin:0px;
+}
+p.description{
+    font-style: italic;
+    font-size:14pt;
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+    width:400px;
+    margin:auto;
+}
+p.big{
+    font-size:28pt;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight:bold;
+    text-align: center;
+    font-style: italic;
+}
+input.cardNumber{
+    font-size:14pt;
+    width:375px;
+    margin:auto;
+    display:block;
+}
+input.cvv{
+    width:100px;
+    margin-top:15px;
+    margin-left:22px;
+    font-size:14pt;
+}
+input.expMonth{
+    width:60px;
+    margin-top:15px;
+    margin-left:70px;
+    font-size:14pt;
+}
+input.expYear{
+    width:60px;
+    margin-top:15px;
+    margin-left:15px;
+    font-size:14pt;
+}
+button.mySubmit{
+    display:block;
+    background:rgb(92, 92, 255);
+    width:300px;
+    margin:auto;
+    color:white;
+    height:45px;
+    border-radius:7px;
+    margin-top:20px;
+    font-size:15pt;
+}

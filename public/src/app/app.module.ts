@@ -26,7 +26,8 @@ import { MerchantReg2Component } from './merchant-reg2/merchant-reg2.component';
 import { MerchantRegConfComponent } from './merchant-reg-conf/merchant-reg-conf.component';
 import { PurchaseHistoryComponent } from './purchase-history/purchase-history.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
-import { AdminPortalComponent } from './admin-portal/admin-portal.component'
+import { AdminPortalComponent } from './admin-portal/admin-portal.component';
+import { StreamRegistrationComponent } from './stream-registration/stream-registration.component'
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { AdminPortalComponent } from './admin-portal/admin-portal.component'
     MerchantRegConfComponent,
     PurchaseHistoryComponent,
     AdminLoginComponent,
-    AdminPortalComponent
+    AdminPortalComponent,
+    StreamRegistrationComponent
   ],
   imports: [
     BrowserModule,
