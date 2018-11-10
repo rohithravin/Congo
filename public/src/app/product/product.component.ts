@@ -18,6 +18,7 @@ export class ProductComponent implements OnInit {
   userID:any;
   show_ratingErr:boolean;
   show_revErr:boolean;
+  show_reviewSuccess:boolean;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
     this.productID = '';
@@ -30,6 +31,7 @@ export class ProductComponent implements OnInit {
     this.userID = localStorage.getItem('userID');
     this.show_ratingErr = false;
     this.show_revErr = false;
+    this.show_reviewSuccess = false;
   }
 
   ngOnInit() {
@@ -83,9 +85,19 @@ export class ProductComponent implements OnInit {
    }
    //productID
    //userID
-
+   this.show_reviewSuccess = false;
    if(!this.show_ratingErr && !this.show_revErr){
      console.log("succ");
+     var addReview=this._httpService.processNewReview(this.productID,this.userID,this.reviewRating,this.reviewText);
+     addReview.subscribe(data=>{
+       console.log(data);
+       if(data['success']==1){
+         console.log("added your review");
+         this.reviewText = "";
+         this.reviewRating = 0;
+         this.show_reviewSuccess = true;
+       }
+     })
    }
  }
 
