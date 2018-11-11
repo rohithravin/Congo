@@ -16,6 +16,9 @@ export class HttpService {
   fetchProduct(productID){
     return this._http.get(`/getProduct/${productID}`)
   }
+  fetchProductReviews(productID){
+    return this._http.get(`/getReviews/${productID}`);
+  }
   fetchSearchedProducts(searchQuery){
     return this._http.post('/fetchSearchedProducts', {searchQuery:searchQuery})
   }
