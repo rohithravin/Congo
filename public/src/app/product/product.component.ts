@@ -19,6 +19,9 @@ export class ProductComponent implements OnInit {
   show_ratingErr:boolean;
   show_revErr:boolean;
   show_reviewSuccess:boolean;
+  reviews:any;
+  show_noReviews: boolean;
+  first_name :string;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
     this.productID = '';
@@ -32,6 +35,9 @@ export class ProductComponent implements OnInit {
     this.show_ratingErr = false;
     this.show_revErr = false;
     this.show_reviewSuccess = false;
+    this.reviews = {};
+    this.show_noReviews = false;
+    this.first_name = localStorage.getItem('firstName');
   }
 
   ngOnInit() {
@@ -41,6 +47,7 @@ export class ProductComponent implements OnInit {
         console.log('productID: ' + this.productID);
       })
     this.fetchProduct()
+    this.fetchReviews()
 
   }
 
@@ -52,6 +59,29 @@ export class ProductComponent implements OnInit {
     if (this.count > 1){
       this.count = this.count - 1;
     }
+  }
+
+  fetchReviews(){
+    console.log("fetching reviews");
+    var reviews=this._httpService.fetchProductReviews(this.productID);
+    reviews.subscribe(data=>{
+      console.log(data);
+      if(data['success']==1){
+        console.log("retrieved reviews");
+        this.reviews = data['reviews'];
+        if(this.reviews.length == 0){
+          console.log("empty");
+          this.show_noReviews = false;
+        }else{
+        this.reviews = this.reviews.slice().reverse();
+        console.log(this.reviews);
+        this.show_noReviews = true;
+        }
+      }
+      if(data['success'] != 1){
+        this.show_noReviews = false;
+      }
+    })
   }
 
   fetchProduct(){
@@ -96,6 +126,7 @@ export class ProductComponent implements OnInit {
          this.reviewText = "";
          this.reviewRating = 0;
          this.show_reviewSuccess = true;
+         this.fetchReviews();
        }
      })
    }

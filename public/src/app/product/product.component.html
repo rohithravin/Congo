@@ -53,9 +53,6 @@
                             <div class="col">
                                 <h2>${{product['price']}}</h2>
                             </div>
-                            <div class="col">
-                                <p>Total View: {{product['num_views']}} People</p>
-                            </div>
                         </div>
                         <div class="row" style="margin-top: 10px;">
                             <div class="col"></div>
@@ -122,21 +119,100 @@
         </div>   
      </div>
 
-     <div >
-            <p >Reviews</p>
-            <div>
-                    <div class="row">
-                        <div class="col" style="color: #FFD700;">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                        </div>
-                        <p class="col">User</p>
-                    </div>    
-                <p>This is a great product!</p>
+     <div class="container">
+         <!-- make review a white bar all the way across, add the date created and make them line up -->
+            <!-- <p >Reviews</p>
+        <div  class="reviewWrapper" *ngFor="let review of reviews">
+            
+            <div class="row">
+                <p style="color: #FFD700;">{{review['rating']}}/5</p>
+                <p style="color: white;">{{review['createdAt'] | date}}</p>
+                
+            </div>  
+            <div class="row">
+                    <p style="color: white;">{{review['first_name']}}</p>
             </div>
+            <div class="row">
+                    <p style="color: white;">{{review['review']}}</p>
+            </div>
+                    
+        </div> -->
+        
     </div> 
+    
+    <!-- Featured Testimonials -->
+<section class="container-fluid">
+        <section class="row text-center">
+          <h2 class="page-header" style="padding-left: 35%;">
+                      Customer Reviews
+            </h2>
+        </section >
+        <div *ngIf=show_noReviews>
+        <section class="row" style="padding: 10px;background: rgb(53, 53, 53);" *ngFor="let review of reviews">
+      
+          <!-- Featured Testimonial -->
+          
+           <section class="panel panel-primary" style="padding: 5px;width:1110px;height: 107px; border-bottom: 2px solid lightgray;"> 
+              <div class="panel-heading">
+                <!-- Testimonial Rating -->
+                <section class="review-rating text-left">
+                  <form>
+                    <fieldset class="rating">
+                        <span style="color: #FFD700;">{{review['rating']}}/5</span>
+                    </fieldset>
+                  </form>
+                </section>
+      
+                <!-- Testimonial Author -->
+                <section class="review-author text-center" >
+                  <span style="color: #f7f7f7;padding-left: 14%;" >User: {{review['first_name']}}</span>
+                  <span style="color: #f7f7f7" *ngIf="!review['first_name']">Anon</span>
+                  <em class="review-date" style="color: #f7f7f7">{{review['createdAt'] | date}}</em>
+                </section>
+
+               
+              </div>
+              <div class="panel-body text-center">
+                <p style="color: #f7f7f7">{{review['review']}}</p>
+              </div>
+              
+            </section>
+         
+        </section>
+    </div>
+    <div *ngIf=!show_noReviews>
+            <section class="row" style="padding: 10px;background: rgb(53, 53, 53);">
+      
+                    <!-- Featured Testimonial -->
+                    
+                     <section class="panel panel-primary" style="padding: 5px;width:1110px;height: 107px; border-bottom: 2px solid lightgray;"> 
+                        <div class="panel-heading">
+                          <!-- Testimonial Rating -->
+                          <section class="review-rating text-left">
+                            <form>
+                              <fieldset class="rating">
+                                  <span style="color: #FFD700;">5/5</span>
+                              </fieldset>
+                            </form>
+                          </section>
+                
+                          <!-- Testimonial Author -->
+                          <section class="review-author text-center" >
+                            <span style="color: #f7f7f7;padding-left: 14%;" >User: {{first_name}}</span>
+                            
+                            <em class="review-date" style="color: #f7f7f7">Dec 25, 2018</em>
+                          </section>
+          
+                         
+                        </div>
+                        <div class="panel-body text-center">
+                          <p style="color: #f7f7f7">Be the first to leave a review!</p>
+                        </div>
+                        
+                      </section>
+                   
+                  </section>
+          </div>
+    </section>
 
 </div>
