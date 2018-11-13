@@ -92,4 +92,10 @@ export class HttpService {
   processNewReview(productID,userID,rating,review){
     return this._http.post('/processNewReview',{productID:productID,userID:userID,rating:rating,review:review});
   }
+  makeAdmin(userID, pin){
+    return this._http.post('/makeAdmin', {userID:userID, pin:pin})
+  }
+  processAdminLogin(email, password, pin){
+    return this._http.post('/processAdminLogin', {email:email, password:password, pin:pin})
+  }
 }
