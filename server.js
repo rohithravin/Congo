@@ -1034,6 +1034,26 @@ app.post('/makeAdmin', function(request, response){
             return response.json({success:1, message:'Successfully made this user an Admin', user:{email:user.email, user_level:user.user_level, pin:user.pin}})
         }
     })
+    // User.findOne({_id:userID}, function(error, user){
+    //     if(error){
+    //         return response.json({success:-1, message:'Server error or saving error'})
+    //     }
+    //     else if(user==null){
+    //         return response.json({success:0, message:'Unable to find user'})
+    //     }
+    //     else{
+    //         user.user_level=9;
+    //         user.pin=pin
+    //         user.save(function(error){
+    //             if(error){
+    //                 return response.json({success:0, message:'Unable to save user changes'})
+    //             }
+    //             else{
+    //                 return response.json({success:1, message:'Successfully made this user an Admin', user:{email:user.email, user_level:user.user_level, pin:user.pin}})
+    //             }
+    //         })
+    //     }
+    // })
 })
 //End of dummy functions
 
