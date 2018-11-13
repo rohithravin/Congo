@@ -30,7 +30,7 @@ export class AdminLoginComponent implements OnInit {
     this.errPin = false;
     this.errShowErr = false;
   }
-
+  /*
   ngOnInit() {
     if(localStorage.getItem(adminLoggedIn) == null || localStorage.getItem(adminLoggedIn) == false){
       this._router.navigate(['']);
@@ -72,4 +72,5 @@ export class AdminLoginComponent implements OnInit {
     this.userId = '1234';
     
   }
+  */
 }

@@ -34,7 +34,8 @@ var UserSchema = new mongoose.Schema({
     user_level:{type:Number, default:1},
     phone_number:{type:String, required:[true, "Phone number is required"], minlength:[10, "Invalid phone number"], maxlength:[10, "Invalid phone number"]},
     stream:{type:Boolean, default:false, required:[true, "Stream is required"]},
-    pin:{type:String, length:4}
+    pin:{type:String, length:4},
+    credits:{type:Number, default:0, min:0}
     // cart:"CartSchema"
 }, {timestamps:true});
 mongoose.model('User', UserSchema)
@@ -149,6 +150,15 @@ var OrderSchema=new mongoose.Schema({
 }, {timestamps:true})
 mongoose.model('Order', OrderSchema)
 var Order=mongoose.model('Order')
+
+var GiftCardSchema=new mongoose.Schema({
+    buyerID:{type:String, required:[true, "buyerID is required"]},
+    cardNumber:{type:String, required:[true, "Card Number is required"]},
+    value:{type:Number, required:[true, "Value is required for gift cards"], min:0},
+    active:{type:Boolean, default:true, required:[true, "Card active status is required"]}
+})
+mongoose.model('GiftCard', GiftCardSchema)
+var GiftCard=mongoose.model('GiftCard')
 
 app.use(express.static(path.join(__dirname, './public/dist/public')))
 app.use(bodyParser.json())
@@ -826,7 +836,7 @@ app.get('/getFeatured', function(request, response){
     var bigBannerProducts = [];
     var smallBannerProducts = [];
     var featuredProducts = [];
-
+    var waitOne=false;
     Product.find({promotionType:'BB'}, function(error, products){
         if(error){
            return response.json({success:-1, message:'Server error'})
@@ -848,7 +858,12 @@ app.get('/getFeatured', function(request, response){
                 }
             }
         }
-    })
+        waitOne=true;
+    }) 
+    while(waitOne==false){
+
+    }
+    var waitTwo=false;
     Product.find({promotionType:'SB'}, function(error, products){
         if(error){
            return response.json({success:-1, message:'Server error'});
@@ -870,7 +885,11 @@ app.get('/getFeatured', function(request, response){
                 }
             }
         }
+        waitTwo=True;
     })
+    while(waitTwo==false){
+
+    }
     Product.find({promotionType:'FP'}, function(error,products){
         if(error){
           return  response.json({success:-1, message:'Server error'});
@@ -993,6 +1012,69 @@ app.get('/getReviews/:productID', function(request, response){
     })
 })
 
+app.post('/purchaseGiftCard', function(request, response){
+    var buyerID=request.body['userID']
+    var amount=request.body['amount']
+    var cardNum=createGiftCardNumber()
+    var newCard = new GiftCard({buyerID:buyerID, cardNumber:cardNum, value:amount})
+    newCard.save(function(error){
+        if(error){
+            return response.json({success:0, message:'Unable to create gift card'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully created Gift Card', card:newCard})
+        }
+    })
+})
+
+app.post('/redeemGiftCard', function(request, response){
+    var userID=request.body['userID']
+    var cardNumber=request.body['cardNum']
+    GiftCard.findOne({cardNumber:cardNumber}, function(error, card){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(card==null){
+            return response.json({success:0, message:'Invalid Card Number'})
+        }
+        else{
+            //Found card, now add to user credits
+            if(card.active==false){
+                return response.json({success:0, message:'This card has already been activated'})
+            }
+            var value=card.value
+            User.findOne({_id:userID}, function(error, user){
+                if(error){
+                    return response.json({success:-1, message:'Server error'})
+                }
+                else if(user==null){
+                    return response.json({success:0, message:'Invalid userID'})
+                }
+                else{
+                    //Found user, 1 add credits to user, then inactivate card
+                    user.credits+=value;
+                    card.active=false
+                    user.save(function(error){
+                        if(error){
+                            return response.json({success:0, message:'Unable to add credits to user'})
+                        }
+                        else{
+                            card.save(function(error){
+                                if(error){
+                                    return response.json({success:0, message:'Unable to inactivate card'})
+                                }
+                                else{
+                                    return response.json({success:1, message:'Successfully redeemed card', userCredits:user.credits})
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    })
+})
+
 // Dummy functions delete when going live
 app.post('/makeAdmin', function(request, response){
     var userID=request.body['userID']
@@ -1089,4 +1171,39 @@ function createHash(name, url){
     }
     //Check db to see if license exists, if it does, replace the website with the hashed String and make a recursive return call to this hash Function
     return hashed
+}
+
+function createGiftCardNumber(){
+    var hashed=''
+    for(var i=0; i<16; i++){
+        var numberOrLetter=Math.floor(Math.random()*3+1)
+        if(numberOrLetter==3){
+            var toAdd=Math.floor(Math.random()*9)
+            toAdd+=48
+            hashed+=String.fromCharCode(toAdd)
+        }
+        else{
+            if(numberOrLetter==2){
+                var toAdd=String.fromCharCode(Math.floor(Math.random()*26+65))
+                hashed+=toAdd
+                //Random upperCase letter
+            }
+            else{
+                var toAdd=String.fromCharCode(Math.floor(Math.random()*26+97))
+                hashed+=toAdd
+                //Random lowerCase letter
+            }
+        }
+    }
+    GiftCard.findOne({cardNumber:hashed}, function(error, card){
+        if(error){
+            return -1;
+        }
+        else if(card!=null){
+            return createGiftCardNumber()
+        }
+        else{
+            return hashed
+        }
+    })
 }
