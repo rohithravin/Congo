@@ -227,6 +227,32 @@ app.post('/fetchSearchedProductsWithCategory', function(request, response){
     })
 })
 
+app.post('/processStreamRegistration', function(request,response){
+    var userID = request.body['userID'];
+    console.log('UserID: ',userID);
+    if(!userID){
+        return response.json({success:0,message:'No UserID'});
+    }
+    User.findOne({_id:userID}, function(error,user){
+        if(error){
+            return response.json({success:0, message:'Invalid credentials'});
+        }else if(user==null){
+            return response.json({success: 0, message:'Invalid credentials'});
+        }else{
+            user.stream=true;
+            user.save(function(error){
+                if(error){
+                    return response.json({success:0, message:'Unable to update stream user'})
+                }
+                else{
+                    console.log('user',user);
+                    return response.json({success:1, message:'Successfully changed user state'})
+                }
+            })
+        }
+    });
+    
+})
 
 app.post('/processMerchantLogin', function(request, response){
 
@@ -278,7 +304,7 @@ app.post('/processLogin', function(request, response){
             }
             else{
                 if(bcrypt.compareSync(password, user.password)){
-                    response.json({success:1, message:"Login successful", userID:user._id, first_name:user.first_name})
+                    response.json({success:1, message:"Login successful", userID:user._id, first_name:user.first_name,stream:user.stream});
                 }
                 else{
                     response.json({success:0, message:"Invalid Login"})

@@ -84,6 +84,15 @@ export class UserLoginComponent implements OnInit {
           localStorage.setItem('loggedIn', "true")
           localStorage.setItem('userID', data['userID'])
           localStorage.setItem('firstName', data['first_name'])
+          var _isStream = "";
+          if(data['stream']){
+            _isStream = 'true';
+            console.log(_isStream);
+          }else{
+            _isStream = 'false';
+            console.log("false");
+          }
+          localStorage.setItem('stream',_isStream);
           location.reload(true)
           this._router.navigate(['']);
         }
