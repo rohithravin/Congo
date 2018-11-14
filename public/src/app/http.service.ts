@@ -16,6 +16,9 @@ export class HttpService {
   fetchProduct(productID){
     return this._http.get(`/getProduct/${productID}`)
   }
+  fetchProductReviews(productID){
+    return this._http.get(`/getReviews/${productID}`);
+  }
   fetchSearchedProducts(searchQuery){
     return this._http.post('/fetchSearchedProducts', {searchQuery:searchQuery})
   }
@@ -47,7 +50,10 @@ export class HttpService {
     console.log("HttpService here. " + creditCardExp_year);
     return this._http.post('/processMerchantRegistration', {info:{url:url, email:email, description:description, name:companyName, routingNumber:bankNum, bankAccountNumber:accountNum, creditCardNum:cardNum, creditCardExp_month:creditCardExp_year, creditCardExp_year:creditCardExp_year, creditCard_CVV:cvc}, userID:userID})
   }
-
+  createStreamUser(userID){
+    return this._http.post('/processStreamRegistration',{userID:userID});
+  }
+  
   createNewUser(first_name, last_name, email, phone_num, password){
     console.log("checkpoint 1.");
     return this._http.post('/processRegister', {first_name: first_name, last_name:last_name, email:email, phone_num:phone_num, password:password}, {withCredentials:true})
@@ -82,5 +88,14 @@ export class HttpService {
   }
   changeProductState(productID, license){
     return this._http.post('/changeProductActiveState', {license:license, productID:productID})
+  }
+  processNewReview(productID,userID,rating,review){
+    return this._http.post('/processNewReview',{productID:productID,userID:userID,rating:rating,review:review});
+  }
+  makeAdmin(userID, pin){
+    return this._http.post('/makeAdmin', {userID:userID, pin:pin})
+  }
+  processAdminLogin(email, password, pin){
+    return this._http.post('/processAdminLogin', {email:email, password:password, pin:pin})
   }
 }

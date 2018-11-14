@@ -34,6 +34,8 @@ var UserSchema = new mongoose.Schema({
     user_level:{type:Number, default:1},
     phone_number:{type:String, required:[true, "Phone number is required"], minlength:[10, "Invalid phone number"], maxlength:[10, "Invalid phone number"]},
     stream:{type:Boolean, default:false, required:[true, "Stream is required"]},
+    pin:{type:String, length:4},
+    credits:{type:Number, default:0, min:0}
     // cart:"CartSchema"
 }, {timestamps:true});
 mongoose.model('User', UserSchema)
@@ -59,6 +61,17 @@ var MerchantSchema = new mongoose.Schema({
 mongoose.model('Merchant', MerchantSchema)
 var Merchant = mongoose.model('Merchant');
 
+var ReviewSchema= new mongoose.Schema({
+    userID:{type:String, required:[true, "userID is required."]},
+    first_name:{type:String},
+    last_name:{type:String},
+    rating:{type:Number, required:true, min:1, max:5},
+    review:{type:String, required:[true, "A review is required"], minlength:20},
+    productID:{type:String, required:[true, "ProductID is required"]}
+}, {timestamps:true})
+mongoose.model('Review', ReviewSchema)
+var Review=mongoose.model('Review')
+
 var ProductSchema=new mongoose.Schema({
     name:{type:String, required:[true, "Product name is required"], minlength:5},
     price:{type:Number, required:[true, "Price is required"], min:0},
@@ -72,7 +85,7 @@ var ProductSchema=new mongoose.Schema({
     active:{type:Boolean, default:true},
     // merchant:MerchantSchema,
     merchantLicense:{type:String},
-    reviews:["ReviewSchema"],
+    reviews:[ReviewSchema],
     category:{type:String /*, required:[false, "Category is required"]*/},
     promoted:{type:Boolean, default:false},
     promotionType:{type:String},
@@ -89,15 +102,6 @@ var BigBannerSchema=new mongoose.Schema({
 }, {timestamps:true})
 mongoose.model('BigBanner', BigBannerSchema)
 var BigBanner=mongoose.model('BigBanner')
-
-var ReviewSchema= new mongoose.Schema({
-    user:UserSchema,
-    product:ProductSchema,
-    rating:{type:Number, required:true, min:1, max:5},
-    review:{type:String, required:[true, "A review is required"], minlength:20}
-}, {timestamps:true})
-mongoose.model('Review', ReviewSchema)
-var Review=mongoose.model('Review')
 
 var CartItemSchema = new mongoose.Schema({
     product:ProductSchema,
@@ -146,6 +150,15 @@ var OrderSchema=new mongoose.Schema({
 }, {timestamps:true})
 mongoose.model('Order', OrderSchema)
 var Order=mongoose.model('Order')
+
+var GiftCardSchema=new mongoose.Schema({
+    buyerID:{type:String, required:[true, "buyerID is required"]},
+    cardNumber:{type:String, required:[true, "Card Number is required"]},
+    value:{type:Number, required:[true, "Value is required for gift cards"], min:0},
+    active:{type:Boolean, default:true, required:[true, "Card active status is required"]}
+})
+mongoose.model('GiftCard', GiftCardSchema)
+var GiftCard=mongoose.model('GiftCard')
 
 app.use(express.static(path.join(__dirname, './public/dist/public')))
 app.use(bodyParser.json())
@@ -224,6 +237,32 @@ app.post('/fetchSearchedProductsWithCategory', function(request, response){
     })
 })
 
+app.post('/processStreamRegistration', function(request,response){
+    var userID = request.body['userID'];
+    console.log('UserID: ',userID);
+    if(!userID){
+        return response.json({success:0,message:'No UserID'});
+    }
+    User.findOne({_id:userID}, function(error,user){
+        if(error){
+            return response.json({success:0, message:'Invalid credentials'});
+        }else if(user==null){
+            return response.json({success: 0, message:'Invalid credentials'});
+        }else{
+            user.stream=true;
+            user.save(function(error){
+                if(error){
+                    return response.json({success:0, message:'Unable to update stream user'})
+                }
+                else{
+                    console.log('user',user);
+                    return response.json({success:1, message:'Successfully changed user state'})
+                }
+            })
+        }
+    });
+    
+})
 
 app.post('/processMerchantLogin', function(request, response){
 
@@ -275,7 +314,7 @@ app.post('/processLogin', function(request, response){
             }
             else{
                 if(bcrypt.compareSync(password, user.password)){
-                    response.json({success:1, message:"Login successful", userID:user._id, first_name:user.first_name})
+                    response.json({success:1, message:"Login successful", userID:user._id, first_name:user.first_name,stream:user.stream});
                 }
                 else{
                     response.json({success:0, message:"Invalid Login"})
@@ -823,7 +862,7 @@ app.get('/getFeatured', function(request, response){
     var bigBannerProducts = [];
     var smallBannerProducts = [];
     var featuredProducts = [];
-
+    var waitOne=false;
     Product.find({promotionType:'BB'}, function(error, products){
         if(error){
            return response.json({success:-1, message:'Server error'})
@@ -845,7 +884,12 @@ app.get('/getFeatured', function(request, response){
                 }
             }
         }
-    })
+        waitOne=true;
+    }) 
+    while(waitOne==false){
+
+    }
+    var waitTwo=false;
     Product.find({promotionType:'SB'}, function(error, products){
         if(error){
            return response.json({success:-1, message:'Server error'});
@@ -867,7 +911,11 @@ app.get('/getFeatured', function(request, response){
                 }
             }
         }
+        waitTwo=True;
     })
+    while(waitTwo==false){
+
+    }
     Product.find({promotionType:'FP'}, function(error,products){
         if(error){
           return  response.json({success:-1, message:'Server error'});
@@ -894,6 +942,203 @@ app.get('/getFeatured', function(request, response){
     })
 })
 
+app.post('/processNewReview', function(request, response){
+    //ProductID, userID, rating, review
+    var productID=request.body['productID']
+    var userID=request.body['userID']
+    var rating=request.body['rating']
+    var review=request.body['review']
+
+    User.findOne({_id:userID}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'No user exists with this ID'})
+        }
+        else{
+            //Found user
+            var newReview = new Review({userID:userID, rating:rating, review:review, productID:productID, first_name:user.first_name, last_name:user.last_name})
+            newReview.save(function(error){
+                if(error){
+                    return response.json({success:0, message:'Unable to create review'})
+                }
+                else{
+                    //successfully created newReview
+                    Product.findOneAndUpdate({_id:productID}, {$push: {reviews:newReview}}, function(error, product){
+                        if(error){
+                            return response.json({success:-1, message:'Unable to push review to this product'})
+                        }
+                        else if(product==null){
+                            return response.json({success:0, message:'Unable to find product'})
+                        }
+                        else{
+                            //Found product and successfully pushed new review
+                            return response.json({success:1, messsage:'Successfully placed review', review:newReview})
+                        }
+                    })
+                }
+            })
+        }
+    })
+})
+
+app.post('/processAdminLogin', function(request, response){
+    var email=request.body['email']
+    var password=request.body['password']
+    var pin=request.body['pin']
+    User.findOne({email:email}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'Unable to find user'})
+        }
+        else{
+            //Successfully found user
+            if(bcrypt.compareSync(password, user.password)==false){
+                return response.json({success:0, message:'Passwords do not match'})
+            }
+            else{
+                //Passwords match
+                if(user.user_level!=9){
+                    return response.json({success:-2, message:'This user does not have admin privileges'})
+                }
+                else{
+                    //User is an admin
+                    if(user.pin==null){
+                        return response.json({success:-2, message:'This user has a PIN which has not been set up yet. Contact another site administrator'})
+                    }
+                    else{
+                        if(user.pin!=pin){
+                            return response.json({success:0, message:'Invalid PIN'})
+                        }
+                        else{
+                            return response.json({success:1, message:'Admin login successful', userID:user._id, first_name:user.first_name})
+                        }
+                    }
+                }
+            }
+        }
+    })
+})
+
+app.get('/getReviews/:productID', function(request, response){
+    var productID=request.params['productID']
+    Product.findOne({_id:productID}, function(error, product){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(product==null){
+            return response.json({success:0, message:'Unable to find product'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully found product', reviews:product.reviews})
+        }
+    })
+})
+
+app.post('/purchaseGiftCard', function(request, response){
+    var buyerID=request.body['userID']
+    var amount=request.body['amount']
+    var cardNum=createGiftCardNumber()
+    var newCard = new GiftCard({buyerID:buyerID, cardNumber:cardNum, value:amount})
+    newCard.save(function(error){
+        if(error){
+            return response.json({success:0, message:'Unable to create gift card'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully created Gift Card', card:newCard})
+        }
+    })
+})
+
+app.post('/redeemGiftCard', function(request, response){
+    var userID=request.body['userID']
+    var cardNumber=request.body['cardNum']
+    GiftCard.findOne({cardNumber:cardNumber}, function(error, card){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(card==null){
+            return response.json({success:0, message:'Invalid Card Number'})
+        }
+        else{
+            //Found card, now add to user credits
+            if(card.active==false){
+                return response.json({success:0, message:'This card has already been activated'})
+            }
+            var value=card.value
+            User.findOne({_id:userID}, function(error, user){
+                if(error){
+                    return response.json({success:-1, message:'Server error'})
+                }
+                else if(user==null){
+                    return response.json({success:0, message:'Invalid userID'})
+                }
+                else{
+                    //Found user, 1 add credits to user, then inactivate card
+                    user.credits+=value;
+                    card.active=false
+                    user.save(function(error){
+                        if(error){
+                            return response.json({success:0, message:'Unable to add credits to user'})
+                        }
+                        else{
+                            card.save(function(error){
+                                if(error){
+                                    return response.json({success:0, message:'Unable to inactivate card'})
+                                }
+                                else{
+                                    return response.json({success:1, message:'Successfully redeemed card', userCredits:user.credits})
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    })
+})
+
+// Dummy functions delete when going live
+app.post('/makeAdmin', function(request, response){
+    var userID=request.body['userID']
+    var pin=request.body['pin']
+    User.findOneAndUpdate({_id:userID}, {$set: {user_level:9, pin:pin}}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server error or saving error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'Unable to find user'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully made this user an Admin', user:{email:user.email, user_level:user.user_level, pin:user.pin}})
+        }
+    })
+    // User.findOne({_id:userID}, function(error, user){
+    //     if(error){
+    //         return response.json({success:-1, message:'Server error or saving error'})
+    //     }
+    //     else if(user==null){
+    //         return response.json({success:0, message:'Unable to find user'})
+    //     }
+    //     else{
+    //         user.user_level=9;
+    //         user.pin=pin
+    //         user.save(function(error){
+    //             if(error){
+    //                 return response.json({success:0, message:'Unable to save user changes'})
+    //             }
+    //             else{
+    //                 return response.json({success:1, message:'Successfully made this user an Admin', user:{email:user.email, user_level:user.user_level, pin:user.pin}})
+    //             }
+    //         })
+    //     }
+    // })
+})
+//End of dummy functions
+
 app.all('*', (request, response, next)=>{
     response.sendFile(path.resolve('./public/dist/public/index.html'))
 })
@@ -916,12 +1161,12 @@ function createTempID(){
             if(numberOrLetter==2){
                 var toAdd=String.fromCharCode(Math.floor(Math.random()*26+65))
                 hashed+=toAdd
-                //Random lowerCase letter
+                //Random upperCase letter
             }
             else{
                 var toAdd=String.fromCharCode(Math.floor(Math.random()*26+97))
                 hashed+=toAdd
-                //Random upperCase letter
+                //Random lowerCase letter
             }
         }
     }
@@ -972,4 +1217,39 @@ function createHash(name, url){
     }
     //Check db to see if license exists, if it does, replace the website with the hashed String and make a recursive return call to this hash Function
     return hashed
+}
+
+function createGiftCardNumber(){
+    var hashed=''
+    for(var i=0; i<16; i++){
+        var numberOrLetter=Math.floor(Math.random()*3+1)
+        if(numberOrLetter==3){
+            var toAdd=Math.floor(Math.random()*9)
+            toAdd+=48
+            hashed+=String.fromCharCode(toAdd)
+        }
+        else{
+            if(numberOrLetter==2){
+                var toAdd=String.fromCharCode(Math.floor(Math.random()*26+65))
+                hashed+=toAdd
+                //Random upperCase letter
+            }
+            else{
+                var toAdd=String.fromCharCode(Math.floor(Math.random()*26+97))
+                hashed+=toAdd
+                //Random lowerCase letter
+            }
+        }
+    }
+    GiftCard.findOne({cardNumber:hashed}, function(error, card){
+        if(error){
+            return -1;
+        }
+        else if(card!=null){
+            return createGiftCardNumber()
+        }
+        else{
+            return hashed
+        }
+    })
 }

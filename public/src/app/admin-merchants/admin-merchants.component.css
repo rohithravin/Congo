@@ -1,0 +1,87 @@
+div.thisWrapper{
+    background:rgb(53, 53, 53);
+    padding:1px;
+}
+p.pageTitle{
+    font-size:32pt;
+    color:white;
+    font-family: 'Ubuntu', sans-serif;
+    margin:0px;
+    text-align: center;
+    margin-top:10px;
+}
+div.leftBox{
+    width:500px;
+    display:inline-block;
+    border:2px solid lightgray;
+    border-radius:8px;
+    /* margin-left:20px; */
+    background:rgb(196, 196, 196);
+    margin-top:20px;
+    height:700px;
+    overflow:scroll;
+    margin-right:30px;
+}
+p.boxTitle{
+    font-size:28pt;
+    font-family: 'Ubuntu', sans-serif;
+    /* text-decoration: underline; */
+    text-align:center;
+    margin:0px;
+}
+
+input.search{
+    display:block;
+    width:420px;
+    border-radius:7px;
+    margin:auto;
+    margin-top:5px;
+}
+div.rightBox{
+    width:500px;
+    display:inline-block;
+    border:2px solid rgb(211, 211, 211);
+    border-radius:8px;
+    margin-left:20px;
+    background:rgb(255, 232, 132);
+    margin-top:30px;
+    height:700px;
+    overflow:scroll;
+}
+div.boxes{
+    display:block;
+    text-align: center;
+}
+div.approvedMerchants{
+    border-top:2px solid black;
+    display:block;
+    margin-top:10px;
+    padding-top:10px;
+}
+div.approvedMerchant p.merchantName{
+    font-family: 'Ubuntu', sans-serif;
+    font-size:14pt;
+    text-align:left;
+    display:inline-block;
+    margin-left: 10px;
+    width:400px;
+}
+div.approvedMerchant button{
+    display:inline-block;
+    width:75px;
+    background:maroon;
+    border:1px solid white;
+    color:white;
+    font-size:14pt;
+    border-radius:5px;
+}
+div.approvedMerchant button:hover{
+    background:rgb(82, 0, 0);
+    color:rgb(201, 201, 201);
+}
+div.pendingMerchants{
+    border-top:2px solid black;
+    display:block;
+    margin-top:10px;
+    padding-top:10px;
+}

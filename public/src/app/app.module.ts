@@ -25,8 +25,11 @@ import { MerchantReg1Component } from './merchant-reg1/merchant-reg1.component';
 import { MerchantReg2Component } from './merchant-reg2/merchant-reg2.component';
 import { MerchantRegConfComponent } from './merchant-reg-conf/merchant-reg-conf.component';
 import { PurchaseHistoryComponent } from './purchase-history/purchase-history.component';
+import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { AdminPortalComponent } from './admin-portal/admin-portal.component';
+import { StreamRegistrationComponent } from './stream-registration/stream-registration.component';
+import { AdminMerchantsComponent } from './admin-merchants/admin-merchants.component'
 import { GiftCardComponent } from './gift-card/gift-card.component'
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +52,10 @@ import { GiftCardComponent } from './gift-card/gift-card.component'
     MerchantReg2Component,
     MerchantRegConfComponent,
     PurchaseHistoryComponent,
+    AdminLoginComponent,
+    AdminPortalComponent,
+    StreamRegistrationComponent,
+    AdminMerchantsComponent,
     GiftCardComponent
   ],
   imports: [
