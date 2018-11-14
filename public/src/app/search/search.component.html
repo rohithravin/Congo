@@ -4,7 +4,7 @@
 
   <div  class="grid-container">
     <div  class="Filter">
-      <form>
+      <!-- <form>
         <div class="centerFilter">
           <h4  align="center">Ratings:</h4>
           <label class="switch"><input type="checkbox" (click)="setFiveStarFilter()" > <div></div></label>
@@ -38,7 +38,35 @@
           </div>
           <br/>
       <a class="button" (click)="searchFilter()">Apply</a>
-      </form>
+      </form> -->
+    <h4 align="center">Ratings</h4>
+    <label class="container">5 star
+      <input type="checkbox" value="fiveStar" [(ngModel)]="five_star_filter" >
+      <span class="checkmark"></span>
+    </label>
+    <label class="container">3-4 star
+      <input type="checkbox" [(ngModel)]="three_four_star_filter">
+      <span class="checkmark"></span>
+    </label>
+    <label class="container">1-2 star
+      <input type="checkbox" [(ngModel)]="one_two_star_filter">
+      <span class="checkmark"></span>
+    </label>
+
+    <h4 align="center">Order By</h4>
+    <label class="container">Popular
+      <input type="checkbox" [(ngModel)]="popular_filter">
+      <span class="checkmark"></span>
+    </label>
+    <label class="container">High-Low
+      <input type="checkbox" [(ngModel)]="high_low_filter">
+      <span class="checkmark"></span>
+    </label>
+    <label class="container">Low-High
+      <input type="checkbox" [(ngModel)]="low_high_filter">
+      <span class="checkmark"></span>
+    </label>
+    <a class="button" (click)="searchFilter()">Apply</a>
   </div>
 
   <div class="Pagenumbers">
@@ -71,7 +99,7 @@
     <div *ngIf=show_noProducts>
       <h1>No Products Found</h1>
     </div>    
-    <div id="wrap" *ngIf=!show_noProducts>
+    <!-- <div id="wrap" *ngIf=!show_noProducts>
       <div id="columns" class="columns_3" >
         
         <figure *ngFor="let product of products">
@@ -92,8 +120,25 @@
         </figure>
 
        </div>
+      </div> -->
+      <div class='products' *ngIf=!show_noProducts>
+        <!-- Product -->
+        <div class='product' *ngFor='let product of products'>
+          <img [routerLink]="['/product', product._id]" src="{{product['images'][0]}}" alt='Product image'>
+          <p class='productName'>{{product.name}}</p>
+          <p class='productName' style="font-weight: bold">${{product['price']}}</p>
+          <div style="text-align: center">
+              <span class="fa fa-star {{star}}"></span>
+              <span class="fa fa-star {{star}}"></span>
+              <span class="fa fa-star {{star}}"></span>
+              <span class="fa fa-star {{star}}"></span>
+              <span class="fa fa-star {{star}}"></span>
+          </div>
+          <div class='buttons'>
+              <a class="button" href="#" [routerLink]="['/product',product['_id']]">Buy Now</a>
+          </div>
+        </div>
       </div>
-      
     </div>
 
 

@@ -42,7 +42,6 @@ export class SearchComponent implements OnInit {
     params => {
       this.searchQuery =params['searchQuery']
       console.log(this.searchQuery);
-      this.clearFilter();
       if(localStorage.getItem('categoryClicked') == 'true'){
             //console.log('in search: ',localStorage.getItem('category'));
             this.fetchCategorySearchedProducts(localStorage.getItem('category'));
@@ -52,14 +51,7 @@ export class SearchComponent implements OnInit {
       }
     });
   }
-  clearFilter(){
-    this.five_star_filter =false;
-    this.three_four_star_filter=false;
-    this.one_two_star_filter =false;
-    this.popular_filter = false;
-    this.low_high_filter =false;
-    this.high_low_filter =false;
-  }
+ 
   fetchSearchedProducts(){
     console.log("normal search");
     var productsObs=this._httpService.fetchSearchedProducts(this.searchQuery)
@@ -109,84 +101,19 @@ export class SearchComponent implements OnInit {
     return this.searchQuery;
   }
 
-  setFiveStarFilter(){
-    this.five_star_filter = !this.five_star_filter;
-  }
+
 
 
   searchFilter(){
-    let filters:
-    Array<boolean> = [];
-    filters = this.getAllSearchFilters();
-    console.log(filters);
-    console.log("test");
+   console.log("five star filter",this.five_star_filter);
+   console.log("3-4 star filter",this.three_four_star_filter);
+   console.log("1-2 star filter",this.one_two_star_filter);
+   console.log("popular filter",this.popular_filter);
+   console.log("high-low filter",this.high_low_filter);
+   console.log("low-high filter",this.low_high_filter);
   }
 
-  setThreeFourStarFilter(){
-    if (!this.three_four_star_filter){
-      this.three_four_star_filter =
-      true;
-    }else {
-      this.three_four_star_filter =
-      false;
-    }
-  }
+ 
 
-  setOneTwoStarFilter(){
-    if (!this.one_two_star_filter){
-      this.one_two_star_filter =
-      true;
-    }else {
-      this.one_two_star_filter =
-      false;
-    }
-  }
-
-  setPopularFilter() {
-    if (!this.popular_filter){
-      this.popular_filter =
-      true;
-    }else {
-      this.popular_filter =
-      false;
-    }
-  }
-
-  setLowHighFilter() {
-    if (!this.low_high_filter){
-      this.low_high_filter =
-      true;
-    }
-    else {
-      this.low_high_filter=
-      false;
-    }
-  }
-
-  setHighLowFilter() {
-    if (!this.high_low_filter){
-      this.high_low_filter =
-      true;
-    }else {
-      this.high_low_filter =
-      false;
-    }
-  }
-
-  public getAllSearchFilters () {
-    let filters:
-    Array<boolean> = [];
-    //if more filters are added then filter size must be changed
-    filters.push(this.five_star_filter);
-    filters.push(this.three_four_star_filter);
-    filters.push(this.one_two_star_filter);
-    filters.push(this.popular_filter);
-    filters.push(this.low_high_filter);
-    filters.push(this.high_low_filter);
-    if (filters.length !=
-      this.filterSize ){
-      //error
-    }
-    return filters;
-  }
+  
 }
