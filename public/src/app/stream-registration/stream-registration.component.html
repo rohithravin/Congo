@@ -4,10 +4,10 @@
     <p class='boxTitle'>Become a Stream Member</p>
     <p class='description'>Enjoy discounted prices and expedited shipping on select products</p>
     <p class='big'>One Time $99 Fee</p>
-    <input type='text' class='cardNumber' placeholder='Credit Card Number'>
-    <input type='text' class='cvv' placeholder='CVV'>
-    <input type='text' class='expMonth' placeholder='MM'>
-    <input type='text' class='expYear' placeholder='YY'>
-    <button class='mySubmit'>JOIN</button>
+    <input type='number' class='cardNumber' [(ngModel)]='cc_number' placeholder='Credit Card Number'>
+    <input type='number' class='cvv' [(ngModel)]='cvv_number' placeholder='CVV'>
+    <input type='number' class='expMonth' [(ngModel)]='selectedCCDate' placeholder='MM'>
+    <input type='number' class='expYear' [(ngModel)]='selectedCCYear' placeholder='YY'>
+    <button class='mySubmit' (click)="submitStream()">JOIN</button>
   </div>
 </div>

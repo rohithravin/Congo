@@ -27,7 +27,8 @@ import { MerchantRegConfComponent } from './merchant-reg-conf/merchant-reg-conf.
 import { PurchaseHistoryComponent } from './purchase-history/purchase-history.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { AdminPortalComponent } from './admin-portal/admin-portal.component';
-import { StreamRegistrationComponent } from './stream-registration/stream-registration.component'
+import { StreamRegistrationComponent } from './stream-registration/stream-registration.component';
+import { AdminMerchantsComponent } from './admin-merchants/admin-merchants.component'
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { StreamRegistrationComponent } from './stream-registration/stream-regist
     PurchaseHistoryComponent,
     AdminLoginComponent,
     AdminPortalComponent,
-    StreamRegistrationComponent
+    StreamRegistrationComponent,
+    AdminMerchantsComponent
   ],
   imports: [
     BrowserModule,
