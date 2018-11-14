@@ -19,7 +19,8 @@ export class SearchComponent implements OnInit {
   low_high_filter:boolean;
   high_low_filter:boolean;
   /* these are the boolean filters */
-
+  show_noProducts:boolean;
+  num_results:number;
 
   constructor(private _Activatedroute: ActivatedRoute, private _router:Router, private _httpService:HttpService ) {
     this.products = {};
@@ -32,6 +33,8 @@ export class SearchComponent implements OnInit {
     this.popular_filter = false;
     this.low_high_filter = false;
     this.high_low_filter = false;
+    this.show_noProducts = false;
+    this.num_results = 0;
   }
 
   ngOnInit() {
@@ -61,10 +64,20 @@ export class SearchComponent implements OnInit {
     console.log("normal search");
     var productsObs=this._httpService.fetchSearchedProducts(this.searchQuery)
     productsObs.subscribe(data=>{
+      if(data['success'] == 1){
       console.log("Queried products: ", data)
       this.products = data['products'];
+      if(this.products.length == 0){
+        this.show_noProducts = true;
+      }else{
+        this.num_results = this.products.length;
+        this.show_noProducts = false;
+      }
       //console.log(this.products);
       this.search_logic();
+      }else{
+        this.show_noProducts = true;
+      }
     })
   }
 

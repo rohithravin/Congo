@@ -49,25 +49,29 @@
       <a class="button" href="#">Next</a>
       </div>
       <div class="showPage">
-      <h4>Results:</h4>
+
      </div>
   </div>
 
   <div class="DisplayContent">
     <div class="NumberResult">
       <div class="area-overlap number">
-      <h4>Number Results:</h4>
+      <h6>Results:</h6>
       </div>
       <div class="showNumber">
-      <label>1</label>
+      <label>{{num_results}}</label>
       </div>
       <div class="per">
-      <h4>per page</h4>
+      <h6>per page</h6>
     </div>
   </div>
 
   <div class="Products">
-    <div id="wrap">
+
+    <div *ngIf=show_noProducts>
+      <h1>No Products Found</h1>
+    </div>    
+    <div id="wrap" *ngIf=!show_noProducts>
       <div id="columns" class="columns_3" >
         
         <figure *ngFor="let product of products">
@@ -87,8 +91,9 @@
         <a class="button" href="#" [routerLink]="['/product',product['_id']]">Buy Now</a>
         </figure>
 
-              </div>
+       </div>
       </div>
+      
     </div>
 
 
