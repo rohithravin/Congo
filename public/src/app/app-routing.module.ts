@@ -25,9 +25,9 @@ import { StreamRegistrationComponent } from './stream-registration/stream-regist
 import { AdminMerchantsComponent} from './admin-merchants/admin-merchants.component';
 import { UserOrderHistoryComponent } from './user-order-history/user-order-history.component';
 import { MerchantOrdersComponent } from './merchant-orders/merchant-orders.component';
-
 import { GiftCardComponent } from './gift-card/gift-card.component';
 import { GiftCardVerifyComponent } from './gift-card-verify/gift-card-verify.component';
+import { GiftCardConfirmationComponent } from './gift-card-confirmation/gift-card-confirmation.component';
 
 const routes: Routes = [
   {path:'', component:HomepageComponent},
@@ -55,7 +55,8 @@ const routes: Routes = [
   {path: 'admin/merchants', component: AdminMerchantsComponent},
   {path: 'giftcard/redeem', component: GiftCardVerifyComponent},
   {path: 'user-order-history', component: UserOrderHistoryComponent},
-  {path: 'merchant-orders', component: MerchantOrdersComponent}
+  {path: 'merchant-orders', component: MerchantOrdersComponent},
+  {path: 'giftcard/confirmation', component: GiftCardConfirmationComponent}
    //Path any, = home
 ];
 

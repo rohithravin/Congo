@@ -57,7 +57,7 @@ export class HttpService {
   createStreamUser(userID){
     return this._http.post('/processStreamRegistration',{userID:userID});
   }
-  
+
   createNewUser(first_name, last_name, email, phone_num, password){
     console.log("checkpoint 1.");
     return this._http.post('/processRegister', {first_name: first_name, last_name:last_name, email:email, phone_num:phone_num, password:password}, {withCredentials:true})
@@ -101,5 +101,9 @@ export class HttpService {
   }
   processAdminLogin(email, password, pin){
     return this._http.post('/processAdminLogin', {email:email, password:password, pin:pin})
+  }
+
+  purchaseGiftCard(userID, amount){
+        return this._http.post('/purchaseGiftCard', {userID:userID, amount:amount}); 
   }
 }

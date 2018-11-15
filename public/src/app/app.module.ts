@@ -33,6 +33,7 @@ import { GiftCardComponent } from './gift-card/gift-card.component';
 import { GiftCardVerifyComponent } from './gift-card-verify/gift-card-verify.component';
 import { UserOrderHistoryComponent } from './user-order-history/user-order-history.component';
 import { MerchantOrdersComponent } from './merchant-orders/merchant-orders.component';
+import { GiftCardConfirmationComponent } from './gift-card-confirmation/gift-card-confirmation.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +63,8 @@ import { MerchantOrdersComponent } from './merchant-orders/merchant-orders.compo
     GiftCardComponent,
     GiftCardVerifyComponent,
     UserOrderHistoryComponent,
-    MerchantOrdersComponent
+    MerchantOrdersComponent,
+    GiftCardConfirmationComponent
   ],
   imports: [
     BrowserModule,
