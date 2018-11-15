@@ -8,12 +8,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./gift-card-verify.component.css']
 })
 export class GiftCardVerifyComponent implements OnInit {
-  giftCardNumber:number;
+  giftCardNumber:string;
   showErr_gcNum:boolean;
   userID:string;
+  show_success:boolean;
+  show_fail:boolean;
+  creditAmount:any;
   constructor(private _httpService:HttpService, private _router:Router) {
-    this.giftCardNumber;
+    this.giftCardNumber = "";
     this.showErr_gcNum = false;
+    this.show_success = false;
+    this.show_fail = false;
     this.userID =localStorage.getItem('userID');
    }
 
@@ -27,12 +32,11 @@ export class GiftCardVerifyComponent implements OnInit {
   }
 
   submitGiftCard(){
-    if(this.giftCardNumber == null) {
+    if(this.giftCardNumber == "") {
       this.showErr_gcNum = true;
     }else{
      
-      var str_gc_number = this.giftCardNumber.toString();
-      if(str_gc_number.length < 16){
+      if(this.giftCardNumber.length < 16){
         this.showErr_gcNum = true;
       }else{
       this.showErr_gcNum = false;
@@ -45,9 +49,12 @@ export class GiftCardVerifyComponent implements OnInit {
         console.log("Received response:", data)
         if(data['success']==1){
           //succcccc
-          this.giftCardNumber = 0;
+          this.giftCardNumber = "";
+          this.creditAmount = data['userCredits'];
+          this.show_success = true;
         }else{
           //not succcc
+          this.show_fail = true;
 
         }
       })

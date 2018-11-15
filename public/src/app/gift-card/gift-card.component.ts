@@ -20,6 +20,7 @@ export class GiftCardComponent implements OnInit {
       showErr_amount:boolean;
       userID:string;
       showERROR:boolean;
+      showErr_cvvCode:boolean;
 
 
   constructor(private _httpService: HttpService,private _router:Router) {
