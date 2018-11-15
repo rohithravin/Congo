@@ -23,6 +23,7 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { AdminPortalComponent } from './admin-portal/admin-portal.component';
 import { StreamRegistrationComponent } from './stream-registration/stream-registration.component';
 import { AdminMerchantsComponent} from './admin-merchants/admin-merchants.component';
+import { UserOrderHistoryComponent } from './user-order-history/user-order-history.component';
 
 import { GiftCardComponent } from './gift-card/gift-card.component';
 const routes: Routes = [
@@ -49,6 +50,7 @@ const routes: Routes = [
   {path: 'admin-portal', component: AdminPortalComponent},
   {path: 'stream/register', component:StreamRegistrationComponent},
   {path: 'admin/merchants', component: AdminMerchantsComponent},
+  {path: 'user-order-history', component: UserOrderHistoryComponent}
    //Path any, = home
 ];
 
