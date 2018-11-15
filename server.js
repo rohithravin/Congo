@@ -1176,6 +1176,32 @@ app.post('/approveMerchant', function(request, response){
         }
     })
 })
+app.post('/rejectMerchant', function(request, response){
+    var userID=request.body['userID']
+    var merchantID=request.body['merchantID']
+    User.findOne({_id:userID}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'No user exists'})
+        }
+        else if(user.user_level!=9){
+            return response.json({success:0, message:'User is not an admin'})
+        }
+        else{
+            //Found user and user is an admin
+            Merchant.deleteOne({_id:merchantID}, function(error){
+                if(error){
+                    return response.json({success:0, message:'Unable to reject this merchant'})
+                }
+                else{
+                    return response.json({success:1, message:'Successfully reject this merchant'})
+                }
+            })
+        }
+    })
+})
 
 // Dummy functions delete when going live
 app.post('/makeAdmin', function(request, response){
