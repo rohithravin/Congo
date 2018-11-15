@@ -31,6 +31,7 @@ import { StreamRegistrationComponent } from './stream-registration/stream-regist
 import { AdminMerchantsComponent } from './admin-merchants/admin-merchants.component';
 import { GiftCardComponent } from './gift-card/gift-card.component';
 import { UserOrderHistoryComponent } from './user-order-history/user-order-history.component';
+import { MerchantOrdersComponent } from './merchant-orders/merchant-orders.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,7 +59,8 @@ import { UserOrderHistoryComponent } from './user-order-history/user-order-histo
     StreamRegistrationComponent,
     AdminMerchantsComponent,
     GiftCardComponent,
-    UserOrderHistoryComponent
+    UserOrderHistoryComponent,
+    MerchantOrdersComponent
   ],
   imports: [
     BrowserModule,
