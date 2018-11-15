@@ -21,6 +21,13 @@ export class SearchComponent implements OnInit {
   /* these are the boolean filters */
   show_noProducts:boolean;
   num_results:number;
+  current_page:number;
+  page_results:number;
+  /**************************
+   * TODO: fix the top so there isnt as much space
+   * 21 on a page
+   * 
+   */
 
   constructor(private _Activatedroute: ActivatedRoute, private _router:Router, private _httpService:HttpService ) {
     this.products = {};
@@ -35,6 +42,8 @@ export class SearchComponent implements OnInit {
     this.high_low_filter = false;
     this.show_noProducts = false;
     this.num_results = 0;
+    this.page_results = 1;
+    this.current_page = 1;
   }
 
   ngOnInit() {
@@ -68,6 +77,7 @@ export class SearchComponent implements OnInit {
       //console.log(this.products);
       this.search_logic();
       }else{
+        this.num_results = 0;
         this.show_noProducts = true;
       }
     })
@@ -93,7 +103,11 @@ export class SearchComponent implements OnInit {
     //decide how many products go on each page?
     //use products array
     console.log(this.products);
-
+    this.page_results = this.num_results / 12;
+    this.page_results = Math.trunc(this.page_results);
+    if(this.page_results == 0){
+      this.page_results = 1;
+    }
 
   }
 

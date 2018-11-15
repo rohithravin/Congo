@@ -4,80 +4,57 @@
 
   <div  class="grid-container">
     <div  class="Filter">
-      <!-- <form>
-        <div class="centerFilter">
-          <h4  align="center">Ratings:</h4>
-          <label class="switch"><input type="checkbox" (click)="setFiveStarFilter()" > <div></div></label>
-           &nbsp;
-           <label>5 Stars</label>
-          <br/>
-         <label class="switch"><input type="checkbox" (click)="setThreeFourStarFilter()"/> <div></div></label>
-         &nbsp;
-          <label>3-4 Stars</label>
-          <br/>
-          <label class="switch"><input type="checkbox" (click)="setOneTwoStarFilter()"/> <div></div></label>
-          &nbsp;
-          <label>1-2 Stars</label>
-          </div>
-          <br/>
-      <div class="centerFilter">
-          <h4 align="center">OrderBy:</h4>
-          <br/>
-          <label class="switch"><input type="checkbox" (click)="setPopularFilter()"/> <div></div></label>
-          &nbsp;
-          <label>Popular</label>
-          <br/>
-          <label class="switch"><input type="checkbox" (click)="setLowHighFilter()"/> <div></div></label>
-          &nbsp;
-          <label>Low-High</label>
-          <br/>
-          <label class="switch"><input type="checkbox" (click)="setHighLowFilter()" /> <div></div>
-          </label>
-          &nbsp;
-          <label>High-Low</label>
-          </div>
-          <br/>
-      <a class="button" (click)="searchFilter()">Apply</a>
-      </form> -->
     <h4 align="center">Ratings</h4>
-    <label class="container">5 star
-      <input type="checkbox" value="fiveStar" [(ngModel)]="five_star_filter" >
-      <span class="checkmark"></span>
-    </label>
-    <label class="container">3-4 star
-      <input type="checkbox" [(ngModel)]="three_four_star_filter">
-      <span class="checkmark"></span>
-    </label>
-    <label class="container">1-2 star
-      <input type="checkbox" [(ngModel)]="one_two_star_filter">
-      <span class="checkmark"></span>
-    </label>
+    <input class="inp-cbx" id="fiveS" type="checkbox" [(ngModel)]="five_star_filter" style="display: none;"/>
+    <label class="cbx" for="fiveS"><span>
+        <svg width="12px" height="10px" viewbox="0 0 12 10">
+          <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+        </svg></span><span>5 star</span></label>
+
+    <input class="inp-cbx" id="TFS" type="checkbox" [(ngModel)]="three_four_star_filter" style="display: none;"/>
+    <label class="cbx" for="TFS"><span>
+        <svg width="12px" height="10px" viewbox="0 0 12 10">
+          <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+        </svg></span><span>3-4 star</span></label>
+
+      <input class="inp-cbx" id="OTS" type="checkbox" [(ngModel)]="one_two_star_filter" style="display: none;"/>
+      <label class="cbx" for="OTS"><span>
+          <svg width="12px" height="10px" viewbox="0 0 12 10">
+            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+        </svg></span><span>1-2 star</span></label>    
 
     <h4 align="center">Order By</h4>
-    <label class="container">Popular
-      <input type="checkbox" [(ngModel)]="popular_filter">
-      <span class="checkmark"></span>
-    </label>
-    <label class="container">High-Low
-      <input type="checkbox" [(ngModel)]="high_low_filter">
-      <span class="checkmark"></span>
-    </label>
-    <label class="container">Low-High
-      <input type="checkbox" [(ngModel)]="low_high_filter">
-      <span class="checkmark"></span>
-    </label>
+    <input class="inp-cbx" id="popular" type="checkbox" [(ngModel)]="popular_filter" style="display: none;"/>
+    <label class="cbx" for="popular"><span>
+        <svg width="12px" height="10px" viewbox="0 0 12 10">
+          <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+      </svg></span><span>Popular</span></label> 
+
+      <input class="inp-cbx" id="HL" type="checkbox" [(ngModel)]="high_low_filter" style="display: none;"/>
+      <label class="cbx" for="HL"><span>
+          <svg width="12px" height="10px" viewbox="0 0 12 10">
+            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+        </svg></span><span>High-Low</span></label> 
+
+        <input class="inp-cbx" id="LH" type="checkbox" [(ngModel)]="low_high_filter" style="display: none;"/>
+        <label class="cbx" for="LH"><span>
+            <svg width="12px" height="10px" viewbox="0 0 12 10">
+              <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+          </svg></span><span>Low-High</span></label> 
+
+
     <a class="button" (click)="searchFilter()">Apply</a>
   </div>
 
   <div class="Pagenumbers">
     <div class="area-overlap prev">
-      <a class="button" href="#">Prev</a>
+      <a class="button">Prev</a>
       </div>
       <div class="next">
-      <a class="button" href="#">Next</a>
+      <a class="button">Next</a>
       </div>
       <div class="showPage">
-
+        <h4 style="padding-top: 10%;">Page: {{current_page}} of {{page_results}}</h4>
      </div>
   </div>
 
@@ -89,9 +66,6 @@
       <div class="showNumber">
       <label>{{num_results}}</label>
       </div>
-      <div class="per">
-      <h6>per page</h6>
-    </div>
   </div>
 
   <div class="Products">
