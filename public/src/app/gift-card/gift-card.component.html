@@ -28,18 +28,18 @@
                                                    <div class="form-row">
                                                          <div class="col-7">
                                                                <div >
-                                                                     <div class="form-group"><label for="cardExpiry"><span>&nbsp;</span><span>Exp&nbsp;</span>&nbsp;Month</label><input class="form-control" type="number" required="" [ngModelOptions]="{standalone: true}" [(ngModel)]='selectedCCDate' placeholder="MM" id="cardExpiry"><small *ngIf=showErr_date class="form-text text-danger">Enter Valid Month</small></div>
+                                                                     <div class="form-group"><label for="cardExpiry"><span>&nbsp;</span><span>Exp&nbsp;</span>&nbsp;Month</label><input class="form-control" type="number" required="" [ngModelOptions]="{standalone: true}" [(ngModel)]='cc_month' placeholder="MM" id="cardExpiry"><small *ngIf=showErr_ccMonth class="form-text text-danger">Enter Valid Month</small></div>
                                                                </div>
                                                                <div >
-                                                                     <div class="form-group"><label for="cardExpiry"><span>&nbsp;</span><span>Exp&nbsp;</span>&nbsp;Year</label><input class="form-control" type="number" required="" [ngModelOptions]="{standalone: true}" [(ngModel)]='selectedCCYear' placeholder="YY" id="cardExpiry"><small *ngIf=showErr_year class="form-text text-danger">Enter Valid Year</small></div>
+                                                                     <div class="form-group"><label for="cardExpiry"><span>&nbsp;</span><span>Exp&nbsp;</span>&nbsp;Year</label><input class="form-control" type="number" required="" [ngModelOptions]="{standalone: true}" [(ngModel)]='cc_year' placeholder="YY" id="cardExpiry"><small *ngIf=showErr_ccYear class="form-text text-danger">Enter Valid Year</small></div>
                                                                </div>
-                                                               <div class="row" *ngIf='showErr_exprDate'>
+                                                               <div class="row" *ngIf='showErr_year'>
                                                                      <p class="red">Enter expiration date.</p>
                                                                </div>
                                                          </div>
 
                                                          <div class="col-5 pull-right">
-                                                               <div class="form-group"><label for="cardCVC">CV Code</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]= 'cvv_code' class="form-control" type="number" required="" placeholder="CVC" id="cardCVC"></div>
+                                                               <div class="form-group"><label for="cardCVC">CVV Code</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]= 'cvv_number' class="form-control" type="number" required="" placeholder="CVC" id="cardCVC"></div>
                                                                <div class="row" *ngIf='showErr_cvvCode'>
                                                                      <p class="red">Enter cvv number.</p>
                                                                </div>
@@ -48,7 +48,7 @@
                                                    <div class="form-row">
                                                          <div class="col-12">
                                                                <div class="form-group"><label for="cardNumber">Gift Card Amount: &nbsp;&nbsp;</label>
-                                                       <select [(ngModel)]='newProduct.category' [ngModelOptions]="{standalone: true}">
+                                                       <select [(ngModel)]='cc_cardAmount' [ngModelOptions]="{standalone: true}">
                                                          <option value="" selected disabled hidden>Choose Value</option>
                                                          <option value="10">$10</option>
                                                          <option value="50">$50</option>
@@ -58,10 +58,13 @@
                                                        </select>
                                                                </div>
                                                          </div>
+                                                         <button class='mySubmit' (click)='submit()'>Submit</button>
+
                                                    </div>
                                     </form>
                               </div>
                         </div>
+
                   </div>
             </div>
       </div>

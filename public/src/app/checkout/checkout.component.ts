@@ -81,7 +81,7 @@ export class CheckoutComponent implements OnInit {
 
   fetchCart(){
     if(localStorage.getItem('loggedIn')=='false'){
-      this._router.navigate(['login'])
+      this._router.navigate(['/login'])
     }
     console.log(this.userID)
     var cartObs=this._httpService.fetchCart(this.userID)
@@ -144,8 +144,8 @@ export class CheckoutComponent implements OnInit {
     }else{
     this.showErr_fullname = false;
     }
-   
-   
+
+
    if (this.address_lineone.length < 5){
     this.showErr_addr1 = true;
    }else{
@@ -188,11 +188,11 @@ export class CheckoutComponent implements OnInit {
     this.showErr_state = false;
   }
 
-  
+
     if(this.cc_number == null) {
       this.showErr_ccNumber = true;
     }else{
-     
+
       this.str_cc_number = this.cc_number.toString();
       if(this.str_cc_number.length < 16){
         this.showErr_ccNumber = true;
@@ -204,7 +204,7 @@ export class CheckoutComponent implements OnInit {
     if(this.cvv_code == null){
       this.showErr_cvvCode = true;
     }else {
-      
+
       this.str_cvv_code = this.cvv_code.toString();
       if(this.str_cvv_code.length < 3 || this.str_cvv_code.length > 4){
         this.showErr_cvvCode = true;
@@ -214,7 +214,7 @@ export class CheckoutComponent implements OnInit {
     }
 
 
-   
+
     if(this.phone_num.length != 10  || '0123456789'.indexOf(this.phone_num) !== -1){
       this.showErr_phoneNumber = true;
     }else{
@@ -222,10 +222,10 @@ export class CheckoutComponent implements OnInit {
     }
 
 
-    
+
     if(this.email.match(/^\S+@\S+\.\S/) == null){
       // if(this.email.match())
-  
+
       this.showErr_email = true;
     }else{
       this.showErr_email = false;
@@ -248,5 +248,3 @@ export class CheckoutComponent implements OnInit {
   }
 
 }
-
-

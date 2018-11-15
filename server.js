@@ -261,7 +261,7 @@ app.post('/processStreamRegistration', function(request,response){
             })
         }
     });
-    
+
 })
 
 app.post('/processMerchantLogin', function(request, response){
@@ -885,7 +885,7 @@ app.get('/getFeatured', function(request, response){
             }
         }
         waitOne=true;
-    }) 
+    })
     while(waitOne==false){
 
     }
@@ -1042,9 +1042,11 @@ app.post('/purchaseGiftCard', function(request, response){
     var buyerID=request.body['userID']
     var amount=request.body['amount']
     var cardNum=createGiftCardNumber()
+    console.log(cardNum);
     var newCard = new GiftCard({buyerID:buyerID, cardNumber:cardNum, value:amount})
     newCard.save(function(error){
         if(error){
+             console.log(error);
             return response.json({success:0, message:'Unable to create gift card'})
         }
         else{
@@ -1240,16 +1242,18 @@ function createGiftCardNumber(){
                 //Random lowerCase letter
             }
         }
+
     }
-    GiftCard.findOne({cardNumber:hashed}, function(error, card){
-        if(error){
-            return -1;
-        }
-        else if(card!=null){
-            return createGiftCardNumber()
-        }
-        else{
-            return hashed
-        }
-    })
+    return hashed;
+    // GiftCard.findOne({cardNumber:hashed}, function(error, card){
+    //     if(error){
+    //         return -1;
+    //     }
+    //     else if(card!=null){
+    //         return createGiftCardNumber()
+    //     }
+    //     else{
+    //         return hashed
+    //     }
+    // })
 }

@@ -23,8 +23,9 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { AdminPortalComponent } from './admin-portal/admin-portal.component';
 import { StreamRegistrationComponent } from './stream-registration/stream-registration.component';
 import { AdminMerchantsComponent} from './admin-merchants/admin-merchants.component';
-
 import { GiftCardComponent } from './gift-card/gift-card.component';
+import { GiftCardConfirmationComponent } from './gift-card-confirmation/gift-card-confirmation.component';
+
 const routes: Routes = [
   {path:'', component:HomepageComponent},
   {path:'cart', component: CartComponent},
@@ -49,6 +50,7 @@ const routes: Routes = [
   {path: 'admin-portal', component: AdminPortalComponent},
   {path: 'stream/register', component:StreamRegistrationComponent},
   {path: 'admin/merchants', component: AdminMerchantsComponent},
+  {path: 'giftcard/confirmation', component: GiftCardConfirmationComponent}
    //Path any, = home
 ];
 

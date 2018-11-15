@@ -14,6 +14,7 @@ div.row{
 }
 div.container{
        background:rgb(53, 53, 53);
+       color:white;
 }
 div.card-body{
        background:rgb(165, 165, 165);
@@ -27,4 +28,15 @@ div.mainBox{
     margin:auto;
     padding:15px;
     margin-top:30px;
+}
+button.mySubmit{
+    display:block;
+    background:rgb(92, 92, 255);
+    width:300px;
+    margin:auto;
+    color:white;
+    height:45px;
+    border-radius:7px;
+    margin-top:20px;
+    font-size:15pt;
 }
