@@ -13,7 +13,7 @@ export class AdminLoginComponent implements OnInit {
   pin:string;
   userId:string;
   errMessage:string;
-  
+
   errEmail:boolean;
   errPassword:boolean;
   errPin:boolean;
@@ -112,4 +112,5 @@ export class AdminLoginComponent implements OnInit {
       //}
     })
   }
+
 }
