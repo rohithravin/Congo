@@ -1345,15 +1345,16 @@ function createGiftCardNumber(){
             }
         }
     }
-    GiftCard.findOne({cardNumber:hashed}, function(error, card){
-        if(error){
-            return -1;
-        }
-        else if(card!=null){
-            return createGiftCardNumber()
-        }
-        else{
-            return hashed
-        }
-    })
+    return hashed;
+    // GiftCard.findOne({cardNumber:hashed}, function(error, card){
+    //     if(error){
+    //         return -1;
+    //     }
+    //     else if(card!=null){
+    //         return createGiftCardNumber()
+    //     }
+    //     else{
+    //         return hashed
+    //     }
+    // })
 }
