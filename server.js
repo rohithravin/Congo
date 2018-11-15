@@ -4,6 +4,8 @@ var path=require('path')
 var mongoose=require('mongoose')
 var bodyParser=require('body-parser')
 var bcrypt=require('bcryptjs')
+var stripe = require("stripe")("sk_test_tcsBLV9DqJd2ygWV1Mppca6g")
+
 var NUM_SALTS=10
 app.set('trust proxy', 1)
 var session=require('express-session')({
@@ -1101,6 +1103,108 @@ app.post('/redeemGiftCard', function(request, response){
     })
 })
 
+app.get('/getActiveMerchants', function(request, response){
+    //Change this status to true
+    Merchant.find({approved:true}, function(error, merchants){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            var returnMerchants=[]
+            for(merchant in merchants){
+                var tempMerchant={name:'', _id:''}
+                tempMerchant.name=merchant.name
+                tempMerchant._id=merchant._id;
+                returnMerchants.push(tempMerchant)
+            }
+            return response.json({success:1, message:'Successfully fetched all merchants', merchants:returnMerchants})
+        }
+    })
+})
+app.get('/getPendingMerchants', function(request, response){
+    Merchant.find({approved:false}, function(error, merchants){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            // var returnMerchants=[]
+            // for(merchant in merchants){
+            //     var tempMerchant={name:'', _id:''}
+            //     tempMerchant.name=merchant.name
+            //     tempMerchant._id=merchant._id;
+            //     returnMerchants.push(tempMerchant)
+            // }
+            return response.json({success:1, message:'Successfully fetched all merchants', merchants:merchants})
+        }
+    })
+})
+app.post('/approveMerchant', function(request, response){
+    var userID=request.body['userID']
+    var merchantID=request.body['merchantID']
+    User.findOne({_id:userID}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'No user exists'})
+        }
+        else if(user.user_level!=9){
+            return response.json({success:0, message:'User is not an admin'})
+        }
+        else{
+            //Found user and user is an admin
+            Merchant.findOne({_id:merchantID}, function(error, merchant){
+                if(error){
+                    return response.json({success:-1, message:'Server error'})
+                }
+                else if(merchant==null){
+                    return response.json({success:0, message:'No merchant with this ID'})
+                }
+                else if(merchant.approved==true){
+                    return response.json({success:0, message:'This merchant has already been approved'})
+                }
+                else{
+                    merchant.approved=true;
+                    merchant.save(function(error){
+                        if(error){
+                            return response.json({success:0, message:'Unable to approve this merchant'})
+                        }
+                        else{
+                            return response.json({success:1, message:'Successfully approved this merchant', merchantName:merchant.name, approved:merchant.approved})
+                        }
+                    })
+                }
+            })
+        }
+    })
+})
+app.post('/rejectMerchant', function(request, response){
+    var userID=request.body['userID']
+    var merchantID=request.body['merchantID']
+    User.findOne({_id:userID}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'No user exists'})
+        }
+        else if(user.user_level!=9){
+            return response.json({success:0, message:'User is not an admin'})
+        }
+        else{
+            //Found user and user is an admin
+            Merchant.deleteOne({_id:merchantID}, function(error){
+                if(error){
+                    return response.json({success:0, message:'Unable to reject this merchant'})
+                }
+                else{
+                    return response.json({success:1, message:'Successfully reject this merchant'})
+                }
+            })
+        }
+    })
+})
+
 // Dummy functions delete when going live
 app.post('/makeAdmin', function(request, response){
     var userID=request.body['userID']
@@ -1241,15 +1345,16 @@ function createGiftCardNumber(){
             }
         }
     }
-    GiftCard.findOne({cardNumber:hashed}, function(error, card){
-        if(error){
-            return -1;
-        }
-        else if(card!=null){
-            return createGiftCardNumber()
-        }
-        else{
-            return hashed
-        }
-    })
+    return hashed;
+    // GiftCard.findOne({cardNumber:hashed}, function(error, card){
+    //     if(error){
+    //         return -1;
+    //     }
+    //     else if(card!=null){
+    //         return createGiftCardNumber()
+    //     }
+    //     else{
+    //         return hashed
+    //     }
+    // })
 }

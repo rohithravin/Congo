@@ -85,3 +85,59 @@ div.pendingMerchants{
     margin-top:10px;
     padding-top:10px;
 }
+div.pendingMerchant{
+    text-align: left;
+    margin:5px;
+    border-bottom:1px solid rgb(65, 65, 65);
+    padding-bottom:10px;
+}
+div.pendingMerchant p{
+    font-family: 'Ubuntu', sans-serif;
+    margin:0px;
+}
+div.pendingMerchant p.merchantName{
+    font-size:13pt;
+    font-weight:bold;
+}
+div.pendingMerchant p.merchantEmail{
+    font-size:12pt;
+    font-style:italic;
+}
+div.pendingMerchant p.merchantDate{
+    font-size:10pt;
+    font-style:italic
+}
+div.pendingMerchant button.approve{
+    display:inline-block;
+    width:90px;
+    background:rgb(0, 128, 21);
+    border:1px solid white;
+    color:white;
+    font-size:13pt;
+    border-radius:5px;
+    height:35px;
+    margin-right:10px;
+}
+div.pendingMerchant button.approve:hover{
+    background:rgb(0, 100, 17);
+    color:rgb(170, 170, 170);
+}
+div.pendingMerchant button.reject:hover{
+    background:rgb(87, 0, 0);
+    color:rgb(185, 185, 185);
+}
+div.pendingMerchant button.reject{
+    display:inline-block;
+    width:90px;
+    background:maroon;
+    border:1px solid white;
+    color:white;
+    font-size:13pt;
+    border-radius:5px;
+    height:35px;
+    margin-left:10px;
+}
+div.buttons{
+    display:block;
+    text-align: center;
+}
