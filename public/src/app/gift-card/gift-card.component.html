@@ -1,70 +1,14 @@
 <section style="background-color: #ffffff;">
+
   <div class="container">
-        <h1 style="padding-top: 15px;">Buy a Congo Gift Card!</h1>
+        <h1 style="padding-top: 20px;" align="center">Buy a Congo Gift Card!</h1>
         <div class="row">
-            <div class="col-lg-12 offset-lg-0">
-                <div class="row .payment-dialog-row" style="margin-left: -15px;margin-bottom: 25px;">
-                    <div class="col-12 col-md-4 col-lg-12 offset-md-4 offset-lg-0" style="margin-top: 25px;">
-                        <div class="card credit-card-box">
-                            <div class="card-header">
-                                <h6 class="mb-0"><span class="panel-title-text">Shipping Address</span></h6>
-                            </div>
-                            <div class="card-body">
-                                <form id="payment-form">
-                                    <div class="form-row">
-                                        <div class="col-12">
-                                            <div class="form-group"><label for="cardNumber">Full Name:</label>
-                                                <div class="input-group"><input [ngModelOptions]="{standalone: true}" [(ngModel)]="full_name" class="form-control form-control-sm" type="text">
-
-                                                    <div class="input-group-append"></div>
-
-                                                </div>
-                                                <div class="row" *ngIf='showErr_fullname'>
-                                                        <p class="red">Enter valid name.</p>
-                                                       </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="col-12">
-                                            <div class="form-group"><label for="cardNumber">Address Line #1</label>
-                                                <div class="input-group"><input [ngModelOptions]="{standalone: true}" [(ngModel)]='address_lineone' class="form-control form-control-sm" type="text" placeholder="Street Name and Number">
-                                                    <div class="input-group-append"></div>
-                                                </div>
-                                                <div class="row" *ngIf='showErr_addr1'>
-                                                        <p class="red">Enter address line.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-row">
-                                        <div class="col-7">
-                                            <div class="form-group"><label for="cardExpiry">City</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]='city' class="form-control" type="text"></div>
-                                            <div class="row" *ngIf='showErr_city'>
-                                                    <p class="red">Enter valid city.</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-5 pull-right">
-                                            <div class="form-group"><label for="cardCVC">State</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]='state' class="form-control" type="text"></div>
-                                            <div class="row" *ngIf='showErr_state'>
-                                                    <p class="red">Enter valid state.</p>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+             <div class='mainBox'>
+             <p class='description'>Buy a gift card for yourself, employees, friends, or family! You'll be given a confirmation code on purchase that can be redeemed on Congo. </p>
+              <div class="col-lg-12 offset-lg-0">
                 <div class="row .payment-dialog-row" style="margin-bottom: 10px;">
                     <div class="col-12 col-md-4 col-lg-12 offset-md-4 offset-lg-0" style="margin-bottom: 0px;">
                         <div class="card credit-card-box">
-                            <div class="card-header">
-                                <h6 class="mb-0"><span class="panel-title-text">Payment Details </span><img class="img-fluid panel-title-image" src="assets/img/accepted_cards.png"></h6>
-                            </div>
                             <div class="card-body">
                                 <form id="payment-form">
                                     <div class="form-row">
@@ -103,24 +47,15 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="col-12">
-                                            <div class="form-group"><label for="cardNumber">Email:</label>
-                                                <div class="input-group"><input [ngModelOptions]="{standalone: true}" [(ngModel)]="email" class="form-control form-control-sm" type="text">
-                                                    <div class="input-group-append"></div>
-                                                </div>
-                                                <div class="row"  *ngIf='showErr_email'>
-                                                        <p class="red">Enter valid email.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="col-12">
-                                            <div class="form-group"><label for="cardNumber">Phone Number:</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-append"></div><input [ngModelOptions]="{standalone: true}" [(ngModel)]="phone_num" class="form-control" type="number"></div>
-                                            </div>
-                                            <div class="row"  *ngIf='showErr_phoneNumber'>
-                                                    <p class="red">Enter valid phone number.</p>
+                                            <div class="form-group"><label for="cardNumber">Gift Card Amount: &nbsp;&nbsp;</label>
+                                                 <select [(ngModel)]='newProduct.category' [ngModelOptions]="{standalone: true}">
+                                                   <option value="" selected disabled hidden>Choose Value</option>
+                                                   <option value="10">$10</option>
+                                                   <option value="50">$50</option>
+                                                   <option value="100">$100</option>
+                                                   <option value="200">$200</option>
+                                                   <option value="500">$500</option>
+                                                 </select>
                                             </div>
                                         </div>
                                     </div>
@@ -129,7 +64,8 @@
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
         </div>
-    </div>
+        </div>
 </section>

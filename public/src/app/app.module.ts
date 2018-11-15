@@ -28,8 +28,8 @@ import { PurchaseHistoryComponent } from './purchase-history/purchase-history.co
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { AdminPortalComponent } from './admin-portal/admin-portal.component';
 import { StreamRegistrationComponent } from './stream-registration/stream-registration.component';
-import { AdminMerchantsComponent } from './admin-merchants/admin-merchants.component'
-import { GiftCardComponent } from './gift-card/gift-card.component'
+import { AdminMerchantsComponent } from './admin-merchants/admin-merchants.component';
+import { GiftCardComponent } from './gift-card/gift-card.component';
 @NgModule({
   declarations: [
     AppComponent,
