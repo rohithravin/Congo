@@ -1,3 +1,10 @@
-<p>
-  gift-card-verify works!
-</p>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<div class='redeemWrapper'>
+  <div class='mainBox'>
+    <p class='boxTitle'>Redeem Congo Gift Card</p>
+    <p class='description'>Enter A valid Congo gift card to be credited!</p>
+    <input type='number' class='cardNumber' [(ngModel)]='giftCardNumber' placeholder='Congo Card Number'>
+    <p class="red" *ngIf=showErr_gcNum>Enter a valid gift card.</p>
+    <button class='mySubmit' (click)="submitGiftCard()">Redeem</button>
+  </div>
+</div>

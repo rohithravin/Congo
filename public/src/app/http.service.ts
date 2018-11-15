@@ -23,6 +23,10 @@ export class HttpService {
     return this._http.post('/fetchSearchedProducts', {searchQuery:searchQuery})
   }
 
+  redeemGiftCard(userID, cardNum ){
+    return this._http.post('/redeemGiftCard', {userID:userID,cardNum:cardNum});
+  }
+
   fetchCategorySearchedProducts(searchQuery, category){
     return this._http.post('/fetchSearchedProductsWithCategory', {searchQuery:searchQuery ,category:category})
   }
