@@ -4,6 +4,8 @@ var path=require('path')
 var mongoose=require('mongoose')
 var bodyParser=require('body-parser')
 var bcrypt=require('bcryptjs')
+var stripe = require("stripe")
+
 var NUM_SALTS=10
 app.set('trust proxy', 1)
 var session=require('express-session')({
@@ -1125,14 +1127,14 @@ app.get('/getPendingMerchants', function(request, response){
             return response.json({success:-1, message:'Server error'})
         }
         else{
-            var returnMerchants=[]
-            for(merchant in merchants){
-                var tempMerchant={name:'', _id:''}
-                tempMerchant.name=merchant.name
-                tempMerchant._id=merchant._id;
-                returnMerchants.push(tempMerchant)
-            }
-            return response.json({success:1, message:'Successfully fetched all merchants', merchants:returnMerchants})
+            // var returnMerchants=[]
+            // for(merchant in merchants){
+            //     var tempMerchant={name:'', _id:''}
+            //     tempMerchant.name=merchant.name
+            //     tempMerchant._id=merchant._id;
+            //     returnMerchants.push(tempMerchant)
+            // }
+            return response.json({success:1, message:'Successfully fetched all merchants', merchants:merchants})
         }
     })
 })
