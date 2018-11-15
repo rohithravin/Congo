@@ -30,6 +30,7 @@ import { AdminPortalComponent } from './admin-portal/admin-portal.component';
 import { StreamRegistrationComponent } from './stream-registration/stream-registration.component';
 import { AdminMerchantsComponent } from './admin-merchants/admin-merchants.component';
 import { GiftCardComponent } from './gift-card/gift-card.component';
+import { GiftCardVerifyComponent } from './gift-card-verify/gift-card-verify.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +57,8 @@ import { GiftCardComponent } from './gift-card/gift-card.component';
     AdminPortalComponent,
     StreamRegistrationComponent,
     AdminMerchantsComponent,
-    GiftCardComponent
+    GiftCardComponent,
+    GiftCardVerifyComponent
   ],
   imports: [
     BrowserModule,
