@@ -4,7 +4,7 @@ var path=require('path')
 var mongoose=require('mongoose')
 var bodyParser=require('body-parser')
 var bcrypt=require('bcryptjs')
-var stripe = require("stripe")
+var stripe = require("stripe")("sk_test_tcsBLV9DqJd2ygWV1Mppca6g")
 
 var NUM_SALTS=10
 app.set('trust proxy', 1)
