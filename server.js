@@ -1101,6 +1101,25 @@ app.post('/redeemGiftCard', function(request, response){
     })
 })
 
+app.get('/getActiveMerchants', function(request, response){
+    //Change this status to true
+    Merchant.find({approved:false}, function(error, merchants){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            var returnMerchants=[]
+            for(merchant in merchants){
+                var tempMerchant={name:'', _id:''}
+                tempMerchant.name=merchant.name
+                tempMerchant._id=merchant._id;
+                returnMerchants.push(tempMerchant)
+            }
+            return response.json({success:1, message:'Successfully fetched all merchants', merchants:returnMerchants})
+        }
+    })
+})
+
 // Dummy functions delete when going live
 app.post('/makeAdmin', function(request, response){
     var userID=request.body['userID']
