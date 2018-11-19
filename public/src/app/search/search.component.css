@@ -37,7 +37,7 @@
   display: grid;
   grid-area: DisplayContent;
   grid-template-columns: 1.5fr 0.5fr;
-  grid-template-rows: 0.1fr 1.9fr;
+  grid-template-rows: 0.05fr 1.95fr;
   grid-gap: 1px 1px;
   grid-template-areas: ". NumberResult" "Products Products";
 }
