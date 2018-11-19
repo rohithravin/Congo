@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { Router,ActivatedRoute }  from '@angular/router';
 import { HttpService }  from '../http.service';
+import { last } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-search',
@@ -54,9 +55,20 @@ export class SearchComponent implements OnInit {
       if(localStorage.getItem('categoryClicked') == 'true'){
             //console.log('in search: ',localStorage.getItem('category'));
             this.fetchCategorySearchedProducts(localStorage.getItem('category'));
-
+            this.five_star_filter = false;
+            this.three_four_star_filter= false;
+            this.one_two_star_filter = false;
+            this.popular_filter = false;
+            this.low_high_filter = false;
+            this.high_low_filter = false;
       }else{
             this.fetchSearchedProducts();
+            this.five_star_filter = false;
+            this.three_four_star_filter= false;
+            this.one_two_star_filter = false;
+            this.popular_filter = false;
+            this.low_high_filter = false;
+            this.high_low_filter = false;
       }
     });
   }
@@ -69,6 +81,7 @@ export class SearchComponent implements OnInit {
       console.log("Queried products: ", data)
       this.products = data['products'];
       if(this.products.length == 0){
+        this.num_results = 0;
         this.show_noProducts = true;
       }else{
         this.num_results = this.products.length;
@@ -90,7 +103,20 @@ export class SearchComponent implements OnInit {
       var productsObs=this._httpService.fetchCategorySearchedProducts(this.searchQuery, category)
       productsObs.subscribe(data=>{
         console.log("Queried products: ", data)
-        this.products = data['products'];
+        if(data['success'] == 1){
+          this.products = data['products'];
+          if(this.products.length == 0){
+            this.num_results = 0;
+            this.show_noProducts = true;
+          }else{
+            this.num_results = this.products.length;
+            this.show_noProducts = false;
+          }
+          this.search_logic();
+        }else{
+          this.num_results = 0;
+          this.show_noProducts = true;
+        }
       })
 
   }
@@ -125,8 +151,24 @@ export class SearchComponent implements OnInit {
    console.log("popular filter",this.popular_filter);
    console.log("high-low filter",this.high_low_filter);
    console.log("low-high filter",this.low_high_filter);
+
+    if(this.products.length > 1){
+      //high to low search
+      if(this.high_low_filter){
+        console.log(this.products);
+        //sort 
+        var sortedArray: any[] = this.products.sort((n1,n2)=> n2['price'] - n1['price']);
+        console.log(sortedArray);
+      }
+
+      if(this.low_high_filter){
+        this.products.sort((n1,n2)=> n1['price'] - n2['price']);
+      }
+
+    }
   }
 
+  
  
 
   
