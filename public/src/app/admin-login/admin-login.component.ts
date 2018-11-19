@@ -13,7 +13,7 @@ export class AdminLoginComponent implements OnInit {
   pin:string;
   userId:string;
   errMessage:string;
-  
+
   errEmail:boolean;
   errPassword:boolean;
   errPin:boolean;
@@ -30,7 +30,7 @@ export class AdminLoginComponent implements OnInit {
     this.errPin = false;
     this.errShowErr = false;
   }
-  /*
+
   ngOnInit() {
     // if(localStorage.getItem('adminLoggedIn') == null || localStorage.getItem('adminLoggedIn') == 'false'){
     //   this._router.navigate(['']);
@@ -112,5 +112,5 @@ export class AdminLoginComponent implements OnInit {
       //}
     })
   }
-  */
+
 }
