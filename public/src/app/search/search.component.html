@@ -15,13 +15,13 @@
     <label class="cbx" for="TFS"><span>
         <svg width="12px" height="10px" viewbox="0 0 12 10">
           <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-        </svg></span><span>3-4 star</span></label>
+        </svg></span><span>Rating High-Low</span></label>
 
       <input class="inp-cbx" id="OTS" type="checkbox" [(ngModel)]="one_two_star_filter" style="display: none;"/>
       <label class="cbx" for="OTS"><span>
           <svg width="12px" height="10px" viewbox="0 0 12 10">
             <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-        </svg></span><span>1-2 star</span></label>    
+        </svg></span><span>Rating Low-High</span></label>    
 
     <h4 align="center">Order By</h4>
     <input class="inp-cbx" id="popular" type="checkbox" [(ngModel)]="popular_filter" style="display: none;"/>
@@ -34,13 +34,13 @@
       <label class="cbx" for="HL"><span>
           <svg width="12px" height="10px" viewbox="0 0 12 10">
             <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-        </svg></span><span>High-Low</span></label> 
+        </svg></span><span>Price High-Low</span></label> 
 
         <input class="inp-cbx" id="LH" type="checkbox" [(ngModel)]="low_high_filter" style="display: none;"/>
         <label class="cbx" for="LH"><span>
             <svg width="12px" height="10px" viewbox="0 0 12 10">
               <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-          </svg></span><span>Low-High</span></label> 
+          </svg></span><span>Price Low-High</span></label> 
 
 
     <a class="button" (click)="searchFilter()">Apply</a>
@@ -95,9 +95,28 @@
 
        </div>
       </div> -->
-      <div class='products' *ngIf=!show_noProducts>
+      <div class='products' *ngIf=show_normalProducts>
         <!-- Product -->
         <div class='product' *ngFor='let product of products'>
+          <img [routerLink]="['/product', product._id]" src="{{product['images'][0]}}" alt='Product image'>
+          <p class='productName'>{{product.name}}</p>
+          <p class='productName' style="font-weight: bold">${{product['price']}}</p>
+          <div style="text-align: center">
+              <span class="fa fa-star {{star}}"></span>
+              <span class="fa fa-star {{star}}"></span>
+              <span class="fa fa-star {{star}}"></span>
+              <span class="fa fa-star {{star}}"></span>
+              <span class="fa fa-star {{star}}"></span>
+          </div>
+          <div class='buttons'>
+              <a class="button" href="#" [routerLink]="['/product',product['_id']]">Buy Now</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class='products' *ngIf=show_fiveStarProducts>
+        <!-- Product -->
+        <div class='product' *ngFor='let product of fiveStarProducts'>
           <img [routerLink]="['/product', product._id]" src="{{product['images'][0]}}" alt='Product image'>
           <p class='productName'>{{product.name}}</p>
           <p class='productName' style="font-weight: bold">${{product['price']}}</p>

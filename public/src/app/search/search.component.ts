@@ -10,17 +10,20 @@ import { last } from '@angular/router/src/utils/collection';
 })
 export class SearchComponent implements OnInit {
   products: any;
+  fiveStarProducts:any;
   searchQuery:string;
   filterSize;
   star:string;
   five_star_filter:boolean;
-  three_four_star_filter:boolean;
-  one_two_star_filter:boolean;
+  high_low_star_filter:boolean;
+  low_high_star_filter:boolean;
   popular_filter:boolean;
   low_high_filter:boolean;
   high_low_filter:boolean;
   /* these are the boolean filters */
   show_noProducts:boolean;
+  show_normalProducts:boolean;
+  show_fiveStarProducts:boolean;
   num_results:number;
   current_page:number;
   page_results:number;
@@ -32,12 +35,15 @@ export class SearchComponent implements OnInit {
 
   constructor(private _Activatedroute: ActivatedRoute, private _router:Router, private _httpService:HttpService ) {
     this.products = {};
+    this.fiveStarProducts = {};
+    this.show_normalProducts = false;
+    this.show_fiveStarProducts = false;
     this.searchQuery = '';
     this.filterSize = 6;
     this.star = "checked";
     this.five_star_filter = false;
-    this.three_four_star_filter= false;
-    this.one_two_star_filter = false;
+    this.high_low_star_filter= false;
+    this.low_high_star_filter = false;
     this.popular_filter = false;
     this.low_high_filter = false;
     this.high_low_filter = false;
@@ -56,16 +62,16 @@ export class SearchComponent implements OnInit {
             //console.log('in search: ',localStorage.getItem('category'));
             this.fetchCategorySearchedProducts(localStorage.getItem('category'));
             this.five_star_filter = false;
-            this.three_four_star_filter= false;
-            this.one_two_star_filter = false;
+            this.high_low_star_filter= false;
+            this.low_high_star_filter = false;
             this.popular_filter = false;
             this.low_high_filter = false;
             this.high_low_filter = false;
       }else{
             this.fetchSearchedProducts();
             this.five_star_filter = false;
-            this.three_four_star_filter= false;
-            this.one_two_star_filter = false;
+            this.high_low_star_filter= false;
+            this.low_high_star_filter = false;
             this.popular_filter = false;
             this.low_high_filter = false;
             this.high_low_filter = false;
@@ -86,6 +92,7 @@ export class SearchComponent implements OnInit {
       }else{
         this.num_results = this.products.length;
         this.show_noProducts = false;
+        this.show_normalProducts = true;
       }
       //console.log(this.products);
       this.search_logic();
@@ -111,6 +118,7 @@ export class SearchComponent implements OnInit {
           }else{
             this.num_results = this.products.length;
             this.show_noProducts = false;
+            this.show_normalProducts = true;
           }
           this.search_logic();
         }else{
@@ -146,25 +154,50 @@ export class SearchComponent implements OnInit {
 
   searchFilter(){
    console.log("five star filter",this.five_star_filter);
-   console.log("3-4 star filter",this.three_four_star_filter);
-   console.log("1-2 star filter",this.one_two_star_filter);
+   console.log("high low star filter",this.high_low_star_filter);
+   console.log("low high star filter",this.low_high_star_filter);
    console.log("popular filter",this.popular_filter);
    console.log("high-low filter",this.high_low_filter);
    console.log("low-high filter",this.low_high_filter);
 
     if(this.products.length > 1){
-      //high to low search
-      if(this.high_low_filter){
-        console.log(this.products);
-        //sort 
-        var sortedArray: any[] = this.products.sort((n1,n2)=> n2['price'] - n1['price']);
-        console.log(sortedArray);
+      //high to low search filter
+      if(this.high_low_filter){ 
+        this.products.sort((n1,n2)=> n2['price'] - n1['price']);
       }
-
+      //low to high search filter
       if(this.low_high_filter){
         this.products.sort((n1,n2)=> n1['price'] - n2['price']);
       }
-
+      //popular high to low filter
+      if(this.popular_filter ){
+        this.products.sort((n1,n2)=> n2['num_sold'] - n1['num_sold']);
+      }
+      //five star filter
+      if(this.five_star_filter){
+       /* this.show_normalProducts = false;
+        this.products.forEach(element => {
+          if(element['rating'] == 5){
+            this.fiveStarProducts.add(element);
+          }
+        });
+        if(this.fiveStarProducts.length == 0){
+          this.show_noProducts = true;
+        }else{
+          this.show_fiveStarProducts = true;
+        }*/
+      }else if(this.five_star_filter == false){
+        this.show_normalProducts = true;
+        this.show_fiveStarProducts = false;
+      }
+      //high low star filter
+      if(this.high_low_star_filter){
+        //this.products.sort((n1,n2)=> n2['rating'] - n1['rating']);
+      }
+      //low high star filter
+      if(this.low_high_star_filter){
+        //this.products.sort((n1,n2)=> n1['rating'] - n2['rating']);
+      }
     }
   }
 
