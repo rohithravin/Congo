@@ -35,7 +35,7 @@ export class SearchComponent implements OnInit {
 
   constructor(private _Activatedroute: ActivatedRoute, private _router:Router, private _httpService:HttpService ) {
     this.products = {};
-    this.fiveStarProducts = {};
+    this.fiveStarProducts = [];
     this.show_normalProducts = false;
     this.show_fiveStarProducts = false;
     this.searchQuery = '';
@@ -175,28 +175,30 @@ export class SearchComponent implements OnInit {
       }
       //five star filter
       if(this.five_star_filter){
-       /* this.show_normalProducts = false;
+        this.show_normalProducts = false;
+        var idx = 0;
         this.products.forEach(element => {
           if(element['rating'] == 5){
-            this.fiveStarProducts.add(element);
+            this.fiveStarProducts[idx++] = element;
           }
         });
+        console.log(this.fiveStarProducts);
         if(this.fiveStarProducts.length == 0){
           this.show_noProducts = true;
         }else{
           this.show_fiveStarProducts = true;
-        }*/
+        }
       }else if(this.five_star_filter == false){
         this.show_normalProducts = true;
         this.show_fiveStarProducts = false;
       }
       //high low star filter
       if(this.high_low_star_filter){
-        //this.products.sort((n1,n2)=> n2['rating'] - n1['rating']);
+        this.products.sort((n1,n2)=> n2['rating'] - n1['rating']);
       }
       //low high star filter
       if(this.low_high_star_filter){
-        //this.products.sort((n1,n2)=> n1['rating'] - n2['rating']);
+        this.products.sort((n1,n2)=> n1['rating'] - n2['rating']);
       }
     }
   }
