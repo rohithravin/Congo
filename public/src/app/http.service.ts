@@ -27,6 +27,10 @@ export class HttpService {
     return this._http.post('/fetchSearchedProductsWithCategory', {searchQuery:searchQuery ,category:category})
   }
 
+  updateProductRating(productID){
+    return this._http.post('/updateProductRating', {productID: productID});
+  }
+
   createDummyProduct(product, licenseNo){
     return this._http.post('/createDummyProduct', {product: product, license:licenseNo}, {withCredentials:true})
   }
