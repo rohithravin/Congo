@@ -92,6 +92,7 @@ var ProductSchema=new mongoose.Schema({
     promoted:{type:Boolean, default:false},
     promotionType:{type:String},
     endDate:{type:Date},
+    rating:{type:Number, default:5},
     promotionImage:{type:String}
 }, {timestamps:true})
 mongoose.model('Product', ProductSchema)
