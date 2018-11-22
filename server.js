@@ -488,6 +488,41 @@ app.post('/getUserCredits', function(request,response){
     })
 })
 
+app.post('/purchaseWithUserCredit', function(request,response){
+    var userID = request.body['userID'];
+    var cartPrice = request.body['cartPrice'];
+    
+    if(userID == null){
+        return response.json({success:-2,message:'No userID given'});
+    }
+
+    if(cartPrice == null){
+        return response.json({success:-2,message:'No cart price'});
+    }else if(cartPrice < 0){
+        return response.json({success:-2,message:'Cart price is negative'});
+    }
+
+    User.findOne({_id:userID},function(error,user){
+        if(error){
+            return response.json({success:0,message:'User doesnt exist'});
+        }else if(user == null){
+            return response.json({success:-1,message:'User is null'});
+        }else{
+            if((user.credits - cartPrice) < 0){
+                return response.json({success:-3,message:'User has insufficient funds'});
+            }
+            user.credits = user.credits - cartPrice;
+            user.save(function(error){
+                if(error){
+                    return response.json({success:0,message:'error saving user'});
+                }else{
+                    return response.json({success:1,message:'Purchase with Congo Credit success'});
+                }
+            })
+        }
+    })
+})
+
 app.post('/getCart', function(request, response){
     var userID=request.body['userID']
     Cart.findOne({userID:userID}, function(error, cart){

@@ -38,8 +38,10 @@ export class CheckoutComponent implements OnInit {
   selectedCCDate:string;
   selectedCCYear:string;
   CongoCredits:number;
+  showErr_credits:boolean;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
+    this.showErr_credits = false;
     this.CongoCredits = 0;
     this.selectedCCDate = "";
     this.selectedCCYear = "";
@@ -264,6 +266,61 @@ export class CheckoutComponent implements OnInit {
 
       }
 
+  }
+
+  submitCongoCredit(){
+    if (this.full_name.length < 2){
+      this.showErr_fullname = true;
+    }else{
+    this.showErr_fullname = false;
+    }
+
+   if (this.address_lineone.length < 5){
+    this.showErr_addr1 = true;
+   }else{
+     this.showErr_addr1 = false;
+   }
+
+   if (this.city.length < 4){
+    this.showErr_city = true;
+   }else{
+     this.showErr_city = false;
+   }
+
+
+  if (this.state.length < 2){
+    this.showErr_state = true;
+  }else{
+    this.showErr_state = false;
+  }
+
+    if(this.total > this.CongoCredits){
+      //insufficient funds for purchase
+      this.showErr_credits = true;
+    }else{
+      this.showErr_credits = false;
+    }
+
+    if(!this.showErr_addr1 && !this.showErr_city && !this.showErr_fullname && !this.showErr_credits && !this.showErr_state){
+      var tempZip='47906';
+      var congoCredObs = this._httpService.PurchaseWithCongoCredit(this.userID,this.total);
+      congoCredObs.subscribe(data=>{
+        console.log(data);
+        if(data['success']==1){
+          var orderObs=this._httpService.createOrder(this.userID,this.address_lineone,this.city,this.state,tempZip,this.shipping,this.tax);
+          orderObs.subscribe(data=>{
+            console.log("order resp",data);
+            if(data['success']==1){
+              this._router.navigate(['checkout-conf']);
+            }else{
+              //failure
+            }
+          })
+        }else{
+          this.showErr_credits = true;
+        }
+      })
+    }
   }
 
 }

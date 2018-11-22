@@ -27,6 +27,10 @@ export class HttpService {
     return this._http.post('/getUserCredits',{userID:userID});
   }
 
+  PurchaseWithCongoCredit(userID,cartPrice){
+    return this._http.post('/purchaseWithUserCredit',{userID:userID,cartPrice:cartPrice});
+  }
+
   redeemGiftCard(userID, cardNum ){
     return this._http.post('/redeemGiftCard', {userID:userID,cardNum:cardNum});
   }
