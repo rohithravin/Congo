@@ -37,8 +37,10 @@ export class CheckoutComponent implements OnInit {
   showErr_date:boolean;
   selectedCCDate:string;
   selectedCCYear:string;
+  CongoCredits:number;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
+    this.CongoCredits = 0;
     this.selectedCCDate = "";
     this.selectedCCYear = "";
     this.showErr_year = false;
@@ -76,8 +78,25 @@ export class CheckoutComponent implements OnInit {
   ngOnInit() {
 
     this.fetchCart();
+    this.fetchUserCredits();
   }
 
+  fetchUserCredits(){
+    console.log("getting user credits");
+    if(localStorage.getItem('loggedIn')=='false'){
+      this._router.navigate(['/login'])
+    }
+      var creditObs = this._httpService.fetchUserCredits(this.userID);
+      creditObs.subscribe(data=>{
+        console.log(data);
+        if(data['success'] == 1){
+          this.CongoCredits = data['userCredits'];
+        }else{
+          this.CongoCredits = 0;
+        }
+      });
+    
+  }
 
   fetchCart(){
     if(localStorage.getItem('loggedIn')=='false'){

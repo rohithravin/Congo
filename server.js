@@ -474,6 +474,20 @@ app.post('/processAddToCart', function(request, response){
     })
 })
 
+app.post('/getUserCredits', function(request,response){
+    var userID = request.body['userID'];
+    User.findOne({_id:userID},function(error,user){
+        if(error){
+            return response.json({success:-1,message:'User not found'});
+        }else if(user == null){
+            return response.json({success:0,message:'User is null'});
+        }else{
+            var credits = user.credits;
+            return response.json({success:1,message:'Users Congo Credit', userCredits:credits});
+        }
+    })
+})
+
 app.post('/getCart', function(request, response){
     var userID=request.body['userID']
     Cart.findOne({userID:userID}, function(error, cart){
@@ -1056,6 +1070,8 @@ app.post('/purchaseGiftCard', function(request, response){
         }
     })
 })
+
+
 
 app.post('/redeemGiftCard', function(request, response){
     var userID=request.body['userID']
