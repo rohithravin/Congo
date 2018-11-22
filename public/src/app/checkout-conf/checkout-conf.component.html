@@ -8,25 +8,25 @@
                   <div class="col-sm-6 col-md-5 col-lg-4 item">
                       <div class="box box2" style="background-color: #f1f0f0;">
                           <h3 class="name">Order Confirmed!</h3>
-                          <p class="description">Thanks for shopping! Your order of PRODUCT #1 will be shipping soon! Hope to see you soon :)&nbsp;</p><a class="learn-more" style="color: #aa8e0a;">Track Order »</a></div>
+                          <p class="description">Thanks for shopping! Your order will be shipping soon! Hope to see you soon :)&nbsp;</p><a class="learn-more" style="color: #aa8e0a;">Track Order »</a></div>
                   </div>
                   <div class="col-sm-6 col-md-5 col-lg-4 item">
                       <div class="box box2" style="background-color: rgb(241,240,240);">
-                          <h3 class="text-center name">Order: 2347203</h3>
+                          <h3 class="text-center name">Order: {{orderID}}</h3>
                           <div class="row">
                               <div class="col" style="height: 25px;">
                                   <p class="text-right">Sub-total:</p>
                               </div>
                               <div class="col" style="height: 25px;">
-                                  <p>$20.99</p>
+                                  <p>${{subTotal}}</p>
                               </div>
                           </div>
                           <div class="row">
                               <div class="col" style="height: 25px;">
-                                  <p class="text-right">Tax:</p>
+                                  <p class="text-right">Shipping:</p>
                               </div>
                               <div class="col" style="height: 25px;">
-                                  <p>$4.99</p>
+                                  <p>${{shipping}}</p>
                               </div>
                           </div>
                           <div class="row" style="height: 40px;">
@@ -34,11 +34,11 @@
                                   <p class="text-right">Total:</p>
                               </div>
                               <div class="col">
-                                  <p>$26.99</p>
+                                  <p>${{total}}</p>
                               </div>
                           </div>
                           <div class="row">
-                              <div class="col"><a href="#" class="learn-more" style="color: #aa8e0a;">View Order »</a></div>
+                              <div class="col"><a [routerLink]="['/orders']" class="learn-more" style="color: #aa8e0a;">View Order »</a></div>
                           </div>
                       </div>
                   </div>

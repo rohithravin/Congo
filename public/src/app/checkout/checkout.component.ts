@@ -311,6 +311,13 @@ export class CheckoutComponent implements OnInit {
           orderObs.subscribe(data=>{
             console.log("order resp",data);
             if(data['success']==1){
+              localStorage.setItem('_COID',data['order']['tempID']);
+              var total = (data['order']['total']).toString();
+              localStorage.setItem('_t',total);
+              var shipping = (data['order']['shipping']).toString();
+              localStorage.setItem('_s',shipping);
+              var subt = (data['order']['total'] - data['order']['shipping']).toString();
+              localStorage.setItem('_st',subt);
               this._router.navigate(['checkout-conf']);
             }else{
               //failure
