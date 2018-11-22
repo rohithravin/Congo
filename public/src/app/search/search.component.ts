@@ -137,18 +137,19 @@ export class SearchComponent implements OnInit {
     //decide how many products go on each page?
     //use products array
     console.log(this.products);
-    this.page_results = this.num_results / 12;
+    this.page_results = this.num_results / 21;
     this.page_results = Math.trunc(this.page_results);
     if(this.page_results == 0){
       this.page_results = 1;
     }
+    
+    
 
   }
 
   getSearchedProduct(){
     return this.searchQuery;
   }
-
 
 
 

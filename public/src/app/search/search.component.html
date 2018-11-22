@@ -102,11 +102,7 @@
           <p class='productName'>{{product.name}}</p>
           <p class='productName' style="font-weight: bold">${{product['price']}}</p>
           <div style="text-align: center">
-              <span class="fa fa-star {{star}}"></span>
-              <span class="fa fa-star {{star}}"></span>
-              <span class="fa fa-star {{star}}"></span>
-              <span class="fa fa-star {{star}}"></span>
-              <span class="fa fa-star {{star}}"></span>
+            <span style="color: white">Rating:&nbsp;</span><span style="color: gold">{{product['rating']}}/5</span>
           </div>
           <div class='buttons'>
               <a class="button" href="#" [routerLink]="['/product',product['_id']]">Buy Now</a>
@@ -121,11 +117,7 @@
           <p class='productName'>{{product.name}}</p>
           <p class='productName' style="font-weight: bold">${{product['price']}}</p>
           <div style="text-align: center">
-              <span class="fa fa-star {{star}}"></span>
-              <span class="fa fa-star {{star}}"></span>
-              <span class="fa fa-star {{star}}"></span>
-              <span class="fa fa-star {{star}}"></span>
-              <span class="fa fa-star {{star}}"></span>
+            <span style="color: white">Rating:&nbsp;</span><span style="color: gold">{{product['rating']}}/5</span>
           </div>
           <div class='buttons'>
               <a class="button" href="#" [routerLink]="['/product',product['_id']]">Buy Now</a>
@@ -137,6 +129,12 @@
 
 
 
+
+    <!-- <span class="fa fa-star {{star}}"></span>
+    <span class="fa fa-star {{star}}"></span>
+    <span class="fa fa-star {{star}}"></span>
+    <span class="fa fa-star {{star}}"></span>
+    <span class="fa fa-star {{star}}"></span> -->
 
 
 
