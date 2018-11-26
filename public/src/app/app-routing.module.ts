@@ -26,6 +26,7 @@ import { AdminMerchantsComponent} from './admin-merchants/admin-merchants.compon
 import { UserOrderHistoryComponent } from './user-order-history/user-order-history.component';
 import { MerchantOrdersComponent } from './merchant-orders/merchant-orders.component';
 import { MerchantStatsComponent } from './merchant-stats/merchant-stats.component';
+import { AdminStatsComponent } from './admin-stats/admin-stats.component';
 
 import { GiftCardComponent } from './gift-card/gift-card.component';
 const routes: Routes = [
@@ -54,7 +55,8 @@ const routes: Routes = [
   {path: 'admin/merchants', component: AdminMerchantsComponent},
   {path: 'user-order-history', component: UserOrderHistoryComponent},
   {path: 'merchant-orders', component: MerchantOrdersComponent},
-  {path: 'merchant-stats', component: MerchantStatsComponent}
+  {path: 'merchant-stats', component: MerchantStatsComponent},
+  {path: 'admin-stats', component: AdminStatsComponent}
    //Path any, = home
 ];
 
