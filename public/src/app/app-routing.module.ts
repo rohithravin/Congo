@@ -25,6 +25,7 @@ import { StreamRegistrationComponent } from './stream-registration/stream-regist
 import { AdminMerchantsComponent} from './admin-merchants/admin-merchants.component';
 import { UserOrderHistoryComponent } from './user-order-history/user-order-history.component';
 import { MerchantOrdersComponent } from './merchant-orders/merchant-orders.component';
+import { MerchantStatsComponent } from './merchant-stats/merchant-stats.component';
 
 import { GiftCardComponent } from './gift-card/gift-card.component';
 const routes: Routes = [
@@ -52,7 +53,8 @@ const routes: Routes = [
   {path: 'stream/register', component:StreamRegistrationComponent},
   {path: 'admin/merchants', component: AdminMerchantsComponent},
   {path: 'user-order-history', component: UserOrderHistoryComponent},
-  {path: 'merchant-orders', component: MerchantOrdersComponent}
+  {path: 'merchant-orders', component: MerchantOrdersComponent},
+  {path: 'merchant-stats', component: MerchantStatsComponent}
    //Path any, = home
 ];
 
