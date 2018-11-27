@@ -165,7 +165,7 @@
       
                 <!-- Testimonial Author -->
                 <section class="review-author text-center" >
-                  <span style="color: #f7f7f7;padding-left: 14%;" >User: {{review['first_name']}}</span>
+                  <span style="color: #f7f7f7;padding-left: 14%;" >User: {{review['first_name']}}&nbsp;{{review['last_name']}}</span>
                   <span style="color: #f7f7f7" *ngIf="!review['first_name']">Anon</span>
                   <em class="review-date" style="color: #f7f7f7">{{review['createdAt'] | date}}</em>
                 </section>
