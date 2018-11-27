@@ -1221,7 +1221,7 @@ app.post('/processPayment', function(request, response){
         "cvc":cvc
     }}, function(error, token){
         if(error){
-            return response.json({success:0, message:'Unable to create stripe card token', error:error})
+            return response.json({success:0, message:'Unable to create stripe card token', error:error, display_message:'Invalid Card Information'})
         }
         else{
             //Successfully got token
@@ -1233,11 +1233,11 @@ app.post('/processPayment', function(request, response){
                 description: "Charge for purchases made on Congo"
             }, function(error, charge) {
                 if(error){
-                    return response.json({success:0, message:'Unable to create charge', error:error})
+                    return response.json({success:0, message:'Unable to create charge', error:error, display_message:'Insufficient Funds'})
                 }
                 else{
                     //Hold on to charge id
-                    return response.json({success:0, message:'Successfully created charge'})
+                    return response.json({success:1, message:'Successfully created charge'})
                 }
             });
         }
