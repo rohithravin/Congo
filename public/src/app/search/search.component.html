@@ -4,70 +4,76 @@
 
   <div  class="grid-container">
     <div  class="Filter">
-      <form>
-        <div class="centerFilter">
-          <h4  align="center">Ratings:</h4>
-          <label class="switch"><input type="checkbox" (click)="setFiveStarFilter()" > <div></div></label>
-           &nbsp;
-           <label>5 Stars</label>
-          <br/>
-         <label class="switch"><input type="checkbox" (click)="setThreeFourStarFilter()"/> <div></div></label>
-         &nbsp;
-          <label>3-4 Stars</label>
-          <br/>
-          <label class="switch"><input type="checkbox" (click)="setOneTwoStarFilter()"/> <div></div></label>
-          &nbsp;
-          <label>1-2 Stars</label>
-          </div>
-          <br/>
-      <div class="centerFilter">
-          <h4 align="center">OrderBy:</h4>
-          <br/>
-          <label class="switch"><input type="checkbox" (click)="setPopularFilter()"/> <div></div></label>
-          &nbsp;
-          <label>Popular</label>
-          <br/>
-          <label class="switch"><input type="checkbox" (click)="setLowHighFilter()"/> <div></div></label>
-          &nbsp;
-          <label>Low-High</label>
-          <br/>
-          <label class="switch"><input type="checkbox" (click)="setHighLowFilter()" /> <div></div>
-          </label>
-          &nbsp;
-          <label>High-Low</label>
-          </div>
-          <br/>
-      <a class="button" (click)="searchFilter()">Apply</a>
-      </form>
+    <h4 align="center">Ratings</h4>
+    <input class="inp-cbx" id="fiveS" type="checkbox" [(ngModel)]="five_star_filter" style="display: none;"/>
+    <label class="cbx" for="fiveS"><span>
+        <svg width="12px" height="10px" viewbox="0 0 12 10">
+          <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+        </svg></span><span>5 star</span></label>
+
+    <input class="inp-cbx" id="TFS" type="checkbox" [(ngModel)]="high_low_star_filter" style="display: none;"/>
+    <label class="cbx" for="TFS"><span>
+        <svg width="12px" height="10px" viewbox="0 0 12 10">
+          <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+        </svg></span><span>Rating High-Low</span></label>
+
+      <input class="inp-cbx" id="OTS" type="checkbox" [(ngModel)]="low_high_star_filter" style="display: none;"/>
+      <label class="cbx" for="OTS"><span>
+          <svg width="12px" height="10px" viewbox="0 0 12 10">
+            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+        </svg></span><span>Rating Low-High</span></label>    
+
+    <h4 align="center">Order By</h4>
+    <input class="inp-cbx" id="popular" type="checkbox" [(ngModel)]="popular_filter" style="display: none;"/>
+    <label class="cbx" for="popular"><span>
+        <svg width="12px" height="10px" viewbox="0 0 12 10">
+          <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+      </svg></span><span>Popular</span></label> 
+
+      <input class="inp-cbx" id="HL" type="checkbox" [(ngModel)]="high_low_filter" style="display: none;"/>
+      <label class="cbx" for="HL"><span>
+          <svg width="12px" height="10px" viewbox="0 0 12 10">
+            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+        </svg></span><span>Price High-Low</span></label> 
+
+        <input class="inp-cbx" id="LH" type="checkbox" [(ngModel)]="low_high_filter" style="display: none;"/>
+        <label class="cbx" for="LH"><span>
+            <svg width="12px" height="10px" viewbox="0 0 12 10">
+              <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+          </svg></span><span>Price Low-High</span></label> 
+
+
+    <a class="button" (click)="searchFilter()">Apply</a>
   </div>
 
   <div class="Pagenumbers">
     <div class="area-overlap prev">
-      <a class="button" href="#">Prev</a>
+      <a class="button">Prev</a>
       </div>
       <div class="next">
-      <a class="button" href="#">Next</a>
+      <a class="button">Next</a>
       </div>
       <div class="showPage">
-      <h4>Results:</h4>
+        <h4 style="padding-top: 10%;">Page: {{current_page}} of {{page_results}}</h4>
      </div>
   </div>
 
   <div class="DisplayContent">
     <div class="NumberResult">
       <div class="area-overlap number">
-      <h4>Number Results:</h4>
+      <h6>Results:</h6>
       </div>
       <div class="showNumber">
-      <label>1</label>
+      <label>{{num_results}}</label>
       </div>
-      <div class="per">
-      <h4>per page</h4>
-    </div>
   </div>
 
   <div class="Products">
-    <div id="wrap">
+
+    <div *ngIf=show_noProducts>
+      <h1 align="center">No Products Found</h1>
+    </div>    
+    <!-- <div id="wrap" *ngIf=!show_noProducts>
       <div id="columns" class="columns_3" >
         
         <figure *ngFor="let product of products">
@@ -87,13 +93,48 @@
         <a class="button" href="#" [routerLink]="['/product',product['_id']]">Buy Now</a>
         </figure>
 
-              </div>
+       </div>
+      </div> -->
+      <div class='products' *ngIf=show_normalProducts>
+        <!-- Product -->
+        <div class='product' *ngFor='let product of products'>
+          <img [routerLink]="['/product', product._id]" src="{{product['images'][0]}}" alt='Product image'>
+          <p class='productName'>{{product.name}}</p>
+          <p class='productName' style="font-weight: bold">${{product['price']}}</p>
+          <div style="text-align: center">
+            <span style="color: white">Rating:&nbsp;</span><span style="color: gold">{{product['rating']}}/5</span>
+          </div>
+          <div class='buttons'>
+              <a class="button" href="#" [routerLink]="['/product',product['_id']]">Buy Now</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class='products' *ngIf=show_fiveStarProducts>
+        <!-- Product -->
+        <div class='product' *ngFor='let product of fiveStarProducts'>
+          <img [routerLink]="['/product', product._id]" src="{{product['images'][0]}}" alt='Product image'>
+          <p class='productName'>{{product.name}}</p>
+          <p class='productName' style="font-weight: bold">${{product['price']}}</p>
+          <div style="text-align: center">
+            <span style="color: white">Rating:&nbsp;</span><span style="color: gold">{{product['rating']}}/5</span>
+          </div>
+          <div class='buttons'>
+              <a class="button" href="#" [routerLink]="['/product',product['_id']]">Buy Now</a>
+          </div>
+        </div>
       </div>
     </div>
 
 
 
 
+
+    <!-- <span class="fa fa-star {{star}}"></span>
+    <span class="fa fa-star {{star}}"></span>
+    <span class="fa fa-star {{star}}"></span>
+    <span class="fa fa-star {{star}}"></span>
+    <span class="fa fa-star {{star}}"></span> -->
 
 
 

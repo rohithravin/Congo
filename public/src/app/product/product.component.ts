@@ -127,6 +127,12 @@ export class ProductComponent implements OnInit {
          this.reviewRating = 0;
          this.show_reviewSuccess = true;
          this.fetchReviews();
+          var upRating = this._httpService.updateProductRating(this.productID);
+          upRating.subscribe(data=>{
+            console.log(data);
+          })
+       }else{
+         console.log("review failed to be added");
        }
      })
    }
