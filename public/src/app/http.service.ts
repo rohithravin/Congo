@@ -102,6 +102,11 @@ export class HttpService {
   getOrders(userID){
     return this._http.post('/getUserOrders', {userID:userID})
   }
+
+  getOrder(userID, orderID){
+    return this._http.post('/getOrderItems', {userID:userID, orderID:orderID})
+  }
+
   changeProductState(productID, license){
     return this._http.post('/changeProductActiveState', {license:license, productID:productID})
   }
@@ -120,6 +125,9 @@ export class HttpService {
   }
 
   purchaseGiftCard(userID, amount){
-        return this._http.post('/purchaseGiftCard', {userID:userID, amount:amount}); 
+        return this._http.post('/purchaseGiftCard', {userID:userID, amount:amount});
+  }
+  fetchFeaturedBB(){
+    return this._http.get('/getFeaturedBB')
   }
 }
