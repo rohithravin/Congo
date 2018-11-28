@@ -826,7 +826,7 @@ app.post('/createOrder', function(request, response){
                                             return response.json({success:0, message:'There was an error deleting the Cart'})
                                         }
                                         else{
-                                            return response.json({success:1, message:'Successfully created Order'})
+                                            return response.json({success:1, message:'Successfully created Order',order:newOrder})
                                         }
                                     })
                                 }

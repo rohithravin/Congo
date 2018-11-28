@@ -95,7 +95,7 @@
                                         </div>
 
                                         <div class="col-5 pull-right">
-                                            <div class="form-group"><label for="cardCVC">CV Code</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]= 'cvv_code' class="form-control" type="number" required="" placeholder="CVC" id="cardCVC"></div>
+                                            <div class="form-group"><label for="cardCVC">CVV Code</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]= 'cvv_code' class="form-control" type="number" required="" placeholder="CVC" id="cardCVC"></div>
                                             <div class="row" *ngIf='showErr_cvvCode'>
                                                     <p class="red">Enter cvv number.</p>
                                             </div>
@@ -208,5 +208,9 @@
                 </div>
             </div>
         </div>
+        <div *ngIf=show_fail class="alert">
+            <span class="closebtn" (click)="show_fail = false">&times;</span>
+                <strong>{{stripe_resp}}</strong> 
+          </div>
     </div>
 </section>
