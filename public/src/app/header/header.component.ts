@@ -1,5 +1,5 @@
 import { Component, OnInit, Input} from '@angular/core';
-
+import { Router,ActivatedRoute }  from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
   categories:any
   categoryClicked:boolean
   // constructor(private cookieService: CookieService) {
-  constructor(){
+  constructor(private _router:Router){
     this.showCategories=false;
     this.showAccount=false;
     this.searchQuery='';
@@ -85,4 +85,8 @@ export class HeaderComponent implements OnInit {
     this.userID='-1'
   }
 
+  search(){
+    let element: HTMLElement = document.getElementById('sB') as HTMLElement;
+    element.click();
+  }
 }

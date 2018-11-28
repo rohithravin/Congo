@@ -93,6 +93,7 @@ var ProductSchema=new mongoose.Schema({
     promoted:{type:Boolean, default:false},
     promotionType:{type:String},
     endDate:{type:Date},
+    rating:{type:Number, default:5},
     promotionImage:{type:String}
 }, {timestamps:true})
 mongoose.model('Product', ProductSchema)
@@ -1031,6 +1032,37 @@ app.post('/processNewReview', function(request, response){
                     })
                 }
             })
+        }
+    })
+})
+
+app.post('/updateProductRating', function(request,response){
+    var productID = request.body['productID'];
+    Product.findOne({_id:productID},function(error,product){
+        if(error){
+            return response.json({success:-1,message:'unable to find product'});
+        }else if(product == null){
+            return response.json({success:0,message:'unable to find the product'})
+        }else{
+            var ratingAmount = product['reviews'].length;
+            var ratingTotal = 0;
+            console.log(ratingAmount);
+            for(var i = 0; i < ratingAmount; i++){
+                ratingTotal += product['reviews'][i]['rating'];
+                if(i == (ratingAmount-1)){
+                    var rate = (ratingTotal / ratingAmount);
+                   rate = Math.round(rate);
+                    product.rating = rate;
+                    product.save(function(error){
+                        if(error){
+                            return response.json({success:-2,message:'Can not save rating'});
+                        }else{
+                            return response.json({success:1,message:'updated product rating'});
+                        }
+                    })
+                }
+            }
+            
         }
     })
 })

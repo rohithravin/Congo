@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { Router,ActivatedRoute }  from '@angular/router';
 import { HttpService }  from '../http.service';
+import { last } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-search',
@@ -9,29 +10,47 @@ import { HttpService }  from '../http.service';
 })
 export class SearchComponent implements OnInit {
   products: any;
+  fiveStarProducts:any;
   searchQuery:string;
   filterSize;
   star:string;
   five_star_filter:boolean;
-  three_four_star_filter:boolean;
-  one_two_star_filter:boolean;
+  high_low_star_filter:boolean;
+  low_high_star_filter:boolean;
   popular_filter:boolean;
   low_high_filter:boolean;
   high_low_filter:boolean;
   /* these are the boolean filters */
-
+  show_noProducts:boolean;
+  show_normalProducts:boolean;
+  show_fiveStarProducts:boolean;
+  num_results:number;
+  current_page:number;
+  page_results:number;
+  /**************************
+   * TODO: fix the top so there isnt as much space
+   * 21 on a page
+   * 
+   */
 
   constructor(private _Activatedroute: ActivatedRoute, private _router:Router, private _httpService:HttpService ) {
     this.products = {};
+    this.fiveStarProducts = [];
+    this.show_normalProducts = false;
+    this.show_fiveStarProducts = false;
     this.searchQuery = '';
     this.filterSize = 6;
     this.star = "checked";
     this.five_star_filter = false;
-    this.three_four_star_filter= false;
-    this.one_two_star_filter = false;
+    this.high_low_star_filter= false;
+    this.low_high_star_filter = false;
     this.popular_filter = false;
     this.low_high_filter = false;
     this.high_low_filter = false;
+    this.show_noProducts = false;
+    this.num_results = 0;
+    this.page_results = 1;
+    this.current_page = 1;
   }
 
   ngOnInit() {
@@ -39,32 +58,48 @@ export class SearchComponent implements OnInit {
     params => {
       this.searchQuery =params['searchQuery']
       console.log(this.searchQuery);
-      this.clearFilter();
       if(localStorage.getItem('categoryClicked') == 'true'){
             //console.log('in search: ',localStorage.getItem('category'));
             this.fetchCategorySearchedProducts(localStorage.getItem('category'));
-
+            this.five_star_filter = false;
+            this.high_low_star_filter= false;
+            this.low_high_star_filter = false;
+            this.popular_filter = false;
+            this.low_high_filter = false;
+            this.high_low_filter = false;
       }else{
             this.fetchSearchedProducts();
+            this.five_star_filter = false;
+            this.high_low_star_filter= false;
+            this.low_high_star_filter = false;
+            this.popular_filter = false;
+            this.low_high_filter = false;
+            this.high_low_filter = false;
       }
     });
   }
-  clearFilter(){
-    this.five_star_filter =false;
-    this.three_four_star_filter=false;
-    this.one_two_star_filter =false;
-    this.popular_filter = false;
-    this.low_high_filter =false;
-    this.high_low_filter =false;
-  }
+ 
   fetchSearchedProducts(){
     console.log("normal search");
     var productsObs=this._httpService.fetchSearchedProducts(this.searchQuery)
     productsObs.subscribe(data=>{
+      if(data['success'] == 1){
       console.log("Queried products: ", data)
       this.products = data['products'];
+      if(this.products.length == 0){
+        this.num_results = 0;
+        this.show_noProducts = true;
+      }else{
+        this.num_results = this.products.length;
+        this.show_noProducts = false;
+        this.show_normalProducts = true;
+      }
       //console.log(this.products);
       this.search_logic();
+      }else{
+        this.num_results = 0;
+        this.show_noProducts = true;
+      }
     })
   }
 
@@ -75,7 +110,21 @@ export class SearchComponent implements OnInit {
       var productsObs=this._httpService.fetchCategorySearchedProducts(this.searchQuery, category)
       productsObs.subscribe(data=>{
         console.log("Queried products: ", data)
-        this.products = data['products'];
+        if(data['success'] == 1){
+          this.products = data['products'];
+          if(this.products.length == 0){
+            this.num_results = 0;
+            this.show_noProducts = true;
+          }else{
+            this.num_results = this.products.length;
+            this.show_noProducts = false;
+            this.show_normalProducts = true;
+          }
+          this.search_logic();
+        }else{
+          this.num_results = 0;
+          this.show_noProducts = true;
+        }
       })
 
   }
@@ -88,7 +137,13 @@ export class SearchComponent implements OnInit {
     //decide how many products go on each page?
     //use products array
     console.log(this.products);
-
+    this.page_results = this.num_results / 21;
+    this.page_results = Math.trunc(this.page_results);
+    if(this.page_results == 0){
+      this.page_results = 1;
+    }
+    
+    
 
   }
 
@@ -96,84 +151,61 @@ export class SearchComponent implements OnInit {
     return this.searchQuery;
   }
 
-  setFiveStarFilter(){
-    this.five_star_filter = !this.five_star_filter;
-  }
 
 
   searchFilter(){
-    let filters:
-    Array<boolean> = [];
-    filters = this.getAllSearchFilters();
-    console.log(filters);
-    console.log("test");
-  }
+   console.log("five star filter",this.five_star_filter);
+   console.log("high low star filter",this.high_low_star_filter);
+   console.log("low high star filter",this.low_high_star_filter);
+   console.log("popular filter",this.popular_filter);
+   console.log("high-low filter",this.high_low_filter);
+   console.log("low-high filter",this.low_high_filter);
 
-  setThreeFourStarFilter(){
-    if (!this.three_four_star_filter){
-      this.three_four_star_filter =
-      true;
-    }else {
-      this.three_four_star_filter =
-      false;
-    }
-  }
-
-  setOneTwoStarFilter(){
-    if (!this.one_two_star_filter){
-      this.one_two_star_filter =
-      true;
-    }else {
-      this.one_two_star_filter =
-      false;
-    }
-  }
-
-  setPopularFilter() {
-    if (!this.popular_filter){
-      this.popular_filter =
-      true;
-    }else {
-      this.popular_filter =
-      false;
-    }
-  }
-
-  setLowHighFilter() {
-    if (!this.low_high_filter){
-      this.low_high_filter =
-      true;
-    }
-    else {
-      this.low_high_filter=
-      false;
-    }
-  }
-
-  setHighLowFilter() {
-    if (!this.high_low_filter){
-      this.high_low_filter =
-      true;
-    }else {
-      this.high_low_filter =
-      false;
+    if(this.products.length > 1){
+      //high to low search filter
+      if(this.high_low_filter){ 
+        this.products.sort((n1,n2)=> n2['price'] - n1['price']);
+      }
+      //low to high search filter
+      if(this.low_high_filter){
+        this.products.sort((n1,n2)=> n1['price'] - n2['price']);
+      }
+      //popular high to low filter
+      if(this.popular_filter ){
+        this.products.sort((n1,n2)=> n2['num_sold'] - n1['num_sold']);
+      }
+      //five star filter
+      if(this.five_star_filter){
+        this.show_normalProducts = false;
+        var idx = 0;
+        this.products.forEach(element => {
+          if(element['rating'] == 5){
+            this.fiveStarProducts[idx++] = element;
+          }
+        });
+        console.log(this.fiveStarProducts);
+        if(this.fiveStarProducts.length == 0){
+          this.show_noProducts = true;
+        }else{
+          this.show_fiveStarProducts = true;
+        }
+      }else if(this.five_star_filter == false){
+        this.show_normalProducts = true;
+        this.show_fiveStarProducts = false;
+      }
+      //high low star filter
+      if(this.high_low_star_filter){
+        this.products.sort((n1,n2)=> n2['rating'] - n1['rating']);
+      }
+      //low high star filter
+      if(this.low_high_star_filter){
+        this.products.sort((n1,n2)=> n1['rating'] - n2['rating']);
+      }
     }
   }
 
-  public getAllSearchFilters () {
-    let filters:
-    Array<boolean> = [];
-    //if more filters are added then filter size must be changed
-    filters.push(this.five_star_filter);
-    filters.push(this.three_four_star_filter);
-    filters.push(this.one_two_star_filter);
-    filters.push(this.popular_filter);
-    filters.push(this.low_high_filter);
-    filters.push(this.high_low_filter);
-    if (filters.length !=
-      this.filterSize ){
-      //error
-    }
-    return filters;
-  }
+  
+ 
+
+  
 }
