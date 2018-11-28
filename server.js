@@ -1229,8 +1229,7 @@ app.post('/processPayment', function(request, response){
                 amount: amount,
                 currency: "usd",
                 source: token['id'], 
-                // source: "tok_visa",
-                description: "Charge for purchases made on Congo"
+                description: "Charge for purchase made on Congo"
             }, function(error, charge) {
                 if(error){
                     return response.json({success:0, message:'Unable to create charge', error:error, display_message:'Insufficient Funds'})
