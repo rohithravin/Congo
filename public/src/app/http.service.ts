@@ -115,6 +115,10 @@ export class HttpService {
     return this._http.post('/processAdminLogin', {email:email, password:password, pin:pin})
   }
 
+  stripePurchase(cardNum,exp_month,exp_year,cvc,amount){
+    return this._http.post('/processPayment',{cardNum:cardNum,exp_month:exp_month,exp_year:exp_year,cvc:cvc,amount:amount});
+  }
+
   purchaseGiftCard(userID, amount){
         return this._http.post('/purchaseGiftCard', {userID:userID, amount:amount}); 
   }

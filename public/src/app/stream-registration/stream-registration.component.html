@@ -10,4 +10,12 @@
     <input type='number' class='expYear' [(ngModel)]='selectedCCYear' placeholder='YY'>
     <button class='mySubmit' (click)="submitStream()">JOIN</button>
   </div>
+  <div *ngIf=show_succ class="alert_success">
+    <span class="closebtn" (click)="show_succ = false">&times;</span>
+        <strong>Hello Stream Member!</strong> 
+  </div>
+  <div *ngIf=show_fail class="alert">
+    <span class="closebtn" (click)="show_fail = false">&times;</span>
+        <strong>{{stripeResp}}</strong> 
+  </div>
 </div>
