@@ -32,13 +32,6 @@ export class UserOrderHistoryComponent implements OnInit {
       this.getOrder();
   }
 
-  getTotal(){
-    console.log("hi" )
-    console.log(this.order)
-    this.order.forEach(item => {
-      this.total = this.total  + item['total']
-    });
-  }
 
   getOrder(){
     console.log("Order ID before server call:", this.orderid)
@@ -49,8 +42,8 @@ export class UserOrderHistoryComponent implements OnInit {
       }else{
         console.log(data);
         this.order = data['items'];
+        this.total = data['total']
         console.log(this.order);
-        this.getTotal();
       }
     })
 
