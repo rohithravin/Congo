@@ -919,19 +919,41 @@ app.get('/getFeaturedBB', function(request, response){
             return response.json({success:-1, message:'Server error'})
         }
         else{
-            var _numProducts = 5;
-            var _pickedIndexes = [];
-            for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
-            if (products.length != 0) {
-                for (var i = 0; i < _numProducts; i++) {
-                    do {
-                        var randIndex = Math.floor(Math.random() * (products.length));
-                    } while (_pickedIndexes[randIndex] != 0) {
-                        _pickedIndexes[randIndex] = 1;
-                        bigBannerProducts[i] = products[randIndex];
+            var pickedIndeces=[];
+            for(var i=0; i<5; i++){
+                var toAdd=Math.floor(Math.random()*products.length)
+                var redo=false;
+                for(var j=0; j<pickedIndeces.length; j++){
+                    if(pickedIndeces[j]==toAdd){
+                        redo=true;
+                        break;
                     }
                 }
+                if(redo==true){
+                    i--;
+                }
+                else{
+                    pickedIndeces[pickedIndeces.length]=toAdd;
+                }
             }
+            for(var i=0; i<5; i++){
+                var thisIndex=pickedIndeces[i]
+                bigBannerProducts.push(products[thisIndex])
+            }
+            // var _numProducts = 5;
+            // var _pickedIndexes = [];
+            // for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
+            // if (products.length != 0) {
+            //     for (var i = 0; i < _numProducts; i++) {
+            //         do {
+            //             var randIndex = Math.floor(Math.random() * (products.length));
+            //         } while (_pickedIndexes[randIndex] != 0) {
+            //             _pickedIndexes[randIndex] = 1;
+            //             bigBannerProducts[i] = products[randIndex];
+            //         }
+            //     }
+            // }
+            console.log("Reaching end of fetch")
             return response.json({success:1, message:'Successfully fetched BigBannerProducts.', products:bigBannerProducts})
         }
     })
