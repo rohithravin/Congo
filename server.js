@@ -493,7 +493,7 @@ app.post('/getUserCredits', function(request,response){
 app.post('/purchaseWithUserCredit', function(request,response){
     var userID = request.body['userID'];
     var cartPrice = request.body['cartPrice'];
-    
+
     if(userID == null){
         return response.json({success:-2,message:'No userID given'});
     }
@@ -890,7 +890,7 @@ app.post('/getOrderItems', function(request, response){
                         return response.json({success:0, message:'This is not your product'})
                     }
                     else{
-                        OrderItems.find({orderID:order._id}, function(error, items){
+                        OrderItem.find({orderID:order._id}, function(error, items){
                             if(error){
                                 return response.json({success:-1, message:'Server Error'})
                             }
@@ -1062,7 +1062,7 @@ app.post('/updateProductRating', function(request,response){
                     })
                 }
             }
-            
+
         }
     })
 })
@@ -1298,7 +1298,7 @@ app.post('/processPayment', function(request, response){
     var exp_year=request.body['exp_year']
     var cvc=request.body['cvc']
     var amount=parseInt(request.body['amount'])
-    //dummy email and 
+    //dummy email and
     stripe.tokens.create({card: {
         "number":number,
         "exp_month":exp_month,
@@ -1313,7 +1313,7 @@ app.post('/processPayment', function(request, response){
             stripe.charges.create({
                 amount: amount,
                 currency: "usd",
-                source: token['id'], 
+                source: token['id'],
                 // source: "tok_visa",
                 description: "Charge for purchases made on Congo"
             }, function(error, charge) {
