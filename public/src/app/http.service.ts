@@ -134,4 +134,10 @@ export class HttpService {
   fetchFeaturedBB(){
     return this._http.get('/getFeaturedBB')
   }
+  fetchFeaturedSB(){
+    return this._http.get('/getFeaturedSB');
+  }
+  fetchFeaturedFP(){
+    return this._http.get('/getFeaturedFP');
+  }
 }

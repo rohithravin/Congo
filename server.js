@@ -992,6 +992,65 @@ app.get('/getFeaturedBB', function(request, response){
     })
 })
 
+app.get('/getFeaturedSB', function(request,response){
+    var smallBannerProducts = [];
+    Product.find({promotionType:'SB'}, function(error, products){
+        if(error){
+            return response.json({success:-1, messag:'Server error'})
+        }
+        else{
+            var _numProducts = 2;
+            var _pickedIndexes = [];
+            if (products.length != 0){
+                for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
+                for(var i =0; i < _numProducts; i++){
+                    do{
+                        var randIndex = Math.floor(Math.random() * (products.length));
+                    } while (_pickedIndexes[randIndex] != 0) {
+                        _pickedIndexes[randIndex] = 1;
+                        smallBannerProducts[i] = products[randIndex];
+                    }
+                    if(i == _numProducts-1){
+                        return response.json({success:1,message:'Fetched small banners',products:smallBannerProducts});
+                    }
+                }
+                
+            }else{
+                return response.json({success:0,message:'No products'});
+            }
+        }
+    })
+})
+
+app.get('/getFeaturedFP',function(request,response){
+    var featuredProducts = [];
+    Product.find({promotionType:'FP'}, function(error,products){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            var _numProducts = 6;
+            var _pickedIndexes = [];
+            if (products.length != 0) {
+                for (var i = 0; i < products.length; i++) { _pickedIndexes[i] = 0; }
+                for (var i = 0; i < _numProducts; i++) {
+                    do {
+                        var randIndex = Math.floor(Math.random() * (products.length));
+                    } while (_pickedIndexes[randIndex] != 0) {
+                        _pickedIndexes[randIndex] = 1;
+                        featuredProducts[i] = products[randIndex];
+                    }
+                    if(i == _numProducts-1){
+                        return response.json({success:1,message:'Fetched FP',products:featuredProducts});
+                    }
+                }
+            }else{
+                return response.json({success:0,message:'No products'});
+            }
+        }
+    })
+})
+
 app.get('/getFeaturedZZZ', function(request, response){
     var bigBannerProducts = [];
     var smallBannerProducts = [];
