@@ -24,6 +24,7 @@ export class HomepageComponent implements OnInit {
 
   ngOnInit() {
     // this.fetchFeatured()
+    this.fetchFeaturedBB();
   }
   fetchFeatured(){
     var featuredObs=this._httpService.fetchFeatured()
@@ -57,6 +58,20 @@ export class HomepageComponent implements OnInit {
           this.showSB = false;
         }
     }) 
+  }
+  fetchFeaturedBB(){
+    console.log("Calling fetchFeaturedBB function")
+    var featuredObs=this._httpService.fetchFeaturedBB();
+    featuredObs.subscribe(data=>{
+      console.log("Response:", data)
+      if(data['success']==1){
+        this.bigBannerPromo=data['products']
+        this.showBB=true;
+      }
+      else{
+        this.showBB=false;
+      }
+    })
   }
 
 }

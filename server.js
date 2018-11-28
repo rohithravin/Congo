@@ -895,7 +895,7 @@ app.post('/getOrderItems', function(request, response){
                                 return response.json({success:-1, message:'Server Error'})
                             }
                             else{
-                                return response.json({success:1, message:'Successfully fetched order items', items:items})
+                                return response.json({success:1, message:'Successfully fetched order items', items:items, total:order.total})
                             }
                         })
                     }
@@ -911,7 +911,103 @@ app.get('/testHash', function(request, response){
     response.json({license:license})
 })
 
-app.get('/getFeatured', function(request, response){
+app.get('/getFeaturedBB', function(request, response){
+    console.log("Recieving request")
+    var bigBannerProducts=[];
+    Product.find({promotionType:'BB'}, function(error, products){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            var _numProducts = 5;
+            var _pickedIndexes = [];
+            for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
+            if (products.length != 0) {
+                for (var i = 0; i < _numProducts; i++) {
+                    do {
+                        var randIndex = Math.floor(Math.random() * (products.length));
+                    } while (_pickedIndexes[randIndex] != 0) {
+                        _pickedIndexes[randIndex] = 1;
+                        bigBannerProducts[i] = products[randIndex];
+                    }
+                }
+            }
+            return response.json({success:1, message:'Successfully fetched BigBannerProducts.', products:bigBannerProducts})
+        }
+    })
+})
+
+app.get('/getFeaturedZZZ', function(request, response){
+    var bigBannerProducts = [];
+    var smallBannerProducts = [];
+    var featuredProducts = [];
+    Product.find({promotionType:'BB'}, function(error, products){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            var _numProducts = 5;
+            var _pickedIndexes = [];
+            for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
+            if (products.length != 0) {
+                for (var i = 0; i < _numProducts; i++) {
+                    do {
+                        var randIndex = Math.floor(Math.random() * (products.length));
+                    } while (_pickedIndexes[randIndex] != 0) {
+                        _pickedIndexes[randIndex] = 1;
+                        bigBannerProducts[i] = products[randIndex];
+                    }
+                }
+            }
+            //End of fetching bigBanner Products
+            Product.find({promotionType:'SB'}, function(error, products){
+                if(error){
+                    return response.json({success:-1, messag:'Server error'})
+                }
+                else{
+                    var _numProducts = 2;
+                    var _pickedIndexes = [];
+                    if (products.length != 0){
+                        for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
+                        for(var i =0; i < _numProducts; i++){
+                            do{
+                                var randIndex = Math.floor(Math.random() * (products.length));
+                            } while (_pickedIndexes[randIndex] != 0) {
+                                _pickedIndexes[randIndex] = 1;
+                                smallBannerProducts[i] = products[randIndex];
+                            }
+                        }
+                    }
+                }
+                //End of fetching smallBanner products
+                Product.find({promotionType:'FP'}, function(error,products){
+                    if(error){
+                        return response.json({success:-1, message:'Server error'})
+                    }
+                    else{
+                        var _numProducts = 6;
+                        var _pickedIndexes = [];
+                        if (products.length != 0) {
+                            for (var i = 0; i < products.length; i++) { _pickedIndexes[i] = 0; }
+                            for (var i = 0; i < _numProducts; i++) {
+                                do {
+                                    var randIndex = Math.floor(Math.random() * (products.length));
+                                } while (_pickedIndexes[randIndex] != 0) {
+                                    _pickedIndexes[randIndex] = 1;
+                                    featuredProducts[i] = products[randIndex];
+                                }
+                            }
+                        }
+                    }
+                    //End of fetching Featured Products
+                    return response.json({success: 1, message: "Successfully fetched all featured products", bigBanner: bigBannerProducts, smallBanner: smallBannerProducts, featuredProducts: featuredProducts});
+                })
+            })
+        }
+    })
+})
+
+app.get('/getFeaturedZZ3', function(request, response){
     var bigBannerProducts = [];
     var smallBannerProducts = [];
     var featuredProducts = [];

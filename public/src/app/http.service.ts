@@ -118,4 +118,7 @@ export class HttpService {
   purchaseGiftCard(userID, amount){
         return this._http.post('/purchaseGiftCard', {userID:userID, amount:amount}); 
   }
+  fetchFeaturedBB(){
+    return this._http.get('/getFeaturedBB')
+  }
 }
