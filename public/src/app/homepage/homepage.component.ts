@@ -13,6 +13,10 @@ export class HomepageComponent implements OnInit {
   showBB:boolean;
   showSB:boolean;
   showFP:boolean;
+  recomTagList:any;
+  recomCatList:any;
+  pulledProducts:any;
+
   constructor(private _httpService:HttpService) {
     this.bigBannerPromo = [];
     this.smallBannerPromo = [];
@@ -20,6 +24,9 @@ export class HomepageComponent implements OnInit {
     this.showBB = false;
     this.showSB = false;
     this.showFP = false;
+    this.recomTagList = [];
+    this.recomCatList= [];
+    this.pulledProducts= [];
    }
 
   ngOnInit() {
@@ -56,7 +63,50 @@ export class HomepageComponent implements OnInit {
           this.showFP = false;
           this.showSB = false;
         }
-    }) 
+    })
   }
 
+  // recommendedProducts(){
+  //       pulledProducts[products];//server call(getViewingHistory)
+  //       var i = 0; //iterate through products
+  //       var j = 0; //iterate through tags
+  //       while(i <=pulledProducts.length){
+  //            //hashing tags
+  //            while( pulledProducts[i[j]] ){
+  //                  let j = recommendedHash(pulledProducts[i[j]]);
+  //                  if(!this.recomTagList[j]){
+  //                       this.recomTagList[j] = [];
+  //                  }
+  //                  this.recomTagList[j].push(1);
+  //
+  //            }
+  //
+  //
+  //            i++;
+  //      }
+  // }
+
+  recommendedHash(name){
+        var hashed='';
+        for(var i=1; i<name.length-1; i+=2){
+            var numberOrLetter=Math.floor(Math.random()*3+1)
+            if(numberOrLetter==3){
+                var toAdd=Math.floor(Math.random()*9)
+                toAdd+=78
+                hashed+=String.fromCharCode(toAdd)
+            }
+            else{
+                var currentChar=name[i].charCodeAt(0)
+                var upperLower=Math.floor(Math.random()*2+1)
+                currentChar=(((currentChar+22)*28-52)*3)%26
+                if(upperLower==1){
+                    currentChar+=65
+                } 
+                else if(upperLower==2){
+                    currentChar+=97
+                }
+                hashed+=String.fromCharCode(currentChar)
+            }
+        }
+  }
 }
