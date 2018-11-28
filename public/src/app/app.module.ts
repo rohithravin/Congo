@@ -34,6 +34,8 @@ import { GiftCardVerifyComponent } from './gift-card-verify/gift-card-verify.com
 import { UserOrderHistoryComponent } from './user-order-history/user-order-history.component';
 import { MerchantOrdersComponent } from './merchant-orders/merchant-orders.component';
 import { GiftCardConfirmationComponent } from './gift-card-confirmation/gift-card-confirmation.component';
+import { MerchantStatsComponent } from './merchant-stats/merchant-stats.component';
+import { AdminStatsComponent } from './admin-stats/admin-stats.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,7 +66,9 @@ import { GiftCardConfirmationComponent } from './gift-card-confirmation/gift-car
     GiftCardVerifyComponent,
     UserOrderHistoryComponent,
     MerchantOrdersComponent,
-    GiftCardConfirmationComponent
+    GiftCardConfirmationComponent,
+    MerchantStatsComponent,
+    AdminStatsComponent
   ],
   imports: [
     BrowserModule,
