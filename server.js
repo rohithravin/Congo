@@ -5,6 +5,7 @@ var mongoose=require('mongoose')
 var bodyParser=require('body-parser')
 var bcrypt=require('bcryptjs')
 var stripe = require("stripe")("sk_test_tcsBLV9DqJd2ygWV1Mppca6g")
+var key_publish="pk_test_lFRUSGrB96hXbSFpTUVDxzJ3"
 
 var NUM_SALTS=10
 app.set('trust proxy', 1)
@@ -1233,6 +1234,44 @@ app.post('/rejectMerchant', function(request, response){
                     return response.json({success:1, message:'Successfully reject this merchant'})
                 }
             })
+        }
+    })
+})
+
+app.post('/processPayment', function(request, response){
+    console.log("Recieved a request")
+    var number=request.body['cardNum']
+    var exp_month=request.body['exp_month']
+    var exp_year=request.body['exp_year']
+    var cvc=request.body['cvc']
+    var amount=parseInt(request.body['amount'])
+    //dummy email and 
+    stripe.tokens.create({card: {
+        "number":number,
+        "exp_month":exp_month,
+        "exp_year":exp_year,
+        "cvc":cvc
+    }}, function(error, token){
+        if(error){
+            return response.json({success:0, message:'Unable to create stripe card token', error:error, display_message:'Invalid Card Information'})
+        }
+        else{
+            //Successfully got token
+            stripe.charges.create({
+                amount: amount,
+                currency: "usd",
+                source: token['id'], 
+                // source: "tok_visa",
+                description: "Charge for purchases made on Congo"
+            }, function(error, charge) {
+                if(error){
+                    return response.json({success:0, message:'Unable to create charge', error:error, display_message:'Insufficient Funds'})
+                }
+                else{
+                    //Hold on to charge id
+                    return response.json({success:1, message:'Successfully created charge'})
+                }
+            });
         }
     })
 })
