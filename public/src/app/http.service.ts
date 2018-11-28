@@ -102,6 +102,11 @@ export class HttpService {
   getOrders(userID){
     return this._http.post('/getUserOrders', {userID:userID})
   }
+
+  getOrder(userID, orderID){
+    return this._http.post('/getOrderItems', {userID:userID, orderID:orderID})
+  }
+
   changeProductState(productID, license){
     return this._http.post('/changeProductActiveState', {license:license, productID:productID})
   }
@@ -115,8 +120,12 @@ export class HttpService {
     return this._http.post('/processAdminLogin', {email:email, password:password, pin:pin})
   }
 
+  stripePurchase(cardNum,exp_month,exp_year,cvc,amount){
+    return this._http.post('/processPayment',{cardNum:cardNum,exp_month:exp_month,exp_year:exp_year,cvc:cvc,amount:amount});
+  }
+
   purchaseGiftCard(userID, amount){
-        return this._http.post('/purchaseGiftCard', {userID:userID, amount:amount}); 
+        return this._http.post('/purchaseGiftCard', {userID:userID, amount:amount});
   }
   fetchFeaturedBB(){
     return this._http.get('/getFeaturedBB')

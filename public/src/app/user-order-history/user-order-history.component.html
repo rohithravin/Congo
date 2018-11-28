@@ -2,18 +2,18 @@
 <div class="container">
        <div class="row" >
          <div class="col">
-              <h1>Order Numder #[]</h1>
+              <h4 style="padding-top:10px;">Order Numder #{{this.orderid}}</h4>
           </div>
           <div class="col"><button class="btn btn-secondary" type="button" style="margin-left: 325px;background-color: rgba(198,160,12,0.9);margin-top: 10px;" [routerLink]="['/orders']">Back to Purchase History</button></div>
        </div>
        <div class="row">
            <div class="col">
-               <h4>Date Placed:</h4>
+               <h4>Date Placed: {{order[0]['createdAt'] | date}}</h4>
            </div>
        </div>
        <div class="row">
            <div class="col">
-               <h4>Number of Items:</h4>
+               <h4>Number of Items: {{order['length']}}</h4>
            </div>
        </div>
        <div class="col" style="background-color: rgba(198,160,12,0.55);padding-bottom: 10px;">
@@ -37,64 +37,32 @@
                    <h5>Total ($)</h5>
                </div>
            </div>
-           <div class="row" style="margin-top: 10px;background-color: rgba(198,160,12,0);">
-               <div class="col"><img></div>
-               <div class="col">
-                   <p style="margin-top: 25px;">Lorem ipsum</p>
-               </div>
-               <div class="col">
-                   <p style="margin-top: 25px;">Lorem ipsum</p>
-               </div>
-               <div class="col">
-                   <p style="margin-top: 25px;">Lorem ipsum</p>
-               </div>
-               <div class="col">
-                   <p style="margin-top: 25px;">Lorem ipsum</p>
-               </div>
-               <div class="col">
-                   <p style="margin-top: 25px;">$100.78</p>
-               </div>
+           <div *ngFor="let item of order">
+             <div class="row" style="margin-top: 10px;background-color: rgba(198,160,12,0);">
+                 <div class="col">  <img src="{{item['product']['images'][0]}}" style="height:100px; width:100px;"> </div>
+                 <div class="col">
+                     <p style="margin-top: 25px;">{{item['product']['name']}}</p>
+                 </div>
+                 <div class="col">
+                     <p style="margin-top: 25px;">{{item['product']['colors']}}</p>
+                 </div>
+                 <div class="col">
+                     <p style="margin-top: 25px;">{{item['size']}}</p>
+                 </div>
+                 <div class="col">
+                     <p style="margin-top: 25px;">1</p>
+                 </div>
+                 <div class="col">
+                     <p style="margin-top: 25px;">${{item['total']}}</p>
+                 </div>
+             </div>
            </div>
-           <div class="row" style="margin-top: 10px;background-color: rgba(198,160,12,0);">
-               <div class="col"><img></div>
-               <div class="col">
-                   <p style="margin-top: 25px;">Lorem ipsum</p>
-               </div>
-               <div class="col">
-                   <p style="margin-top: 25px;">Lorem ipsum</p>
-               </div>
-               <div class="col">
-                   <p style="margin-top: 25px;">Lorem ipsum</p>
-               </div>
-               <div class="col">
-                   <p style="margin-top: 25px;">Lorem ipsum</p>
-               </div>
-               <div class="col">
-                   <p style="margin-top: 25px;">$100.78</p>
-               </div>
-           </div>
-           <div class="row" style="margin-top: 10px;background-color: rgba(198,160,12,0);">
-               <div class="col"><img></div>
-               <div class="col">
-                   <p style="margin-top: 25px;">Lorem ipsum</p>
-               </div>
-               <div class="col">
-                   <p style="margin-top: 25px;">Lorem ipsum</p>
-               </div>
-               <div class="col">
-                   <p style="margin-top: 25px;">Lorem ipsum</p>
-               </div>
-               <div class="col">
-                   <p style="margin-top: 25px;">Lorem ipsum</p>
-               </div>
-               <div class="col">
-                   <p style="margin-top: 25px;">$100.78</p>
-               </div>
-           </div>
+
+
        </div>
        <div class="row">
            <div class="col">
-               <h4 style="margin-top: 10px;height: 20px;">Total Price:</h4>
+               <h4 style="margin-top: 10px;height: 20px;">Total Price: {{this.total}}</h4>
            </div>
        </div>
        <div class="row">

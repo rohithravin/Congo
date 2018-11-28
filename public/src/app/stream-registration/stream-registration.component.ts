@@ -19,8 +19,14 @@ export class StreamRegistrationComponent implements OnInit {
   selectedCCYear:number;
   showErr_year:boolean;
   userID:string;
+  show_succ:boolean;
+  show_fail:boolean;
+  stripeResp:string;
 
   constructor(private _router:Router, private _httpService:HttpService) {
+    this.show_succ = false;
+    this.show_fail = false;
+    this.stripeResp = "";
     this.cc_number;
     this.cc_string = "";
     this.showErr_cc = false;
@@ -94,21 +100,44 @@ export class StreamRegistrationComponent implements OnInit {
        }
     }
 
+    if(localStorage.getItem('stream')=='true'){
+      return this._router.navigate(['']);
+    }else{
+
     if(!this.showErr_cc && !this.showErr_cvv && !this.showErr_date && !this.showErr_year){
       console.log("success");
       //once the stripe api has taken the users money
-      var streamObs = this._httpService.createStreamUser(this.userID);
-      streamObs.subscribe(data=>{
-        console.log(data);
+      var stripeObs = this._httpService.stripePurchase(this.cc_number,this.selectedCCDate,this.selectedCCYear,this.cvv_string,9900);
+      stripeObs.subscribe(data=>{
+        console.log("stripe ",data);
         if(data['success'] == 1){
-          console.log("succ made them a stream user");
+              var streamObs = this._httpService.createStreamUser(this.userID);
+          streamObs.subscribe(data=>{
+            console.log(data);
+            if(data['success'] == 1){
+              console.log("succ made them a stream user");
+              localStorage.setItem('stream','true');
+              this.show_succ = true;
+            }else{
+              console.log("error!!");
+            }
+          });
+
         }else{
           console.log("error");
+          this.show_fail = true;
+          this.stripeResp = data['display_message'];
         }
-      });
+
+
+      })
+
+      
     }else{
       console.log("error");
+      this.show_fail = true;
+      this.stripeResp = "Card Information needs fixing!";
     }
-
+  }
   }
 }
