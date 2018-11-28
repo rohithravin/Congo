@@ -29,6 +29,9 @@ import { MerchantStatsComponent } from './merchant-stats/merchant-stats.componen
 import { AdminStatsComponent } from './admin-stats/admin-stats.component';
 
 import { GiftCardComponent } from './gift-card/gift-card.component';
+import { GiftCardVerifyComponent } from './gift-card-verify/gift-card-verify.component';
+import { GiftCardConfirmationComponent } from './gift-card-confirmation/gift-card-confirmation.component';
+
 const routes: Routes = [
   {path:'', component:HomepageComponent},
   {path:'cart', component: CartComponent},
@@ -53,8 +56,10 @@ const routes: Routes = [
   {path: 'admin-portal', component: AdminPortalComponent},
   {path: 'stream/register', component:StreamRegistrationComponent},
   {path: 'admin/merchants', component: AdminMerchantsComponent},
+  {path: 'giftcard/redeem', component: GiftCardVerifyComponent},
   {path: 'user-order-history', component: UserOrderHistoryComponent},
   {path: 'merchant-orders', component: MerchantOrdersComponent},
+  {path: 'giftcard/confirmation', component: GiftCardConfirmationComponent},
   {path: 'merchant-stats', component: MerchantStatsComponent},
   {path: 'admin-stats', component: AdminStatsComponent}
    //Path any, = home

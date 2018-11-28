@@ -23,6 +23,18 @@ export class HttpService {
     return this._http.post('/fetchSearchedProducts', {searchQuery:searchQuery})
   }
 
+  fetchUserCredits(userID){
+    return this._http.post('/getUserCredits',{userID:userID});
+  }
+
+  PurchaseWithCongoCredit(userID,cartPrice){
+    return this._http.post('/purchaseWithUserCredit',{userID:userID,cartPrice:cartPrice});
+  }
+
+  redeemGiftCard(userID, cardNum ){
+    return this._http.post('/redeemGiftCard', {userID:userID,cardNum:cardNum});
+  }
+
   fetchCategorySearchedProducts(searchQuery, category){
     return this._http.post('/fetchSearchedProductsWithCategory', {searchQuery:searchQuery ,category:category})
   }
@@ -53,7 +65,7 @@ export class HttpService {
   createStreamUser(userID){
     return this._http.post('/processStreamRegistration',{userID:userID});
   }
-  
+
   createNewUser(first_name, last_name, email, phone_num, password){
     console.log("checkpoint 1.");
     return this._http.post('/processRegister', {first_name: first_name, last_name:last_name, email:email, phone_num:phone_num, password:password}, {withCredentials:true})
@@ -97,5 +109,9 @@ export class HttpService {
   }
   processAdminLogin(email, password, pin){
     return this._http.post('/processAdminLogin', {email:email, password:password, pin:pin})
+  }
+
+  purchaseGiftCard(userID, amount){
+        return this._http.post('/purchaseGiftCard', {userID:userID, amount:amount}); 
   }
 }

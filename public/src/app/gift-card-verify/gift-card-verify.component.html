@@ -1,0 +1,18 @@
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<div class='redeemWrapper'>
+  <div class='mainBox'>
+    <p class='boxTitle'>Redeem Congo Gift Card</p>
+    <p class='description'>Enter A valid Congo gift card to be credited!</p>
+    <input type='text' class='cardNumber' [(ngModel)]='giftCardNumber' placeholder='Congo Card Number'>
+    <p class="red" *ngIf=showErr_gcNum>Enter a valid gift card.</p>
+    <button class='mySubmit' (click)="submitGiftCard()">Redeem</button>
+  </div>
+  <div *ngIf=show_success class="alert_success">
+    <span class="closebtn" (click)="show_success = false">&times;</span>
+        <strong>Redeemed! Credit: ${{creditAmount}}!</strong>
+  </div>
+  <div *ngIf=show_fail class="alert">
+    <span class="closebtn" (click)="show_fail = false">&times;</span>
+        <strong>Gift Card Redeem Failed</strong>
+  </div>
+</div>

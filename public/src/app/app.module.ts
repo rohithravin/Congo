@@ -30,8 +30,10 @@ import { AdminPortalComponent } from './admin-portal/admin-portal.component';
 import { StreamRegistrationComponent } from './stream-registration/stream-registration.component';
 import { AdminMerchantsComponent } from './admin-merchants/admin-merchants.component';
 import { GiftCardComponent } from './gift-card/gift-card.component';
+import { GiftCardVerifyComponent } from './gift-card-verify/gift-card-verify.component';
 import { UserOrderHistoryComponent } from './user-order-history/user-order-history.component';
 import { MerchantOrdersComponent } from './merchant-orders/merchant-orders.component';
+import { GiftCardConfirmationComponent } from './gift-card-confirmation/gift-card-confirmation.component';
 import { MerchantStatsComponent } from './merchant-stats/merchant-stats.component';
 import { AdminStatsComponent } from './admin-stats/admin-stats.component';
 @NgModule({
@@ -61,8 +63,10 @@ import { AdminStatsComponent } from './admin-stats/admin-stats.component';
     StreamRegistrationComponent,
     AdminMerchantsComponent,
     GiftCardComponent,
+    GiftCardVerifyComponent,
     UserOrderHistoryComponent,
     MerchantOrdersComponent,
+    GiftCardConfirmationComponent,
     MerchantStatsComponent,
     AdminStatsComponent
   ],

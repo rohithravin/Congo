@@ -264,7 +264,7 @@ app.post('/processStreamRegistration', function(request,response){
             })
         }
     });
-    
+
 })
 
 app.post('/processMerchantLogin', function(request, response){
@@ -469,6 +469,55 @@ app.post('/processAddToCart', function(request, response){
                             }
                         }
                     })
+                }
+            })
+        }
+    })
+})
+
+app.post('/getUserCredits', function(request,response){
+    var userID = request.body['userID'];
+    User.findOne({_id:userID},function(error,user){
+        if(error){
+            return response.json({success:-1,message:'User not found'});
+        }else if(user == null){
+            return response.json({success:0,message:'User is null'});
+        }else{
+            var credits = user.credits;
+            return response.json({success:1,message:'Users Congo Credit', userCredits:credits});
+        }
+    })
+})
+
+app.post('/purchaseWithUserCredit', function(request,response){
+    var userID = request.body['userID'];
+    var cartPrice = request.body['cartPrice'];
+    
+    if(userID == null){
+        return response.json({success:-2,message:'No userID given'});
+    }
+
+    if(cartPrice == null){
+        return response.json({success:-2,message:'No cart price'});
+    }else if(cartPrice < 0){
+        return response.json({success:-2,message:'Cart price is negative'});
+    }
+
+    User.findOne({_id:userID},function(error,user){
+        if(error){
+            return response.json({success:0,message:'User doesnt exist'});
+        }else if(user == null){
+            return response.json({success:-1,message:'User is null'});
+        }else{
+            if((user.credits - cartPrice) < 0){
+                return response.json({success:-3,message:'User has insufficient funds'});
+            }
+            user.credits = user.credits - cartPrice;
+            user.save(function(error){
+                if(error){
+                    return response.json({success:0,message:'error saving user'});
+                }else{
+                    return response.json({success:1,message:'Purchase with Congo Credit success'});
                 }
             })
         }
@@ -888,7 +937,7 @@ app.get('/getFeatured', function(request, response){
             }
         }
         waitOne=true;
-    }) 
+    })
     while(waitOne==false){
 
     }
@@ -1045,9 +1094,11 @@ app.post('/purchaseGiftCard', function(request, response){
     var buyerID=request.body['userID']
     var amount=request.body['amount']
     var cardNum=createGiftCardNumber()
+    console.log(cardNum);
     var newCard = new GiftCard({buyerID:buyerID, cardNumber:cardNum, value:amount})
     newCard.save(function(error){
         if(error){
+             console.log(error);
             return response.json({success:0, message:'Unable to create gift card'})
         }
         else{
@@ -1055,6 +1106,8 @@ app.post('/purchaseGiftCard', function(request, response){
         }
     })
 })
+
+
 
 app.post('/redeemGiftCard', function(request, response){
     var userID=request.body['userID']
@@ -1383,6 +1436,7 @@ function createGiftCardNumber(){
                 //Random lowerCase letter
             }
         }
+
     }
     return hashed;
     // GiftCard.findOne({cardNumber:hashed}, function(error, card){
