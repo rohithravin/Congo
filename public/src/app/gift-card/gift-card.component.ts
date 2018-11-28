@@ -11,7 +11,7 @@ export class GiftCardComponent implements OnInit {
       cc_number:number;
       showErr_ccNumber:boolean;
       cvv_number:number;
-      showErr_cvvNumber:boolean;
+      showErr_cvvCode:boolean;
       cc_month:number;
       showErr_ccMonth:boolean;
       cc_year:number;
@@ -20,7 +20,6 @@ export class GiftCardComponent implements OnInit {
       showErr_amount:boolean;
       userID:string;
       showERROR:boolean;
-      showErr_cvvCode:boolean;
 
 
   constructor(private _httpService: HttpService,private _router:Router) {
@@ -51,11 +50,11 @@ export class GiftCardComponent implements OnInit {
   }
 
   submit(){
-        console.log(this.cc_number);
-        console.log(this.cvv_number);
-        console.log(this.cc_month);
-        console.log(this.cc_year);
-        console.log(this.cc_cardAmount);
+       console.log(this.cc_number);
+       console.log(this.cvv_number);
+       console.log(this.cc_month);
+       console.log(this.cc_year);
+       console.log(this.cc_cardAmount);
 
         if(!this.cc_cardAmount){
              this.showErr_amount = true;
@@ -69,10 +68,13 @@ export class GiftCardComponent implements OnInit {
               console.log("Received response:", data)
               if(data['success']==1){
                     console.log("successfully created giftcard!");
-                    var giftCard = data['card']['cardNumber'];
-                    console.log(giftCard);
-                    if(giftCard){
-                          localStorage.setItem('giftCard',giftCard);
+                    var giftCardVal = data['card']['value'];
+                    var giftCardNumber = data['card']['cardNumber'];
+                    console.log(giftCardVal);
+                    if(giftCardVal){
+                          localStorage.setItem('giftCard',giftCardVal);
+                          localStorage.setItem('giftCardNumber', giftCardNumber);
+
                           this._router.navigate(['/giftcard/confirmation'])
                     }
 
