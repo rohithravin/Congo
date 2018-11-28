@@ -70,6 +70,10 @@ export class HttpService {
     return this._http.post('/processStreamRegistration',{userID:userID});
   }
 
+  checkMerchantValid(url,userID,name){
+    return this._http.post('/merhcantExists',{info:{url:url,name:name},userID:userID});
+  }
+
   createNewUser(first_name, last_name, email, phone_num, password){
     console.log("checkpoint 1.");
     return this._http.post('/processRegister', {first_name: first_name, last_name:last_name, email:email, phone_num:phone_num, password:password}, {withCredentials:true})

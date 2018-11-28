@@ -128,12 +128,6 @@ export class MerchantReg2Component implements OnInit {
               this.showErr_err = true;
               return;
             }
-            else if(data['success']== -3) {
-              this.errMessage_err = "Merchant already exists.";
-              console.log("Server Error.");
-              this.showErr_err = true;
-              return;
-            }
             else{
               console.log("Registration successful");
               localStorage.removeItem("merchant-url");

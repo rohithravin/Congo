@@ -610,6 +610,39 @@ app.post('/processMerchantRegistration', function(request, response){
     })
 })
 
+app.post('/merhcantExists',function(request,resposne){
+    if(!('userID' in request.body)){
+        return response.json({success:0, message:'No user ID provided'})
+    }
+    else if(request.body['userID']==null){
+        return response.json({success:0, message:'No user ID provided'})
+    }
+    var info=request.body['info']
+    var userID=request.body['userID']
+    User.findOne({_id: userID}, function(error, user){
+        if(error){
+            return response.json({success:0, message:"Could not find a user with request id"})
+        }
+        else{
+            // info['user']=user
+            // return response.json({success:1, message:'Successfully found user'})
+            Merchant.find({$or:[{name:info['name']}, {url:info['url']}]}, function(error, merchants){
+                if(error){
+                   return response.json({success:-2, message:'Server error'});
+                }
+                else{
+                    if(merchants.length!=0){
+                        return resposne.json({success:0,message:'Merchant Exists'});
+                    }
+                    else{
+                      return resposne.json({success:1,message:'New Merchant'});
+                    }
+                }
+            })
+        }
+    })
+})
+
 app.post('/promoteProduct', function(request, response){
     console.log(request.body)
     var productID=request.body['productID']
