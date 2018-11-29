@@ -25,6 +25,10 @@ export class HttpService {
     return this._http.post('/updateProductSold',{productID:productID});
   }
 
+  fetchRecentOrders(userID){
+    return this._http.post('/getRecentOrders', {userID:userID});
+  }
+
 
   fetchSearchedProducts(searchQuery){
     return this._http.post('/fetchSearchedProducts', {searchQuery:searchQuery})

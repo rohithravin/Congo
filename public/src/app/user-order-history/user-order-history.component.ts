@@ -43,6 +43,7 @@ export class UserOrderHistoryComponent implements OnInit {
       }else{
         // console.log(data);
         this.order = data['items'];
+        console.log(this.order)
         this.total = data['total']
         this.total=Math.floor(this.total * 100) / 100;
         for(var i=0; i<this.order.length; i++){
