@@ -545,8 +545,16 @@ app.post('/purchaseWithUserCredit', function(request,response){
             return response.json({success:-1,message:'User is null'});
         }else{
             if((user.credits - cartPrice) < 0){
-                return response.json({success:-3,message:'User has insufficient funds'});
-            }
+                var cost = (-1)*(user.credits - cartPrice);
+                user.credits = 0;
+                user.save(function(error){
+                    if(error){
+                        return response.json({success:0,message:'error saving user'});
+                    }else{
+                        return response.json({success:2,message:'Partial Purchase with Congo Credit success',cost:cost});
+                    }
+                })
+            }else{
             user.credits = user.credits - cartPrice;
             user.save(function(error){
                 if(error){
@@ -555,6 +563,7 @@ app.post('/purchaseWithUserCredit', function(request,response){
                     return response.json({success:1,message:'Purchase with Congo Credit success'});
                 }
             })
+          }
         }
     })
 })
@@ -865,6 +874,7 @@ app.post('/createOrder', function(request, response){
                 var newOrder = new Order({userID:request.body['userID'], street_address:street, city:city, state:state, zip_code:zip_code, country:'United States', shipping:parseFloat(shipping), tempID:tempID, total:0, items:items.length})
 
                 currentTotal=currentTotal+parseFloat(shipping)+parseFloat(tax);
+                currentTotal = Math.floor(currentTotal * 100) / 100;
                 newOrder.total=currentTotal
                 newOrder.save(function(error){
                     if(error){
