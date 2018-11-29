@@ -55,7 +55,20 @@
                             </div>
                         </div>
                         <div class="row" style="margin-top: 10px;">
-                            <div class="col"></div>
+                                <div class="col">
+                                    <select [(ngModel)]="selectedColor" [ngModelOptions]="{standalone: true}"  >
+                                        <option value="" selected disabled hidden>Choose color</option>
+                                        <option *ngFor="let color of product['colors']" >{{color}}</option>
+                                      </select>
+                                      <div class="col"><small class="form-text text-danger" *ngIf=showErr_color style="color: rgb(114,29,119);">Choose Color</small></div>
+                                </div>
+                            <div class="col">
+                                <select [(ngModel)]="selectedSize" [ngModelOptions]="{standalone: true}"  >
+                                    <option value="" selected disabled hidden>Choose Size</option>
+                                    <option *ngFor="let size of product['sizes']" >{{size}}</option>
+                                  </select>
+                                  <div class="col"><small class="form-text text-danger" *ngIf=showErr_size style="color: rgb(114,29,119);">Choose size</small></div>
+                            </div>
                             <div class="col">
                                 <p>Total Sold: {{product['num_sold']}} People</p>
                             </div>
