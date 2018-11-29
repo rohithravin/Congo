@@ -4,9 +4,9 @@
     <div class='boxes'>
         <div class='leftBox'>
             <p class='boxTitle'>Pending</p>
-            <input type='text' class='search' placeholder='search'>
+            <input type='text' class='search' (keyup)="searchPending()" [(ngModel)]="pendingSearch" placeholder='search'>
             <div class='pendingMerchants'>
-                <div class='pendingMerchant' *ngFor = "let merchant of pending">
+                <div class='pendingMerchant' *ngFor = "let merchant of shownPending">
                 <!-- <div class='pendingMerchant' *ngFor = "let merchant of pending"> -->
                     <p class='merchantName'>{{merchant.name}}</p>
                     <p class='merchantEmail'>{{merchant.email}}</p>
@@ -22,9 +22,9 @@
         </div>
         <div class='rightBox'>
             <p class='boxTitle'>Active</p>
-            <input type='text' class='search' placeholder='search'>
+            <input type='text' class='search' (keyup)="searchActive()" [(ngModel)]="activeSearch" placeholder='search'>
             <div class='approvedMerchants'>
-                <div class='approvedMerchant' *ngFor = "let merchant of active">
+                <div class='approvedMerchant' *ngFor = "let merchant of shownActive">
                 <!-- <div class='approvedMerchant' *ngFor = "let merchant of active"> -->
                     <div class='approvedMerchant'>
                         <p class='merchantName'>{{merchant.name}}</p>

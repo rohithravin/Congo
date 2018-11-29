@@ -21,6 +21,11 @@ export class AdminMerchantsComponent implements OnInit {
   show_fail:boolean;
   stripe_resp:string;
 
+  pendingSearch:string;
+  activeSearch:string;
+  shownPending:any;
+  shownActive:any;
+
   constructor(private _httpService:HttpService, private _router:Router) {
     this.show_succ = false;
     this.show_fail = false;
@@ -30,11 +35,39 @@ export class AdminMerchantsComponent implements OnInit {
     this.active = [];
     this.date = '';
     this.counter = 0;
+    this.pendingSearch = "";
+    this.activeSearch = "";
+    this.shownActive = [];
+    this.shownActive = [];
+
   }
 
   ngOnInit() {
     this.fetchPending();
     this.fetchActive();
+  }
+
+  searchActive(){
+    this.shownActive = [];
+    console.log("active ",this.active);
+    this.active.forEach(element => {
+      console.log("el ",element);
+      console.log("m ",element['name'].match(this.activeSearch));
+        if(element['name'].match(this.activeSearch)){
+          this.shownActive.push(element);
+        }
+    });
+    console.log("active ",this.shownActive);
+  }
+
+  searchPending(){
+    this.shownPending = [];
+    this.pending.forEach(element => {
+      if(element['name'].match(this.pendingSearch)){
+        this.shownPending.push(element);
+      }
+    });
+    console.log("pending ",this.shownPending);
   }
 
   fetchPending(){
@@ -52,6 +85,7 @@ export class AdminMerchantsComponent implements OnInit {
           for(var i=0;i<this.pending.length;i++){
             this.pending[i]['index'] = i;
           }
+          this.shownPending = this.pending;
       }
     })
   }
@@ -69,6 +103,7 @@ export class AdminMerchantsComponent implements OnInit {
         for(var i=0;i<this.active.length;i++){
           this.active[i]['index'] = i;
         }
+        this.shownActive =this.active;
       }
     })
   }
