@@ -822,6 +822,7 @@ app.post('/processEdit', function(request, response){
 })
 
 app.post('/createOrder', function(request, response){
+    //UPDATE PURCHASE COUNT OF EVERY ITEM AROUND THIS CALL
     if(!('userID' in request.body)){
         return response.json({success:-1, message:'UserID not in request.body'})
     }
@@ -1632,6 +1633,18 @@ app.post('/getHistory', function(request, response){
         }
         else{
             return response.json({success:1, message:'Successfully fetched user history', history:user.history})
+        }
+    })
+})
+
+app.post('/fetchMerchantOrderItems', function(request, response){
+    var merchantLicense=request.body['merchantLicense']
+    OrderItem.find({merchantLicense:merchantLicense}, function(error, items){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully fetched items', items:items})
         }
     })
 })
