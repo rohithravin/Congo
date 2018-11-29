@@ -52,8 +52,8 @@ export class AdminMerchantsComponent implements OnInit {
     console.log("active ",this.active);
     this.active.forEach(element => {
       console.log("el ",element);
-      console.log("m ",element['name'].match(this.activeSearch));
-        if(element['name'].match(this.activeSearch)){
+      console.log("m ",element['name'].toLowerCase().match(this.activeSearch.toLowerCase()));
+        if(element['name'].toLowerCase().match(this.activeSearch.toLowerCase())){
           this.shownActive.push(element);
         }
     });
@@ -63,7 +63,7 @@ export class AdminMerchantsComponent implements OnInit {
   searchPending(){
     this.shownPending = [];
     this.pending.forEach(element => {
-      if(element['name'].match(this.pendingSearch)){
+      if(element['name'].toLowerCase().match(this.pendingSearch.toLowerCase())){
         this.shownPending.push(element);
       }
     });
@@ -111,44 +111,44 @@ export class AdminMerchantsComponent implements OnInit {
   //Add paremeter here, add index too, so you dont have to do the for loop
   approveMerchant(merchant_id, merchant_index){
     //Get merchant id from parameter
-    var approve = this._httpService.approveMerchant(localStorage.getItem('userID'), merchant_id)
-    approve.subscribe(data=>{
-      console.log("Approve Response:", data);
-      if(data['success'] == -1){
-        console.log("server error");
-        return;
-      }
-      else if(data['success'] == 0){
-        console.log("Unable to approve this merchant");
-        return;
-      }
-      else if(data['success'] == 1){
-        console.log("merchan ",this.pending[merchant_index]);
-        console.log("num ",this.pending[merchant_index]['creditCardNum']);
-        console.log("month ",this.pending[merchant_index]['creditCardExp_month'])
-        console.log("year ",this.pending[merchant_index]['creditCardExp_year']);
-        console.log("cvv ",this.pending[merchant_index]['creditCard_CVV']);
+
         var stripeObs = this._httpService.stripePurchase(this.pending[merchant_index]['creditCardNum'],this.pending[merchant_index]['creditCardExp_month'],this.pending[merchant_index]['creditCardExp_year'],this.pending[merchant_index]['creditCard_CVV'],15000);
         stripeObs.subscribe(data=>{
           if(data['success']==1){
             this.show_succ = true;
             this.stripe_resp = "Payment Successful!";
+            var approve = this._httpService.approveMerchant(localStorage.getItem('userID'), merchant_id)
+            approve.subscribe(data=>{
+              console.log("Approve Response:", data);
+              if(data['success'] == -1){
+                console.log("server error");
+                return;
+              }
+              else if(data['success'] == 0){
+                console.log("Unable to approve this merchant");
+                return;
+              }
+              else if(data['success'] == 1){
+                
+                var temp = this.pending[merchant_index];
+                    this.pending.splice(merchant_index, 1);
+                    for(var i=0;i<this.pending.length;i++){
+                      this.pending[i]['index'] = i;
+                    }
+                    this.active.push(temp);
+                    this.active[this.active.length-1]['index']=this.active.length-1;
+                    this.shownActive = this.active;
+                    this.shownPending = this.pending;
+                    console.log("Merchant successfully approved");
+                
+              }
+            })
           }else{
             this.show_fail = true;
             this.stripe_resp = data['display_message'];
           }
         })
-        var temp = this.pending[merchant_index];
-            this.pending.splice(merchant_index, 1);
-            for(var i=0;i<this.pending.length;i++){
-              this.pending[i]['index'] = i;
-            }
-            this.active.push(temp);
-            this.active[this.active.length-1]['index']=this.active.length-1
-            console.log("Merchant successfully approved");
-        
-      }
-    })
+
   }
 
   //Pass in parameters for id, and index
