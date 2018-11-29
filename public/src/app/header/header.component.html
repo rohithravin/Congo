@@ -27,6 +27,8 @@
       <div class='accountCategories' *ngIf='showAccount==true'>
         <a [routerLink]="['/orders']">Orders</a>
         <a >Account</a>
+        <a [routerLink]="['/gift-card']">Buy Gift Card</a>
+        <a [routerLink]="['/giftcard/redeem']">Redeem Gift Card</a>
         <a [routerLink]="['/stream/register']">Stream</a>
         <a *ngIf='merchantLoggedIn==true' [routerLink]="['/merchant/portal']">Merchant</a>
         <a *ngIf='merchantLoggedIn==false' [routerLink]="['/merchant/login']">Merchant</a>
