@@ -20,9 +20,13 @@ export class GiftCardComponent implements OnInit {
       showErr_amount:boolean;
       userID:string;
       showERROR:boolean;
+      show_fail:boolean;
+      stripe_resp:string;
 
 
   constructor(private _httpService: HttpService,private _router:Router) {
+      this.show_fail = false;
+      this.stripe_resp = "";
         this.showErr_ccNumber = false;
         this.showErr_cvvCode = false;
         this.showErr_ccMonth = false;
@@ -30,13 +34,6 @@ export class GiftCardComponent implements OnInit {
         this.showErr_amount = false;
         this.showERROR = false;
         this.userID = localStorage.getItem('userID');
-        // this.cc_number;
-        // this.cvv_number;
-        // this.cc_month;
-        // this.cc_year;
-        // this.cc_cardAmount;
-
-
   }
 
   ngOnInit() {
@@ -63,28 +60,41 @@ export class GiftCardComponent implements OnInit {
       }
 
       if(!this.showErr_amount){
-            var obs=this._httpService.purchaseGiftCard(this.userID, this.cc_cardAmount)
-            obs.subscribe(data=>{
-              console.log("Received response:", data)
-              if(data['success']==1){
-                    console.log("successfully created giftcard!");
-                    var giftCardVal = data['card']['value'];
-                    var giftCardNumber = data['card']['cardNumber'];
-                    console.log(giftCardVal);
-                    if(giftCardVal){
-                          localStorage.setItem('giftCard',giftCardVal);
-                          localStorage.setItem('giftCardNumber', giftCardNumber);
 
-                          this._router.navigate(['/giftcard/confirmation'])
-                    }
+            var stripeObs = this._httpService.stripePurchase(this.cc_number,this.cc_month,this.cc_year,this.cvv_number,this.cc_cardAmount*100);
+            stripeObs.subscribe(data=>{
+                  if(data['success'] == 1){
+                        var obs=this._httpService.purchaseGiftCard(this.userID, this.cc_cardAmount)
+                        obs.subscribe(data=>{
+                        console.log("Received response:", data)
+                        if(data['success']==1){
+                              console.log("successfully created giftcard!");
+                              var giftCardVal = data['card']['value'];
+                              var giftCardNumber = data['card']['cardNumber'];
+                              console.log(giftCardVal);
+                              if(giftCardVal){
+                                    localStorage.setItem('giftCard',giftCardVal);
+                                    localStorage.setItem('giftCardNumber', giftCardNumber);
+
+                                    this._router.navigate(['/giftcard/confirmation'])
+                              }
 
 
-              }
-              else{
-                    this.showERROR = true;
-                    console.log(this.showERROR);
-              }
+                        }
+                        else{
+                              this.showERROR = true;
+                              console.log(this.showERROR);
+                        }
+                     })
+                  }else{
+                        //stripe error
+                        this.show_fail = true;
+                        this.stripe_resp = data['display_message'];
+                  }
             })
+
+
+            
       }
 
   }

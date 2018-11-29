@@ -41,5 +41,9 @@
              <button class="btn btn-secondary" type="submit" style="margin-left: 165px;background-color: #373737;"  (click)="nextButton()">Next Page</button>
            </div>
        </form>
+       <div *ngIf=show_fail class="alert">
+          <span class="closebtn" (click)="show_fail = false">&times;</span>
+              <strong>{{invalid_resp}}</strong> 
+        </div>
    </div>
  </section>

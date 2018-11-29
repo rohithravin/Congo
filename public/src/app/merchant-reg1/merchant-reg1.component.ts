@@ -29,9 +29,12 @@ export class MerchantReg1Component implements OnInit {
   accountNum:number;
   password:string;
   confirmPassword:string;
-
+  show_fail:boolean;
+  invalid_resp:string;
 
   constructor(private _router: Router,  private _httpService:HttpService) {
+    this.invalid_resp = "";
+    this.show_fail = false;
     this.showErr_url = false;
     this.showErr_email = false;
     this.showErr_description = false;
@@ -101,17 +104,29 @@ export class MerchantReg1Component implements OnInit {
     if(this.showErr_url == false && this.showErr_email == false &&
        this.showErr_bankNum == false && this.showErr_description == false &&
        this. showErr_companyName == false && this.showErr_accountNum == false){
-          console.log("Passed Verification.");
-          localStorage.setItem("merchant-url",this.url);
-          localStorage.setItem("merchant-password",this.password);
-          localStorage.setItem("merchant-email", this.email);
-          localStorage.setItem("merchant-companyName", this.companyName);
-          localStorage.setItem("merchant-description", this.description);
-          localStorage.setItem("merchant-bankNum", this.bankNum.toString());
-          localStorage.setItem("merchant-accountNum", this.accountNum.toString());
-          console.log("All Fields Stored In Local Storage.")
-          // location.reload(true)
-          this._router.navigate(['/merchant/register2']);
+         //check that merchant doesnt already exist.
+         var merchObs = this._httpService.checkMerchantValid(this.url,localStorage.getItem('userID'),this.companyName);
+         merchObs.subscribe(data=>{
+           console.log(data);
+           if(data['success'] == 1){
+                console.log("Passed Verification.");
+              localStorage.setItem("merchant-url",this.url);
+              localStorage.setItem("merchant-password",this.password);
+              localStorage.setItem("merchant-email", this.email);
+              localStorage.setItem("merchant-companyName", this.companyName);
+              localStorage.setItem("merchant-description", this.description);
+              localStorage.setItem("merchant-bankNum", this.bankNum.toString());
+              localStorage.setItem("merchant-accountNum", this.accountNum.toString());
+              console.log("All Fields Stored In Local Storage.")
+              // location.reload(true)
+              this._router.navigate(['/merchant/register2']);
+           }else{
+             this.show_fail = true;
+             this.invalid_resp = "Merchant already exists!";
+             console.log("error");
+           }
+         })
+          
     }
   }
 }

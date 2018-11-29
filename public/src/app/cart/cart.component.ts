@@ -19,7 +19,11 @@ export class CartComponent implements OnInit {
   showAlertSuccess:boolean;
   showAlertFail:boolean;
   showCartEmpty:boolean;
+  shipping_time:string;
+  show_stream:boolean;
   constructor(private _httpService:HttpService, private _router:Router) {
+    this.show_stream = false;
+    this.shipping_time = "5 business days";
     this.cart={}
     this.userID=localStorage.getItem('userID');
     this.subtotal = 0;
@@ -33,7 +37,7 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fetchCart()
+    this.fetchCart();
 
   }
   fetchCart(){
@@ -61,8 +65,20 @@ export class CartComponent implements OnInit {
         this.tax = this.getTax();
         this.shipping = this.getShipping();
         this.total = this.getTotal();
+        this.checkStream();
       }
     })
+  }
+
+  checkStream(){
+    console.log(localStorage.getItem('stream'));
+    if(localStorage.getItem('stream') == 'true'){
+      this.shipping_time = "2 business days";
+      this.show_stream = true;
+    }else{
+      this.shipping_time = "5 business days";
+      this.show_stream = false;
+    }
   }
 
   checkout(){
@@ -93,6 +109,9 @@ export class CartComponent implements OnInit {
 
   getTotal(){
        this.total = this.subtotal + this.tax + this.shipping;
+       if(localStorage.getItem('stream') == 'true'){
+        this.total = this.total - (this.total * 0.1);
+       }
        this.total = Math.floor(this.total * 100) / 100;
        return this.total;
   }

@@ -38,7 +38,8 @@ var UserSchema = new mongoose.Schema({
     phone_number:{type:String, required:[true, "Phone number is required"], minlength:[10, "Invalid phone number"], maxlength:[10, "Invalid phone number"]},
     stream:{type:Boolean, default:false, required:[true, "Stream is required"]},
     pin:{type:String, length:4},
-    credits:{type:Number, default:0, min:0}
+    credits:{type:Number, default:0, min:0},
+    history:["ProductSchema"]
     // cart:"CartSchema"
 }, {timestamps:true});
 mongoose.model('User', UserSchema)
@@ -94,7 +95,8 @@ var ProductSchema=new mongoose.Schema({
     promotionType:{type:String},
     endDate:{type:Date},
     rating:{type:Number, default:5},
-    promotionImage:{type:String}
+    promotionImage:{type:String},
+    views:{type:Number, default:0, min:0}
 }, {timestamps:true})
 mongoose.model('Product', ProductSchema)
 var Product=mongoose.model('Product')
@@ -610,6 +612,39 @@ app.post('/processMerchantRegistration', function(request, response){
     })
 })
 
+app.post('/merchantExists',function(request,resposne){
+    if(!('userID' in request.body)){
+        return response.json({success:0, message:'No user ID provided'})
+    }
+    else if(request.body['userID']==null){
+        return response.json({success:0, message:'No user ID provided'})
+    }
+    var info=request.body['info']
+    var userID=request.body['userID']
+    User.findOne({_id: userID}, function(error, user){
+        if(error){
+            return response.json({success:0, message:"Could not find a user with request id"})
+        }
+        else{
+            // info['user']=user
+            // return response.json({success:1, message:'Successfully found user'})
+            Merchant.find({$or:[{name:info['name']}, {url:info['url']}]}, function(error, merchants){
+                if(error){
+                   return response.json({success:-2, message:'Server error'});
+                }
+                else{
+                    if(merchants.length!=0){
+                        return resposne.json({success:0,message:'Merchant Exists'});
+                    }
+                    else{
+                      return resposne.json({success:1,message:'New Merchant'});
+                    }
+                }
+            })
+        }
+    })
+})
+
 app.post('/promoteProduct', function(request, response){
     console.log(request.body)
     var productID=request.body['productID']
@@ -826,7 +861,7 @@ app.post('/createOrder', function(request, response){
                                             return response.json({success:0, message:'There was an error deleting the Cart'})
                                         }
                                         else{
-                                            return response.json({success:1, message:'Successfully created Order'})
+                                            return response.json({success:1, message:'Successfully created Order',order:newOrder})
                                         }
                                     })
                                 }
@@ -890,12 +925,12 @@ app.post('/getOrderItems', function(request, response){
                         return response.json({success:0, message:'This is not your product'})
                     }
                     else{
-                        OrderItems.find({orderID:order._id}, function(error, items){
+                        OrderItem.find({orderID:order._id}, function(error, items){
                             if(error){
                                 return response.json({success:-1, message:'Server Error'})
                             }
                             else{
-                                return response.json({success:1, message:'Successfully fetched order items', items:items})
+                                return response.json({success:1, message:'Successfully fetched order items', items:items, total:order.total})
                             }
                         })
                     }
@@ -911,7 +946,171 @@ app.get('/testHash', function(request, response){
     response.json({license:license})
 })
 
-app.get('/getFeatured', function(request, response){
+app.get('/getFeaturedBB', function(request, response){
+    console.log("Recieving request")
+    var bigBannerProducts=[];
+    Product.find({promotionType:'BB'}, function(error, products){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            var pickedIndeces=[];
+            for(var i=0; i<5; i++){
+                var toAdd=Math.floor(Math.random()*products.length)
+                var redo=false;
+                for(var j=0; j<pickedIndeces.length; j++){
+                    if(pickedIndeces[j]==toAdd){
+                        redo=true;
+                        break;
+                    }
+                }
+                if(redo==true){
+                    i--;
+                }
+                else{
+                    pickedIndeces[pickedIndeces.length]=toAdd;
+                }
+            }
+            for(var i=0; i<5; i++){
+                var thisIndex=pickedIndeces[i]
+                bigBannerProducts.push(products[thisIndex])
+            }
+            console.log("Reaching end of fetch")
+            return response.json({success:1, message:'Successfully fetched BigBannerProducts.', products:bigBannerProducts})
+        }
+    })
+})
+
+app.get('/getFeaturedSB', function(request,response){
+    var smallBannerProducts = [];
+    Product.find({promotionType:'SB'}, function(error, products){
+        if(error){
+            return response.json({success:-1, messag:'Server error'})
+        }
+        else{
+            var _numProducts = 2;
+            var _pickedIndexes = [];
+            if (products.length != 0){
+                for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
+                for(var i =0; i < _numProducts; i++){
+                    do{
+                        var randIndex = Math.floor(Math.random() * (products.length));
+                    } while (_pickedIndexes[randIndex] != 0) {
+                        _pickedIndexes[randIndex] = 1;
+                        smallBannerProducts[i] = products[randIndex];
+                    }
+                    if(i == _numProducts-1){
+                        return response.json({success:1,message:'Fetched small banners',products:smallBannerProducts});
+                    }
+                }
+                
+            }else{
+                return response.json({success:0,message:'No products'});
+            }
+        }
+    })
+})
+
+app.get('/getFeaturedFP',function(request,response){
+    var featuredProducts = [];
+    Product.find({promotionType:'FP'}, function(error,products){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            var _numProducts = 6;
+            var _pickedIndexes = [];
+            if (products.length != 0) {
+                for (var i = 0; i < products.length; i++) { _pickedIndexes[i] = 0; }
+                for (var i = 0; i < _numProducts; i++) {
+                    do {
+                        var randIndex = Math.floor(Math.random() * (products.length));
+                    } while (_pickedIndexes[randIndex] != 0) {
+                        _pickedIndexes[randIndex] = 1;
+                        featuredProducts[i] = products[randIndex];
+                    }
+                    if(i == _numProducts-1){
+                        return response.json({success:1,message:'Fetched FP',products:featuredProducts});
+                    }
+                }
+            }else{
+                return response.json({success:0,message:'No products'});
+            }
+        }
+    })
+})
+
+app.get('/getFeaturedZZZ', function(request, response){
+    var bigBannerProducts = [];
+    var smallBannerProducts = [];
+    var featuredProducts = [];
+    Product.find({promotionType:'BB'}, function(error, products){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            var _numProducts = 5;
+            var _pickedIndexes = [];
+            for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
+            if (products.length != 0) {
+                for (var i = 0; i < _numProducts; i++) {
+                    do {
+                        var randIndex = Math.floor(Math.random() * (products.length));
+                    } while (_pickedIndexes[randIndex] != 0) {
+                        _pickedIndexes[randIndex] = 1;
+                        bigBannerProducts[i] = products[randIndex];
+                    }
+                }
+            }
+            //End of fetching bigBanner Products
+            Product.find({promotionType:'SB'}, function(error, products){
+                if(error){
+                    return response.json({success:-1, messag:'Server error'})
+                }
+                else{
+                    var _numProducts = 2;
+                    var _pickedIndexes = [];
+                    if (products.length != 0){
+                        for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
+                        for(var i =0; i < _numProducts; i++){
+                            do{
+                                var randIndex = Math.floor(Math.random() * (products.length));
+                            } while (_pickedIndexes[randIndex] != 0) {
+                                _pickedIndexes[randIndex] = 1;
+                                smallBannerProducts[i] = products[randIndex];
+                            }
+                        }
+                    }
+                }
+                //End of fetching smallBanner products
+                Product.find({promotionType:'FP'}, function(error,products){
+                    if(error){
+                        return response.json({success:-1, message:'Server error'})
+                    }
+                    else{
+                        var _numProducts = 6;
+                        var _pickedIndexes = [];
+                        if (products.length != 0) {
+                            for (var i = 0; i < products.length; i++) { _pickedIndexes[i] = 0; }
+                            for (var i = 0; i < _numProducts; i++) {
+                                do {
+                                    var randIndex = Math.floor(Math.random() * (products.length));
+                                } while (_pickedIndexes[randIndex] != 0) {
+                                    _pickedIndexes[randIndex] = 1;
+                                    featuredProducts[i] = products[randIndex];
+                                }
+                            }
+                        }
+                    }
+                    //End of fetching Featured Products
+                    return response.json({success: 1, message: "Successfully fetched all featured products", bigBanner: bigBannerProducts, smallBanner: smallBannerProducts, featuredProducts: featuredProducts});
+                })
+            })
+        }
+    })
+})
+
+app.get('/getFeaturedZZ3', function(request, response){
     var bigBannerProducts = [];
     var smallBannerProducts = [];
     var featuredProducts = [];
@@ -1107,8 +1306,11 @@ app.post('/processAdminLogin', function(request, response){
     })
 })
 
-app.get('/getReviews/:productID', function(request, response){
+app.post('/getReviews/:productID', function(request, response){
     var productID=request.params['productID']
+    var userID=request.body['userID']
+    var checkUser=request.body['checkUser']
+
     Product.findOne({_id:productID}, function(error, product){
         if(error){
             return response.json({success:-1, message:'Server error'})
@@ -1117,10 +1319,57 @@ app.get('/getReviews/:productID', function(request, response){
             return response.json({success:0, message:'Unable to find product'})
         }
         else{
-            return response.json({success:1, message:'Successfully found product', reviews:product.reviews})
+            product.views=product.views+1
+            product.save(function(error){
+                if(error){
+                    return response.json({success:0, message:'Unable to update product views'})
+                }
+                else{
+                    if(checkUser==false){
+                        return response.json({success:1, message:'Successfully found product', reviews:product.reviews})
+                    }
+                    //Successfully saved product, now add to user history
+                    User.findOne({_id:userID}, function(error, user){
+                        if(error){
+                            return response.json({success:0, message:'Server error'})
+                        }
+                        else if(user==null){
+                            return response.json({success:1, message:'Successfully fetched product, however userID invalid', reviews:product.reviews})
+                        }
+                        else{
+                            user.history.push(product);
+                            user.save(function(error){
+                                if(error){
+                                    return response.json({success:1, message:'Unable to push product to user history', reviews:product.reviews})
+                                }
+                                else{
+                                    return response.json({success:1, message:'Successfully fetched product review, and added to user history', reviews:product.reviews, history:user.history})
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+            // return response.json({success:1, message:'Successfully found product', reviews:product.reviews})
         }
     })
+    
 })
+
+// app.get('/getReviews/:productID', function(request, response){
+//     var productID=request.params['productID']
+//     Product.findOne({_id:productID}, function(error, product){
+//         if(error){
+//             return response.json({success:-1, message:'Server error'})
+//         }
+//         else if(product==null){
+//             return response.json({success:0, message:'Unable to find product'})
+//         }
+//         else{
+//             return response.json({success:1, message:'Successfully found product', reviews:product.reviews})
+//         }
+//     })
+// })
 
 app.post('/purchaseGiftCard', function(request, response){
     var buyerID=request.body['userID']
@@ -1325,6 +1574,21 @@ app.post('/processPayment', function(request, response){
                     return response.json({success:1, message:'Successfully created charge'})
                 }
             });
+        }
+    })
+})
+
+app.post('/getHistory', function(request, response){
+    var userID=request.body['userID']
+    User.findOne({_id:userID}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'No user exists with this ID'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully fetched user history', history:user.history})
         }
     })
 })
