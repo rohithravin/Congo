@@ -15,7 +15,15 @@ export class HomepageComponent implements OnInit {
   showFP:boolean;
   recomTagDict:any;
   recomCatDict:any;
+  arrTagList:any;
+  arrTagKey:any;
+  arrCatList:any;
+  arrCatKey:any;
+  finalProducts:any;
+  finalCategory:any;
+  finalTag:any;
   pulledProducts:any;
+
   fetchedHistory:any;
   hashed:any;
   constructor(private _httpService:HttpService) {
@@ -28,7 +36,12 @@ export class HomepageComponent implements OnInit {
     this.showFP = false;
     this.recomTagDict = {};
     this.recomCatDict= {};
+    this.arrTagKey=[];
+    this.arrCatKey=[];
+    this.arrTagList=[];
+    this.arrCatList=[];
     this.pulledProducts= [];
+    this.finalProducts=[];
    }
 
   ngOnInit() {
@@ -41,10 +54,29 @@ export class HomepageComponent implements OnInit {
     this.fetchHistory();
   }
 
+  fetchRecommendedProducts(category, tag){
+        console.log("fetching recommended products...")
+
+        var finalRec = this._httpService.fetchRecommendedProducts(category, tag);
+        finalRec.subscribe(data=>{
+             console.log("data: ", data);
+             if(data['success'] == -1){
+                   console.log("there was a server error!!");
+             }else{
+                   this.finalProducts = data['products'];
+                   this.finalCategory = data['category'];
+                   this.finalTag = data['tag'];
+
+                   console.log("final products: ", this.finalProducts);
+                   console.log("category: ", this.finalCategory);
+                   console.log("tag: ", this.finalTag);
+             }
+        })
+  }
   fetchHistory(){
-        if(localStorage.get(userID)){
+        if(localStorage.getItem('userID')){
              console.log("inside recommended products")
-             var histObs = this._httpService.fetchHistory(localStorage.get(userID));
+             var histObs = this._httpService.fetchHistory(localStorage.getItem('userID'));
              histObs.subscribe(data=>{
                    console.log("data: ", data);
                    if(data['success'] == -1){
@@ -143,34 +175,138 @@ export class HomepageComponent implements OnInit {
   recommendedProducts(){
       console.log("inside recommendedProducts!!");
       this.pulledProducts = this.fetchedHistory;
-      int i = 0; //iterates through products
-      int j = 0; //iterates through tags
+      var i = 0; //iterates through products
+      //var j = 0; //iterates through tags
 
       while(i < this.pulledProducts.length){
 
             //get tags
-            while(this.pulledProducts[i]['tags'][j]){
-                  var tagName = this.pulledProducts[i]['tags'][j];
-                  hashed = this.recommendedHash(tagName);
-                  if(!(hashed in recomTagDict)){
-                        recomTagDict[tagName] = 0;
+            var tagsObs = this.pulledProducts[i]['tags'];
+            var j = 0;
+            while(tagsObs[j]){
+                  //this.hashed = this.recommendedHash(tagsObs[j]);
+                  if(!(tagsObs[j] in this.recomTagDict)){
+                        this.recomTagDict[tagsObs[j]] = 0;
                   }
-                  recomTagDict[tagName]++;
+                  this.recomTagDict[tagsObs[j]]++;
                   j++;
             }
+            // while(this.pulledProducts[i]['tags'][j]){
+            //       var tagName = this.pulledProducts[i]['tags'][j];
+            //       this.hashed = this.recommendedHash(tagName);
+            //       if(!(this.hashed in this.recomTagDict)){
+            //             this.recomTagDict[tagName] = 0;
+            //       }
+            //       this.recomTagDict[tagName]++;
+            //       j++;
+            // }
 
             //get categories
             var catName = this.pulledProducts[i]['category'];
-            hashed = this.recomCatDict[catName] = 0;
-            if(!(hashed in recomCatDict)){
-                  recomCatDict[catName] = 0;
+            //this.hashed = this.recomCatDict[catName] = 0;
+            if(!(catName in this.recomCatDict)){
+                  this.recomCatDict[catName] = 0;
             }
-            recomCatDict[catName]++;
+            this.recomCatDict[catName]++;
 
             i++;
       }
+      //storing tags into array
+      //storing count of each tag into array
+      var count = 0;
+      for(var key in this.recomTagDict){
+            this.arrTagList[count] = this.recomTagDict[key];
+            this.arrTagKey[count]= key;
+            count++;
+      }
+      //storing categories into array
+      //storing count of each category into array
+      count = 0;
+      for(var key in this.recomCatDict){
+            this.arrCatList[count] = this.recomCatDict[key];
+            this.arrCatKey[count] = key;
+            count++;
+      }
+
+      console.log(this.arrTagList);
+      console.log("numItems in arrTagList[]: ", this.arrTagList.length);
+      //console.log(this.arrCatList);
+      console.log("arrTagKey[]: ", this.arrTagKey);
+      //console.log(this.arrTagKey);
+      console.log(this.arrCatList);
+      console.log("numItems in arrCatList[]: ", this.arrCatList.length);
+      console.log("arrCatKey[]: ", this.arrCatKey);
+      console.log("end of recommendedProducts!!");
+
+      //sort tag list and arrTagKey
+      var n = this.arrTagList.length;
+      for(var i = 0; i < n; i++){
+           for(var j = 1; j < n; j++){
+                 if(this.arrTagList[j-1] < this.arrTagList[j]){
+                      var temp = this.arrTagList[j-1];
+                      this.arrTagList[j-1] = this.arrTagList[j];
+                      this.arrTagList[j] = temp;
+
+                      var tempKey = this.arrTagKey[j-1];
+                      this.arrTagKey[j-1] = this.arrTagKey[j];
+                      this.arrTagKey[j] = tempKey;
+                 }
+           }
+      }
+      console.log("NEW TAG---------------------------")
+      console.log(this.arrTagList);
+      console.log("numItems in arrTagList[]: ", this.arrTagList.length);
+      //console.log(this.arrCatList);
+      console.log("arrTagKey[]: ", this.arrTagKey);
+
+
+      //sort arrCatlist and arrCatKey
+      n = this.arrCatList.length;
+      for(i = 0; i < n; i++){
+           for(j = 1; j < n; j++){
+                 if(this.arrCatList[j-1] < this.arrCatList[j]){
+                      var temp = this.arrCatList[j-1];
+                      this.arrCatList[j-1] = this.arrCatList[j];
+                      this.arrCatList[j] = temp;
+
+                      var tempKey = this.arrCatKey[j-1];
+                      this.arrCatKey[j-1] = this.arrCatKey[j];
+                      this.arrCatKey[j] = tempKey;
+                 }
+           }
+      }
+
+      console.log("NEW CATEGORIES--------------------")
+      console.log(this.arrCatList);
+      console.log("numItems in arrCatList[]: ", this.arrCatList.length);
+      console.log("arrCatKey[]: ", this.arrCatKey);
+
+      //server call for pulling products
+
+      console.log(this.arrCatKey[0]);
+      console.log(this.arrTagKey[0]);
+      this.fetchRecommendedProducts(this.arrCatKey[0], this.arrTagKey[0]);
+
 
   }
+
+
+  // bubbleSortArray(arr, key){
+  //       var n = arr.length;
+  //       for(var i in n){
+  //            for(var j in n-1){
+  //                  if(arr[j] > arr[j+1]){
+  //                       var temp = arr[j];
+  //                       arr[j] = arr[j+1];
+  //                       arr[j+1] = temp;
+  //
+  //                       var tempKey = key[j];
+  //                       key[j] = key[j+1];
+  //                       key[j+1] = tempKey;
+  //                  }
+  //            }
+  //       }
+  // }
 
   recommendedHash(name){
        // console.log()
