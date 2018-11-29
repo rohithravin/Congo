@@ -42,8 +42,10 @@ export class CheckoutComponent implements OnInit {
   show_fail:boolean;
   stripe_resp:string;
   show_stream:boolean;
+  totalAfterCongoCredit:number;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
+    this.totalAfterCongoCredit = 0;
     this.show_stream = false;
     this.show_fail = false;
     this.stripe_resp = "";
@@ -116,6 +118,10 @@ export class CheckoutComponent implements OnInit {
           this.CongoCredits = data['userCredits'];
         }else{
           this.CongoCredits = 0;
+        }
+        this.totalAfterCongoCredit = Math.floor((this.total - this.CongoCredits) * 100) / 100;
+        if(this.totalAfterCongoCredit < 0){
+          this.totalAfterCongoCredit = 0;
         }
       });
     
