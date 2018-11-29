@@ -133,7 +133,15 @@ var OrderItemSchema=new mongoose.Schema({
     color:{type:String, required:[true, "Color is required"]},
     quantity:{type:Number, min:1, required:true},
     total:{type:Number, default:0},
-    orderID:{type:String}
+    orderID:{type:String},
+    shipped:{type:Boolean, default:false},
+    merchantLicense:{type:String},
+    street_address:{type:String},
+    city:{type:String},
+    state:{type:String},
+    zip_code:{type:String},
+    country:{type:String, default:"United States"},
+    name:{type:String}
 }, {timestamps:true})
 mongoose.model('OrderItem', OrderItemSchema)
 var OrderItem=mongoose.model('OrderItem')
@@ -278,10 +286,10 @@ app.post('/processMerchantLogin', function(request, response){
 //   var hashedhPW=bcrypt.hashSync(password, NUM_SALTS)
   Merchant.findOne({license:license}, function(error, merchant){
     if(error){
-        response.json({success:0, message:'Invalid credentials'})
+        response.json({success:-1, message:'Server error'})
     }
     else if(merchant==null){
-        response.json({success:0, message:'Invalid credentials'})
+        response.json({success:0, message:'No merchant with this license'})
     }
     else{
         //Found merchant
@@ -298,7 +306,7 @@ app.post('/processMerchantLogin', function(request, response){
                     response.json({success:1, message:'Login successful', name:merchant.name})
                 }
                 else{
-                    response.json({success:0, message:'Invalid credentials'})
+                    response.json({success:0, message:'Invalid password'})
                 }
             }
         })
@@ -847,11 +855,18 @@ app.post('/createOrder', function(request, response){
                                 for(j=0; j<items.length; j++){
                                     var item=items[j]
                                     item.orderID=order._id
+                                    item.merchantLicense=item.product.merchantLicense
+                                    item.street_address=order.street_address
+                                    item.city=order.city
+                                    item.state=order.state
+                                    item.zip_code=order.zip_code
+                                    var name=user.first_name+' '+user.last_name
+                                    item.name=name
                                     var newOrderItem = new OrderItem(item)
                                     newOrderItem.save(function(error){
                                         if(error){
                                             console.log("Unable to save a product")
-                                            return response.json({success:0, message:'Unable to save'})
+                                            return response.json({success:0, message:'Unable to save order Item'})
                                         }
                                     })
                                 }

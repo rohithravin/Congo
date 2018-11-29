@@ -145,6 +145,8 @@ export class AdminMerchantsComponent implements OnInit {
     var d = new Date(date)
     var am = 'AM'
     var hour = d.getUTCHours()
+    var minutes=d.getUTCMinutes()
+    var min=''
     //console.log(d.getUTCHours())
     if(hour === 0){
       hour = 12
@@ -155,7 +157,10 @@ export class AdminMerchantsComponent implements OnInit {
         hour = hour - 12
       }
     }
-    this.date = d.getMonth() + '/' + d.getDate() + '/' + d.getFullYear() + ' ' + hour + ':' + d.getUTCMinutes() + ' ' + am
+    if(minutes<10){
+      min='0'
+    }
+    this.date = d.getMonth() + '/' + d.getDate() + '/' + d.getFullYear() + ' ' + hour + ':' + min + d.getUTCMinutes() + ' ' + am
     return this.date;
   }
 }
