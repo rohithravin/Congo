@@ -41,8 +41,12 @@ export class CheckoutComponent implements OnInit {
   showErr_credits:boolean;
   show_fail:boolean;
   stripe_resp:string;
+  shipping_time:string;
+  show_stream:boolean;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
+    this.show_stream = false;
+    this.shipping_time = "5 business days";
     this.show_fail = false;
     this.stripe_resp = "";
     this.showErr_credits = false;
@@ -85,6 +89,17 @@ export class CheckoutComponent implements OnInit {
 
     this.fetchCart();
     this.fetchUserCredits();
+    this.checkStream();
+  }
+
+  checkStream(){
+    if(localStorage.getItem('stream') == 'true'){
+      this.shipping_time = "2 business days";
+      this.show_stream = true;
+    }else{
+      this.shipping_time = "5 business days";
+      this.show_stream = false;
+    }
   }
 
   fetchUserCredits(){
@@ -137,6 +152,9 @@ export class CheckoutComponent implements OnInit {
 
   getTotal(){
     this.total = this.subtotal + this.tax + this.shipping;
+    if(localStorage.getItem('stream') == 'true'){
+      this.total = this.total - (this.total * 0.1);
+    }
     this.total = Math.floor(this.total * 100) / 100;
     return this.total;
     }
