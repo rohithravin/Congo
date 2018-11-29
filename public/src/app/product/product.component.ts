@@ -22,8 +22,16 @@ export class ProductComponent implements OnInit {
   reviews:any;
   show_noReviews: boolean;
   first_name :string;
+  showErr_color:boolean;
+  selectedColor:string;
+  showErr_size:boolean;
+  selectedSize:string;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
+    this.selectedColor = "";
+    this.selectedSize = "";
+    this.showErr_size = false;
+    this.showErr_color = false;
     this.productID = '';
     this.product={};
     this.count = 1;
@@ -148,14 +156,27 @@ export class ProductComponent implements OnInit {
       this._router.navigate(['login'])
       return;
     }
-    var productDetails={product:this.product, size:this.size, color:this.color, quantity:this.count}
-    var addCartObs=this._httpService.addToCart(productDetails, localStorage.getItem('userID'))
-    addCartObs.subscribe(data=>{
-      console.log(data)
-      if(data['success']==1){
-        this._router.navigate(['cart'])
-      }
-    })
+    this.showErr_color = false;
+    this.showErr_size = false;
+    console.log("color",this.selectedColor);
+    console.log("size",this.selectedSize);
+    if(this.selectedColor == ""){
+      this.showErr_color = true;
+    }
+    if(this.selectedSize == ""){
+      this.showErr_size = true;
+    }
+    if(!this.showErr_color && !this.showErr_size){
+      var productDetails={product:this.product, size:this.selectedSize, color:this.selectedColor, quantity:this.count}
+      var addCartObs=this._httpService.addToCart(productDetails, localStorage.getItem('userID'))
+      addCartObs.subscribe(data=>{
+        console.log(data)
+        if(data['success']==1){
+          this._router.navigate(['cart'])
+        }
+      })
+    }
+
   }
 
 }
