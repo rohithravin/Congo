@@ -50,7 +50,7 @@ var MerchantSchema = new mongoose.Schema({
     email:{type:String, required:[true, "Email is required"]},
     url:{type:String, required:[true, "URL is required"], minlength:10},
     // user:UserSchema,
-    userID:{type:String, required:[true, "UserID is required"]},
+    userID:{type:String, /*required:[true, "UserID is required"]*/},
     description:{type:String, required:[true, "Description is required"]},
     products:["ProductSchema"],
     bankAccountNumber:{type:String, required:[true, "Bank account is required"]},
@@ -1446,14 +1446,14 @@ app.get('/getActiveMerchants', function(request, response){
             return response.json({success:-1, message:'Server error'})
         }
         else{
-            var returnMerchants=[]
-            for(merchant in merchants){
-                var tempMerchant={name:'', _id:''}
-                tempMerchant.name=merchant.name
-                tempMerchant._id=merchant._id;
-                returnMerchants.push(tempMerchant)
-            }
-            return response.json({success:1, message:'Successfully fetched all merchants', merchants:returnMerchants})
+            // var returnMerchants=[]
+            // for(merchant in merchants){
+            //     var tempMerchant={name:'', _id:''}
+            //     tempMerchant.name=merchant.name
+            //     tempMerchant._id=merchant._id;
+            //     returnMerchants.push(tempMerchant)
+            // }
+            return response.json({success:1, message:'Successfully fetched all merchants', merchants:merchants})
         }
     })
 })
@@ -1477,6 +1477,7 @@ app.get('/getPendingMerchants', function(request, response){
 app.post('/approveMerchant', function(request, response){
     var userID=request.body['userID']
     var merchantID=request.body['merchantID']
+    console.log("userID:",userID, "merchantID", merchantID)
     User.findOne({_id:userID}, function(error, user){
         if(error){
             return response.json({success:-1, message:'Server error'})
@@ -1500,10 +1501,12 @@ app.post('/approveMerchant', function(request, response){
                     return response.json({success:0, message:'This merchant has already been approved'})
                 }
                 else{
+                    console.log("Approval Merchant Before:", merchant)
                     merchant.approved=true;
+                    console.log("Approval Merchant After:", merchant)
                     merchant.save(function(error){
                         if(error){
-                            return response.json({success:0, message:'Unable to approve this merchant'})
+                            return response.json({success:0, message:'Unable to approve this merchant', error:error})
                         }
                         else{
                             return response.json({success:1, message:'Successfully approved this merchant', merchantName:merchant.name, approved:merchant.approved})

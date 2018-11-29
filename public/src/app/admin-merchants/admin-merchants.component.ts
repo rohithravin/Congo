@@ -35,7 +35,7 @@ export class AdminMerchantsComponent implements OnInit {
   fetchPending(){
     var p = this._httpService.getPendingMerchants()
     p.subscribe(data=>{
-      console.log("Response:", data)
+      console.log("Pending Response:", data)
       // console.log("inside ngOnInit")
       if(data['success'] == -1){
         // this.errMessage = "Server error";
@@ -43,20 +43,10 @@ export class AdminMerchantsComponent implements OnInit {
         return;
       }
       else if(data['success'] == 1){
-          console.log("backend1");
           this.pending = data['merchants'];
-          //No need to do this filter
-          // if(this.merchants.length > 0){
-          //   this.pending = data['merchants']['approved'].filter('false');
-          // }
-          //Add some value index into here
-          //this.pending.index = this.counter;
-          //this.counter++;
           for(var i=0;i<this.pending.length;i++){
             this.pending[i]['index'] = i;
           }
-          //console.log(this.merchants);
-          console.log(this.pending);
       }
     })
   }
@@ -64,22 +54,16 @@ export class AdminMerchantsComponent implements OnInit {
   fetchActive(){
     var a = this._httpService.getActiveMerchants()
     a.subscribe(data=>{
-      console.log("Response:", data)
+      console.log("Active Response:", data)
       if(data['success'] == -1){
         console.log("server error");
         return;
       }
       else if(data['success'] == 1){
-        console.log("backend2");
-        this.merchants = data['merchants'];
-        //this.merchants = data['merchants'];
-        // if(this.merchants.length > 0){
-        //   this.active = data['merchants']['approved'].filter('true');
-        // }
-        this.merchants.index = this.counter;
-        this.counter++;
-        console.log(this.merchants);
-        console.log(this.active);
+        this.active = data['merchants'];
+        for(var i=0;i<this.active.length;i++){
+          this.active[i]['index'] = i;
+        }
       }
     })
   }
@@ -89,7 +73,7 @@ export class AdminMerchantsComponent implements OnInit {
     //Get merchant id from parameter
     var approve = this._httpService.approveMerchant(localStorage.getItem('userID'), merchant_id)
     approve.subscribe(data=>{
-      console.log("inside approve merchant");
+      console.log("Approve Response:", data);
       if(data['success'] == -1){
         console.log("server error");
         return;
@@ -99,14 +83,15 @@ export class AdminMerchantsComponent implements OnInit {
         return;
       }
       else if(data['success'] == 1){
-        //Get rid of this, remove from pending list, and move to approved list
-        //this.merchants[this.counter].approved = true;
         var temp = this.pending[merchant_index];
         this.pending.splice(merchant_index, 1);
+        for(var i=0;i<this.pending.length;i++){
+          this.pending[i]['index'] = i;
+        }
         this.active.push(temp);
+        this.active[this.active.length-1]['index']=this.active.length-1
         console.log("Merchant successfully approved");
       }
-      //console.log(this.merchants);
     })
   }
 
@@ -124,18 +109,12 @@ export class AdminMerchantsComponent implements OnInit {
         return;
       }
       else if(data['success'] == 1){
-        //for(var i=this.merchants.length - 1; i >= 0; --i){
-          //if(this.merchants[i].userID == localStorage.getItem('userID')){
-        //var temp = this.pending[merchant_index];
         this.pending.splice(merchant_index, 1);
-        //this.pending.push(temp);
-            //break;
-          //}
-        //}
+        for(var i=0;i<this.pending.length;i++){
+          this.pending[i]['index'] = i;
+        }
         console.log("Merchant successfully rejected");
-        //this.ngOnInit();
       }
-      //this.merchants['approved'] = false;
     })
   }
 
@@ -143,18 +122,21 @@ export class AdminMerchantsComponent implements OnInit {
     var revoke = this._httpService.revokeMerchant(localStorage.getItem('userID'), merchant_id)
     revoke.subscribe(data=>{
       console.log("inside revoke merchant")
-    })
-    //TODO: remove merchant from array
-    //for(var i=this.merchants.length - 1; i >= 0; --i){
-      //if(this.merchants[i].userID == localStorage.getItem('userID')){
-        var temp = this.active[merchant_index];
+      if(data['success']==-1){
+        console.log("server error")
+        return
+      }
+      else if(data['success']==0){
+        console.log("Unable to revoke merchant")
+      }
+      else{
         this.active.splice(merchant_index, 1);
-        this.pending.push(temp);
-        //break;
-      //}
-    //}
+        for(var i=0; i<this.active.length; i++){
+          this.active[i]['index']=i
+        }
+      }
+    })
     console.log("Merchant successfully revoked");
-    //this.ngOnInit();
   }
 
   formatDate(date){

@@ -6,7 +6,7 @@
             <p class='boxTitle'>Pending</p>
             <input type='text' class='search' placeholder='search'>
             <div class='pendingMerchants'>
-                <div class='pendingMerchant' *ngFor = "let merchant of merchants">
+                <div class='pendingMerchant' *ngFor = "let merchant of pending">
                 <!-- <div class='pendingMerchant' *ngFor = "let merchant of pending"> -->
                     <p class='merchantName'>{{merchant.name}}</p>
                     <p class='merchantEmail'>{{merchant.email}}</p>
@@ -24,7 +24,7 @@
             <p class='boxTitle'>Active</p>
             <input type='text' class='search' placeholder='search'>
             <div class='approvedMerchants'>
-                <div class='approvedMerchant' *ngFor = "let merchant of merchants">
+                <div class='approvedMerchant' *ngFor = "let merchant of active">
                 <!-- <div class='approvedMerchant' *ngFor = "let merchant of active"> -->
                     <div class='approvedMerchant'>
                         <p class='merchantName'>{{merchant.name}}</p>
