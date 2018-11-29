@@ -997,96 +997,14 @@ app.get('/testHash', function(request, response){
     response.json({license:license})
 })
 
-app.get('/getFeaturedBB', function(request, response){
-    console.log("Recieving request")
-    var bigBannerProducts=[];
-    Product.find({promotionType:'BB'}, function(error, products){
+app.get('/getFeatured',function(request,response){
+    var promoteProducts = [];
+    Product.find({promoted: true}, function(error,products){
         if(error){
-            return response.json({success:-1, message:'Server error'})
-        }
-        else{
-            var pickedIndeces=[];
-            for(var i=0; i<5; i++){
-                var toAdd=Math.floor(Math.random()*products.length)
-                var redo=false;
-                for(var j=0; j<pickedIndeces.length; j++){
-                    if(pickedIndeces[j]==toAdd){
-                        redo=true;
-                        break;
-                    }
-                }
-                if(redo==true){
-                    i--;
-                }
-                else{
-                    pickedIndeces[pickedIndeces.length]=toAdd;
-                }
-            }
-            for(var i=0; i<5; i++){
-                var thisIndex=pickedIndeces[i]
-                bigBannerProducts.push(products[thisIndex])
-            }
-            console.log("Reaching end of fetch")
-            return response.json({success:1, message:'Successfully fetched BigBannerProducts.', products:bigBannerProducts})
-        }
-    })
-})
-
-app.get('/getFeaturedSB', function(request,response){
-    var smallBannerProducts = [];
-    Product.find({promotionType:'SB'}, function(error, products){
-        if(error){
-            return response.json({success:-1, messag:'Server error'})
-        }
-        else{
-            var _numProducts = 2;
-            var _pickedIndexes = [];
-            if (products.length != 0){
-                for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
-                for(var i =0; i < _numProducts; i++){
-                    do{
-                        var randIndex = Math.floor(Math.random() * (products.length));
-                    } while (_pickedIndexes[randIndex] != 0) {
-                        _pickedIndexes[randIndex] = 1;
-                        smallBannerProducts[i] = products[randIndex];
-                    }
-                    if(i == _numProducts-1){
-                        return response.json({success:1,message:'Fetched small banners',products:smallBannerProducts});
-                    }
-                }
-                
-            }else{
-                return response.json({success:0,message:'No products'});
-            }
-        }
-    })
-})
-
-app.get('/getFeaturedFP',function(request,response){
-    var featuredProducts = [];
-    Product.find({promotionType:'FP'}, function(error,products){
-        if(error){
-            return response.json({success:-1, message:'Server error'})
-        }
-        else{
-            var _numProducts = 6;
-            var _pickedIndexes = [];
-            if (products.length != 0) {
-                for (var i = 0; i < products.length; i++) { _pickedIndexes[i] = 0; }
-                for (var i = 0; i < _numProducts; i++) {
-                    do {
-                        var randIndex = Math.floor(Math.random() * (products.length));
-                    } while (_pickedIndexes[randIndex] != 0) {
-                        _pickedIndexes[randIndex] = 1;
-                        featuredProducts[i] = products[randIndex];
-                    }
-                    if(i == _numProducts-1){
-                        return response.json({success:1,message:'Fetched FP',products:featuredProducts});
-                    }
-                }
-            }else{
-                return response.json({success:0,message:'No products'});
-            }
+            return response.json({succes:-1,message:'Server error'});
+        }else{
+            console.log("Promo prods ",products);
+            return response.json({success:1,message:'Successfully got promoted products',products:products});
         }
     })
 })
@@ -1161,89 +1079,7 @@ app.get('/getFeaturedZZZ', function(request, response){
     })
 })
 
-app.get('/getFeaturedZZ3', function(request, response){
-    var bigBannerProducts = [];
-    var smallBannerProducts = [];
-    var featuredProducts = [];
-    var waitOne=false;
-    Product.find({promotionType:'BB'}, function(error, products){
-        if(error){
-           return response.json({success:-1, message:'Server error'})
-        }
-        else{
-            //Fetch 5 random indeces of products
-            //Append to big banner products
-            var _numProducts = 5;
-            var _pickedIndexes = [];
-            for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
-            if (products.length != 0) {
-                for (var i = 0; i < _numProducts; i++) {
-                    do {
-                        var randIndex = Math.floor(Math.random() * (products.length));
-                    } while (_pickedIndexes[randIndex] != 0) {
-                        _pickedIndexes[randIndex] = 1;
-                        bigBannerProducts[i] = products[randIndex];
-                    }
-                }
-            }
-        }
-        waitOne=true;
-    })
-    while(waitOne==false){
 
-    }
-    var waitTwo=false;
-    Product.find({promotionType:'SB'}, function(error, products){
-        if(error){
-           return response.json({success:-1, message:'Server error'});
-        }
-        else{
-            //Get 2 random indeces, make sure no repeats
-            //Append to small Banner products
-            var _numProducts = 2;
-            var _pickedIndexes = [];
-            if (products.length != 0){
-                for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
-                for(var i =0; i < _numProducts; i++){
-                    do{
-                        var randIndex = Math.floor(Math.random() * (products.length));
-                    } while (_pickedIndexes[randIndex] != 0) {
-                        _pickedIndexes[randIndex] = 1;
-                        smallBannerProducts[i] = products[randIndex];
-                    }
-                }
-            }
-        }
-        waitTwo=True;
-    })
-    while(waitTwo==false){
-
-    }
-    Product.find({promotionType:'FP'}, function(error,products){
-        if(error){
-          return  response.json({success:-1, message:'Server error'});
-
-        }
-        else{
-            //get 6 random indeces, make sure no repeats
-            //append to featured products
-            var _numProducts = 6;
-            var _pickedIndexes = [];
-            if (products.length != 0) {
-                for (var i = 0; i < products.length; i++) { _pickedIndexes[i] = 0; }
-                for (var i = 0; i < _numProducts; i++) {
-                    do {
-                        var randIndex = Math.floor(Math.random() * (products.length));
-                    } while (_pickedIndexes[randIndex] != 0) {
-                        _pickedIndexes[randIndex] = 1;
-                        featuredProducts[i] = products[randIndex];
-                    }
-                }
-            }
-          return response.json({success: 1, message: "Successfully fetched all featured products", bigBanner: bigBannerProducts, smallBanner: smallBannerProducts, featuredProducts: featuredProducts});
-        }
-    })
-})
 
 app.post('/processNewReview', function(request, response){
     //ProductID, userID, rating, review
