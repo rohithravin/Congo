@@ -10,6 +10,7 @@ export class HttpService {
 
   }
 
+
   fetchFeatured(){
     return this._http.get('/getFeatured')
   }
@@ -19,6 +20,12 @@ export class HttpService {
   fetchProductReviews(productID, userID, checkUser){
     return this._http.post(`/getReviews/${productID}`, {userID:userID, checkUser:checkUser});
   }
+
+  updateProductSold(productID){
+    return this._http.post('/updateProductSold',{productID:productID});
+  }
+
+
   fetchSearchedProducts(searchQuery){
     return this._http.post('/fetchSearchedProducts', {searchQuery:searchQuery})
   }

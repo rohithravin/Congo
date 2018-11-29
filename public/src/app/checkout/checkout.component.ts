@@ -285,6 +285,15 @@ export class CheckoutComponent implements OnInit {
             orderObs.subscribe(orderdata=>{
               console.log("Response:", orderdata)
               if(orderdata['success']==1){
+                console.log("CART: ",this.cart);
+                this.cart.forEach(element => {
+                  console.log("el ",element);
+                  console.log("el id ", element['_id']);
+                  var upObs=this._httpService.updateProductSold(element['_id']);
+                  upObs.subscribe(data=>{
+                    console.log("UPdate ",data);
+                  })
+                });
                 //route to the confirmation page
                   localStorage.setItem('_COID',orderdata['order']['tempID']);
                 var total = (orderdata['order']['total']).toString();

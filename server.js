@@ -208,6 +208,30 @@ app.get('/getProduct/:productID', function(request, response){
     })
 })
 
+app.post('/updateProductSold',function(request,response){
+    var productID=request.body['productID'];
+    console.log("prod id: ",productID);
+    Product.findOne({_id:productID},function(error,product){
+        if(error){
+            return response.json({success:0,message:'Server Error'});
+        }else{
+            if(product==null){
+                return response.json({success:0,message:'Product does not exist'});
+            }else{
+                //change the ish
+                product.num_sold = (product.num_sold + 1);
+                product.save(function(error){
+                    if(error){
+                        return response.json({succes:0,message:'Cant save product'});
+                    }else{
+                        return response.json({success:1,message:'Product bought updated'});
+                    }
+                })
+            }
+        }
+    })
+})
+
 app.post('/fetchSearchedProductsWithCategory', function(request, response){
     var searchQuery=request.body['searchQuery']
     var category=request.body['category']
