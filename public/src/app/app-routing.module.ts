@@ -57,7 +57,7 @@ const routes: Routes = [
   {path: 'stream/register', component:StreamRegistrationComponent},
   {path: 'admin/merchants', component: AdminMerchantsComponent},
   {path: 'giftcard/redeem', component: GiftCardVerifyComponent},
-  {path: 'user-order-history/:orderid', component: UserOrderHistoryComponent},
+  {path: 'order/:orderid', component: UserOrderHistoryComponent},
   {path: 'merchant/orders', component: MerchantOrdersComponent},
   {path: 'giftcard/confirmation', component: GiftCardConfirmationComponent},
   {path: 'merchant-stats', component: MerchantStatsComponent},
