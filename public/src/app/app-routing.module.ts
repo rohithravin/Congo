@@ -27,10 +27,10 @@ import { UserOrderHistoryComponent } from './user-order-history/user-order-histo
 import { MerchantOrdersComponent } from './merchant-orders/merchant-orders.component';
 import { MerchantStatsComponent } from './merchant-stats/merchant-stats.component';
 import { AdminStatsComponent } from './admin-stats/admin-stats.component';
-
 import { GiftCardComponent } from './gift-card/gift-card.component';
 import { GiftCardVerifyComponent } from './gift-card-verify/gift-card-verify.component';
 import { GiftCardConfirmationComponent } from './gift-card-confirmation/gift-card-confirmation.component';
+import { HelpDeskComponent } from './help-desk/help-desk.component';
 
 const routes: Routes = [
   {path:'', component:HomepageComponent},
@@ -61,7 +61,8 @@ const routes: Routes = [
   {path: 'merchant/orders', component: MerchantOrdersComponent},
   {path: 'giftcard/confirmation', component: GiftCardConfirmationComponent},
   {path: 'merchant/stats', component: MerchantStatsComponent},
-  {path: 'admin/stats', component: AdminStatsComponent}
+  {path: 'admin/stats', component: AdminStatsComponent},
+  {path: 'help-desk', component: HelpDeskComponent}
    //Path any, = home
 ];
 
