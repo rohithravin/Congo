@@ -13,6 +13,8 @@ export class HomepageComponent implements OnInit {
   showBB:boolean;
   showSB:boolean;
   showFP:boolean;
+  sb1Image:string
+  sb2Image:string
   constructor(private _httpService:HttpService) {
     this.bigBannerPromo = [];
     this.smallBannerPromo = [];
@@ -20,6 +22,8 @@ export class HomepageComponent implements OnInit {
     this.showBB = false;
     this.showSB = false;
     this.showFP = false;
+    this.sb1Image=''
+    this.sb2Image=''
    }
 
   ngOnInit() {
@@ -98,6 +102,9 @@ export class HomepageComponent implements OnInit {
         }
         console.log("FP ",this.featuredProductPromo);
         console.log("SB ",this.smallBannerPromo);
+        console.log("promotionImage for SB0:",this.smallBannerPromo[0]['promotionImage'])
+        this.sb1Image=this.smallBannerPromo[0]['promotionImage'];
+        this.sb2Image=this.smallBannerPromo[1]['promotionImage'];
         console.log("BB ",this.bigBannerPromo);
       }else{
         //fail
@@ -129,7 +136,6 @@ export class HomepageComponent implements OnInit {
           }else if(this.featuredProductPromo.length == 0){
             this.showFP = false;
           }
-
         }else{
           this.showBB = false;
           this.showFP = false;

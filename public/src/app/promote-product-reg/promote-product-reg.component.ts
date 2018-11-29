@@ -180,11 +180,12 @@ export class PromoteProductRegComponent implements OnInit {
         this.showErr_date = true;
       }else{
         var date = this.selectedCCDate.toString();
-        if(date.length != 2){
-          this.showErr_date = true;
-        }else{
-          this.showErr_date = false;
-        }
+        this.showErr_date=false
+        // if(date.length != 2){
+        //   this.showErr_date = true;
+        // }else{
+        //   this.showErr_date = false;
+        // }
       }
 
       if(this.selectedCCYear == null){
