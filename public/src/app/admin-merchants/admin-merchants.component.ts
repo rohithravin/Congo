@@ -43,6 +43,9 @@ export class AdminMerchantsComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(localStorage.getItem('adminLoggedIn')==null || localStorage.getItem('adminLoggedIn')=='false'){
+      return this._router.navigate(['/admin/login'])
+    }
     this.fetchPending();
     this.fetchActive();
   }

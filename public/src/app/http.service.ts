@@ -170,4 +170,10 @@ export class HttpService {
   getMerchantProducts(license){
     return this._http.post('/getProductsForMerchant', {license:license})
   }
+  getVisits(){
+    return this._http.get('/getVisits')
+  }
+  getAllOrders(userID){
+    return this._http.post('/getAllOrders', {userID:userID})
+  }
 }

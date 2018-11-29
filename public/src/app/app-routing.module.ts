@@ -52,8 +52,8 @@ const routes: Routes = [
   {path: 'merchantadd', component: MerchantaddComponent},
   {path: 'orders', component: PurchaseHistoryComponent},
   {path: 'gift-card', component: GiftCardComponent},
-  {path: 'admin-login', component: AdminLoginComponent},
-  {path: 'admin-portal', component: AdminPortalComponent},
+  {path: 'admin/login', component: AdminLoginComponent},
+  {path: 'admin', component: AdminPortalComponent},
   {path: 'stream/register', component:StreamRegistrationComponent},
   {path: 'admin/merchants', component: AdminMerchantsComponent},
   {path: 'giftcard/redeem', component: GiftCardVerifyComponent},
@@ -61,7 +61,7 @@ const routes: Routes = [
   {path: 'merchant/orders', component: MerchantOrdersComponent},
   {path: 'giftcard/confirmation', component: GiftCardConfirmationComponent},
   {path: 'merchant/stats', component: MerchantStatsComponent},
-  {path: 'admin-stats', component: AdminStatsComponent}
+  {path: 'admin/stats', component: AdminStatsComponent}
    //Path any, = home
 ];
 

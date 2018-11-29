@@ -29,6 +29,13 @@ db.settings(settings);
 
 // Mongoose DB
 mongoose.connect('mongodb://localhost/CongoDB')
+
+var SiteSchema= new mongoose.Schema({
+    visits:{type:Number, default:0}
+})
+mongoose.model('Site', SiteSchema)
+var Site=mongoose.model('Site')
+
 var UserSchema = new mongoose.Schema({
     first_name:{type:String, required:[true, "First name is required."], minlength:2},
     last_name:{type:String, required:[true, "Last name is required"], minlength:2},
@@ -1003,7 +1010,7 @@ app.get('/getFeatured',function(request,response){
         if(error){
             return response.json({succes:-1,message:'Server error'});
         }else{
-            console.log("Promo prods ",products);
+            // console.log("Promo prods ",products);
             return response.json({success:1,message:'Successfully got promoted products',products:products});
         }
     })
@@ -1547,6 +1554,41 @@ app.post('/getProductsForMerchant', function(request, response){
     })
 
 })
+app.get('/getVisits', function(request, response){
+    Site.find({}, function(error, sites){
+        if(sites.length==0){
+            return response.json({success:0, message:'No site exists yet'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully got site visits', visits:sites[0].visits})
+        }
+    })
+})
+app.post('/getAllOrders',function(request, response){
+    var userID=request.body['userID']
+    User.findOne({_id:userID}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'No user exists'})
+        }
+        else{
+            if(user.user_level!=9){
+                return response.json({success:0, message:'This user is not an admin'})
+            }
+            //User is an admin
+            Order.find({}, function(error, orders){
+                if(error){
+                    return response.json({success:-1, message:'Failed when fetching all orders'})
+                }
+                else{
+                    return response.json({success:1, message:'Successfully fetched all orders', orders:orders})
+                }
+            })
+        }
+    })
+})
 
 // Dummy functions delete when going live
 app.post('/makeAdmin', function(request, response){
@@ -1567,6 +1609,26 @@ app.post('/makeAdmin', function(request, response){
 //End of dummy functions
 
 app.all('*', (request, response, next)=>{
+    Site.find({}, function(error, sites){
+        if(sites.length==0){
+            var newSite=new Site({visits:1});
+            newSite.save(function(error){
+                if(error){
+                    console.log('Error creating new site stats')
+                }
+            })
+        }
+        else{
+            //found existing site
+            sites[0].visits+=1
+            sites[0].save(function(error){
+                if(error){
+                    console.log('Unable to update site visit count')
+                }
+            })
+        }
+
+    })
     response.sendFile(path.resolve('./public/dist/public/index.html'))
 })
 
