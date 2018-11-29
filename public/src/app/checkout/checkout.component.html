@@ -95,7 +95,7 @@
                                         </div>
 
                                         <div class="col-5 pull-right">
-                                            <div class="form-group"><label for="cardCVC">CV Code</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]= 'cvv_code' class="form-control" type="number" required="" placeholder="CVC" id="cardCVC"></div>
+                                            <div class="form-group"><label for="cardCVC">CVV Code</label><input [ngModelOptions]="{standalone: true}" [(ngModel)]= 'cvv_code' class="form-control" type="number" required="" placeholder="CVC" id="cardCVC"></div>
                                             <div class="row" *ngIf='showErr_cvvCode'>
                                                     <p class="red">Enter cvv number.</p>
                                             </div>
@@ -172,6 +172,19 @@
                                 <p class="text-right" style="color: #d81e05;">${{total}}</p>
                             </div>
                         </div>
+                        <div *ngIf="show_stream" class="row">
+                            <div class="col">
+                                <p style="color:green">Stream Discount Active!</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p>Congo Credits:</p>
+                            </div>
+                            <div class="col">
+                                <p class="text-right">${{CongoCredits}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 10px;">
@@ -194,7 +207,15 @@
                 <div class="row " style="margin-top: 50px;margin-bottom: 5px;">
                     <div class="col" (click)="submitBilling()" style="padding-left: 0px;"><button class="btn btn-primary active btn-lg justify-content-center align-items-center align-content-center" type="button" style="width: 198px;background-color: #aa8e0a;margin-left: 70px;padding-left: 0px;" >Place Order</button></div>
                 </div>
+                <div class="row " style="margin-top: 20px;margin-bottom: 5px;">   
+                    <div class="col" (click)="submitCongoCredit()" style="padding-left: 0px;"><button class="btn btn-primary active btn-lg justify-content-center align-items-center align-content-center" type="button" style="width: 198px;background-color: #aa8e0a;margin-left: 70px;padding-left: 0px;" >Use Congo Credit</button></div>
+                    <p *ngIf="showErr_credits" align="center" class="red">Insufficient Congo Credits.</p>
+                </div>
             </div>
         </div>
+        <div *ngIf=show_fail class="alert">
+            <span class="closebtn" (click)="show_fail = false">&times;</span>
+                <strong>{{stripe_resp}}</strong> 
+          </div>
     </div>
 </section>

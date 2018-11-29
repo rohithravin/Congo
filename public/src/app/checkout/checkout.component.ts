@@ -37,8 +37,20 @@ export class CheckoutComponent implements OnInit {
   showErr_date:boolean;
   selectedCCDate:string;
   selectedCCYear:string;
+  CongoCredits:number;
+  showErr_credits:boolean;
+  show_fail:boolean;
+  stripe_resp:string;
+  shipping_time:string;
+  show_stream:boolean;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
+    this.show_stream = false;
+    this.shipping_time = "5 business days";
+    this.show_fail = false;
+    this.stripe_resp = "";
+    this.showErr_credits = false;
+    this.CongoCredits = 0;
     this.selectedCCDate = "";
     this.selectedCCYear = "";
     this.showErr_year = false;
@@ -76,12 +88,40 @@ export class CheckoutComponent implements OnInit {
   ngOnInit() {
 
     this.fetchCart();
+    this.fetchUserCredits();
+    this.checkStream();
   }
 
+  checkStream(){
+    if(localStorage.getItem('stream') == 'true'){
+      this.shipping_time = "2 business days";
+      this.show_stream = true;
+    }else{
+      this.shipping_time = "5 business days";
+      this.show_stream = false;
+    }
+  }
+
+  fetchUserCredits(){
+    console.log("getting user credits");
+    if(localStorage.getItem('loggedIn')=='false'){
+      this._router.navigate(['/login'])
+    }
+      var creditObs = this._httpService.fetchUserCredits(this.userID);
+      creditObs.subscribe(data=>{
+        console.log(data);
+        if(data['success'] == 1){
+          this.CongoCredits = data['userCredits'];
+        }else{
+          this.CongoCredits = 0;
+        }
+      });
+    
+  }
 
   fetchCart(){
     if(localStorage.getItem('loggedIn')=='false'){
-      this._router.navigate(['login'])
+      this._router.navigate(['/login'])
     }
     console.log(this.userID)
     var cartObs=this._httpService.fetchCart(this.userID)
@@ -112,6 +152,9 @@ export class CheckoutComponent implements OnInit {
 
   getTotal(){
     this.total = this.subtotal + this.tax + this.shipping;
+    if(localStorage.getItem('stream') == 'true'){
+      this.total = this.total - (this.total * 0.1);
+    }
     this.total = Math.floor(this.total * 100) / 100;
     return this.total;
     }
@@ -144,8 +187,8 @@ export class CheckoutComponent implements OnInit {
     }else{
     this.showErr_fullname = false;
     }
-   
-   
+
+
    if (this.address_lineone.length < 5){
     this.showErr_addr1 = true;
    }else{
@@ -188,11 +231,11 @@ export class CheckoutComponent implements OnInit {
     this.showErr_state = false;
   }
 
-  
+
     if(this.cc_number == null) {
       this.showErr_ccNumber = true;
     }else{
-     
+
       this.str_cc_number = this.cc_number.toString();
       if(this.str_cc_number.length < 16){
         this.showErr_ccNumber = true;
@@ -204,7 +247,7 @@ export class CheckoutComponent implements OnInit {
     if(this.cvv_code == null){
       this.showErr_cvvCode = true;
     }else {
-      
+
       this.str_cvv_code = this.cvv_code.toString();
       if(this.str_cvv_code.length < 3 || this.str_cvv_code.length > 4){
         this.showErr_cvvCode = true;
@@ -214,18 +257,18 @@ export class CheckoutComponent implements OnInit {
     }
 
 
-   
-    if(this.phone_num.length != 10  || '0123456789'.indexOf(this.phone_num) !== -1){
-      this.showErr_phoneNumber = true;
+
+    if(this.phone_num.length != 10 ){
+      //this.showErr_phoneNumber = true;
     }else{
       this.showErr_phoneNumber = false;
     }
 
 
-    
+
     if(this.email.match(/^\S+@\S+\.\S/) == null){
       // if(this.email.match())
-  
+
       this.showErr_email = true;
     }else{
       this.showErr_email = false;
@@ -233,20 +276,103 @@ export class CheckoutComponent implements OnInit {
 
     if( !this.showErr_addr1 && !this.showErr_city  && !this.showErr_fullname && !this.showErr_state ){
         console.log("shipping info");
-        var tempZip='47906'
-        var orderObs=this._httpService.createOrder(localStorage.getItem('userID'), this.address_lineone, this.city, this.state, tempZip, this.shipping, this.tax)
-        orderObs.subscribe(data=>{
-          console.log("Response:", data)
-          if(data['success']==1){
-            this._router.navigate([''])
+        var tempZip='47906';
+
+        var stripeObs = this._httpService.stripePurchase(this.cc_number,this.selectedCCDate,this.selectedCCYear,this.str_cvv_code,this.total*100);
+        stripeObs.subscribe(data=>{
+          if(data['success'] == 1){
+            var orderObs=this._httpService.createOrder(localStorage.getItem('userID'), this.address_lineone, this.city, this.state, tempZip, this.shipping, this.tax)
+            orderObs.subscribe(orderdata=>{
+              console.log("Response:", orderdata)
+              if(orderdata['success']==1){
+                //route to the confirmation page
+                  localStorage.setItem('_COID',orderdata['order']['tempID']);
+                var total = (orderdata['order']['total']).toString();
+                localStorage.setItem('_t',total);
+                var shipping = (orderdata['order']['shipping']).toString();
+                localStorage.setItem('_s',shipping);
+                var subt = (orderdata['order']['total'] - orderdata['order']['shipping']).toString();
+                localStorage.setItem('_st',subt);
+                this._router.navigate(['checkout-conf']);
+              }else{
+                //server error
+              }
+            })
+          }else{
+            //stripe error
+            this.show_fail = true;
+            this.stripe_resp = data['display_message'];
           }
         })
+
+
+       
         // this._httpService.purchaseInformation(this.full_name,this.address_lineone,this.city,this.state);
 
       }
 
   }
 
+  submitCongoCredit(){
+    if (this.full_name.length < 2){
+      this.showErr_fullname = true;
+    }else{
+    this.showErr_fullname = false;
+    }
+
+   if (this.address_lineone.length < 5){
+    this.showErr_addr1 = true;
+   }else{
+     this.showErr_addr1 = false;
+   }
+
+   if (this.city.length < 4){
+    this.showErr_city = true;
+   }else{
+     this.showErr_city = false;
+   }
+
+
+  if (this.state.length < 2){
+    this.showErr_state = true;
+  }else{
+    this.showErr_state = false;
+  }
+
+    if(this.total > this.CongoCredits){
+      //insufficient funds for purchase
+      this.showErr_credits = true;
+    }else{
+      this.showErr_credits = false;
+    }
+
+    if(!this.showErr_addr1 && !this.showErr_city && !this.showErr_fullname && !this.showErr_credits && !this.showErr_state){
+      var tempZip='47906';
+      var congoCredObs = this._httpService.PurchaseWithCongoCredit(this.userID,this.total);
+      congoCredObs.subscribe(data=>{
+        console.log(data);
+        if(data['success']==1){
+          var orderObs=this._httpService.createOrder(this.userID,this.address_lineone,this.city,this.state,tempZip,this.shipping,this.tax);
+          orderObs.subscribe(data=>{
+            console.log("order resp",data);
+            if(data['success']==1){
+              localStorage.setItem('_COID',data['order']['tempID']);
+              var total = (data['order']['total']).toString();
+              localStorage.setItem('_t',total);
+              var shipping = (data['order']['shipping']).toString();
+              localStorage.setItem('_s',shipping);
+              var subt = (data['order']['total'] - data['order']['shipping']).toString();
+              localStorage.setItem('_st',subt);
+              this._router.navigate(['checkout-conf']);
+            }else{
+              //failure
+            }
+          })
+        }else{
+          this.showErr_credits = true;
+        }
+      })
+    }
+  }
+
 }
-
-

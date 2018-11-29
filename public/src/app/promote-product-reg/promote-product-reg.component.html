@@ -129,4 +129,12 @@
           </div>
       </div>
   </div>
+  <div *ngIf=show_succ class="alert_success">
+    <span class="closebtn" (click)="show_succ = false">&times;</span>
+        <strong>{{stripe_resp}}</strong> 
+  </div>
+  <div *ngIf=show_fail class="alert">
+    <span class="closebtn" (click)="show_fail = false">&times;</span>
+        <strong>{{stripe_resp}}</strong> 
+  </div>
 </section>

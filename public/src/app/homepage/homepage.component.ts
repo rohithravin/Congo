@@ -24,6 +24,9 @@ export class HomepageComponent implements OnInit {
 
   ngOnInit() {
     // this.fetchFeatured()
+    // this.fetchFeaturedBB();
+    // this.fetchFeaturedSB();
+    // this.fetchFeaturedFP();
   }
   fetchFeatured(){
     var featuredObs=this._httpService.fetchFeatured()
@@ -57,6 +60,47 @@ export class HomepageComponent implements OnInit {
           this.showSB = false;
         }
     }) 
+  }
+  fetchFeaturedBB(){
+    console.log("Calling fetchFeaturedBB function")
+    var featuredObs=this._httpService.fetchFeaturedBB();
+    featuredObs.subscribe(data=>{
+      console.log("Response:", data)
+      if(data['success']==1){
+        this.bigBannerPromo=data['products']
+        this.showBB=true;
+      }
+      else{
+        this.showBB=false;
+      }
+    })
+  }
+
+  fetchFeaturedSB(){
+    var sbObs = this._httpService.fetchFeaturedSB();
+    sbObs.subscribe(data=>{
+      console.log(data);
+      if(data['success'] == 1){
+        this.smallBannerPromo = data['products'];
+            this.showSB = true;
+      }else{
+        this.showSB = false;
+      }
+    })
+  }
+
+  fetchFeaturedFP(){
+    var fpObs = this._httpService.fetchFeaturedFP();
+    fpObs.subscribe(data=>{
+      console.log("FP: ",data);
+      if(data['success'] == 1){
+        this.featuredProductPromo = data['products'];
+        console.log(this.featuredProductPromo);
+        this.showFP = true;
+      }else{
+        this.showFP = false;
+      }
+    })
   }
 
 }

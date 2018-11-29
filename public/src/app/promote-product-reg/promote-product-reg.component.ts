@@ -40,10 +40,16 @@ export class PromoteProductRegComponent implements OnInit {
   merchant_license:any;
   product:any;
   total_price:number;
+  show_succ:boolean;
+  show_fail:boolean;
+  stripe_resp:string;
   
 
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router:Router) {
+    this.show_succ = false;
+    this.show_fail = false;
+    this.stripe_resp = "";
     this.showPromotionType = false;
     this.showPromotionDuration = false;
     this.showErr_ccn = false;
@@ -226,18 +232,36 @@ export class PromoteProductRegComponent implements OnInit {
         //now send all the data to the database to be updated
         //productID, promotionType, endDate, license, promotionImage='false@IOnoa99okaXXa67'
      
-        var error = this._httpService.promoteProduct(this.product_id,this.selectedPromoType,endDate,this.merchant_license,this.promotion_image);
-        error.subscribe(data=>{
-          console.log("response: ",data);
-          if (data['success']==-1){
-            //server error
-
-          }else if(data['success']==0){
-            //client error
+        var stripeObs = this._httpService.stripePurchase(this.str_card_number,this.selectedCCDate,this.selectedCCYear,this.str_cvv_number,this.total_price*100);
+        stripeObs.subscribe(data=>{
+          console.log("stipe",data);
+          if(data['success'] == 1){
+            var error = this._httpService.promoteProduct(this.product_id,this.selectedPromoType,endDate,this.merchant_license,this.promotion_image);
+            error.subscribe(data=>{
+              console.log("response: ",data);
+              if (data['success']==-1){
+                //server error
+                this.show_fail = true;
+                this.stripe_resp = "Server Error! Try again later.";
+                
+              }else if(data['success']==0){
+                //client error
+                this.show_fail = true;
+                this.stripe_resp = "Error! Try again later.";
+              }else{
+                //succ
+                this.show_succ = true;
+                this.stripe_resp = "Product Promoted!";
+                this._router.navigate(['/merchant/products']);
+              }
+            })
           }else{
-            this._router.navigate(['/merchant/products']);
+            console.log("error for stripe");
+            this.show_fail = true;
+            this.stripe_resp = data['display_message'];
           }
         })
+       
   
 
         
@@ -246,11 +270,4 @@ export class PromoteProductRegComponent implements OnInit {
 
   }
 
-
-
-  /* toggle(){
-    var el = document.querySelector(".alert");
-    el.classList.toggle('hide');
-    
-  }*/
 }

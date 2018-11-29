@@ -63,7 +63,11 @@ export class ProductComponent implements OnInit {
 
   fetchReviews(){
     console.log("fetching reviews");
-    var reviews=this._httpService.fetchProductReviews(this.productID);
+    var checkUser=false;
+    if(this.userID!=null){
+      checkUser=true;
+    }
+    var reviews=this._httpService.fetchProductReviews(this.productID, this.userID, checkUser);
     reviews.subscribe(data=>{
       console.log(data);
       if(data['success']==1){
@@ -127,6 +131,12 @@ export class ProductComponent implements OnInit {
          this.reviewRating = 0;
          this.show_reviewSuccess = true;
          this.fetchReviews();
+          var upRating = this._httpService.updateProductRating(this.productID);
+          upRating.subscribe(data=>{
+            console.log(data);
+          })
+       }else{
+         console.log("review failed to be added");
        }
      })
    }

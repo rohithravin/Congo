@@ -16,15 +16,31 @@ export class HttpService {
   fetchProduct(productID){
     return this._http.get(`/getProduct/${productID}`)
   }
-  fetchProductReviews(productID){
-    return this._http.get(`/getReviews/${productID}`);
+  fetchProductReviews(productID, userID, checkUser){
+    return this._http.post(`/getReviews/${productID}`, {userID:userID, checkUser:checkUser});
   }
   fetchSearchedProducts(searchQuery){
     return this._http.post('/fetchSearchedProducts', {searchQuery:searchQuery})
   }
 
+  fetchUserCredits(userID){
+    return this._http.post('/getUserCredits',{userID:userID});
+  }
+
+  PurchaseWithCongoCredit(userID,cartPrice){
+    return this._http.post('/purchaseWithUserCredit',{userID:userID,cartPrice:cartPrice});
+  }
+
+  redeemGiftCard(userID, cardNum ){
+    return this._http.post('/redeemGiftCard', {userID:userID,cardNum:cardNum});
+  }
+
   fetchCategorySearchedProducts(searchQuery, category){
     return this._http.post('/fetchSearchedProductsWithCategory', {searchQuery:searchQuery ,category:category})
+  }
+
+  updateProductRating(productID){
+    return this._http.post('/updateProductRating', {productID: productID});
   }
 
   createDummyProduct(product, licenseNo){
@@ -53,7 +69,11 @@ export class HttpService {
   createStreamUser(userID){
     return this._http.post('/processStreamRegistration',{userID:userID});
   }
-  
+
+  checkMerchantValid(url,userID,name){
+    return this._http.post('/merchantExists',{info:{url:url,name:name},userID:userID});
+  }
+
   createNewUser(first_name, last_name, email, phone_num, password){
     console.log("checkpoint 1.");
     return this._http.post('/processRegister', {first_name: first_name, last_name:last_name, email:email, phone_num:phone_num, password:password}, {withCredentials:true})
@@ -86,6 +106,11 @@ export class HttpService {
   getOrders(userID){
     return this._http.post('/getUserOrders', {userID:userID})
   }
+
+  getOrder(userID, orderID){
+    return this._http.post('/getOrderItems', {userID:userID, orderID:orderID})
+  }
+
   changeProductState(productID, license){
     return this._http.post('/changeProductActiveState', {license:license, productID:productID})
   }
@@ -112,5 +137,21 @@ export class HttpService {
   }
   revokeMerchant(userID, merchantID){
     return this._http.post('/rejectMerchant', {userID:userID, merchantID:merchantID})
+  }
+  stripePurchase(cardNum,exp_month,exp_year,cvc,amount){
+    return this._http.post('/processPayment',{cardNum:cardNum,exp_month:exp_month,exp_year:exp_year,cvc:cvc,amount:amount});
+  }
+
+  purchaseGiftCard(userID, amount){
+        return this._http.post('/purchaseGiftCard', {userID:userID, amount:amount});
+  }
+  fetchFeaturedBB(){
+    return this._http.get('/getFeaturedBB')
+  }
+  fetchFeaturedSB(){
+    return this._http.get('/getFeaturedSB');
+  }
+  fetchFeaturedFP(){
+    return this._http.get('/getFeaturedFP');
   }
 }

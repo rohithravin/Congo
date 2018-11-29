@@ -29,7 +29,14 @@ export class MerchantReg2Component implements OnInit {
   expDate:string;
   expDate2:string;
 
+  show_succ:boolean;
+  show_fail:boolean;
+  stripe_resp:string;
+
   constructor(private _router: Router,  private _httpService:HttpService) {
+    this.show_succ = false;
+    this.show_fail = false;
+    this.stripe_resp = "";
 
     this.showErr_cvc = false;
     this.showErr_expDate = false;
@@ -91,47 +98,46 @@ export class MerchantReg2Component implements OnInit {
     if (this.showErr_cvc == false && this.showErr_cardNum == false &&
       this.showErr_expDate == false && this.showErr_expDate2 == false){
       console.log("everything is good here." + this.companyName);
-      var err=this._httpService.createMerchant(this.url, this.email, this.description, this.companyName, this.bankRoutingNum, this.accountNum, this.cardNum, this.expDate,this.expDate2, this.cvc, localStorage.getItem('userID'));
-      err.subscribe(data=>{
-         console.log("response:", data)
-         if(data['success']==-1){
-           this.errMessage_err = "Could Not Process Information. Contact Us.";
-           console.log("Incorrect Information Provided.");
-           localStorage.removeItem("merchant-url");
-           localStorage.removeItem("merchant-password");
-           localStorage.removeItem("merchant-email");
-           localStorage.removeItem("merchant-companyName");
-           localStorage.removeItem("merchant-description");
-           localStorage.removeItem("merchant-bankNum");
-           localStorage.removeItem("merchant-accountNum");
-           this.showErr_err = true;
-           return;
-         }
-         else if(data['success']== -2) {
-           this.errMessage_err = "Server Error.";
-           console.log("Server Error.");
-           this.showErr_err = true;
-           return;
-         }
-         else if(data['success']== -3) {
-           this.errMessage_err = "Merchant already exists.";
-           console.log("Server Error.");
-           this.showErr_err = true;
-           return;
-         }
-         else{
-           console.log("Registration successful");
-           localStorage.removeItem("merchant-url");
-           localStorage.removeItem("merchant-password");
-           localStorage.removeItem("merchant-email");
-           localStorage.removeItem("merchant-companyName");
-           localStorage.removeItem("merchant-description");
-           localStorage.removeItem("merchant-bankNum");
-           localStorage.removeItem("merchant-accountNum");
-           this.showErr_err = false;
-           this._router.navigate(['/merchant-reg-conf']);
-         }
-       })
+
+  
+          //succ
+          var err=this._httpService.createMerchant(this.url, this.email, this.description, this.companyName, this.bankRoutingNum, this.accountNum, this.cardNum, this.expDate,this.expDate2, this.cvc, localStorage.getItem('userID'));
+          err.subscribe(data=>{
+            console.log("response:", data)
+            if(data['success']==-1){
+              this.errMessage_err = "Could Not Process Information. Contact Us.";
+              console.log("Incorrect Information Provided.");
+              localStorage.removeItem("merchant-url");
+              localStorage.removeItem("merchant-password");
+              localStorage.removeItem("merchant-email");
+              localStorage.removeItem("merchant-companyName");
+              localStorage.removeItem("merchant-description");
+              localStorage.removeItem("merchant-bankNum");
+              localStorage.removeItem("merchant-accountNum");
+              this.showErr_err = true;
+              return;
+            }
+            else if(data['success']== -2) {
+              this.errMessage_err = "Server Error.";
+              console.log("Server Error.");
+              this.showErr_err = true;
+              return;
+            }
+            else{
+              console.log("Registration successful");
+              localStorage.removeItem("merchant-url");
+              localStorage.removeItem("merchant-password");
+              localStorage.removeItem("merchant-email");
+              localStorage.removeItem("merchant-companyName");
+              localStorage.removeItem("merchant-description");
+              localStorage.removeItem("merchant-bankNum");
+              localStorage.removeItem("merchant-accountNum");
+              this.showErr_err = false;
+              this._router.navigate(['/merchant-reg-conf']);
+            }
+          })
+      
+         
     }
   }
 
