@@ -13,7 +13,7 @@
        </div>
        <div class="row">
            <div class="col">
-               <h4>Number of Items: {{order['length']}}</h4>
+               <h4>Number of Items: {{num_items}}</h4>
            </div>
        </div>
        <div class="col" style="background-color: rgba(198,160,12,0.55);padding-bottom: 10px;">
@@ -50,7 +50,7 @@
                      <p style="margin-top: 25px;">{{item['size']}}</p>
                  </div>
                  <div class="col">
-                     <p style="margin-top: 25px;">1</p>
+                     <p style="margin-top: 25px;">{{item['quantity']}}</p>
                  </div>
                  <div class="col">
                      <p style="margin-top: 25px;">${{item['total']}}</p>

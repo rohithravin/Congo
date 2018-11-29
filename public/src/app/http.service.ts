@@ -164,4 +164,7 @@ export class HttpService {
   fetchMerchantOrders(license){
     return this._http.post('/fetchMerchantOrderItems', {merchantLicense:license})
   }
+  updateSoldCount(orderID){
+    return this._http.post('/updateSoldCount', {orderID:orderID})
+  }
 }

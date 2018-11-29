@@ -199,7 +199,8 @@ export class CheckoutComponent implements OnInit {
    if (this.selectedCCDate == null){
     this.showErr_date = true;
   }else{
-    var date = this.selectedCCDate.toString();
+    // var date = this.selectedCCDate.toString();
+    var date=this.selectedCCDate
     if(date.length != 2){
       this.showErr_date = true;
     }else{
@@ -282,44 +283,49 @@ export class CheckoutComponent implements OnInit {
         stripeObs.subscribe(data=>{
           if(data['success'] == 1){
             var orderObs=this._httpService.createOrder(localStorage.getItem('userID'), this.address_lineone, this.city, this.state, tempZip, this.shipping, this.tax)
+            
             orderObs.subscribe(orderdata=>{
               console.log("Response:", orderdata)
+
               if(orderdata['success']==1){
-                console.log("CART: ",this.cart);
-                this.cart.forEach(element => {
-                  console.log("el ",element);
-                  console.log("el id ", element['_id']);
-                  var upObs=this._httpService.updateProductSold(element['_id']);
-                  upObs.subscribe(data=>{
-                    console.log("UPdate ",data);
-                  })
-                });
-                //route to the confirmation page
-                  localStorage.setItem('_COID',orderdata['order']['tempID']);
+                localStorage.setItem('_COID',orderdata['order']['tempID']);
                 var total = (orderdata['order']['total']).toString();
                 localStorage.setItem('_t',total);
                 var shipping = (orderdata['order']['shipping']).toString();
                 localStorage.setItem('_s',shipping);
                 var subt = (orderdata['order']['total'] - orderdata['order']['shipping']).toString();
                 localStorage.setItem('_st',subt);
-                this._router.navigate(['checkout-conf']);
-              }else{
-                //server error
+                //Update product view count now before routing
+                
+                localStorage.setItem('orderID',orderdata['order']['_id'])
+                return this.updateSoldCount()
+                
               }
+              else{
+                //issue with creating order, stay on page
+                console.log("Error creating order")
+              }
+              
             })
-          }else{
+
+          }
+          else{
             //stripe error
             this.show_fail = true;
             this.stripe_resp = data['display_message'];
           }
         })
-
-
        
-        // this._httpService.purchaseInformation(this.full_name,this.address_lineone,this.city,this.state);
-
       }
-
+  }
+  updateSoldCount(){
+    console.log("Calling updateSoldCount function")
+    var orderID=localStorage.getItem('orderID')
+    var updateObs=this._httpService.updateSoldCount(orderID)
+      updateObs.subscribe(updateData=>{
+        console.log("Update Data:", updateData)
+        // this._router.navigate(['checkout-conf']);
+      })
   }
 
   submitCongoCredit(){

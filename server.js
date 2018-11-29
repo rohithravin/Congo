@@ -83,7 +83,7 @@ var ProductSchema=new mongoose.Schema({
     sizes:[{type:String}],
     colors:[{type:String}],
     num_sold:{type:Number, default:0},
-    num_views:{type:Number, default:0},
+    // num_views:{type:Number, default:0},
     images:[{type:String}],
     tags:[{type:String}],
     active:{type:Boolean, default:true},
@@ -152,7 +152,7 @@ var OrderSchema=new mongoose.Schema({
     userID:{type:String, required:[true, 'User ID is required']},
     stripe_key:{type:String/*, required:true*/},
     //Change ProductSchema to orderItemSchema and in cart schema, create cart item
-    items:[OrderItemSchema],
+    // items:[OrderItemSchema],
     refunded:{type:Boolean, default:false},
     street_address:{type:String, required:[true, "Street address is required"]},
     city:{type:String, required:[true, "Street address is required"]},
@@ -1649,6 +1649,46 @@ app.post('/fetchMerchantOrderItems', function(request, response){
     })
 })
 
+app.post('/updateSoldCount', function(request, response){
+    console.log("Recieved update count request")
+    var orderID=request.body['orderID']
+    OrderItem.find({orderID:orderID}, function(error, items){
+        if(error){
+            return response.json({success:0, message:'Unable to update sold count of items'})
+        }
+        else{
+            var i;
+            for(i=0; i<items.length; i++){
+                console.log("item:", items[i])
+                var quantity=items[i]['quantity']
+                var productID=items[i].product._id
+                Product.findOne({_id:productID}, function(error, product){
+                    if(error){
+                        return response.json({success:0, message:'Server error'})
+                    }
+                    else if(product==null){
+                        console.log("No product exists with this id")
+                    }
+                    else{
+                        product.num_sold=product.num_sold+quantity
+                        product.save(function(error){
+                            if(error){
+                                return response.json({success:0, message:'Unable to save product after updating sold count'})
+                            }
+                            else{
+                                console.log("Successfully updated sold count for", product.name)
+                            }
+                        })
+                    }
+                })
+            }
+            if(i==items.length){
+                return response.json({success:1, message:'Successfully updated all product sold counts'})
+            }
+        }
+    })
+})
+
 // Dummy functions delete when going live
 app.post('/makeAdmin', function(request, response){
     var userID=request.body['userID']
@@ -1664,26 +1704,6 @@ app.post('/makeAdmin', function(request, response){
             return response.json({success:1, message:'Successfully made this user an Admin', user:{email:user.email, user_level:user.user_level, pin:user.pin}})
         }
     })
-    // User.findOne({_id:userID}, function(error, user){
-    //     if(error){
-    //         return response.json({success:-1, message:'Server error or saving error'})
-    //     }
-    //     else if(user==null){
-    //         return response.json({success:0, message:'Unable to find user'})
-    //     }
-    //     else{
-    //         user.user_level=9;
-    //         user.pin=pin
-    //         user.save(function(error){
-    //             if(error){
-    //                 return response.json({success:0, message:'Unable to save user changes'})
-    //             }
-    //             else{
-    //                 return response.json({success:1, message:'Successfully made this user an Admin', user:{email:user.email, user_level:user.user_level, pin:user.pin}})
-    //             }
-    //         })
-    //     }
-    // })
 })
 //End of dummy functions
 
