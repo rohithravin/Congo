@@ -6,13 +6,12 @@
               <div class="col">
                   <h1 style="margin-bottom: 20px;">Orders&nbsp;</h1>
               </div>
-              <div class="col"><button class="btn btn-secondary" type="button" style="margin-left: 86px;background-color: rgba(198,160,12,0.9);margin-top: 10px;margin-bottom: 0px;" [routerLink]="['/merchant/portal']" >Back to Merhcant Portal</button><button class="btn btn-secondary" type="button" style="margin-left: 15px;background-color: rgba(198,160,12,0.9);margin-top: 10px;">Save Changes</button></div>
+              <div class="col"><button class="btn btn-secondary" type="button" style="margin-left: 86px;background-color: rgba(198,160,12,0.9);margin-top: 10px;margin-bottom: 0px;" [routerLink]="['/merchant/portal']" >Back to Merchant Portal</button><button class="btn btn-secondary" type="button" style="margin-left: 15px;background-color: rgba(198,160,12,0.9);margin-top: 10px;">Save Changes</button></div>
           </div>
           <div class="table-responsive" style="padding-bottom: 100px;">
               <table class="table">
                   <thead>
                       <tr>
-                          <th style="font-size: 12px;">Product ID</th>
                           <th style="font-size: 12px;">Product Name</th>
                           <th style="font-size: 12px;">Size</th>
                           <th style="font-size: 12px;">Color</th>
@@ -26,56 +25,16 @@
                       </tr>
                   </thead>
                   <tbody>
-                      <tr>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;"><input type="checkbox" style="margin-left: 20px;"></td>
-                      </tr>
-                      <tr>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;"><input type="checkbox" style="margin-left: 20px;"></td>
-                      </tr>
-                      <tr>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;"><input type="checkbox" style="margin-left: 20px;"></td>
-                      </tr>
-                      <tr>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
-                          <td style="font-size: 14px;">Cell 1</td>
+                      <tr *ngFor="let item of items">
+                          <td style="font-size: 14px;">{{item.product.name}}</td>
+                          <td style="font-size: 14px;">{{item.size}}</td>
+                          <td style="font-size: 14px;">{{item.color}}</td>
+                          <td style="font-size: 14px;">{{item.quantity}}</td>
+                          <td style="font-size: 14px;">{{item.name}}</td>
+                          <td style="font-size: 14px;">{{item.street_address}}</td>
+                          <td style="font-size: 14px;">{{item.city}}</td>
+                          <td style="font-size: 14px;">{{item.state}}</td>
+                          <td style="font-size: 14px;">{{item.zip_code}}</td>
                           <td style="font-size: 14px;"><input type="checkbox" style="margin-left: 20px;"></td>
                       </tr>
                   </tbody>

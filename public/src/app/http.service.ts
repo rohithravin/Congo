@@ -161,4 +161,7 @@ export class HttpService {
   fetchFeaturedFP(){
     return this._http.get('/getFeaturedFP');
   }
+  fetchMerchantOrders(license){
+    return this._http.post('/fetchMerchantOrderItems', {merchantLicense:license})
+  }
 }

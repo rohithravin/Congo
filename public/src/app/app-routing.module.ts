@@ -58,7 +58,7 @@ const routes: Routes = [
   {path: 'admin/merchants', component: AdminMerchantsComponent},
   {path: 'giftcard/redeem', component: GiftCardVerifyComponent},
   {path: 'user-order-history/:orderid', component: UserOrderHistoryComponent},
-  {path: 'merchant-orders', component: MerchantOrdersComponent},
+  {path: 'merchant/orders', component: MerchantOrdersComponent},
   {path: 'giftcard/confirmation', component: GiftCardConfirmationComponent},
   {path: 'merchant-stats', component: MerchantStatsComponent},
   {path: 'admin-stats', component: AdminStatsComponent}
