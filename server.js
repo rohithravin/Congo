@@ -1699,6 +1699,18 @@ app.post('/updateSoldCount', function(request, response){
         }
     })
 })
+app.post('/getProductsForMerchant', function(request, response){
+    var license=request.body['license']
+    Product.find({merchantLicense:license}, function(error, products){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully fetched products', products:products})
+        }
+    })
+
+})
 
 // Dummy functions delete when going live
 app.post('/makeAdmin', function(request, response){

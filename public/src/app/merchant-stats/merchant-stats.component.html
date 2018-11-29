@@ -2,13 +2,13 @@
         <div class="container">
             <div class="intro">
                 <h2 class="text-center">Statistics</h2>
-                <p class="text-center">Welcoem to the statsitics page! Here you will get to see all the important data relavant to your products and company.</p>
+                <p class="text-center">Welcome to the statistics page! Here you will get to see all the important data relevant to your products and company.</p>
                 <button class="btn btn-secondary" type="button" style="margin-left: 146px;background-color: rgba(198,160,12,0.9);margin-top: 15px;padding-bottom: 5px;" [routerLink]="['/merchant/portal']">Back to Merchant Portal</button></div>
             <div
                 class="row justify-content-center features" style="padding-bottom: 0px;">
                 <div class="col-sm-6 col-md-5 col-lg-5 item">
                     <div class="box">
-                        <h1 style="margin-bottom: 10px;margin-top: 31px;color: rgba(198,160,12,0.89);">276</h1>
+                        <h1 style="margin-bottom: 10px;margin-top: 31px;color: rgba(198,160,12,0.89);">{{totalSold}}</h1>
                         <h1 style="margin-bottom: 5px;">Items Sold</h1>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
             </div>
             <div class="col-sm-6 col-md-5 col-lg-5 item">
                 <div class="box">
-                    <h1 style="margin-bottom: 30px;margin-top: 10px;color: rgba(198,160,12,0.89);">$2769.89</h1>
+                    <h1 style="margin-bottom: 30px;margin-top: 10px;color: rgba(198,160,12,0.89);">${{totalBillings}}</h1>
                     <h1>Lifetime Billings</h1>
                 </div>
             </div>

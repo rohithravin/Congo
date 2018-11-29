@@ -324,7 +324,7 @@ export class CheckoutComponent implements OnInit {
     var updateObs=this._httpService.updateSoldCount(orderID)
       updateObs.subscribe(updateData=>{
         console.log("Update Data:", updateData)
-        // this._router.navigate(['checkout-conf']);
+        this._router.navigate(['checkout-conf']);
       })
   }
 
