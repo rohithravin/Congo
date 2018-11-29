@@ -60,7 +60,7 @@ const routes: Routes = [
   {path: 'order/:orderid', component: UserOrderHistoryComponent},
   {path: 'merchant/orders', component: MerchantOrdersComponent},
   {path: 'giftcard/confirmation', component: GiftCardConfirmationComponent},
-  {path: 'merchant-stats', component: MerchantStatsComponent},
+  {path: 'merchant/stats', component: MerchantStatsComponent},
   {path: 'admin-stats', component: AdminStatsComponent}
    //Path any, = home
 ];
