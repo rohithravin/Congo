@@ -28,7 +28,7 @@ export class CheckoutComponent implements OnInit {
   str_cc_number:string;
   userID:string
   cart:any;
-  shipping_date:string;
+  shipping_date:any;
   tax:number;
   shipping:number;
   total:number;
@@ -41,12 +41,10 @@ export class CheckoutComponent implements OnInit {
   showErr_credits:boolean;
   show_fail:boolean;
   stripe_resp:string;
-  shipping_time:string;
   show_stream:boolean;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
     this.show_stream = false;
-    this.shipping_time = "5 business days";
     this.show_fail = false;
     this.stripe_resp = "";
     this.showErr_credits = false;
@@ -82,7 +80,7 @@ export class CheckoutComponent implements OnInit {
     this.userID=localStorage.getItem('userID');
     var currentDate = new Date();
     currentDate.setDate(currentDate.getDate() + 7);
-    this.shipping_date = currentDate.getMonth()+"/"+currentDate.getDay()+"/"+currentDate.getFullYear();
+    this.shipping_date = currentDate;
    }
 
   ngOnInit() {
@@ -94,10 +92,14 @@ export class CheckoutComponent implements OnInit {
 
   checkStream(){
     if(localStorage.getItem('stream') == 'true'){
-      this.shipping_time = "2 business days";
+      var currentDate = new Date();
+     currentDate.setDate(currentDate.getDate() + 2);
+     this.shipping_date = currentDate;
       this.show_stream = true;
     }else{
-      this.shipping_time = "5 business days";
+      var currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + 7);
+      this.shipping_date = currentDate;
       this.show_stream = false;
     }
   }
