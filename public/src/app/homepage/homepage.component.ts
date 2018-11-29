@@ -59,7 +59,7 @@ export class HomepageComponent implements OnInit {
           this.showFP = false;
           this.showSB = false;
         }
-    }) 
+    })
   }
   fetchFeaturedBB(){
     console.log("Calling fetchFeaturedBB function")
