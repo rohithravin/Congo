@@ -1589,6 +1589,17 @@ app.post('/getAllOrders',function(request, response){
         }
     })
 })
+app.post('/getRecentOrders', function(request, response){
+    var userID=request.body['userID']
+    Order.find({userID:userID}, {sort:{'createdAt':-1}}, {limit:20}, function(error, orders){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully fetched orders', orders:orders})
+        }
+    })
+})
 
 // Dummy functions delete when going live
 app.post('/makeAdmin', function(request, response){
