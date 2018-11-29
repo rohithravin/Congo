@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "ng": "ng"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "firebase-admin": "^6.0.0",
     "mongoose": "^5.3.1",
     "ngx-cookie-service": "^1.0.10",
+    "nodemon": "^1.18.7",
     "path": "^0.12.7",
     "rxjs": "^6.3.3",
     "stripe": "^6.15.0"

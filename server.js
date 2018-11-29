@@ -1198,7 +1198,7 @@ app.post('/rejectMerchant', function(request, response){
                     return response.json({success:0, message:'Unable to reject this merchant'})
                 }
                 else{
-                    return response.json({success:1, message:'Successfully reject this merchant'})
+                    return response.json({success:1, message:'Successfully rejected this merchant'})
                 }
             })
         }

@@ -98,4 +98,19 @@ export class HttpService {
   processAdminLogin(email, password, pin){
     return this._http.post('/processAdminLogin', {email:email, password:password, pin:pin})
   }
+  getActiveMerchants(){
+    return this._http.get('/getActiveMerchants')
+  }
+  getPendingMerchants(){
+    return this._http.get('/getPendingMerchants')
+  }
+  approveMerchant(userID, merchantID){
+    return this._http.post('/approveMerchant', {userID:userID, merchantID:merchantID})
+  }
+  rejectMerchant(userID, merchantID){
+    return this._http.post('/rejectMerchant', {userID:userID, merchantID:merchantID})
+  }
+  revokeMerchant(userID, merchantID){
+    return this._http.post('/rejectMerchant', {userID:userID, merchantID:merchantID})
+  }
 }

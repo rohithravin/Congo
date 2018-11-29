@@ -6,53 +6,30 @@
             <p class='boxTitle'>Pending</p>
             <input type='text' class='search' placeholder='search'>
             <div class='pendingMerchants'>
-                <div class='pendingMerchant'>
-                    <p class='merchantName'>Michael Choi Organization</p>
-                    <p class='merchantEmail'>michael@choi.choi</p>
-                    <p class='merchantDate'>11/18/2018 11:39 AM</p>
-                    <p class='merchantDescription'>This is a very important organization used for the benefit of human society</p>
+                <div class='pendingMerchant' *ngFor = "let merchant of merchants">
+                <!-- <div class='pendingMerchant' *ngFor = "let merchant of pending"> -->
+                    <p class='merchantName'>{{merchant.name}}</p>
+                    <p class='merchantEmail'>{{merchant.email}}</p>
+                    <!-- <p class='merchantDate'>11/18/2018 11:39 AM</p> -->
+                    <p class='merchantDate'>{{formatDate(merchant.createdAt)}}</p>
+                    <p class='merchantDescription'>{{merchant.description}}</p>
                     <div class='buttons'>
-                        <button class='approve'>Approve</button>
-                        <button class='reject'>Reject</button>
+                        <button class='approve' (click)='approveMerchant(merchant._id, merchant.index)'>Approve</button>
+                        <button class='reject' (click)='rejectMerchant(merchant._id, merchant.index)'>Reject</button>
                     </div>
-                </div>
-                <div class='pendingMerchant'>
-                    <p class='merchantName'>Michael Choi Organization</p>
-                    <p class='merchantEmail'>michael@choi.choi</p>
-                    <p class='merchantDate'>11/18/2018 11:39 AM</p>
-                    <p class='merchantDescription'>This is a very important organization used for the benefit of human society</p>
-                    <div class='buttons'>
-                        <button class='approve'>Approve</button>
-                        <button class='reject'>Reject</button>
-                    </div>
-                </div>
-                <div class='pendingMerchant'>
-                    <p class='merchantName'>Michael Choi Organization</p>
-                    <p class='merchantEmail'>michael@choi.choi</p>
-                    <p class='merchantDate'>11/18/2018 11:39 AM</p>
-                    <p class='merchantDescription'>This is a very important organization used for the benefit of human society</p>
-                    <div class='buttons'>
-                        <button class='approve'>Approve</button>
-                        <button class='reject'>Reject</button>
-                    </div>
-                </div>
+                </div> 
             </div>
         </div>
         <div class='rightBox'>
             <p class='boxTitle'>Active</p>
             <input type='text' class='search' placeholder='search'>
             <div class='approvedMerchants'>
-                <div class='approvedMerchant'>
-                    <p class='merchantName'>Michael Choi Organization</p>
-                    <button>Revoke</button>
-                </div>
-                <div class='approvedMerchant'>
-                    <p class='merchantName'>Michael Choi Organization</p>
-                    <button>Revoke</button>
-                </div>
-                <div class='approvedMerchant'>
-                    <p class='merchantName'>Michael Choi Organization</p>
-                    <button>Revoke</button>
+                <div class='approvedMerchant' *ngFor = "let merchant of merchants">
+                <!-- <div class='approvedMerchant' *ngFor = "let merchant of active"> -->
+                    <div class='approvedMerchant'>
+                        <p class='merchantName'>{{merchant.name}}</p>
+                        <button (click)='revokeMerchant(merchant._id, merchant.index)'>Revoke</button>
+                    </div>
                 </div>
             </div>
         </div>
