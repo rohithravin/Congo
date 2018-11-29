@@ -99,12 +99,7 @@ export class MerchantReg2Component implements OnInit {
       this.showErr_expDate == false && this.showErr_expDate2 == false){
       console.log("everything is good here." + this.companyName);
 
-      var stripeObs = this._httpService.stripePurchase(this.cardNum.toString(),this.expDate,this.expDate2,this.cvc.toString(),15000);
-
-
-       stripeObs.subscribe(data=>{
-        console.log("stripe",data);
-        if(data['success'] == 1){
+  
           //succ
           var err=this._httpService.createMerchant(this.url, this.email, this.description, this.companyName, this.bankRoutingNum, this.accountNum, this.cardNum, this.expDate,this.expDate2, this.cvc, localStorage.getItem('userID'));
           err.subscribe(data=>{
@@ -141,13 +136,7 @@ export class MerchantReg2Component implements OnInit {
               this._router.navigate(['/merchant-reg-conf']);
             }
           })
-        }else{
-          //error in stripe
-          this.errMessage_err = data['display_message'];
-          this.show_fail = true;
-        }
-
-       })   
+      
          
     }
   }
