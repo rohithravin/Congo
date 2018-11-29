@@ -10,6 +10,9 @@ export class HttpService {
 
   }
 
+  fetchHistory(userID){
+        return this._http.post('/getHistory',{userID:userID})
+  }
   fetchFeatured(){
     return this._http.get('/getFeatured')
   }

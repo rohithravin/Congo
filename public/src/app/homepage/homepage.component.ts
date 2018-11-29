@@ -13,19 +13,21 @@ export class HomepageComponent implements OnInit {
   showBB:boolean;
   showSB:boolean;
   showFP:boolean;
-  recomTagList:any;
-  recomCatList:any;
+  recomTagDict:any;
+  recomCatDict:any;
   pulledProducts:any;
-
+  fetchedHistory:any;
+  hashed:any;
   constructor(private _httpService:HttpService) {
+    this.fetchedHistory = [];
     this.bigBannerPromo = [];
     this.smallBannerPromo = [];
     this.featuredProductPromo = [];
     this.showBB = false;
     this.showSB = false;
     this.showFP = false;
-    this.recomTagList = [];
-    this.recomCatList= [];
+    this.recomTagDict = {};
+    this.recomCatDict= {};
     this.pulledProducts= [];
    }
 
@@ -34,6 +36,31 @@ export class HomepageComponent implements OnInit {
     // this.fetchFeaturedBB();
     // this.fetchFeaturedSB();
     // this.fetchFeaturedFP();
+    // this.recommendedHash();
+
+    this.fetchHistory();
+  }
+
+  fetchHistory(){
+        if(localStorage.get(userID)){
+             console.log("inside recommended products")
+             var histObs = this._httpService.fetchHistory(localStorage.get(userID));
+             histObs.subscribe(data=>{
+                   console.log("data: ", data);
+                   if(data['success'] == -1){
+                        console.log("there was a server error!");
+                   }else if(data['success'] == 0){
+                        console.log("No user exists!!");
+                  }else{
+                        console.log("got info!!");
+                        this.fetchedHistory = data['history'];
+                        this.recommendedProducts();
+                  }
+             })
+
+        }else{
+             //not logged in
+        }
   }
   fetchFeatured(){
     var featuredObs=this._httpService.fetchFeatured()
@@ -68,6 +95,8 @@ export class HomepageComponent implements OnInit {
         }
     })
   }
+
+
   fetchFeaturedBB(){
     console.log("Calling fetchFeaturedBB function")
     var featuredObs=this._httpService.fetchFeaturedBB();
@@ -110,27 +139,42 @@ export class HomepageComponent implements OnInit {
     })
   }
 
-  // recommendedProducts(){
-  //       pulledProducts[products];//server call(getViewingHistory)
-  //       var i = 0; //iterate through products
-  //       var j = 0; //iterate through tags
-  //       while(i <=pulledProducts.length){
-  //            //hashing tags
-  //            while( pulledProducts[i[j]] ){
-  //                  let j = recommendedHash(pulledProducts[i[j]]);
-  //                  if(!this.recomTagList[j]){
-  //                       this.recomTagList[j] = [];
-  //                  }
-  //                  this.recomTagList[j].push(1);
-  //
-  //            }
-  //
-  //
-  //            i++;
-  //      }
-  // }
+
+  recommendedProducts(){
+      console.log("inside recommendedProducts!!");
+      this.pulledProducts = this.fetchedHistory;
+      int i = 0; //iterates through products
+      int j = 0; //iterates through tags
+
+      while(i < this.pulledProducts.length){
+
+            //get tags
+            while(this.pulledProducts[i]['tags'][j]){
+                  var tagName = this.pulledProducts[i]['tags'][j];
+                  hashed = this.recommendedHash(tagName);
+                  if(!(hashed in recomTagDict)){
+                        recomTagDict[tagName] = 0;
+                  }
+                  recomTagDict[tagName]++;
+                  j++;
+            }
+
+            //get categories
+            var catName = this.pulledProducts[i]['category'];
+            hashed = this.recomCatDict[catName] = 0;
+            if(!(hashed in recomCatDict)){
+                  recomCatDict[catName] = 0;
+            }
+            recomCatDict[catName]++;
+
+            i++;
+      }
+
+  }
 
   recommendedHash(name){
+       // console.log()
+
         var hashed='';
         for(var i=1; i<name.length-1; i+=2){
             var numberOrLetter=Math.floor(Math.random()*3+1)
@@ -145,7 +189,7 @@ export class HomepageComponent implements OnInit {
                 currentChar=(((currentChar+22)*28-52)*3)%26
                 if(upperLower==1){
                     currentChar+=65
-                } 
+                }
                 else if(upperLower==2){
                     currentChar+=97
                 }
