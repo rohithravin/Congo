@@ -1578,6 +1578,21 @@ app.post('/processPayment', function(request, response){
     })
 })
 
+app.post('/getHistory', function(request, response){
+    var userID=request.body['userID']
+    User.findOne({_id:userID}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'No user exists with this ID'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully fetched user history', history:user.history})
+        }
+    })
+})
+
 // Dummy functions delete when going live
 app.post('/makeAdmin', function(request, response){
     var userID=request.body['userID']
