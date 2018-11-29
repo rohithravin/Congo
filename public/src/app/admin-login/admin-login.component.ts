@@ -84,9 +84,10 @@ export class AdminLoginComponent implements OnInit {
     //this.password = 'hellothere';
     //this.userId = localStorage.getItem('userID');
     // this.pin = localStorage.getItem('pin');
+    console.log("userID:", localStorage.getItem('userID'))
     var admin = this._httpService.makeAdmin(localStorage.getItem('userID'), new_pin);
     admin.subscribe(data=>{
-      console.log("Response:",data);
+      console.log("Response from Make Admin:",data);
       console.log("Finish");
       // if(data['success'] == -2){
       //   this.errMessage = "This user does not have a PIN or has no admin privileges.";

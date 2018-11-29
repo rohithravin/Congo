@@ -1270,6 +1270,7 @@ app.post('/processAdminLogin', function(request, response){
     var email=request.body['email']
     var password=request.body['password']
     var pin=request.body['pin']
+    console.log("Email:", email, "password:", password, "pin:", pin)
     User.findOne({email:email}, function(error, user){
         if(error){
             return response.json({success:-1, message:'Server error'})
