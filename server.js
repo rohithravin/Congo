@@ -875,7 +875,8 @@ app.post('/createOrder', function(request, response){
 
                 currentTotal=currentTotal+parseFloat(shipping)+parseFloat(tax);
                 currentTotal = Math.floor(currentTotal * 100) / 100;
-                newOrder.total=currentTotal
+                // newOrder.total=currentTotal
+                newOrder.total=Math.floor(currentTotal * 100) / 100;
                 newOrder.save(function(error){
                     if(error){
                         return response.json({success:0, message:"Unable to create order"})
