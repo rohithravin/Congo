@@ -111,7 +111,7 @@
     </div>
   </div>
   <div *ngIf=showSB class='sponsorSmall'>
-    <a [routerLink]="['/product',smallBannerPromo[0]['_id']]"><img src="{{smallBannerPromo[0]['images'][0]}}"  alt='Sponsor'></a>
+    <a [routerLink]="['/product',smallBannerPromo[0]['_id']]"><img :src="{{smallBannerPromo[0]['promotionImage']}}"   alt='Sponsor'></a>
   </div>
   <div class='previouslyViewed'>
       <p class='prevHeader'>Previously Viewed</p>
@@ -141,7 +141,7 @@
       </div>
     </div>
     <div *ngIf=showSB class='sponsorSmall'>
-      <a [routerLink]="['/product',smallBannerPromo[1]['_id']]"><img  src="{{smallBannerPromo[1]['promotionImage'][0]}}"  alt='Promoted Product'></a>
+      <a [routerLink]="['/product',smallBannerPromo[1]['_id']]"><img  src="{{smallBannerPromo[1]['promotionImage']}}"  alt='Promoted Product'></a>
     </div>
     <div class='previouslyViewed'>
       <p class='prevHeader'>Previously Viewed</p>
