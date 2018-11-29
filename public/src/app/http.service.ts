@@ -71,7 +71,7 @@ export class HttpService {
 
   createMerchant(url, email, description, companyName, bankNum, accountNum, cardNum, creditCardExp_month, creditCardExp_year, cvc, userID){
     console.log("HttpService here. " + creditCardExp_year);
-    return this._http.post('/processMerchantRegistration', {info:{url:url, email:email, description:description, name:companyName, routingNumber:bankNum, bankAccountNumber:accountNum, creditCardNum:cardNum, creditCardExp_month:creditCardExp_year, creditCardExp_year:creditCardExp_year, creditCard_CVV:cvc}, userID:userID})
+    return this._http.post('/processMerchantRegistration', {info:{url:url, email:email, description:description, name:companyName, routingNumber:bankNum, bankAccountNumber:accountNum, creditCardNum:cardNum, creditCardExp_month:creditCardExp_month, creditCardExp_year:creditCardExp_year, creditCard_CVV:cvc}, userID:userID})
   }
   createStreamUser(userID){
     return this._http.post('/processStreamRegistration',{userID:userID});

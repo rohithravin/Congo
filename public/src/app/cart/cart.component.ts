@@ -49,23 +49,32 @@ export class CartComponent implements OnInit {
     cartObs.subscribe(data=>{
       console.log(data)
       // console.log(this.userID)
-      if(data['success'] =! 1){
+      if(data['success'] == -1){
         this._router.navigate([''])
-      }
-      this.cart=data['cart']
-      if (data['cart']['items'].length == 0){
+      }else if(data['success'] == 1){
+        this.cart=data['cart']
+        if (data['cart']['items'].length == 0){
+          this.showCartEmpty = true;
+          this.subtotal = 0;
+          this.tax = 0;
+          this.shipping = 0;
+          this.total = 0;
+        }else{
+          this.showCartEmpty = false;
+          this.subtotal = this.getSubtotal();
+          this.tax = this.getTax();
+          this.shipping = this.getShipping();
+          this.total = this.getTotal();
+          this.checkStream();
+        }
+      }else if(data['success'] == 0){
         this.showCartEmpty = true;
         this.subtotal = 0;
         this.tax = 0;
         this.shipping = 0;
         this.total = 0;
       }else{
-        this.showCartEmpty = false;
-        this.subtotal = this.getSubtotal();
-        this.tax = this.getTax();
-        this.shipping = this.getShipping();
-        this.total = this.getTotal();
-        this.checkStream();
+        this._router.navigate([''])
       }
     })
   }
