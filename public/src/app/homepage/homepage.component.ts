@@ -68,21 +68,15 @@ export class HomepageComponent implements OnInit {
           randIndex = randIndex%2;
           if(element['promotionType'] == 'FP'){
             if(this.featuredProductPromo.length != 6){
-              if(randIndex){
                 this.featuredProductPromo.push(element);
-              }
             }
           }else if(element['promotionType'] == 'SB'){
             if(this.smallBannerPromo.length != 2){
-                if(randIndex){
                   this.smallBannerPromo.push(element);
-                }
             }
           }else if(element['promotionType'] == 'BB'){
             if(this.bigBannerPromo.length != 5){
-              if(randIndex){
                 this.bigBannerPromo.push(element);
-              }
             }
           }
         });
