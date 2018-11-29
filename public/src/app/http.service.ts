@@ -71,7 +71,7 @@ export class HttpService {
   }
 
   checkMerchantValid(url,userID,name){
-    return this._http.post('/merhcantExists',{info:{url:url,name:name},userID:userID});
+    return this._http.post('/merchantExists',{info:{url:url,name:name},userID:userID});
   }
 
   createNewUser(first_name, last_name, email, phone_num, password){

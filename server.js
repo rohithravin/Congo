@@ -38,7 +38,8 @@ var UserSchema = new mongoose.Schema({
     phone_number:{type:String, required:[true, "Phone number is required"], minlength:[10, "Invalid phone number"], maxlength:[10, "Invalid phone number"]},
     stream:{type:Boolean, default:false, required:[true, "Stream is required"]},
     pin:{type:String, length:4},
-    credits:{type:Number, default:0, min:0}
+    credits:{type:Number, default:0, min:0},
+    history:["ProductSchema"]
     // cart:"CartSchema"
 }, {timestamps:true});
 mongoose.model('User', UserSchema)
@@ -94,7 +95,8 @@ var ProductSchema=new mongoose.Schema({
     promotionType:{type:String},
     endDate:{type:Date},
     rating:{type:Number, default:5},
-    promotionImage:{type:String}
+    promotionImage:{type:String},
+    views:{type:Number, default:0, min:0}
 }, {timestamps:true})
 mongoose.model('Product', ProductSchema)
 var Product=mongoose.model('Product')
@@ -610,7 +612,7 @@ app.post('/processMerchantRegistration', function(request, response){
     })
 })
 
-app.post('/merhcantExists',function(request,resposne){
+app.post('/merchantExists',function(request,resposne){
     if(!('userID' in request.body)){
         return response.json({success:0, message:'No user ID provided'})
     }
@@ -973,19 +975,6 @@ app.get('/getFeaturedBB', function(request, response){
                 var thisIndex=pickedIndeces[i]
                 bigBannerProducts.push(products[thisIndex])
             }
-            // var _numProducts = 5;
-            // var _pickedIndexes = [];
-            // for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
-            // if (products.length != 0) {
-            //     for (var i = 0; i < _numProducts; i++) {
-            //         do {
-            //             var randIndex = Math.floor(Math.random() * (products.length));
-            //         } while (_pickedIndexes[randIndex] != 0) {
-            //             _pickedIndexes[randIndex] = 1;
-            //             bigBannerProducts[i] = products[randIndex];
-            //         }
-            //     }
-            // }
             console.log("Reaching end of fetch")
             return response.json({success:1, message:'Successfully fetched BigBannerProducts.', products:bigBannerProducts})
         }
