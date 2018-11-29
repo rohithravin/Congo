@@ -1306,8 +1306,11 @@ app.post('/processAdminLogin', function(request, response){
     })
 })
 
-app.get('/getReviews/:productID', function(request, response){
+app.post('/getReviews/:productID', function(request, response){
     var productID=request.params['productID']
+    var userID=request.body['userID']
+    var checkUser=request.body['checkUser']
+
     Product.findOne({_id:productID}, function(error, product){
         if(error){
             return response.json({success:-1, message:'Server error'})
@@ -1316,10 +1319,57 @@ app.get('/getReviews/:productID', function(request, response){
             return response.json({success:0, message:'Unable to find product'})
         }
         else{
-            return response.json({success:1, message:'Successfully found product', reviews:product.reviews})
+            product.views=product.views+1
+            product.save(function(error){
+                if(error){
+                    return response.json({success:0, message:'Unable to update product views'})
+                }
+                else{
+                    if(checkUser==false){
+                        return response.json({success:1, message:'Successfully found product', reviews:product.reviews})
+                    }
+                    //Successfully saved product, now add to user history
+                    User.findOne({_id:userID}, function(error, user){
+                        if(error){
+                            return response.json({success:0, message:'Server error'})
+                        }
+                        else if(user==null){
+                            return response.json({success:1, message:'Successfully fetched product, however userID invalid', reviews:product.reviews})
+                        }
+                        else{
+                            user.history.push(product);
+                            user.save(function(error){
+                                if(error){
+                                    return response.json({success:1, message:'Unable to push product to user history', reviews:product.reviews})
+                                }
+                                else{
+                                    return response.json({success:1, message:'Successfully fetched product review, and added to user history', reviews:product.reviews, history:user.history})
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+            // return response.json({success:1, message:'Successfully found product', reviews:product.reviews})
         }
     })
+    
 })
+
+// app.get('/getReviews/:productID', function(request, response){
+//     var productID=request.params['productID']
+//     Product.findOne({_id:productID}, function(error, product){
+//         if(error){
+//             return response.json({success:-1, message:'Server error'})
+//         }
+//         else if(product==null){
+//             return response.json({success:0, message:'Unable to find product'})
+//         }
+//         else{
+//             return response.json({success:1, message:'Successfully found product', reviews:product.reviews})
+//         }
+//     })
+// })
 
 app.post('/purchaseGiftCard', function(request, response){
     var buyerID=request.body['userID']
