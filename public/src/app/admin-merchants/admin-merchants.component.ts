@@ -88,15 +88,12 @@ export class AdminMerchantsComponent implements OnInit {
         return;
       }
       else if(data['success'] == 1){
-        var temp = this.pending[merchant_index];
-        this.pending.splice(merchant_index, 1);
-        for(var i=0;i<this.pending.length;i++){
-          this.pending[i]['index'] = i;
-        }
-        this.active.push(temp);
-        this.active[this.active.length-1]['index']=this.active.length-1
-        console.log("Merchant successfully approved");
-        var stripeObs = this._httpService.stripePurchase(merchant_index['creditCardNum'],merchant_index['creditCardExp_month'],merchant_index['creditCardExp_year'],merchant_index['creditCard_CVV'],15000);
+        console.log("merchan ",this.pending[merchant_index]);
+        console.log("num ",this.pending[merchant_index]['creditCardNum']);
+        console.log("month ",this.pending[merchant_index]['creditCardExp_month'])
+        console.log("year ",this.pending[merchant_index]['creditCardExp_year']);
+        console.log("cvv ",this.pending[merchant_index]['creditCard_CVV']);
+        var stripeObs = this._httpService.stripePurchase(this.pending[merchant_index]['creditCardNum'],this.pending[merchant_index]['creditCardExp_month'],this.pending[merchant_index]['creditCardExp_year'],this.pending[merchant_index]['creditCard_CVV'],15000);
         stripeObs.subscribe(data=>{
           if(data['success']==1){
             this.show_succ = true;
@@ -106,6 +103,15 @@ export class AdminMerchantsComponent implements OnInit {
             this.stripe_resp = data['display_message'];
           }
         })
+        var temp = this.pending[merchant_index];
+            this.pending.splice(merchant_index, 1);
+            for(var i=0;i<this.pending.length;i++){
+              this.pending[i]['index'] = i;
+            }
+            this.active.push(temp);
+            this.active[this.active.length-1]['index']=this.active.length-1
+            console.log("Merchant successfully approved");
+        
       }
     })
   }
