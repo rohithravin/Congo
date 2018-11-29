@@ -17,8 +17,13 @@ export class AdminMerchantsComponent implements OnInit {
   active:any
   date:string
   counter:number
+  show_succ:boolean;
+  show_fail:boolean;
+  stripe_resp:string;
 
   constructor(private _httpService:HttpService, private _router:Router) {
+    this.show_succ = false;
+    this.show_fail = false;
     this.errMessage = '';
     this.merchants = [];
     this.pending = [];
@@ -91,6 +96,16 @@ export class AdminMerchantsComponent implements OnInit {
         this.active.push(temp);
         this.active[this.active.length-1]['index']=this.active.length-1
         console.log("Merchant successfully approved");
+        var stripeObs = this._httpService.stripePurchase(merchant_index['creditCardNum'],merchant_index['creditCardExp_month'],merchant_index['creditCardExp_year'],merchant_index['creditCard_CVV'],15000);
+        stripeObs.subscribe(data=>{
+          if(data['success']==1){
+            this.show_succ = true;
+            this.stripe_resp = "Payment Successful!";
+          }else{
+            this.show_fail = true;
+            this.stripe_resp = data['display_message'];
+          }
+        })
       }
     })
   }
