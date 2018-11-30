@@ -203,7 +203,26 @@ app.get('/getFeaturedFirebase', function(request, response){
 
 //NODE MAILER CODE START
 
+const nodemailer=require('nodemailer')
+const xoauth2 = require('xoauth2')
 
+var transporter=nodemailer.createTransport({
+    service:'gmail',
+    host: "smtp.gmail.com",
+    auth:{
+        user:'congo30700@gmail.com',
+        pass:'Dunsmore180',
+        xoauth2:xoauth2.createXOAuth2Generator({
+            user:'congo30700@gmail.com',
+            clientId:'307339350402-s3quf7smb0t6ltr7dqdlp3olfo2k83fb.apps.googleusercontent.com',
+            clientSecret:'ERUinG4i9XzdjSOpn_n2XLXT', 
+            refreshToken:'1/PoglDS8uVDl2m6NgU4OZcgCuK6Cs1Rmrp6QS4jBDfUM'
+        }),
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+})
 
 //END OF NODEMAILER CODE
 
@@ -1436,6 +1455,12 @@ app.post('/approveMerchant', function(request, response){
                             return response.json({success:0, message:'Unable to approve this merchant', error:error})
                         }
                         else{
+                            var email=merchant.email
+                            var name=merchant.name
+                            var license=merchant.license
+                            var message='Congratulations '+name+', \nWe have approved your company as merchants on our site. This comes with a great deal of responsibility, but we feel that you can succeed.\n Your license number is: '+license+'. \n Welcome to the family!\n-The Congo Team'
+                            var title='Congratulations from the Congo Team'
+                            sendEmail(email, title, message)
                             return response.json({success:1, message:'Successfully approved this merchant', merchantName:merchant.name, approved:merchant.approved})
                         }
                     })
@@ -1665,16 +1690,12 @@ app.post('/makeAdmin', function(request, response){
 })
 
 app.get('/emailTest', function(request, response){
-    sendMessage("mahesh.ashwin1998@gmail.com","Hello Ashwin, We are reaching out to you from congo!", function(res){
-        console.log("res:", res)
-    })
-    // getNewToken(globalAuth, runSample())
-    // runSample();
-    // createDraft('mahesh.ashwin1998@gmail.com', "Hello Ashwin, This is Congo calling to congratulate you!", function(draft){
-    //     console.log("Draft:", draft)
-    //     draft.send()
-    //     return response.json({success:1, message:'Successfully drafted email'})
-    // })
+    var email='mahesh.ashwin1998@gmail.com'
+    var name='Ashwin Mahesh'
+    var license='ABCDEFHJ123'
+    var message='Congratulations '+name+', \nWe have approved your company as merchants on our site. This comes with a great deal of responsibility, but we feel that you can succeed.\nYour license number is: '+license+'. \nWelcome to the family!\n-The Congo Team'
+    var title='Congratulations from the Congo Team'
+    sendEmail(email, title, message)
 })
 //End of dummy functions
 
@@ -1814,67 +1835,20 @@ function createGiftCardNumber(){
     //     }
     // })
 }
-function createDraft(userId, message, callback) {
-    //draft parameter in callback
-    // Using the js-base64 library for encoding:
-    // https://www.npmjs.com/package/js-base64
-    var base64EncodedEmail = Base64.encodeURI(message);
-    // const gmail = google.gmail({version: 'v1', auth});
-    var res=gmail.users.drafts.create({
-    // var request = {google}.client.gmail.users.drafts.create({
-    // var request=
-      'userId': userId,
-      'resource': {
-        'message': {
-          'raw': base64EncodedEmail
+
+function sendEmail(reciever, subject, message){
+    var mailerOptions={
+        from:'Congo Corporation <congo30700@gmail.com>',
+        to:reciever,
+        subject:subject,
+        text:message
+    }
+    transporter.sendMail(mailerOptions, function(error, response){
+        if(error){
+            console.log(error)
         }
-      }
-    });
-    request.execute(callback);
-  }
-
-async function runSample() {
-    // You can use UTF-8 encoding for the subject using the method below.
-    // You can also just use a plain string if you don't need anything fancy.
-    const subject = '🤘 Hello 🤘';
-    const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
-    const messageParts = [
-        'From: Congo <congo30700@gmail.com>',
-        'To: Ashwin Mahesh <mahesh.ashwin1998@gmail.com>',
-        'Content-Type: text/html; charset=utf-8',
-        'MIME-Version: 1.0',
-        `Subject: ${utf8Subject}`,
-        '',
-        'This is a message just to say hello.',
-        'So... <b>Hello!</b>  🤘❤️😎',
-    ];
-    const message = messageParts.join('\n');
-
-    // The body needs to be base64url encoded.
-    const encodedMessage = Buffer.from(message)
-        .toString('base64')
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .replace(/=+$/, '');
-
-    const res = await gmail.users.messages.send({
-        userId: 'me',
-        requestBody: {
-        raw: encodedMessage,
-        },
-    });
-    console.log(res.data);
-    return res.data;
+        else{
+            console.log("Email sent!")
+        }
+    })
 }
-function sendMessage(userId, message, callback) {
-    // Using the js-base64 library for encoding:
-    // https://www.npmjs.com/package/js-base64
-    var base64EncodedEmail = Base64.encodeURI(message);
-    var request = gmail.users.messages.send({
-      'userId': userId,
-      'resource': {
-        'raw': base64EncodedEmail
-      }
-    });
-    request.execute(callback);
-  }
