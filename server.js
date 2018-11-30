@@ -314,6 +314,19 @@ app.get('/getProduct/:productID', function(request, response){
     })
 })
 
+app.post('/recommendedListRaw', function(request, response){
+    var category=request.body['category']
+    var tag=request.body['tag']
+    Product.find({$or:[{category:category}, {tag:tag}]}, function(error, products){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully fetched products that match this category and tag', products:products, category:category, tag:tag})
+        }
+    })
+})
+
 app.post('/updateProductSold',function(request,response){
     var productID=request.body['productID'];
     console.log("prod id: ",productID);
@@ -1347,7 +1360,7 @@ app.post('/getReviews/:productID', function(request, response){
             // return response.json({success:1, message:'Successfully found product', reviews:product.reviews})
         }
     })
-    
+
 })
 
 // app.get('/getReviews/:productID', function(request, response){
@@ -1690,7 +1703,8 @@ app.post('/getAllOrders',function(request, response){
 })
 app.post('/getRecentOrders', function(request, response){
     var userID=request.body['userID']
-    Order.find({userID:userID}, {sort:{'createdAt':-1}}, {limit:20}, function(error, orders){
+    // Order.find({userID:userID}, {sort:{'createdAt':'-1'}}, {limit:20}, function(error, orders){
+    Order.find({userID:userID}, function(error, orders){
         if(error){
             return response.json({success:-1, message:'Server error'})
         }

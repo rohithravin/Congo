@@ -106,31 +106,19 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" *ngIf=!showErr_noPrev>
                 <div class='recommendedProducts'>
-                        <p class='recHeader'>Recommended Products</p>
-                        <div class='recProduct'>
-                          <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
-                          <a href='#'>24-Karat Diamond-Tipped Stapler</a>
+                        <p class='recHeader'>Previously Viewed Products</p>
+                        <div class="row" >
+                            <div class='recProduct' *ngFor="let prev of shownPrevious">
+                                <a (click)="routeToPrev(prev['_id'])"><img src="{{prev['images'][0]}}" alt='Recommended Product'></a>
+                                <a (click)="routeToPrev(prev['_id'])" class='showUnderline'>{{prev['name']}}</a>
+                              </div>
                         </div>
-                        <div class='recProduct'>
-                            <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
-                            <a href='#'>24-Karat Diamond-Tipped Stapler</a>
-                        </div>
-                        <div class='recProduct'>
-                            <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
-                            <a href='#'>24-Karat Diamond-Tipped Stapler</a>
-                        </div>
-                        <div class='recProduct'>
-                            <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
-                            <a href='#'>24-Karat Diamond-Tipped Stapler</a>
-                        </div>
-                        <div class='recProduct'>
-                            <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
-                            <a href='#'>24-Karat Diamond-Tipped Stapler</a>
-                        </div>
-        </div>   
-     </div>
+                        
+                        
+                </div>   
+        </div>
 
      <div class="container">
          <!-- make review a white bar all the way across, add the date created and make them line up -->

@@ -2,6 +2,10 @@
 div.reviewWrapper{
   background:rgb(53, 53, 53);
 }
+div.recommendedProducts div.row div.recProduct a.showUnderline:hover{
+  text-decoration: underline;
+  color:rgb(91, 91, 255);
+}
 
 /*review*/
 
