@@ -441,7 +441,18 @@ app.post('/processRegister', function(request, response){
                         response.json({success:0, message:'There was an error registering. Check your input again'})
                     }
                     else{
-                        response.json({success:1, message:"Successfully registered!", user:newUser})
+                        var _email=request.body['email'];
+        
+                        var name=first_name+" "+last_name;
+                        var message='Congratulation '+name+', \nWe have registered your account on our site. Explore the Congo!';
+                        var title='Congratulations from the Congo Team';
+                        console.log("email ",_email);
+                        console.log("name ",name);
+                        console.log("title ",title)
+                        console.log("message ",message)
+                        sendEmail(_email,title,message);
+                        
+                            return response.json({success:1, message:"Successfully registered!", user:newUser})
                     }
                 })
             }
