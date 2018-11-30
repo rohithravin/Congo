@@ -77,7 +77,33 @@
           </div>
 
       </div>
-
+      <div *ngIf=showFP class='previouslyViewed'>
+        <p class='prevHeader'>Featured Products</p>
+        <div class='viewedProduct'>
+            <a><img src="{{featuredProductPromo[0]['images'][0]}}" alt='featured'></a>
+            <a [routerLink]="['/product',featuredProductPromo[0]['_id']]">{{featuredProductPromo[0]['name']}}</a>
+        </div>
+        <div class='viewedProduct'>
+            <a><img src="{{featuredProductPromo[1]['images'][0]}}" alt='featured'></a>
+            <a [routerLink]="['/product',featuredProductPromo[1]['_id']]">{{featuredProductPromo[1]['name']}}</a>
+        </div>
+        <div class='viewedProduct'>
+            <a><img src="{{featuredProductPromo[2]['images'][0]}}" alt='featured'></a>
+            <a [routerLink]="['/product',featuredProductPromo[2]['_id']]">{{featuredProductPromo[2]['name']}}</a>
+        </div>
+        <div class='viewedProduct'>
+            <a><img src="{{featuredProductPromo[3]['images'][0]}}" alt='featured'></a>
+            <a  [routerLink]="['/product',featuredProductPromo[3]['_id']]">{{featuredProductPromo[3]['name']}}</a>
+        </div>
+        <div class='viewedProduct'>
+            <a><img src="{{featuredProductPromo[4]['images'][0]}}" alt='featured'></a>
+            <a [routerLink]="['/product',featuredProductPromo[4]['_id']]">{{featuredProductPromo[4]['name']}}</a>
+        </div>
+        <div class='viewedProduct'>
+            <a><img src="{{featuredProductPromo[5]['images'][0]}}" alt='featured'></a>
+            <a [routerLink]="['/product',featuredProductPromo[5]['_id']]">{{featuredProductPromo[5]['name']}}</a>
+        </div>
+      </div>
   <div *ngIf=showSB class='sponsorSmall'>
     <a [routerLink]="['/product',smallBannerPromo[0]['_id']]"><img :src="{{smallBannerPromo[0]['promotionImage']}}"   alt='Sponsor'></a>
   </div>

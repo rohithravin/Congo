@@ -51,6 +51,7 @@ export class HomepageComponent implements OnInit {
 
   ngOnInit() {
     this.fetchHistory();
+    this.fetchTest();
   }
 
   fetchRecommendedProducts(category, tag){
