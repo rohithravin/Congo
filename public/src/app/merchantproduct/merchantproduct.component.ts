@@ -38,7 +38,7 @@ export class MerchantProductComponent implements OnInit {
   editAlt(productID){
       localStorage.setItem('checkEdit', 'true')
       localStorage.setItem('editProdID', productID)
-      this._router.navigate(['dummyAdd'])
+      this._router.navigate(['merchantadd'])
   }
   fetchAllProducts(){
     this.products=[]

@@ -32,6 +32,7 @@ import { GiftCardVerifyComponent } from './gift-card-verify/gift-card-verify.com
 import { GiftCardConfirmationComponent } from './gift-card-confirmation/gift-card-confirmation.component';
 import { HelpDeskComponent } from './help-desk/help-desk.component';
 
+
 const routes: Routes = [
   {path:'', component:HomepageComponent},
   {path:'cart', component: CartComponent},
@@ -44,7 +45,7 @@ const routes: Routes = [
   {path: 'product/:pid', component: ProductComponent},
   {path: 'search/:searchQuery', component: SearchComponent},
   {path: 'registration', component: UserRegComponent},
-  {path: 'dummyAdd', component:DummyAddProductComponent},
+  {path: 'Add', component:DummyAddProductComponent},
   {path: 'promote/:pid', component: PromoteProductRegComponent},
   {path: 'merchant/register', component: MerchantReg1Component},
   {path: 'merchant/register2', component: MerchantReg2Component},

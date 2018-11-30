@@ -1,16 +1,16 @@
 <section style="background-color: #ffffff;">
 <div class="row register-form" >
        <div class="col-md-8 offset-md-2" >
-           <form class="custom-form" style="background-color: rgba(198,160,12,0.5);"><small class="form-text text-danger" style="margin-bottom: 10px;">Help text for a form field.</small>
-             <h1 style="margin-bottom: 25px;">Add Product</h1>
+           <form class="custom-form" style="background-color: rgba(198,160,12,0.5);">
+             <h1 style="margin-bottom: 25px;">{{addEditTitle}} Product</h1>
                <div class="form-row form-group" style="margin-bottom: 10px;">
                    <div class="col-sm-4 label-column"><label class="col-form-label" for="name-input-field">Product Name</label></div>
                    <div class="col-sm-6 input-column">
                        <div class="form-row">
-                           <div class="col"><input class="form-control" type="text"></div>
+                           <div class="col"><input class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]='newProduct.name' type="text"></div>
                        </div>
                        <div class="form-row">
-                           <div class="col"><small class="form-text text-danger">Enter a valid product name</small></div>
+                           <div *ngIf=showErr_name class="col"><small class="form-text text-danger">Enter a valid product name</small></div>
                        </div>
                    </div>
                </div>
@@ -18,7 +18,7 @@
                    <div class="col-sm-4 label-column"><label class="col-form-label" for="repeat-pawssword-input-field">Price</label></div>
                    <div class="col-sm-6 input-column">
                        <div class="form-row">
-                           <div class="col"><input class="form-control" type="text"></div>
+                           <div class="col"><input [ngModelOptions]="{standalone: true}" [(ngModel)]='newProduct.price' class="form-control" type="text"></div>
                        </div>
                        <div class="form-row">
                            <div class="col"><small class="form-text text-danger">Enter a valid price (numbers only).</small></div>
@@ -29,10 +29,10 @@
                    <div class="col-sm-4 label-column"><label class="col-form-label" for="dropdown-input-field">Description</label></div>
                    <div class="col-sm-6 input-column">
                        <div class="form-row">
-                           <div class="col"><textarea class="form-control"></textarea></div>
+                           <div class="col"><textarea [ngModelOptions]="{standalone: true}" [(ngModel)]='newProduct.description' class="form-control"></textarea></div>
                        </div>
                        <div class="form-row">
-                           <div class="col"><small class="form-text text-danger">Enter valid sizes separated by tags</small></div>
+                           <div class="col"><small class="form-text text-danger">Enter description with more then 20 characters</small></div>
                        </div>
                    </div>
                </div>
@@ -40,32 +40,42 @@
                    <div class="col-sm-4 label-column"><label class="col-form-label" for="email-input-field">Image Url Links</label></div>
                    <div class="col-sm-6 input-column">
                        <div class="form-row">
-                           <div class="col"><input class="form-control" type="text"></div>
+                           <div class="col"><input [ngModelOptions]="{standalone: true}" [(ngModel)]='newProduct.image' class="form-control" type="text"></div>
                        </div>
                        <div class="form-row">
-                           <div class="col"><small class="form-text text-danger">Enter a valid url.</small></div>
+                           <div *ngIf=showErr_image class="col"><small class="form-text text-danger">Enter a valid url.</small></div>
                        </div>
                    </div>
                </div>
                <div class="form-row form-group" style="margin-bottom: 10px;">
                    <div class="col-sm-4 label-column"><label class="col-form-label" for="email-input-field">Categories</label></div>
-                   <div class="col-sm-6 input-column">
-                       <div class="form-row">
-                           <div class="col"><input class="form-control" type="text"></div>
-                       </div>
-                       <div class="form-row">
-                           <div class="col"><small class="form-text text-danger">Enter a valid url.</small></div>
-                       </div>
-                   </div>
+                   <div class="red" style="margin-left: 170px;" >
+                    <select [(ngModel)]='newProduct.category' [ngModelOptions]="{standalone: true}">
+                      <option value="" selected disabled hidden>Choose Categories</option>
+                      <option value="Technology">Technology</option>
+                      <option value="Video Games">Video Games</option>
+                      <option value="Clothing">Clothing</option>
+                      <option value="Office Supplies">Office Supplies</option>
+                      <option value="Food">Food</option>
+                      <option value="Furniture">Furniture</option>
+                      <option value="Hardware">Hardware</option>
+                      <option value="Sports">Sports</option>
+                      <option value="Music">Music</option>
+                      <option value="Laboratory">Laboratory</option>
+                      <option value="Outdoors">Outdoors</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <p class="red" *ngIf=showErr_category>Enter category.</p>
                </div>
                <div class="form-row form-group" style="margin-bottom: 10px;">
                    <div class="col-sm-4 label-column"><label class="col-form-label" for="pawssword-input-field">Tags</label></div>
                    <div class="col-sm-6 input-column">
                        <div class="form-row">
-                           <div class="col"><input class="form-control" type="text"></div>
+                           <div class="col"><input [ngModelOptions]="{standalone: true}" [(ngModel)]='newProduct.tag' class="form-control" type="text"></div>
                        </div>
                        <div class="form-row">
-                           <div class="col"><small class="form-text text-danger">Enter valid tags separated by tags</small></div>
+                           <div class="col"><small class="form-text text-danger">Enter valid tags separated by commas</small></div>
                        </div>
                    </div>
                </div>
@@ -73,10 +83,10 @@
                    <div class="col-sm-4 label-column"><label class="col-form-label" for="pawssword-input-field">Size</label></div>
                    <div class="col-sm-6 input-column">
                        <div class="form-row">
-                           <div class="col"><input class="form-control" type="text"></div>
+                           <div class="col"><input [ngModelOptions]="{standalone: true}" [(ngModel)]='newProduct.size' class="form-control" type="text"></div>
                        </div>
                        <div class="form-row">
-                           <div class="col"><small class="form-text text-danger">Enter valid sizes separated by tags</small></div>
+                           <div class="col"><small class="form-text text-danger">Enter valid sizes separated by commas</small></div>
                        </div>
                    </div>
                </div>
@@ -84,15 +94,24 @@
                    <div class="col-sm-4 label-column"><label class="col-form-label" for="pawssword-input-field">Color</label></div>
                    <div class="col-sm-6 input-column">
                        <div class="form-row">
-                           <div class="col"><input class="form-control" type="text"></div>
+                           <div class="col"><input [ngModelOptions]="{standalone: true}" [(ngModel)]='newProduct.color' class="form-control" type="text"></div>
                        </div>
                        <div class="form-row">
-                           <div class="col"><small class="form-text text-danger">Enter valid colors separated by tags</small></div>
+                           <div class="col"><small class="form-text text-danger">Enter valid colors separated by commas</small></div>
                        </div>
                    </div>
-                   <div class="col"><button class="btn btn-light submit-button" type="button" style="background-color: #373737;">Add Product</button></div>
+                   <div class="col"><button *ngIf='edit==false' (click)='createProduct()' class="btn btn-light submit-button" type="button" style="background-color: #373737;">Add Product</button></div>
+                   <div class="col"><button *ngIf='edit' (click)='editProduct()' class="btn btn-light submit-button" type="button" style="background-color: #373737;">Edit Product</button></div>
                </div>
            </form>
        </div>
    </div>
+   <div *ngIf=show_succ class="alert_success">
+    <span class="closebtn" (click)="show_succ = false">&times;</span>
+        <strong>Success!</strong>
+  </div>
+  <div *ngIf=show_fail class="alert">
+    <span class="closebtn" (click)="show_fail = false">&times;</span>
+        <strong>Error!</strong> {{alertMessage}}
+  </div>
 </section>

@@ -31,7 +31,7 @@
   <input type='text' name='tag' placeholder='tag' [(ngModel)]='newProduct.tag'>
   <!--<label for="multiple_tags">Separate multiple tags by a comma ","</label><-->
   <p class="red" *ngIf=showErr_tag>Enter tags as comma seperated list.</p>
-  <label for="multiple_tags">Separate tags by space, NO COMMAS.</label>
+  <label for="multiple_tags">tags as comma seperated list</label>
 
   <div class="red" style="margin-left: 170px;" >
     <select [(ngModel)]='newProduct.category' [ngModelOptions]="{standalone: true}">
@@ -54,3 +54,11 @@
   <button *ngIf='edit==false' (click)='createProduct()'>Create</button>
   <button *ngIf='edit' (click)='editProduct()'>Make Changes</button>
 </form>
+<div *ngIf=show_succ class="alert_success">
+  <span class="closebtn" (click)="show_succ = false">&times;</span>
+      <strong>Success!</strong>
+</div>
+<div *ngIf=show_fail class="alert">
+  <span class="closebtn" (click)="show_fail = false">&times;</span>
+      <strong>Error!</strong> {{alertMessage}}
+</div>
