@@ -63,6 +63,9 @@ export class CartComponent implements OnInit {
           this.total = 0;
         }else{
           this.showCartEmpty = false;
+          for(var i =0; i < this.cart['items'].length;i++){
+            this.cart['items'][i]['itemTotal'] = this.cart['items'][i]['quantity'] * this.cart['items'][i]['product']['price'];
+          }
           this.subtotal = this.getSubtotal();
           this.tax = this.getTax();
           this.shipping = this.getShipping();
