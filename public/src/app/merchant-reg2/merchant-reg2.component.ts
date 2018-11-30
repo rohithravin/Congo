@@ -70,31 +70,31 @@ export class MerchantReg2Component implements OnInit {
   }
 
   submitButton(){
-    if (this.cardNum == null || this.cardNum.toString().length != 16){
-      this.showErr_cardNum = true;
-    }
-    else{
-      this.showErr_cardNum = false;
-    }
-    if (this.cvc == null || this.cvc.toString().length != 3){
-      this.showErr_cvc = true;
-    }
-    else{
-      this.showErr_cvc = false;
-    }
-    if(this.expDate.length != 2){
-      this.showErr_expDate = true;
-    }
-    else{
-      this.showErr_expDate = false;
-    }
-    if(this.expDate2.length != 2){
-      this.showErr_expDate2 = true;
-      console.log(this.expDate2);
-    }
-    else{
-      this.showErr_expDate2 = false;
-    }
+    // if (this.cardNum == null || this.cardNum.toString().length != 16){
+    //   this.showErr_cardNum = true;
+    // }
+    // else{
+    //   this.showErr_cardNum = false;
+    // }
+    // if (this.cvc == null || this.cvc.toString().length != 3){
+    //   this.showErr_cvc = true;
+    // }
+    // else{
+    //   this.showErr_cvc = false;
+    // }
+    // if(this.expDate.length != 2){
+    //   this.showErr_expDate = true;
+    // }
+    // else{
+    //   this.showErr_expDate = false;
+    // }
+    // if(this.expDate2.length != 2){
+    //   this.showErr_expDate2 = true;
+    //   console.log(this.expDate2);
+    // }
+    // else{
+    //   this.showErr_expDate2 = false;
+    // }
     if (this.showErr_cvc == false && this.showErr_cardNum == false &&
       this.showErr_expDate == false && this.showErr_expDate2 == false){
       console.log("everything is good here." + this.companyName);
