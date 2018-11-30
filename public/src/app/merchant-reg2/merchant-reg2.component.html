@@ -7,25 +7,25 @@
             <p>You’re almost done! The last thing we need is your credit card information.
               This will be used to your charge you with your yearly subscription of $150 to be a merchant with us. Don’t worry you information is completely secure and encrypted so no one can see it or use it!</p>
             <div class="form-group">
-              <input class="form-control" type="email" name="email" placeholder="Card Number" [(ngModel)]='cardNum'>
+              <input class="form-control" type="number"  placeholder="Card Number" [(ngModel)]='cardNum'>
               <small class="form-text text-danger" *ngIf=showErr_cardNum>Please enter a valid card number.</small>
             </div>
             <div class="form-row">
                 <div class="col">
                     <div class="form-group">
-                      <input class="form-control " type="email" name="email" placeholder="Exp Month" [(ngModel)]='expDate'>
+                      <input class="form-control " type="number"  placeholder="Exp Month" [(ngModel)]='expDate'>
                       <small class="form-text text-danger" *ngIf=showErr_expDate>Please enter a valid year (2 Numbers).</small>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
-                      <input class="form-control " type="email" name="email" placeholder="Exp Year" [(ngModel)]='expDate2'>
+                      <input class="form-control " type="number"  placeholder="Exp Year" [(ngModel)]='expDate2'>
                       <small class="form-text text-danger" *ngIf=showErr_expDate2>Please enter a valid year (2 Numbers).</small>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
-                      <input class="form-control " type="email" name="email" placeholder="CVC" [(ngModel)]='cvc'>
+                      <input class="form-control " type="number"  placeholder="CVC" [(ngModel)]='cvc'>
                       <small class="form-text text-danger" *ngIf=showErr_cvc>Please enter a valid CVC.</small>
                     </div>
                 </div>
