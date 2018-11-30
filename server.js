@@ -351,6 +351,16 @@ app.post('/processStreamRegistration', function(request,response){
                 }
                 else{
                     console.log('user',user);
+                    var _email=user.email;
+        
+                    var name=user.first_name;
+                    var message='Congratulations '+name+', \nWelcome to the Congo Stream! Enjoy your discount and expidited shipping!\n-The Congo Team';
+                    var title='Welcome from the Congo Team';
+                    console.log("email ",_email);
+                    console.log("name ",name);
+                    console.log("title ",title)
+                    console.log("message ",message)
+                    sendEmail(_email,title,message);
                     return response.json({success:1, message:'Successfully changed user state'})
                 }
             })
