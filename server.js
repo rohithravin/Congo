@@ -1347,7 +1347,7 @@ app.post('/getReviews/:productID', function(request, response){
             // return response.json({success:1, message:'Successfully found product', reviews:product.reviews})
         }
     })
-    
+
 })
 
 // app.get('/getReviews/:productID', function(request, response){
@@ -1690,7 +1690,8 @@ app.post('/getAllOrders',function(request, response){
 })
 app.post('/getRecentOrders', function(request, response){
     var userID=request.body['userID']
-    Order.find({userID:userID}, {sort:{'createdAt':-1}}, {limit:20}, function(error, orders){
+    // Order.find({userID:userID}, {sort:{'createdAt':'-1'}}, {limit:20}, function(error, orders){
+    Order.find({userID:userID}, function(error, orders){
         if(error){
             return response.json({success:-1, message:'Server error'})
         }

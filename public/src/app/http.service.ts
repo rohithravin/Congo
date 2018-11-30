@@ -28,6 +28,10 @@ export class HttpService {
   getHistory(userID){
     return this._http.post('/getHistory',{userID:userID});
   }
+  fetchRecentOrders(userID){
+    return this._http.post('/getRecentOrders', {userID:userID});
+  }
+
 
   fetchSearchedProducts(searchQuery){
     return this._http.post('/fetchSearchedProducts', {searchQuery:searchQuery})
