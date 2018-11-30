@@ -992,6 +992,15 @@ app.post('/createOrder', function(request, response){
                                             return response.json({success:0, message:'There was an error deleting the Cart'})
                                         }
                                         else{
+                                            var email=user.email
+                                            var name=user.first_name
+                                            var title=`Congo Order #${order._id} Placed`
+                                            var message=`Hello ${name},\n\nYou have successfully placed Order No. ${order._id}.\nYour order total was ${order.total}\n\nThe following items were purchased:\n`
+                                            for(var i=0; i<items.length; i++){
+                                                message+=`${items[i].product.name}\tSize: ${items[i].size}\tQuantity: ${items[i].quantity}\tColor: ${items[i].color}\n`
+                                            }
+                                            message+='\nThanks for Shopping with us!\n\n\t-The Congo Team'
+                                            sendEmail(email, title, message)
                                             return response.json({success:1, message:'Successfully created Order',order:newOrder})
                                         }
                                     })
