@@ -977,6 +977,7 @@ app.post('/createOrder', function(request, response){
                 var tax=request.body['tax']
                 var tempID=createTempID()
                 var currentTotal=0;
+                var totalItems=0;
                 console.log("tempID:", tempID)
                 var items=[]
                 for(var i=0; i<cart.items.length; i++){
@@ -989,8 +990,9 @@ app.post('/createOrder', function(request, response){
                     thisItem.total=item.product.price * item.quantity
                     currentTotal+=parseFloat(thisItem.total)
                     items.push(thisItem)
+                    totalItems+=item.quantity
                 }
-                var newOrder = new Order({userID:request.body['userID'], street_address:street, city:city, state:state, zip_code:zip_code, country:'United States', shipping:parseFloat(shipping), tempID:tempID, total:0, items:items.length})
+                var newOrder = new Order({userID:request.body['userID'], street_address:street, city:city, state:state, zip_code:zip_code, country:'United States', shipping:parseFloat(shipping), tempID:tempID, total:0, items:totalItems})
 
                 currentTotal=currentTotal+parseFloat(shipping)+parseFloat(tax);
                 currentTotal = Math.floor(currentTotal * 100) / 100;
