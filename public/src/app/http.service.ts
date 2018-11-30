@@ -10,7 +10,12 @@ export class HttpService {
 
   }
 
-
+  fetchRecommendedProducts(category, tag){
+        return this._http.post('/recommendedListRaw', {category:category, tag:tag});
+  }
+  fetchHistory(userID){
+        return this._http.post('/getHistory',{userID:userID})
+  }
   fetchFeatured(){
     return this._http.get('/getFeatured')
   }
@@ -23,6 +28,13 @@ export class HttpService {
 
   updateProductSold(productID){
     return this._http.post('/updateProductSold',{productID:productID});
+  }
+
+  getHistory(userID){
+    return this._http.post('/getHistory',{userID:userID});
+  }
+  fetchRecentOrders(userID){
+    return this._http.post('/getRecentOrders', {userID:userID});
   }
 
 

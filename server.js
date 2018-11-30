@@ -220,8 +220,28 @@ app.get('/getProduct/:productID', function(request, response){
                 response.json({success:0, message:"Product does not exist"})
             }
             else{
-                response.json({success:1, message:"Successfully found product", product:product})
+                Merchant.findOne({license:product.merchantLicense},function(error,merchant){
+                    if(error){
+                        return response.json({success:0,message:'server error'});
+                    }else{
+                        response.json({success:1, message:"Successfully found product", product:product,merchantName:merchant.name})
+                    }
+                })
+                
             }
+        }
+    })
+})
+
+app.post('/recommendedListRaw', function(request, response){
+    var category=request.body['category']
+    var tag=request.body['tag']
+    Product.find({$or:[{category:category}, {tag:tag}]}, function(error, products){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully fetched products that match this category and tag', products:products, category:category, tag:tag})
         }
     })
 })
@@ -876,6 +896,7 @@ app.post('/createOrder', function(request, response){
                 var tax=request.body['tax']
                 var tempID=createTempID()
                 var currentTotal=0;
+                var totalItems=0;
                 console.log("tempID:", tempID)
                 var items=[]
                 for(var i=0; i<cart.items.length; i++){
@@ -888,8 +909,9 @@ app.post('/createOrder', function(request, response){
                     thisItem.total=item.product.price * item.quantity
                     currentTotal+=parseFloat(thisItem.total)
                     items.push(thisItem)
+                    totalItems+=item.quantity
                 }
-                var newOrder = new Order({userID:request.body['userID'], street_address:street, city:city, state:state, zip_code:zip_code, country:'United States', shipping:parseFloat(shipping), tempID:tempID, total:0, items:items.length})
+                var newOrder = new Order({userID:request.body['userID'], street_address:street, city:city, state:state, zip_code:zip_code, country:'United States', shipping:parseFloat(shipping), tempID:tempID, total:0, items:totalItems})
 
                 currentTotal=currentTotal+parseFloat(shipping)+parseFloat(tax);
                 currentTotal = Math.floor(currentTotal * 100) / 100;
@@ -1259,7 +1281,7 @@ app.post('/getReviews/:productID', function(request, response){
             // return response.json({success:1, message:'Successfully found product', reviews:product.reviews})
         }
     })
-    
+
 })
 
 // app.get('/getReviews/:productID', function(request, response){
@@ -1602,7 +1624,8 @@ app.post('/getAllOrders',function(request, response){
 })
 app.post('/getRecentOrders', function(request, response){
     var userID=request.body['userID']
-    Order.find({userID:userID}, {sort:{'createdAt':-1}}, {limit:20}, function(error, orders){
+    // Order.find({userID:userID}, {sort:{'createdAt':'-1'}}, {limit:20}, function(error, orders){
+    Order.find({userID:userID}, function(error, orders){
         if(error){
             return response.json({success:-1, message:'Server error'})
         }
