@@ -711,6 +711,16 @@ app.post('/processMerchantRegistration', function(request, response){
                                 response.json({success:-1, message:'Could not create merchant', error:error})
                             }
                             else{
+                                var _email=info['email'];
+        
+                                var name=info['name'];
+                                var message='Dear, '+name+', \nThank you for registering to become a merchant. We will review your applicaiton and get back to you shortly.\n-The Congo Team';
+                                var title='Thank You from the Congo Team';
+                                console.log("email ",_email);
+                                console.log("name ",name);
+                                console.log("title ",title)
+                                console.log("message ",message)
+                                sendEmail(_email,title,message);
                                 response.json({success:1, message:'Successfully registered!', license:license})
                             }
                         })
