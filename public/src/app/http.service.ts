@@ -25,6 +25,9 @@ export class HttpService {
     return this._http.post('/updateProductSold',{productID:productID});
   }
 
+  getHistory(userID){
+    return this._http.post('/getHistory',{userID:userID});
+  }
 
   fetchSearchedProducts(searchQuery){
     return this._http.post('/fetchSearchedProducts', {searchQuery:searchQuery})
