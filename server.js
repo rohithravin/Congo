@@ -308,7 +308,14 @@ app.get('/getProduct/:productID', function(request, response){
                 response.json({success:0, message:"Product does not exist"})
             }
             else{
-                response.json({success:1, message:"Successfully found product", product:product})
+                Merchant.findOne({license:product.merchantLicense},function(error,merchant){
+                    if(error){
+                        return response.json({success:0,message:'server error'});
+                    }else{
+                        response.json({success:1, message:"Successfully found product", product:product,merchantName:merchant.name})
+                    }
+                })
+                
             }
         }
     })

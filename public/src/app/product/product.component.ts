@@ -30,8 +30,10 @@ export class ProductComponent implements OnInit {
   shownPrevious:any;
   showErr_noPrev:boolean;
   exists:boolean;
+  merchantName:string;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
+    this.merchantName = "";
     this.exists = false;
     this.shownPrevious = [];
     this.previouslyViewed = [];
@@ -177,6 +179,7 @@ export class ProductComponent implements OnInit {
         this._router.navigate([''])
         return;
       }
+      this.merchantName = data['merchantName'];
       this.product = data['product'];
       this.size=data['product']['sizes'][0]
       this.color=data['product']['colors'][0]
