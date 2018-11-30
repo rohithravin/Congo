@@ -19,11 +19,13 @@ export class HomepageComponent implements OnInit {
   arrTagKey:any;
   arrCatList:any;
   arrCatKey:any;
+  finalProducts2:any
   finalProducts:any;
   finalCategory:any;
   finalTag:any;
   pulledProducts:any;
-
+  hasRecomProds:boolean;
+  hasRecomProds2:boolean;
   fetchedHistory:any;
   hashed:any;
   constructor(private _httpService:HttpService) {
@@ -42,49 +44,61 @@ export class HomepageComponent implements OnInit {
     this.arrCatList=[];
     this.pulledProducts= [];
     this.finalProducts=[];
+    this.finalProducts2=[];
    }
 
   ngOnInit() {
-    // this.fetchFeatured()
-    // this.fetchFeaturedBB();
-    // this.fetchFeaturedSB();
-    // this.fetchFeaturedFP();
-    // this.recommendedHash();
-
     this.fetchHistory();
   }
 
   fetchRecommendedProducts(category, tag){
-        console.log("fetching recommended products...")
 
         var finalRec = this._httpService.fetchRecommendedProducts(category, tag);
         finalRec.subscribe(data=>{
-             console.log("data: ", data);
              if(data['success'] == -1){
-                   console.log("there was a server error!!");
+
              }else{
                    this.finalProducts = data['products'];
                    this.finalCategory = data['category'];
                    this.finalTag = data['tag'];
+                   if(this.finalProducts.length > 0){
+                        this.hasRecomProds = true;
+                   }else{
+                        this.hasRecomProds = false;
+                   }
 
-                   console.log("final products: ", this.finalProducts);
-                   console.log("category: ", this.finalCategory);
-                   console.log("tag: ", this.finalTag);
+             }
+        })
+
+
+  }
+
+  fetchRecommendedProducts2(category, tag){
+
+
+        var finalRec = this._httpService.fetchRecommendedProducts(category, tag);
+        finalRec.subscribe(data=>{
+             if(data['success'] == -1){
+             }else{
+                   this.finalProducts2 = data['products'];
+                   this.finalCategory = data['category'];
+                   this.finalTag = data['tag'];
+
+                   if(this.finalProducts2.length > 0){
+                        this.hasRecomProds2 = true;
+                   }else{
+                        this.hasRecomProds2 = false;
+                   }
              }
         })
   }
   fetchHistory(){
         if(localStorage.getItem('userID')){
-             console.log("inside recommended products")
              var histObs = this._httpService.fetchHistory(localStorage.getItem('userID'));
              histObs.subscribe(data=>{
-                   console.log("data: ", data);
                    if(data['success'] == -1){
-                        console.log("there was a server error!");
                    }else if(data['success'] == 0){
-                        console.log("No user exists!!");
                   }else{
-                        console.log("got info!!");
                         this.fetchedHistory = data['history'];
                         this.recommendedProducts();
                   }
@@ -114,7 +128,6 @@ export class HomepageComponent implements OnInit {
 
           if(data['featuredProducts'].length > 0){
             this.featuredProductPromo = data['featuredProducts'];
-            console.log(this.featuredProductPromo);
             this.showFP = true;
           }else if(data['featuredProducts'].length == 0){
             this.showFP = false;
@@ -130,10 +143,8 @@ export class HomepageComponent implements OnInit {
 
 
   fetchFeaturedBB(){
-    console.log("Calling fetchFeaturedBB function")
     var featuredObs=this._httpService.fetchFeaturedBB();
     featuredObs.subscribe(data=>{
-      console.log("Response:", data)
       if(data['success']==1){
         this.bigBannerPromo=data['products']
         this.showBB=true;
@@ -147,7 +158,6 @@ export class HomepageComponent implements OnInit {
   fetchFeaturedSB(){
     var sbObs = this._httpService.fetchFeaturedSB();
     sbObs.subscribe(data=>{
-      console.log(data);
       if(data['success'] == 1){
         this.smallBannerPromo = data['products'];
             this.showSB = true;
@@ -160,10 +170,8 @@ export class HomepageComponent implements OnInit {
   fetchFeaturedFP(){
     var fpObs = this._httpService.fetchFeaturedFP();
     fpObs.subscribe(data=>{
-      console.log("FP: ",data);
       if(data['success'] == 1){
         this.featuredProductPromo = data['products'];
-        console.log(this.featuredProductPromo);
         this.showFP = true;
       }else{
         this.showFP = false;
@@ -173,7 +181,6 @@ export class HomepageComponent implements OnInit {
 
 
   recommendedProducts(){
-      console.log("inside recommendedProducts!!");
       this.pulledProducts = this.fetchedHistory;
       var i = 0; //iterates through products
       //var j = 0; //iterates through tags
@@ -228,15 +235,6 @@ export class HomepageComponent implements OnInit {
             count++;
       }
 
-      console.log(this.arrTagList);
-      console.log("numItems in arrTagList[]: ", this.arrTagList.length);
-      //console.log(this.arrCatList);
-      console.log("arrTagKey[]: ", this.arrTagKey);
-      //console.log(this.arrTagKey);
-      console.log(this.arrCatList);
-      console.log("numItems in arrCatList[]: ", this.arrCatList.length);
-      console.log("arrCatKey[]: ", this.arrCatKey);
-      console.log("end of recommendedProducts!!");
 
       //sort tag list and arrTagKey
       var n = this.arrTagList.length;
@@ -253,11 +251,6 @@ export class HomepageComponent implements OnInit {
                  }
            }
       }
-      console.log("NEW TAG---------------------------")
-      console.log(this.arrTagList);
-      console.log("numItems in arrTagList[]: ", this.arrTagList.length);
-      //console.log(this.arrCatList);
-      console.log("arrTagKey[]: ", this.arrTagKey);
 
 
       //sort arrCatlist and arrCatKey
@@ -276,17 +269,12 @@ export class HomepageComponent implements OnInit {
            }
       }
 
-      console.log("NEW CATEGORIES--------------------")
-      console.log(this.arrCatList);
-      console.log("numItems in arrCatList[]: ", this.arrCatList.length);
-      console.log("arrCatKey[]: ", this.arrCatKey);
 
       //server call for pulling products
 
-      console.log(this.arrCatKey[0]);
-      console.log(this.arrTagKey[0]);
       this.fetchRecommendedProducts(this.arrCatKey[0], this.arrTagKey[0]);
 
+      this.fetchRecommendedProducts2(this.arrCatKey[1], this.arrTagKey[1]);
 
   }
 
@@ -309,7 +297,6 @@ export class HomepageComponent implements OnInit {
   // }
 
   recommendedHash(name){
-       // console.log()
 
         var hashed='';
         for(var i=1; i<name.length-1; i+=2){

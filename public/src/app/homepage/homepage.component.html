@@ -1,5 +1,5 @@
 
-<div class='homeWrapper'>   
+<div class='homeWrapper'>
   <div *ngIf=showBB class='promotedBanner'>
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
@@ -56,118 +56,39 @@
                 </a>
               </div>
   </div>
-  <div class='recommendedProducts'>
+
+  <div class='recommendedProducts' *ngIf='hasRecomProds'>
     <p class='recHeader'>Recommended Products</p>
-    <div class='recProduct'>
-      <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
-      <a href='#'>24-Karat Diamond-Tipped Stapler</a>
-    </div>
-    <div class='recProduct'>
-        <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
-        <a href='#'>24-Karat Diamond-Tipped Stapler</a>
-    </div>
-    <div class='recProduct'>
-        <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
-        <a href='#'>24-Karat Diamond-Tipped Stapler</a>
-    </div>
-    <div class='recProduct'>
-        <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
-        <a href='#'>24-Karat Diamond-Tipped Stapler</a>
-    </div>
-    <div class='recProduct'>
-        <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
-        <a href='#'>24-Karat Diamond-Tipped Stapler</a>
-    </div>
-    <div class='recProduct'>
-        <a href='#'><img src='https://images-na.ssl-images-amazon.com/images/I/7134d7zkJKL._SX425_.jpg' alt='Recommended Product'></a>
-        <a href='#'>24-Karat Diamond-Tipped Stapler</a>
+    <div class='recProduct' *ngFor='let product of finalProducts'>
+      <a href='#'><img src="{{product['images'][0]}}" alt='Recommended Product'></a>
+      <a [routerLink]="['/product',product['_id']]">{{product['name']}}</a>
+      <!-- <a [routerLink]="['/product',featuredProductPromo[0]['_id']]">{{featuredProductPromo[0]['name']}}</a> -->
     </div>
   </div>
-  <div *ngIf=showFP class='previouslyViewed'>
-    <p class='prevHeader'>Featured Products</p>
-    <div class='viewedProduct'>
-        <a><img src="{{featuredProductPromo[0]['images'][0]}}" alt='featured'></a>
-        <a [routerLink]="['/product',featuredProductPromo[0]['_id']]">{{featuredProductPromo[0]['name']}}</a>
-    </div>
-    <div class='viewedProduct'>
-        <a><img src="{{featuredProductPromo[1]['images'][0]}}" alt='featured'></a>
-        <a [routerLink]="['/product',featuredProductPromo[1]['_id']]">{{featuredProductPromo[1]['name']}}</a>
-    </div>
-    <div class='viewedProduct'>
-        <a><img src="{{featuredProductPromo[2]['images'][0]}}" alt='featured'></a>
-        <a [routerLink]="['/product',featuredProductPromo[2]['_id']]">{{featuredProductPromo[2]['name']}}</a>
-    </div>
-    <div class='viewedProduct'>
-        <a><img src="{{featuredProductPromo[3]['images'][0]}}" alt='featured'></a>
-        <a  [routerLink]="['/product',featuredProductPromo[3]['_id']]">{{featuredProductPromo[3]['name']}}</a>
-    </div>
-    <div class='viewedProduct'>
-        <a><img src="{{featuredProductPromo[4]['images'][0]}}" alt='featured'></a>
-        <a [routerLink]="['/product',featuredProductPromo[4]['_id']]">{{featuredProductPromo[4]['name']}}</a>
-    </div>
-    <div class='viewedProduct'>
-        <a><img src="{{featuredProductPromo[5]['images'][0]}}" alt='featured'></a>
-        <a [routerLink]="['/product',featuredProductPromo[5]['_id']]">{{featuredProductPromo[5]['name']}}</a>
-    </div>
-  </div>
+
+        <div *ngIf=showSB class='sponsorSmall'>
+          <a [routerLink]="['/product',smallBannerPromo[1]['_id']]"><img  src="{{smallBannerPromo[1]['promotionImage'][0]}}"  alt='Promoted Product'></a>
+      </div>
+      <div class='previouslyViewed'>
+          <p class='prevHeader'>Previously Viewed</p>
+          <div class='viewedProduct'>
+              <a href='#'><img src='http://sc01.alicdn.com/kf/HTB1VbayeL5TBuNjSspmq6yDRVXa2/2018-new-skin-wraps-for-juul-186.jpg' alt='Viewed Product'></a>
+              <a href='#'>Supreme Juul Skin</a>
+          </div>
+
+      </div>
+
   <div *ngIf=showSB class='sponsorSmall'>
     <a [routerLink]="['/product',smallBannerPromo[0]['_id']]"><img src="{{smallBannerPromo[0]['images'][0]}}"  alt='Sponsor'></a>
   </div>
-  <div class='previouslyViewed'>
-      <p class='prevHeader'>Previously Viewed</p>
-      <div class='viewedProduct'>
-          <a href='#'><img src='https://dtpmhvbsmffsz.cloudfront.net/posts/2016/04/27/572134302599fe9b0c000bf0/m_572134302599fe9b0c000bf1.jpg' alt='Previously Viewed'></a>
-          <a href='#'>Lululemon Men's Athletic Shorts</a>
+  <div class='recommendedProducts' *ngIf='hasRecomProds2'>
+      <p class='recHeader'>Recommended Products</p>
+      <div class='recProduct' *ngFor='let product of finalProducts2'>
+        <a href='#'><img src="{{product['images'][0]}}" alt='Recommended Product'></a>
+        <a [routerLink]="['/product',product['_id']]">{{product['name']}}</a>
+        <!-- <a [routerLink]="['/product',featuredProductPromo[0]['_id']]">{{featuredProductPromo[0]['name']}}</a> -->
       </div>
-      <div class='viewedProduct'>
-          <a href='#'><img src='https://dtpmhvbsmffsz.cloudfront.net/posts/2016/04/27/572134302599fe9b0c000bf0/m_572134302599fe9b0c000bf1.jpg' alt='Previously Viewed'></a>
-          <a href='#'>Lululemon Men's Athletic Shorts</a>
-      </div>
-      <div class='viewedProduct'>
-          <a href='#'><img src='https://dtpmhvbsmffsz.cloudfront.net/posts/2016/04/27/572134302599fe9b0c000bf0/m_572134302599fe9b0c000bf1.jpg' alt='Previously Viewed'></a>
-          <a href='#'>Lululemon Men's Athletic Shorts</a>
-      </div>
-      <div class='viewedProduct'>
-          <a href='#'><img src='https://dtpmhvbsmffsz.cloudfront.net/posts/2016/04/27/572134302599fe9b0c000bf0/m_572134302599fe9b0c000bf1.jpg' alt='Previously Viewed'></a>
-          <a href='#'>Lululemon Men's Athletic Shorts</a>
-      </div>
-      <div class='viewedProduct'>
-          <a href='#'><img src='https://dtpmhvbsmffsz.cloudfront.net/posts/2016/04/27/572134302599fe9b0c000bf0/m_572134302599fe9b0c000bf1.jpg' alt='Previously Viewed'></a>
-          <a href='#'>Lululemon Men's Athletic Shorts</a>
-      </div>
-      <div class='viewedProduct'>
-          <a href='#'><img src='https://dtpmhvbsmffsz.cloudfront.net/posts/2016/04/27/572134302599fe9b0c000bf0/m_572134302599fe9b0c000bf1.jpg' alt='Previously Viewed'></a>
-          <a href='#'>Lululemon Men's Athletic Shorts</a>
-      </div>
-    </div>
-    <div *ngIf=showSB class='sponsorSmall'>
-      <a [routerLink]="['/product',smallBannerPromo[1]['_id']]"><img  src="{{smallBannerPromo[1]['promotionImage'][0]}}"  alt='Promoted Product'></a>
-    </div>
-    <div class='previouslyViewed'>
-      <p class='prevHeader'>Previously Viewed</p>
-      <div class='viewedProduct'>
-          <a href='#'><img src='http://sc01.alicdn.com/kf/HTB1VbayeL5TBuNjSspmq6yDRVXa2/2018-new-skin-wraps-for-juul-186.jpg' alt='Viewed Product'></a>
-          <a href='#'>Supreme Juul Skin</a>
-      </div>
-      <div class='viewedProduct'>
-          <a href='#'><img src='http://sc01.alicdn.com/kf/HTB1VbayeL5TBuNjSspmq6yDRVXa2/2018-new-skin-wraps-for-juul-186.jpg' alt='Viewed Product'></a>
-          <a href='#'>Supreme Juul Skin</a>
-      </div>
-      <div class='viewedProduct'>
-          <a href='#'><img src='http://sc01.alicdn.com/kf/HTB1VbayeL5TBuNjSspmq6yDRVXa2/2018-new-skin-wraps-for-juul-186.jpg' alt='Viewed Product'></a>
-          <a href='#'>Supreme Juul Skin</a>
-      </div>
-      <div class='viewedProduct'>
-          <a href='#'><img src='http://sc01.alicdn.com/kf/HTB1VbayeL5TBuNjSspmq6yDRVXa2/2018-new-skin-wraps-for-juul-186.jpg' alt='Viewed Product'></a>
-          <a href='#'>Supreme Juul Skin</a>
-      </div>
-      <div class='viewedProduct'>
-          <a href='#'><img src='http://sc01.alicdn.com/kf/HTB1VbayeL5TBuNjSspmq6yDRVXa2/2018-new-skin-wraps-for-juul-186.jpg' alt='Viewed Product'></a>
-          <a href='#'>Supreme Juul Skin</a>
-      </div>
-      <div class='viewedProduct'>
-          <a href='#'><img src='http://sc01.alicdn.com/kf/HTB1VbayeL5TBuNjSspmq6yDRVXa2/2018-new-skin-wraps-for-juul-186.jpg' alt='Viewed Product'></a>
-          <a href='#'>Supreme Juul Skin</a>
-      </div>
-    </div>
+  </div>
+
+
 </div>
