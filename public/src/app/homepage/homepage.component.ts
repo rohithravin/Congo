@@ -30,7 +30,15 @@ export class HomepageComponent implements OnInit {
   hashed:any;
   sb1Image:string
   sb2Image:string
+  previouslyViewed:any;
+  shownPrevious:any;
+  exists:boolean;
+  showErr_noPrev:boolean;
   constructor(private _httpService:HttpService) {
+    this.exists = false;
+    this.showErr_noPrev = false;
+    this.previouslyViewed = [];
+    this.shownPrevious = [];
     this.fetchedHistory = [];
     this.bigBannerPromo = [];
     this.smallBannerPromo = [];
@@ -52,6 +60,58 @@ export class HomepageComponent implements OnInit {
   ngOnInit() {
     this.fetchHistory();
     this.fetchTest();
+    this.fetchPreviouslyViewed();
+  }
+
+  fetchPreviouslyViewed(){
+    
+    var histObs=this._httpService.getHistory(localStorage.getItem('userID'));
+    histObs.subscribe(data=>{
+      console.log("hist ",data);
+      if(data['success']==1){
+        this.previouslyViewed = data['history'];
+        console.log("prev ",this.previouslyViewed);
+        if(this.previouslyViewed.length == 0){
+          this.showErr_noPrev = true;
+        }else{
+          this.showErr_noPrev = false;
+          if(this.previouslyViewed.length > 6){
+            //no repeats only five
+            this.previouslyViewed.forEach(element => {
+              this.exists = false;
+              if(this.shownPrevious.length < 6){
+
+                if(this.shownPrevious.length == 0){
+                  this.shownPrevious.push(element);
+                }else{
+                  for(var i = 0; i < this.shownPrevious.length;i++){
+                    if(this.shownPrevious[i]['_id'] == element['_id']){
+                      this.exists = true;
+                    }
+                    if(i == this.shownPrevious.length-1){
+                      if(this.exists == false){
+                        
+                        this.shownPrevious.push(element);
+                      }
+                    }
+                  }
+                }
+
+
+             
+
+              }
+            });
+          }else{
+            this.shownPrevious = this.previouslyViewed
+          }
+          console.log("shown ",this.shownPrevious);
+        }
+      }else{
+        this.showErr_noPrev = true;
+        //error
+      }
+    })
   }
 
   fetchRecommendedProducts(category, tag){

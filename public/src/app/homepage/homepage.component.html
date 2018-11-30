@@ -69,14 +69,22 @@
         <div *ngIf=showSB class='sponsorSmall'>
           <a [routerLink]="['/product',smallBannerPromo[1]['_id']]"><img  src="{{smallBannerPromo[1]['promotionImage']}}"  alt='Promoted Product'></a>
       </div>
-      <div class='previouslyViewed'>
-          <p class='prevHeader'>Previously Viewed</p>
-          <div class='viewedProduct'>
-              <a href='#'><img src='http://sc01.alicdn.com/kf/HTB1VbayeL5TBuNjSspmq6yDRVXa2/2018-new-skin-wraps-for-juul-186.jpg' alt='Viewed Product'></a>
-              <a href='#'>Supreme Juul Skin</a>
+
+          <div *ngIf=!showErr_noPrev>
+            <div class='previouslyViewed'>
+              <p class='prevHeader'>Previously Viewed</p>
+                    <div class="row" >
+                        <div class='viewedProduct' *ngFor="let prev of shownPrevious">
+                            <a [routerLink]="['/product',prev['_id']]"><img src="{{prev['images'][0]}}" alt='Recommended Product'></a>
+                            <a [routerLink]="['/product',prev['_id']]">{{prev['name']}}</a>
+                          </div>
+                    </div>
+                    
+                    
+            </div>   
           </div>
 
-      </div>
+      
       <div *ngIf=showFP class='previouslyViewed'>
         <p class='prevHeader'>Featured Products</p>
         <div class='viewedProduct'>
