@@ -1418,6 +1418,16 @@ app.post('/redeemGiftCard', function(request, response){
                                     return response.json({success:0, message:'Unable to inactivate card'})
                                 }
                                 else{
+                                    var _email=user.email;
+        
+                                    var name=user.first_name;
+                                    var message='Congratulations '+name+', \nThank you for redeeming a Congo gift card. You now have $'+value+' in your account.\n-The Congo Team';
+                                    var title='Thank You from the Congo Team';
+                                    console.log("email ",_email);
+                                    console.log("name ",name);
+                                    console.log("title ",title)
+                                    console.log("message ",message)
+                                    sendEmail(_email,title,message);
                                     return response.json({success:1, message:'Successfully redeemed card', userCredits:user.credits})
                                 }
                             })
