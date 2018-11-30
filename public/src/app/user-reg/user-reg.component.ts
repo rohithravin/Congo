@@ -65,14 +65,14 @@ export class UserRegComponent implements OnInit {
     this.showErr_password = false;
     this.showErr_confirm = false;
 
-    if(this.first_name.match(/^[A-Za-z]+$/) == null || this.first_name.length < 2 ){
+    if(this.first_name.match(/^[A-Za-z']+$/) == null || this.first_name.length < 2 ){
       this.showErr_firstname = true;
     }else{
       this.showErr_firstname = false;
     }
 
 
-    if(this.last_name.match(/^[A-Za-z]+$/) == null || this.last_name.length < 2){
+    if(this.last_name.match(/^[A-Za-z']+$/) == null || this.last_name.length < 2){
       this.showErr_lastname = true;
     }else{
       this.showErr_firstname = false;
@@ -95,7 +95,7 @@ export class UserRegComponent implements OnInit {
     }
 
     if(this.password.length < 8){
-      this.password_err ="Password needs atleast 8 characters.";
+      this.password_err ="Password needs at least 8 characters.";
       this.showErr_password = true;
     }else{
       this.showErr_password = false;
