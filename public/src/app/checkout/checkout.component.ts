@@ -204,17 +204,7 @@ export class CheckoutComponent implements OnInit {
    }
 
 
-   if (this.selectedCCDate == null){
-    this.showErr_date = true;
-  }else{
-    // var date = this.selectedCCDate.toString();
-    var date=this.selectedCCDate
-    if(date.length != 2){
-      this.showErr_date = true;
-    }else{
-      this.showErr_date = false;
-    }
-  }
+   
 
   if(this.selectedCCYear == null){
     this.showErr_year = true;
@@ -416,16 +406,6 @@ export class CheckoutComponent implements OnInit {
          }
       
       
-         if (this.selectedCCDate == null){
-          this.showErr_date = true;
-        }else{
-          var date = this.selectedCCDate.toString();
-          if(date.length != 2){
-            this.showErr_date = true;
-          }else{
-            this.showErr_date = false;
-          }
-        }
       
         if(this.selectedCCYear == null){
           this.showErr_year = true;

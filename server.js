@@ -243,7 +243,13 @@ app.get('/getProduct/:productID', function(request, response){
                     if(error){
                         return response.json({success:0,message:'server error'});
                     }else{
-                        response.json({success:1, message:"Successfully found product", product:product,merchantName:merchant.name})
+                        
+                        if(merchant != null){
+                            response.json({success:1, message:"Successfully found product", product:product,merchantName:merchant.name})
+                        }else{
+                            response.json({success:1, message:"Successfully found product", product:product,merchantName:'Congo Merchant'})
+                        }
+                        
                     }
                 })
                 
@@ -1532,7 +1538,7 @@ app.post('/approveMerchant', function(request, response){
         }
     })
 })
-app.post('/4242Merchant', function(request, response){
+app.post('/rejectMerchant', function(request, response){
     var userID=request.body['userID']
     var merchantID=request.body['merchantID']
     User.findOne({_id:userID}, function(error, user){
@@ -1552,8 +1558,8 @@ app.post('/4242Merchant', function(request, response){
                     return response.json({success:0, message:'Unable to reject this merchant'})
                 }
                 else{
-                    var email=merchant.email
-                    var name=merchant.name
+                    var email=user.email
+                    var name=user.name
                     var message=`We\'re sorry to inform you, ${name}, but we unfortunately have to reject your application for merchant.\nAfter thoroughly reviewing your application, we felt that your company was not a good fit for selling products on our site. Thank you for you're interest.\nSincerely,\n\tThe Congo Team `
                     var title='Update from the Congo Team'
                     sendEmail(email, title, message)
