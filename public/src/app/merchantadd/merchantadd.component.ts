@@ -170,7 +170,7 @@ export class MerchantaddComponent implements OnInit {
         return this._router.navigate(['/merchant/products'])
       }else{
         this.show_fail = true;
-        this.alertMessage = "Server error. Try again later!";
+        this.alertMessage = "Client error. check all fields!";
       }
     })
   }
