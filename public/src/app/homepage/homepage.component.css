@@ -25,6 +25,7 @@ div.recommendedProducts div.recProduct{
     margin-left:10px;
     margin-right:10px;
     display:inline-block;
+    vertical-align:top;
 }
 div.recProduct a{
     margin-top:8px;

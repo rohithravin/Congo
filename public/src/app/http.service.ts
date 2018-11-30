@@ -10,7 +10,12 @@ export class HttpService {
 
   }
 
-
+  fetchRecommendedProducts(category, tag){
+        return this._http.post('/recommendedListRaw', {category:category, tag:tag});
+  }
+  fetchHistory(userID){
+        return this._http.post('/getHistory',{userID:userID})
+  }
   fetchFeatured(){
     return this._http.get('/getFeatured')
   }
