@@ -1348,6 +1348,11 @@ app.post('/purchaseGiftCard', function(request, response){
                 return response.json({success:0, message:'Unable to create gift card'})
             }
             else{
+                var email=user.email
+                var name=user.first_name
+                var title='Congo Gift Card Purchased'
+                var message=`Hello ${name},\n\nYou have successfully purchased a gift card with value $${amount}.\nThe card number is: ${cardNum}\nHappy Spending!\n\n-The Congo Team`
+                sendEmail(email, title, message)
                 return response.json({success:1, message:'Successfully created Gift Card', card:newCard})
             }
         })
