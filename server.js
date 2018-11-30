@@ -1324,14 +1324,22 @@ app.post('/purchaseGiftCard', function(request, response){
     var cardNum=createGiftCardNumber()
     console.log(cardNum);
     var newCard = new GiftCard({buyerID:buyerID, cardNumber:cardNum, value:amount})
-    newCard.save(function(error){
+    User.findOne({_id:buyerID}, function(error, user){
         if(error){
-             console.log(error);
-            return response.json({success:0, message:'Unable to create gift card'})
+            return response.json({success:-1, message:'Server error'})
         }
-        else{
-            return response.json({success:1, message:'Successfully created Gift Card', card:newCard})
+        else if(user==null){
+            return response.json({success:0, message:'No user found with this id'})
         }
+        newCard.save(function(error){
+            if(error){
+                 console.log(error);
+                return response.json({success:0, message:'Unable to create gift card'})
+            }
+            else{
+                return response.json({success:1, message:'Successfully created Gift Card', card:newCard})
+            }
+        })
     })
 })
 
@@ -1458,7 +1466,7 @@ app.post('/approveMerchant', function(request, response){
                             var email=merchant.email
                             var name=merchant.name
                             var license=merchant.license
-                            var message='Congratulations '+name+', \nWe have approved your company as merchants on our site. This comes with a great deal of responsibility, but we feel that you can succeed.\n Your license number is: '+license+'. \n Welcome to the family!\n-The Congo Team'
+                            var message='Congratulations '+name+', \nWe have approved your company as merchants on our site. This comes with a great deal of responsibility, but we feel that you can succeed.\n Your license number is: '+license+'. \n\nWelcome to the family!\n\n-The Congo Team'
                             var title='Congratulations from the Congo Team'
                             sendEmail(email, title, message)
                             return response.json({success:1, message:'Successfully approved this merchant', merchantName:merchant.name, approved:merchant.approved})
@@ -1469,7 +1477,7 @@ app.post('/approveMerchant', function(request, response){
         }
     })
 })
-app.post('/rejectMerchant', function(request, response){
+app.post('/4242Merchant', function(request, response){
     var userID=request.body['userID']
     var merchantID=request.body['merchantID']
     User.findOne({_id:userID}, function(error, user){

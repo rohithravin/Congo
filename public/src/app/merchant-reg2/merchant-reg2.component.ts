@@ -101,6 +101,7 @@ export class MerchantReg2Component implements OnInit {
 
   
           //succ
+          console.log("url:", this.url)
           var err=this._httpService.createMerchant(this.url, this.email, this.description, this.companyName, this.bankRoutingNum, this.accountNum, this.cardNum, this.expDate,this.expDate2, this.cvc, localStorage.getItem('userID'));
           err.subscribe(data=>{
             console.log("response:", data)
