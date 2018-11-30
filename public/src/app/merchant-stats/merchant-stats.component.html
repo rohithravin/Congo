@@ -2,27 +2,27 @@
         <div class="container">
             <div class="intro">
                 <h2 class="text-center">Statistics</h2>
-                <p class="text-center">Welcoem to the statsitics page! Here you will get to see all the important data relavant to your products and company.</p>
-                <button class="btn btn-secondary" type="button" style="margin-left: 146px;background-color: rgba(198,160,12,0.9);margin-top: 15px;padding-bottom: 5px;" [routerLink]="['/merchant/portal']">Back to Merhcant Portal</button></div>
+                <p class="text-center">Welcome to the statistics page! Here you will get to see all the important data relevant to your products and company.</p>
+                <button class="btn btn-secondary" type="button" style="margin-left: 146px;background-color: rgba(198,160,12,0.9);margin-top: 15px;padding-bottom: 5px;" [routerLink]="['/merchant/portal']">Back to Merchant Portal</button></div>
             <div
                 class="row justify-content-center features" style="padding-bottom: 0px;">
                 <div class="col-sm-6 col-md-5 col-lg-5 item">
                     <div class="box">
-                        <h1 style="margin-bottom: 10px;margin-top: 31px;color: rgba(198,160,12,0.89);">276</h1>
+                        <h1 style="margin-bottom: 10px;margin-top: 31px;color: rgba(198,160,12,0.89);">{{totalSold}}</h1>
                         <h1 style="margin-bottom: 5px;">Items Sold</h1>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-5 col-lg-5 item">
                     <div class="box">
-                        <h6 style="margin-bottom: 9px;color: rgba(198,160,12,0.89);">Prouduct #1</h6>
-                        <h6 style="margin-bottom: 9px;color: rgba(198,160,12,0.89);">Prouduct #2</h6>
-                        <h6 style="margin-bottom: 9px;color: rgba(198,160,12,0.89);">Prouduct #3</h6>
+                        <h6 style="margin-bottom: 9px;color: rgba(198,160,12,0.89);" *ngIf='showOne==true'>1. {{prodOne.name}}</h6>
+                        <h6 style="margin-bottom: 9px;color: rgba(198,160,12,0.89);" *ngIf='showTwo==true'>2. {{prodTwo.name}}</h6>
+                        <h6 style="margin-bottom: 9px;color: rgba(198,160,12,0.89);" *ngIf='showThree==true'>3. {{prodThree.name}}</h6>
                         <h1 style="margin-top: 13px;">Top Products</h1>
                     </div>
                 </div>
         </div>
         <div class="row justify-content-center features" style="padding-top: 0px;padding-bottom: 0px;">
-            <div class="col-sm-6 col-md-5 col-lg-5 item">
+            <!-- <div class="col-sm-6 col-md-5 col-lg-5 item">
                 <div class="box">
                     <h1 style="margin-bottom: 30px;margin-top: 10px;color: rgba(198,160,12,0.89);">$2769.89</h1>
                     <div class="row" style="margin-bottom: 10px;">
@@ -100,10 +100,10 @@
                                 </select><select style="width: 110px;"><option value="2018" selected="">2018</option><option value="2017">2017</option><option value="2016">2016</option><option value="2015">2015</option><option value="2014">2014</option><option value="2013">2013</option><option value="2012">2012</option><option value="2011">2011</option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option><option value="2001">2001</option><option value="2000">2000</option></select></div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="col-sm-6 col-md-5 col-lg-5 item">
                 <div class="box">
-                    <h1 style="margin-bottom: 30px;margin-top: 10px;color: rgba(198,160,12,0.89);">$2769.89</h1>
+                    <h1 style="margin-bottom: 30px;margin-top: 10px;color: rgba(198,160,12,0.89);">${{totalBillings}}</h1>
                     <h1>Lifetime Billings</h1>
                 </div>
             </div>

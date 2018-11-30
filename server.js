@@ -29,6 +29,13 @@ db.settings(settings);
 
 // Mongoose DB
 mongoose.connect('mongodb://localhost/CongoDB')
+
+var SiteSchema= new mongoose.Schema({
+    visits:{type:Number, default:0}
+})
+mongoose.model('Site', SiteSchema)
+var Site=mongoose.model('Site')
+
 var UserSchema = new mongoose.Schema({
     first_name:{type:String, required:[true, "First name is required."], minlength:2},
     last_name:{type:String, required:[true, "Last name is required"], minlength:2},
@@ -50,7 +57,7 @@ var MerchantSchema = new mongoose.Schema({
     email:{type:String, required:[true, "Email is required"]},
     url:{type:String, required:[true, "URL is required"], minlength:10},
     // user:UserSchema,
-    userID:{type:String, required:[true, "UserID is required"]},
+    userID:{type:String, /*required:[true, "UserID is required"]*/},
     description:{type:String, required:[true, "Description is required"]},
     products:["ProductSchema"],
     bankAccountNumber:{type:String, required:[true, "Bank account is required"]},
@@ -83,7 +90,7 @@ var ProductSchema=new mongoose.Schema({
     sizes:[{type:String}],
     colors:[{type:String}],
     num_sold:{type:Number, default:0},
-    num_views:{type:Number, default:0},
+    // num_views:{type:Number, default:0},
     images:[{type:String}],
     tags:[{type:String}],
     active:{type:Boolean, default:true},
@@ -133,7 +140,15 @@ var OrderItemSchema=new mongoose.Schema({
     color:{type:String, required:[true, "Color is required"]},
     quantity:{type:Number, min:1, required:true},
     total:{type:Number, default:0},
-    orderID:{type:String}
+    orderID:{type:String},
+    shipped:{type:Boolean, default:false},
+    merchantLicense:{type:String},
+    street_address:{type:String},
+    city:{type:String},
+    state:{type:String},
+    zip_code:{type:String},
+    country:{type:String, default:"United States"},
+    name:{type:String}
 }, {timestamps:true})
 mongoose.model('OrderItem', OrderItemSchema)
 var OrderItem=mongoose.model('OrderItem')
@@ -144,7 +159,7 @@ var OrderSchema=new mongoose.Schema({
     userID:{type:String, required:[true, 'User ID is required']},
     stripe_key:{type:String/*, required:true*/},
     //Change ProductSchema to orderItemSchema and in cart schema, create cart item
-    items:[OrderItemSchema],
+    // items:[OrderItemSchema],
     refunded:{type:Boolean, default:false},
     street_address:{type:String, required:[true, "Street address is required"]},
     city:{type:String, required:[true, "Street address is required"]},
@@ -169,6 +184,104 @@ var GiftCard=mongoose.model('GiftCard')
 app.use(express.static(path.join(__dirname, './public/dist/public')))
 app.use(bodyParser.json())
 
+//GMAIL CODE STARTS HERE
+
+const fs = require('fs');
+const readline = require('readline');
+const {google} = require('googleapis');
+
+// If modifying these scopes, delete token.json.
+const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];
+// The file token.json stores the user's access and refresh tokens, and is
+// created automatically when the authorization flow completes for the first
+// time.
+const TOKEN_PATH = 'token.json';
+
+// Load client secrets from a local file.
+fs.readFile('credentials.json', (err, content) => {
+  if (err) return console.log('Error loading client secret file:', err);
+  // Authorize a client with credentials, then call the Gmail API.
+  authorize(JSON.parse(content), listLabels);
+});
+
+/**
+ * Create an OAuth2 client with the given credentials, and then execute the
+ * given callback function.
+ * @param {Object} credentials The authorization client credentials.
+ * @param {function} callback The callback to call with the authorized client.
+ */
+function authorize(credentials, callback) {
+  const {client_secret, client_id, redirect_uris} = credentials.installed;
+  const oAuth2Client = new google.auth.OAuth2(
+      client_id, client_secret, redirect_uris[0]);
+
+  // Check if we have previously stored a token.
+  fs.readFile(TOKEN_PATH, (err, token) => {
+    if (err) return getNewToken(oAuth2Client, callback);
+    oAuth2Client.setCredentials(JSON.parse(token));
+    callback(oAuth2Client);
+  });
+}
+
+/**
+ * Get and store new token after prompting for user authorization, and then
+ * execute the given callback with the authorized OAuth2 client.
+ * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
+ * @param {getEventsCallback} callback The callback for the authorized client.
+ */
+function getNewToken(oAuth2Client, callback) {
+  const authUrl = oAuth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: SCOPES,
+  });
+  console.log('Authorize this app by visiting this url:', authUrl);
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  rl.question('Enter the code from that page here: ', (code) => {
+    rl.close();
+    oAuth2Client.getToken(code, (err, token) => {
+      if (err) return console.error('Error retrieving access token', err);
+      oAuth2Client.setCredentials(token);
+      // Store the token to disk for later program executions
+      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+        if (err) return console.error(err);
+        console.log('Token stored to', TOKEN_PATH);
+      });
+      callback(oAuth2Client);
+    });
+  });
+}
+
+/**
+ * Lists the labels in the user's account.
+ *
+ * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
+ */
+function listLabels(auth) {
+  const gmail = google.gmail({version: 'v1', auth});
+  gmail.users.labels.list({
+    userId: 'me',
+  }, (err, res) => {
+    if (err) return console.log('The API returned an error: ' + err);
+    const labels = res.data.labels;
+    if (labels.length) {
+      console.log('Labels:');
+      labels.forEach((label) => {
+        console.log(`- ${label.name}`);
+      });
+    } else {
+      console.log('No labels found.');
+    }
+  });
+}
+
+//END OF GMAIL CODE
+
+
+
+/*
 app.get('/getFeaturedFirebase', function(request, response){
     console.log("Recieved function request")
     var ref=db.collection("products")
@@ -180,6 +293,7 @@ app.get('/getFeaturedFirebase', function(request, response){
         })
     })
 })
+*/
 
 app.get('/getProduct/:productID', function(request, response){
     var productID=request.params.productID
@@ -209,6 +323,30 @@ app.post('/recommendedListRaw', function(request, response){
         }
         else{
             return response.json({success:1, message:'Successfully fetched products that match this category and tag', products:products, category:category, tag:tag})
+        }
+    })
+})
+
+app.post('/updateProductSold',function(request,response){
+    var productID=request.body['productID'];
+    console.log("prod id: ",productID);
+    Product.findOne({_id:productID},function(error,product){
+        if(error){
+            return response.json({success:0,message:'Server Error'});
+        }else{
+            if(product==null){
+                return response.json({success:0,message:'Product does not exist'});
+            }else{
+                //change the ish
+                product.num_sold = (product.num_sold + 1);
+                product.save(function(error){
+                    if(error){
+                        return response.json({succes:0,message:'Cant save product'});
+                    }else{
+                        return response.json({success:1,message:'Product bought updated'});
+                    }
+                })
+            }
         }
     })
 })
@@ -291,10 +429,10 @@ app.post('/processMerchantLogin', function(request, response){
 //   var hashedhPW=bcrypt.hashSync(password, NUM_SALTS)
   Merchant.findOne({license:license}, function(error, merchant){
     if(error){
-        response.json({success:0, message:'Invalid credentials'})
+        response.json({success:-1, message:'Server error'})
     }
     else if(merchant==null){
-        response.json({success:0, message:'Invalid credentials'})
+        response.json({success:0, message:'No merchant with this license'})
     }
     else{
         //Found merchant
@@ -311,7 +449,7 @@ app.post('/processMerchantLogin', function(request, response){
                     response.json({success:1, message:'Login successful', name:merchant.name})
                 }
                 else{
-                    response.json({success:0, message:'Invalid credentials'})
+                    response.json({success:0, message:'Invalid password'})
                 }
             }
         })
@@ -526,8 +664,16 @@ app.post('/purchaseWithUserCredit', function(request,response){
             return response.json({success:-1,message:'User is null'});
         }else{
             if((user.credits - cartPrice) < 0){
-                return response.json({success:-3,message:'User has insufficient funds'});
-            }
+                var cost = (-1)*(user.credits - cartPrice);
+                user.credits = 0;
+                user.save(function(error){
+                    if(error){
+                        return response.json({success:0,message:'error saving user'});
+                    }else{
+                        return response.json({success:2,message:'Partial Purchase with Congo Credit success',cost:cost});
+                    }
+                })
+            }else{
             user.credits = user.credits - cartPrice;
             user.save(function(error){
                 if(error){
@@ -536,6 +682,7 @@ app.post('/purchaseWithUserCredit', function(request,response){
                     return response.json({success:1,message:'Purchase with Congo Credit success'});
                 }
             })
+          }
         }
     })
 })
@@ -803,6 +950,7 @@ app.post('/processEdit', function(request, response){
 })
 
 app.post('/createOrder', function(request, response){
+    //UPDATE PURCHASE COUNT OF EVERY ITEM AROUND THIS CALL
     if(!('userID' in request.body)){
         return response.json({success:-1, message:'UserID not in request.body'})
     }
@@ -845,7 +993,9 @@ app.post('/createOrder', function(request, response){
                 var newOrder = new Order({userID:request.body['userID'], street_address:street, city:city, state:state, zip_code:zip_code, country:'United States', shipping:parseFloat(shipping), tempID:tempID, total:0, items:items.length})
 
                 currentTotal=currentTotal+parseFloat(shipping)+parseFloat(tax);
-                newOrder.total=currentTotal
+                currentTotal = Math.floor(currentTotal * 100) / 100;
+                // newOrder.total=currentTotal
+                newOrder.total=Math.floor(currentTotal * 100) / 100;
                 newOrder.save(function(error){
                     if(error){
                         return response.json({success:0, message:"Unable to create order"})
@@ -860,11 +1010,18 @@ app.post('/createOrder', function(request, response){
                                 for(j=0; j<items.length; j++){
                                     var item=items[j]
                                     item.orderID=order._id
+                                    item.merchantLicense=item.product.merchantLicense
+                                    item.street_address=order.street_address
+                                    item.city=order.city
+                                    item.state=order.state
+                                    item.zip_code=order.zip_code
+                                    var name=user.first_name+' '+user.last_name
+                                    item.name=name
                                     var newOrderItem = new OrderItem(item)
                                     newOrderItem.save(function(error){
                                         if(error){
                                             console.log("Unable to save a product")
-                                            return response.json({success:0, message:'Unable to save'})
+                                            return response.json({success:0, message:'Unable to save order Item'})
                                         }
                                     })
                                 }
@@ -959,96 +1116,14 @@ app.get('/testHash', function(request, response){
     response.json({license:license})
 })
 
-app.get('/getFeaturedBB', function(request, response){
-    console.log("Recieving request")
-    var bigBannerProducts=[];
-    Product.find({promotionType:'BB'}, function(error, products){
+app.get('/getFeatured',function(request,response){
+    var promoteProducts = [];
+    Product.find({promoted: true}, function(error,products){
         if(error){
-            return response.json({success:-1, message:'Server error'})
-        }
-        else{
-            var pickedIndeces=[];
-            for(var i=0; i<5; i++){
-                var toAdd=Math.floor(Math.random()*products.length)
-                var redo=false;
-                for(var j=0; j<pickedIndeces.length; j++){
-                    if(pickedIndeces[j]==toAdd){
-                        redo=true;
-                        break;
-                    }
-                }
-                if(redo==true){
-                    i--;
-                }
-                else{
-                    pickedIndeces[pickedIndeces.length]=toAdd;
-                }
-            }
-            for(var i=0; i<5; i++){
-                var thisIndex=pickedIndeces[i]
-                bigBannerProducts.push(products[thisIndex])
-            }
-            console.log("Reaching end of fetch")
-            return response.json({success:1, message:'Successfully fetched BigBannerProducts.', products:bigBannerProducts})
-        }
-    })
-})
-
-app.get('/getFeaturedSB', function(request,response){
-    var smallBannerProducts = [];
-    Product.find({promotionType:'SB'}, function(error, products){
-        if(error){
-            return response.json({success:-1, messag:'Server error'})
-        }
-        else{
-            var _numProducts = 2;
-            var _pickedIndexes = [];
-            if (products.length != 0){
-                for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
-                for(var i =0; i < _numProducts; i++){
-                    do{
-                        var randIndex = Math.floor(Math.random() * (products.length));
-                    } while (_pickedIndexes[randIndex] != 0) {
-                        _pickedIndexes[randIndex] = 1;
-                        smallBannerProducts[i] = products[randIndex];
-                    }
-                    if(i == _numProducts-1){
-                        return response.json({success:1,message:'Fetched small banners',products:smallBannerProducts});
-                    }
-                }
-
-            }else{
-                return response.json({success:0,message:'No products'});
-            }
-        }
-    })
-})
-
-app.get('/getFeaturedFP',function(request,response){
-    var featuredProducts = [];
-    Product.find({promotionType:'FP'}, function(error,products){
-        if(error){
-            return response.json({success:-1, message:'Server error'})
-        }
-        else{
-            var _numProducts = 6;
-            var _pickedIndexes = [];
-            if (products.length != 0) {
-                for (var i = 0; i < products.length; i++) { _pickedIndexes[i] = 0; }
-                for (var i = 0; i < _numProducts; i++) {
-                    do {
-                        var randIndex = Math.floor(Math.random() * (products.length));
-                    } while (_pickedIndexes[randIndex] != 0) {
-                        _pickedIndexes[randIndex] = 1;
-                        featuredProducts[i] = products[randIndex];
-                    }
-                    if(i == _numProducts-1){
-                        return response.json({success:1,message:'Fetched FP',products:featuredProducts});
-                    }
-                }
-            }else{
-                return response.json({success:0,message:'No products'});
-            }
+            return response.json({succes:-1,message:'Server error'});
+        }else{
+            // console.log("Promo prods ",products);
+            return response.json({success:1,message:'Successfully got promoted products',products:products});
         }
     })
 })
@@ -1123,89 +1198,7 @@ app.get('/getFeaturedZZZ', function(request, response){
     })
 })
 
-app.get('/getFeaturedZZ3', function(request, response){
-    var bigBannerProducts = [];
-    var smallBannerProducts = [];
-    var featuredProducts = [];
-    var waitOne=false;
-    Product.find({promotionType:'BB'}, function(error, products){
-        if(error){
-           return response.json({success:-1, message:'Server error'})
-        }
-        else{
-            //Fetch 5 random indeces of products
-            //Append to big banner products
-            var _numProducts = 5;
-            var _pickedIndexes = [];
-            for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
-            if (products.length != 0) {
-                for (var i = 0; i < _numProducts; i++) {
-                    do {
-                        var randIndex = Math.floor(Math.random() * (products.length));
-                    } while (_pickedIndexes[randIndex] != 0) {
-                        _pickedIndexes[randIndex] = 1;
-                        bigBannerProducts[i] = products[randIndex];
-                    }
-                }
-            }
-        }
-        waitOne=true;
-    })
-    while(waitOne==false){
 
-    }
-    var waitTwo=false;
-    Product.find({promotionType:'SB'}, function(error, products){
-        if(error){
-           return response.json({success:-1, message:'Server error'});
-        }
-        else{
-            //Get 2 random indeces, make sure no repeats
-            //Append to small Banner products
-            var _numProducts = 2;
-            var _pickedIndexes = [];
-            if (products.length != 0){
-                for(var i=0;i<products.length;i++){_pickedIndexes[i]=0;}
-                for(var i =0; i < _numProducts; i++){
-                    do{
-                        var randIndex = Math.floor(Math.random() * (products.length));
-                    } while (_pickedIndexes[randIndex] != 0) {
-                        _pickedIndexes[randIndex] = 1;
-                        smallBannerProducts[i] = products[randIndex];
-                    }
-                }
-            }
-        }
-        waitTwo=True;
-    })
-    while(waitTwo==false){
-
-    }
-    Product.find({promotionType:'FP'}, function(error,products){
-        if(error){
-          return  response.json({success:-1, message:'Server error'});
-
-        }
-        else{
-            //get 6 random indeces, make sure no repeats
-            //append to featured products
-            var _numProducts = 6;
-            var _pickedIndexes = [];
-            if (products.length != 0) {
-                for (var i = 0; i < products.length; i++) { _pickedIndexes[i] = 0; }
-                for (var i = 0; i < _numProducts; i++) {
-                    do {
-                        var randIndex = Math.floor(Math.random() * (products.length));
-                    } while (_pickedIndexes[randIndex] != 0) {
-                        _pickedIndexes[randIndex] = 1;
-                        featuredProducts[i] = products[randIndex];
-                    }
-                }
-            }
-          return response.json({success: 1, message: "Successfully fetched all featured products", bigBanner: bigBannerProducts, smallBanner: smallBannerProducts, featuredProducts: featuredProducts});
-        }
-    })
-})
 
 app.post('/processNewReview', function(request, response){
     //ProductID, userID, rating, review
@@ -1283,6 +1276,7 @@ app.post('/processAdminLogin', function(request, response){
     var email=request.body['email']
     var password=request.body['password']
     var pin=request.body['pin']
+    console.log("Email:", email, "password:", password, "pin:", pin)
     User.findOne({email:email}, function(error, user){
         if(error){
             return response.json({success:-1, message:'Server error'})
@@ -1458,14 +1452,14 @@ app.get('/getActiveMerchants', function(request, response){
             return response.json({success:-1, message:'Server error'})
         }
         else{
-            var returnMerchants=[]
-            for(merchant in merchants){
-                var tempMerchant={name:'', _id:''}
-                tempMerchant.name=merchant.name
-                tempMerchant._id=merchant._id;
-                returnMerchants.push(tempMerchant)
-            }
-            return response.json({success:1, message:'Successfully fetched all merchants', merchants:returnMerchants})
+            // var returnMerchants=[]
+            // for(merchant in merchants){
+            //     var tempMerchant={name:'', _id:''}
+            //     tempMerchant.name=merchant.name
+            //     tempMerchant._id=merchant._id;
+            //     returnMerchants.push(tempMerchant)
+            // }
+            return response.json({success:1, message:'Successfully fetched all merchants', merchants:merchants})
         }
     })
 })
@@ -1489,6 +1483,7 @@ app.get('/getPendingMerchants', function(request, response){
 app.post('/approveMerchant', function(request, response){
     var userID=request.body['userID']
     var merchantID=request.body['merchantID']
+    console.log("userID:",userID, "merchantID", merchantID)
     User.findOne({_id:userID}, function(error, user){
         if(error){
             return response.json({success:-1, message:'Server error'})
@@ -1512,10 +1507,12 @@ app.post('/approveMerchant', function(request, response){
                     return response.json({success:0, message:'This merchant has already been approved'})
                 }
                 else{
+                    console.log("Approval Merchant Before:", merchant)
                     merchant.approved=true;
+                    console.log("Approval Merchant After:", merchant)
                     merchant.save(function(error){
                         if(error){
-                            return response.json({success:0, message:'Unable to approve this merchant'})
+                            return response.json({success:0, message:'Unable to approve this merchant', error:error})
                         }
                         else{
                             return response.json({success:1, message:'Successfully approved this merchant', merchantName:merchant.name, approved:merchant.approved})
@@ -1546,7 +1543,7 @@ app.post('/rejectMerchant', function(request, response){
                     return response.json({success:0, message:'Unable to reject this merchant'})
                 }
                 else{
-                    return response.json({success:1, message:'Successfully reject this merchant'})
+                    return response.json({success:1, message:'Successfully rejected this merchant'})
                 }
             })
         }
@@ -1606,6 +1603,129 @@ app.post('/getHistory', function(request, response){
     })
 })
 
+app.post('/fetchMerchantOrderItems', function(request, response){
+    var merchantLicense=request.body['merchantLicense']
+    OrderItem.find({merchantLicense:merchantLicense}, function(error, items){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully fetched items', items:items})
+        }
+    })
+})
+
+app.post('/updateSoldCount', function(request, response){
+    console.log("Recieved update count request")
+    var orderID=request.body['orderID']
+    OrderItem.find({orderID:orderID}, function(error, items){
+        if(error){
+            return response.json({success:0, message:'Unable to update sold count of items'})
+        }
+        else{
+            var i;
+            for(i=0; i<items.length; i++){
+                console.log("item:", items[i])
+                var quantity=items[i]['quantity']
+                var productID=items[i].product._id
+                Product.findOne({_id:productID}, function(error, product){
+                    if(error){
+                        return response.json({success:0, message:'Server error'})
+                    }
+                    else if(product==null){
+                        console.log("No product exists with this id")
+                    }
+                    else{
+                        product.num_sold=product.num_sold+quantity
+                        product.save(function(error){
+                            if(error){
+                                return response.json({success:0, message:'Unable to save product after updating sold count'})
+                            }
+                            else{
+                                console.log("Successfully updated sold count for", product.name)
+                            }
+                        })
+                    }
+                })
+            }
+            if(i==items.length){
+                return response.json({success:1, message:'Successfully updated all product sold counts'})
+            }
+        }
+    })
+})
+app.post('/getProductsForMerchant', function(request, response){
+    var license=request.body['license']
+    Product.find({merchantLicense:license}, function(error, products){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully fetched products', products:products})
+        }
+    })
+
+})
+app.get('/getVisits', function(request, response){
+    Site.find({}, function(error, sites){
+        if(sites.length==0){
+            return response.json({success:0, message:'No site exists yet'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully got site visits', visits:sites[0].visits})
+        }
+    })
+})
+app.post('/getAllOrders',function(request, response){
+    var userID=request.body['userID']
+    User.findOne({_id:userID}, function(error, user){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(user==null){
+            return response.json({success:0, message:'No user exists'})
+        }
+        else{
+            if(user.user_level!=9){
+                return response.json({success:0, message:'This user is not an admin'})
+            }
+            //User is an admin
+            Order.find({}, function(error, orders){
+                if(error){
+                    return response.json({success:-1, message:'Failed when fetching all orders'})
+                }
+                else{
+                    return response.json({success:1, message:'Successfully fetched all orders', orders:orders})
+                }
+            })
+        }
+    })
+})
+app.post('/getRecentOrders', function(request, response){
+    var userID=request.body['userID']
+    // Order.find({userID:userID}, {sort:{'createdAt':'-1'}}, {limit:20}, function(error, orders){
+    Order.find({userID:userID}, function(error, orders){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully fetched orders', orders:orders})
+        }
+    })
+})
+app.post('/recommendedListRaw', function(request, response){
+    var category=request.body['category']
+    var tag=request.body['tag']
+    Product.find({$and:[{category:category}, {tag:tag}]}, function(error, products){
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else{
+            return response.json({success:1, message:'Successfully fetched products that match this category and tag', products:products, category:category, tag:tag})
+        }
+    })
+})
+
 // Dummy functions delete when going live
 app.post('/makeAdmin', function(request, response){
     var userID=request.body['userID']
@@ -1621,30 +1741,30 @@ app.post('/makeAdmin', function(request, response){
             return response.json({success:1, message:'Successfully made this user an Admin', user:{email:user.email, user_level:user.user_level, pin:user.pin}})
         }
     })
-    // User.findOne({_id:userID}, function(error, user){
-    //     if(error){
-    //         return response.json({success:-1, message:'Server error or saving error'})
-    //     }
-    //     else if(user==null){
-    //         return response.json({success:0, message:'Unable to find user'})
-    //     }
-    //     else{
-    //         user.user_level=9;
-    //         user.pin=pin
-    //         user.save(function(error){
-    //             if(error){
-    //                 return response.json({success:0, message:'Unable to save user changes'})
-    //             }
-    //             else{
-    //                 return response.json({success:1, message:'Successfully made this user an Admin', user:{email:user.email, user_level:user.user_level, pin:user.pin}})
-    //             }
-    //         })
-    //     }
-    // })
 })
 //End of dummy functions
 
 app.all('*', (request, response, next)=>{
+    Site.find({}, function(error, sites){
+        if(sites.length==0){
+            var newSite=new Site({visits:1});
+            newSite.save(function(error){
+                if(error){
+                    console.log('Error creating new site stats')
+                }
+            })
+        }
+        else{
+            //found existing site
+            sites[0].visits+=1
+            sites[0].save(function(error){
+                if(error){
+                    console.log('Unable to update site visit count')
+                }
+            })
+        }
+
+    })
     response.sendFile(path.resolve('./public/dist/public/index.html'))
 })
 

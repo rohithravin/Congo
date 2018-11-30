@@ -36,6 +36,8 @@ import { MerchantOrdersComponent } from './merchant-orders/merchant-orders.compo
 import { GiftCardConfirmationComponent } from './gift-card-confirmation/gift-card-confirmation.component';
 import { MerchantStatsComponent } from './merchant-stats/merchant-stats.component';
 import { AdminStatsComponent } from './admin-stats/admin-stats.component';
+import { HelpDeskComponent } from './help-desk/help-desk.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,7 +70,8 @@ import { AdminStatsComponent } from './admin-stats/admin-stats.component';
     MerchantOrdersComponent,
     GiftCardConfirmationComponent,
     MerchantStatsComponent,
-    AdminStatsComponent
+    AdminStatsComponent,
+    HelpDeskComponent
   ],
   imports: [
     BrowserModule,

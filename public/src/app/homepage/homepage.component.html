@@ -79,7 +79,7 @@
       </div>
 
   <div *ngIf=showSB class='sponsorSmall'>
-    <a [routerLink]="['/product',smallBannerPromo[0]['_id']]"><img src="{{smallBannerPromo[0]['images'][0]}}"  alt='Sponsor'></a>
+    <a [routerLink]="['/product',smallBannerPromo[0]['_id']]"><img :src="{{smallBannerPromo[0]['promotionImage']}}"   alt='Sponsor'></a>
   </div>
   <div class='recommendedProducts' *ngIf='hasRecomProds2'>
       <p class='recHeader'>Recommended Products</p>

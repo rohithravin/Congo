@@ -28,7 +28,7 @@ export class CheckoutComponent implements OnInit {
   str_cc_number:string;
   userID:string
   cart:any;
-  shipping_date:string;
+  shipping_date:any;
   tax:number;
   shipping:number;
   total:number;
@@ -41,12 +41,12 @@ export class CheckoutComponent implements OnInit {
   showErr_credits:boolean;
   show_fail:boolean;
   stripe_resp:string;
-  shipping_time:string;
   show_stream:boolean;
+  totalAfterCongoCredit:number;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
+    this.totalAfterCongoCredit = 0;
     this.show_stream = false;
-    this.shipping_time = "5 business days";
     this.show_fail = false;
     this.stripe_resp = "";
     this.showErr_credits = false;
@@ -82,7 +82,7 @@ export class CheckoutComponent implements OnInit {
     this.userID=localStorage.getItem('userID');
     var currentDate = new Date();
     currentDate.setDate(currentDate.getDate() + 7);
-    this.shipping_date = currentDate.getMonth()+"/"+currentDate.getDay()+"/"+currentDate.getFullYear();
+    this.shipping_date = currentDate;
    }
 
   ngOnInit() {
@@ -94,10 +94,14 @@ export class CheckoutComponent implements OnInit {
 
   checkStream(){
     if(localStorage.getItem('stream') == 'true'){
-      this.shipping_time = "2 business days";
+      var currentDate = new Date();
+     currentDate.setDate(currentDate.getDate() + 2);
+     this.shipping_date = currentDate;
       this.show_stream = true;
     }else{
-      this.shipping_time = "5 business days";
+      var currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + 7);
+      this.shipping_date = currentDate;
       this.show_stream = false;
     }
   }
@@ -114,6 +118,10 @@ export class CheckoutComponent implements OnInit {
           this.CongoCredits = data['userCredits'];
         }else{
           this.CongoCredits = 0;
+        }
+        this.totalAfterCongoCredit = Math.floor((this.total - this.CongoCredits) * 100) / 100;
+        if(this.totalAfterCongoCredit < 0){
+          this.totalAfterCongoCredit = 0;
         }
       });
     
@@ -199,7 +207,8 @@ export class CheckoutComponent implements OnInit {
    if (this.selectedCCDate == null){
     this.showErr_date = true;
   }else{
-    var date = this.selectedCCDate.toString();
+    // var date = this.selectedCCDate.toString();
+    var date=this.selectedCCDate
     if(date.length != 2){
       this.showErr_date = true;
     }else{
@@ -282,35 +291,49 @@ export class CheckoutComponent implements OnInit {
         stripeObs.subscribe(data=>{
           if(data['success'] == 1){
             var orderObs=this._httpService.createOrder(localStorage.getItem('userID'), this.address_lineone, this.city, this.state, tempZip, this.shipping, this.tax)
+            
             orderObs.subscribe(orderdata=>{
               console.log("Response:", orderdata)
+
               if(orderdata['success']==1){
-                //route to the confirmation page
-                  localStorage.setItem('_COID',orderdata['order']['tempID']);
+                localStorage.setItem('_COID',orderdata['order']['tempID']);
                 var total = (orderdata['order']['total']).toString();
                 localStorage.setItem('_t',total);
                 var shipping = (orderdata['order']['shipping']).toString();
                 localStorage.setItem('_s',shipping);
-                var subt = (orderdata['order']['total'] - orderdata['order']['shipping']).toString();
+                var subt = (Math.floor((orderdata['order']['total'] - orderdata['order']['shipping']) * 100) / 100).toString();
                 localStorage.setItem('_st',subt);
-                this._router.navigate(['checkout-conf']);
-              }else{
-                //server error
+                //Update product view count now before routing
+                
+                localStorage.setItem('orderID',orderdata['order']['_id'])
+                return this.updateSoldCount()
+                
               }
+              else{
+                //issue with creating order, stay on page
+                console.log("Error creating order")
+              }
+              
             })
-          }else{
+
+          }
+          else{
             //stripe error
             this.show_fail = true;
             this.stripe_resp = data['display_message'];
           }
         })
-
-
        
-        // this._httpService.purchaseInformation(this.full_name,this.address_lineone,this.city,this.state);
-
       }
-
+  }
+  updateSoldCount(){
+    console.log("Calling updateSoldCount function")
+    var orderID=localStorage.getItem('orderID')
+    var updateObs=this._httpService.updateSoldCount(orderID)
+      updateObs.subscribe(updateData=>{
+        console.log("Update Data:", updateData)
+        this._router.navigate(['checkout-conf']);
+      })
   }
 
   submitCongoCredit(){
@@ -339,39 +362,218 @@ export class CheckoutComponent implements OnInit {
     this.showErr_state = false;
   }
 
-    if(this.total > this.CongoCredits){
-      //insufficient funds for purchase
-      this.showErr_credits = true;
-    }else{
-      this.showErr_credits = false;
-    }
+   
 
-    if(!this.showErr_addr1 && !this.showErr_city && !this.showErr_fullname && !this.showErr_credits && !this.showErr_state){
+    if(!this.showErr_addr1 && !this.showErr_city && !this.showErr_fullname && !this.showErr_state){
       var tempZip='47906';
-      var congoCredObs = this._httpService.PurchaseWithCongoCredit(this.userID,this.total);
-      congoCredObs.subscribe(data=>{
-        console.log(data);
-        if(data['success']==1){
-          var orderObs=this._httpService.createOrder(this.userID,this.address_lineone,this.city,this.state,tempZip,this.shipping,this.tax);
-          orderObs.subscribe(data=>{
-            console.log("order resp",data);
+      console.log("user creds", this.CongoCredits);
+      if(!(this.CongoCredits == 0)){
+        if((this.CongoCredits - this.total) > 0){
+          var congoCredObs = this._httpService.PurchaseWithCongoCredit(this.userID,this.total);
+          congoCredObs.subscribe(data=>{
+            console.log(data);
+            console.log("success ",data['success']);
             if(data['success']==1){
-              localStorage.setItem('_COID',data['order']['tempID']);
-              var total = (data['order']['total']).toString();
-              localStorage.setItem('_t',total);
-              var shipping = (data['order']['shipping']).toString();
-              localStorage.setItem('_s',shipping);
-              var subt = (data['order']['total'] - data['order']['shipping']).toString();
-              localStorage.setItem('_st',subt);
-              this._router.navigate(['checkout-conf']);
+              var orderObs=this._httpService.createOrder(this.userID,this.address_lineone,this.city,this.state,tempZip,this.shipping,this.tax);
+              orderObs.subscribe(data=>{
+                console.log("order resp",data);
+                if(data['success']==1){
+                  localStorage.setItem('_COID',data['order']['tempID']);
+                  var total = (data['order']['total']).toString();
+                  localStorage.setItem('_t',total);
+                  var shipping = (data['order']['shipping']).toString();
+                  localStorage.setItem('_s',shipping);
+                  var subt = (Math.floor((data['order']['total'] - data['order']['shipping']) * 100) / 100).toString();
+                  localStorage.setItem('_st',subt);
+                  this._router.navigate(['checkout-conf']);
+                }else{
+                  //failure
+                }
+              })
+            }else if(data['success'] == 2){
+              //customer made a partial purchase
+              console.log("partial purchase is a go");
+              this.total = data['cost'];
+              this.total = Math.floor(this.total * 100) / 100;
+              this.CongoCredits = 0;
+  
             }else{
-              //failure
+              this.showErr_credits = true;
             }
           })
         }else{
-          this.showErr_credits = true;
+          if (this.full_name.length < 2){
+            this.showErr_fullname = true;
+          }else{
+          this.showErr_fullname = false;
+          }
+      
+      
+         if (this.address_lineone.length < 5){
+          this.showErr_addr1 = true;
+         }else{
+           this.showErr_addr1 = false;
+         }
+      
+      
+         if (this.selectedCCDate == null){
+          this.showErr_date = true;
+        }else{
+          var date = this.selectedCCDate.toString();
+          if(date.length != 2){
+            this.showErr_date = true;
+          }else{
+            this.showErr_date = false;
+          }
         }
-      })
+      
+        if(this.selectedCCYear == null){
+          this.showErr_year = true;
+        }else{
+          var year = this.selectedCCYear.toString();
+          if (year.length != 2){
+            this.showErr_year = true;
+           }else{
+             this.showErr_year = false;
+           }
+        }
+      
+         if (this.city.length < 4){
+          this.showErr_city = true;
+         }else{
+           this.showErr_city = false;
+         }
+      
+      
+        if (this.state.length < 2){
+          this.showErr_state = true;
+        }else{
+          this.showErr_state = false;
+        }
+      
+      
+          if(this.cc_number == null) {
+            this.showErr_ccNumber = true;
+          }else{
+      
+            this.str_cc_number = this.cc_number.toString();
+            if(this.str_cc_number.length < 16){
+              this.showErr_ccNumber = true;
+            }else{
+            this.showErr_ccNumber = false;
+            }
+          }
+      
+          if(this.cvv_code == null){
+            this.showErr_cvvCode = true;
+          }else {
+      
+            this.str_cvv_code = this.cvv_code.toString();
+            if(this.str_cvv_code.length < 3 || this.str_cvv_code.length > 4){
+              this.showErr_cvvCode = true;
+            }else{
+              this.showErr_cvvCode = false;
+            }
+          }
+      
+      
+      
+          if(this.phone_num.length != 10 ){
+            //this.showErr_phoneNumber = true;
+          }else{
+            this.showErr_phoneNumber = false;
+          }
+      
+      
+      
+          if(this.email.match(/^\S+@\S+\.\S/) == null){
+            // if(this.email.match())
+      
+            this.showErr_email = true;
+          }else{
+            this.showErr_email = false;
+          }
+      
+          if( !this.showErr_addr1 && !this.showErr_city  && !this.showErr_fullname && !this.showErr_state ){
+              console.log("shipping info");
+              var tempZip='47906';
+      
+              var congoCredObs = this._httpService.PurchaseWithCongoCredit(this.userID,this.total);
+              congoCredObs.subscribe(data=>{
+                console.log(data);
+                console.log("success ",data['success']);
+                if(data['success']==1){
+                  var orderObs=this._httpService.createOrder(this.userID,this.address_lineone,this.city,this.state,tempZip,this.shipping,this.tax);
+                  orderObs.subscribe(data=>{
+                    console.log("order resp",data);
+                    if(data['success']==1){
+                      localStorage.setItem('_COID',data['order']['tempID']);
+                      var total = (data['order']['total']).toString();
+                      localStorage.setItem('_t',total);
+                      var shipping = (data['order']['shipping']).toString();
+                      localStorage.setItem('_s',shipping);
+                      var subt = (Math.floor((data['order']['total'] - data['order']['shipping']) * 100) / 100).toString();
+                      localStorage.setItem('_st',subt);
+                      this._router.navigate(['checkout-conf']);
+                    }else{
+                      //failure
+                    }
+                  })
+                }else if(data['success'] == 2){
+                  //customer made a partial purchase
+                  console.log("partial purchase is a go");
+                  this.total = data['cost'];
+                  this.total = Math.floor(this.total * 100) / 100;
+                  this.CongoCredits = 0;
+                  var stripeObs = this._httpService.stripePurchase(this.cc_number,this.selectedCCDate,this.selectedCCYear,this.str_cvv_code,this.total*100);
+                  stripeObs.subscribe(data=>{
+                    if(data['success'] == 1){
+                      var orderObs=this._httpService.createOrder(localStorage.getItem('userID'), this.address_lineone, this.city, this.state, tempZip, this.shipping, this.tax)
+                      orderObs.subscribe(orderdata=>{
+                        console.log("Response:", orderdata)
+                        if(orderdata['success']==1){
+                          console.log("CART: ",this.cart);
+                          this.cart.forEach(element => {
+                            console.log("el ",element);
+                            console.log("el id ", element['_id']);
+                            var upObs=this._httpService.updateProductSold(element['_id']);
+                            upObs.subscribe(data=>{
+                              console.log("UPdate ",data);
+                            })
+                          });
+                          //route to the confirmation page
+                            localStorage.setItem('_COID',orderdata['order']['tempID']);
+                          var total = (orderdata['order']['total']).toString();
+                          localStorage.setItem('_t',total);
+                          var shipping = (orderdata['order']['shipping']).toString();
+                          localStorage.setItem('_s',shipping);
+                          var subt = (Math.floor((orderdata['order']['total'] - orderdata['order']['shipping']) * 100) / 100).toString();
+                          
+                          localStorage.setItem('_st',subt);
+                          this._router.navigate(['checkout-conf']);
+                        }else{
+                          //server error
+                        }
+                      })
+                    }else{
+                      //stripe error
+                      this.show_fail = true;
+                      this.stripe_resp = data['display_message'];
+                    }
+                  })
+                }else{
+                  this.showErr_credits = true;
+                }
+              })
+
+
+
+             
+            }
+        }
+        
+      }
+     
     }
   }
 

@@ -19,11 +19,11 @@ export class CartComponent implements OnInit {
   showAlertSuccess:boolean;
   showAlertFail:boolean;
   showCartEmpty:boolean;
-  shipping_time:string;
+  shipping_date:any;
   show_stream:boolean;
+
   constructor(private _httpService:HttpService, private _router:Router) {
     this.show_stream = false;
-    this.shipping_time = "5 business days";
     this.cart={}
     this.userID=localStorage.getItem('userID');
     this.subtotal = 0;
@@ -34,6 +34,9 @@ export class CartComponent implements OnInit {
     this.showAlertFail = false;
     this.showAlertSuccess = false;
     this.showCartEmpty = false;
+    var currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 7);
+    this.shipping_date = currentDate;
   }
 
   ngOnInit() {
@@ -49,23 +52,32 @@ export class CartComponent implements OnInit {
     cartObs.subscribe(data=>{
       console.log(data)
       // console.log(this.userID)
-      if(data['success'] =! 1){
+      if(data['success'] == -1){
         this._router.navigate([''])
-      }
-      this.cart=data['cart']
-      if (data['cart']['items'].length == 0){
+      }else if(data['success'] == 1){
+        this.cart=data['cart']
+        if (data['cart']['items'].length == 0){
+          this.showCartEmpty = true;
+          this.subtotal = 0;
+          this.tax = 0;
+          this.shipping = 0;
+          this.total = 0;
+        }else{
+          this.showCartEmpty = false;
+          this.subtotal = this.getSubtotal();
+          this.tax = this.getTax();
+          this.shipping = this.getShipping();
+          this.total = this.getTotal();
+          this.checkStream();
+        }
+      }else if(data['success'] == 0){
         this.showCartEmpty = true;
         this.subtotal = 0;
         this.tax = 0;
         this.shipping = 0;
         this.total = 0;
       }else{
-        this.showCartEmpty = false;
-        this.subtotal = this.getSubtotal();
-        this.tax = this.getTax();
-        this.shipping = this.getShipping();
-        this.total = this.getTotal();
-        this.checkStream();
+        this._router.navigate([''])
       }
     })
   }
@@ -73,10 +85,14 @@ export class CartComponent implements OnInit {
   checkStream(){
     console.log(localStorage.getItem('stream'));
     if(localStorage.getItem('stream') == 'true'){
-      this.shipping_time = "2 business days";
+      var currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + 2);
+      this.shipping_date = currentDate;
       this.show_stream = true;
     }else{
-      this.shipping_time = "5 business days";
+      var currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + 7);
+      this.shipping_date = currentDate;
       this.show_stream = false;
     }
   }

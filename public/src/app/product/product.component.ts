@@ -22,8 +22,24 @@ export class ProductComponent implements OnInit {
   reviews:any;
   show_noReviews: boolean;
   first_name :string;
+  showErr_color:boolean;
+  selectedColor:string;
+  showErr_size:boolean;
+  selectedSize:string;
+  previouslyViewed:any;
+  shownPrevious:any;
+  showErr_noPrev:boolean;
+  exists:boolean;
 
   constructor(private _activaterouter:ActivatedRoute, private _httpService:HttpService, private _router: Router) {
+    this.exists = false;
+    this.shownPrevious = [];
+    this.previouslyViewed = [];
+    this.showErr_noPrev = false;
+    this.selectedColor = "";
+    this.selectedSize = "";
+    this.showErr_size = false;
+    this.showErr_color = false;
     this.productID = '';
     this.product={};
     this.count = 1;
@@ -48,7 +64,71 @@ export class ProductComponent implements OnInit {
       })
     this.fetchProduct()
     this.fetchReviews()
+    this.fetchPreviouslyViewed();
 
+  }
+
+  routeToPrev(productID){
+    console.log("Calling router function")
+    this._router.navigate(['/product',productID]);
+    this._activaterouter.params.subscribe(
+      params=>{
+        this.productID = params['pid'];
+        console.log('productID: ' + this.productID);
+      })
+    this.fetchProduct()
+    this.fetchReviews()
+  }
+
+  fetchPreviouslyViewed(){
+    
+    var histObs=this._httpService.getHistory(localStorage.getItem('userID'));
+    histObs.subscribe(data=>{
+      console.log("hist ",data);
+      if(data['success']==1){
+        this.previouslyViewed = data['history'];
+        console.log("prev ",this.previouslyViewed);
+        if(this.previouslyViewed.length == 0){
+          this.showErr_noPrev = true;
+        }else{
+          this.showErr_noPrev = false;
+          if(this.previouslyViewed.length > 5){
+            //no repeats only five
+            this.previouslyViewed.forEach(element => {
+              this.exists = false;
+              if(this.shownPrevious.length < 5){
+
+                if(this.shownPrevious.length == 0){
+                  this.shownPrevious.push(element);
+                }else{
+                  for(var i = 0; i < this.shownPrevious.length;i++){
+                    if(this.shownPrevious[i]['_id'] == element['_id']){
+                      this.exists = true;
+                    }
+                    if(i == this.shownPrevious.length-1){
+                      if(this.exists == false){
+                        
+                        this.shownPrevious.push(element);
+                      }
+                    }
+                  }
+                }
+
+
+             
+
+              }
+            });
+          }else{
+            this.shownPrevious = this.previouslyViewed
+          }
+          console.log("shown ",this.shownPrevious);
+        }
+      }else{
+        this.showErr_noPrev = true;
+        //error
+      }
+    })
   }
 
   updateCountPlus(){
@@ -148,14 +228,27 @@ export class ProductComponent implements OnInit {
       this._router.navigate(['login'])
       return;
     }
-    var productDetails={product:this.product, size:this.size, color:this.color, quantity:this.count}
-    var addCartObs=this._httpService.addToCart(productDetails, localStorage.getItem('userID'))
-    addCartObs.subscribe(data=>{
-      console.log(data)
-      if(data['success']==1){
-        this._router.navigate(['cart'])
-      }
-    })
+    this.showErr_color = false;
+    this.showErr_size = false;
+    console.log("color",this.selectedColor);
+    console.log("size",this.selectedSize);
+    if(this.selectedColor == ""){
+      this.showErr_color = true;
+    }
+    if(this.selectedSize == ""){
+      this.showErr_size = true;
+    }
+    if(!this.showErr_color && !this.showErr_size){
+      var productDetails={product:this.product, size:this.selectedSize, color:this.selectedColor, quantity:this.count}
+      var addCartObs=this._httpService.addToCart(productDetails, localStorage.getItem('userID'))
+      addCartObs.subscribe(data=>{
+        console.log(data)
+        if(data['success']==1){
+          this._router.navigate(['cart'])
+        }
+      })
+    }
+
   }
 
 }

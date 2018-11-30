@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-portal',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminPortalComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _router:Router) { }
 
   ngOnInit() {
+    if(localStorage.getItem('loggedIn')==null || localStorage.getItem('loggedIn')=='false'){
+      return this._router.navigate([''])
+    }
+    if(localStorage.getItem('adminLoggedIn')==null || localStorage.getItem('adminLoggedIn')=='false'){
+      return this._router.navigate([''])
+    }
   }
 
 }

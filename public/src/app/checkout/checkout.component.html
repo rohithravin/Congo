@@ -1,3 +1,4 @@
+<button (click)="updateSoldCount()">SoldCount</button>
 <section style="background-color: #ffffff;">
   <div class="container">
         <h1 style="padding-top: 15px;">Complete Checkout</h1>
@@ -101,7 +102,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <!-- <div class="form-row">
                                         <div class="col-12">
                                             <div class="form-group"><label for="cardNumber">Email:</label>
                                                 <div class="input-group"><input [ngModelOptions]="{standalone: true}" [(ngModel)]="email" class="form-control form-control-sm" type="text">
@@ -124,7 +125,7 @@
                                             </div>
 
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </form>
                             </div>
                         </div>
@@ -185,6 +186,14 @@
                                 <p class="text-right">${{CongoCredits}}</p>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <p style="color: #d81e05;">Total After Credits:</p>
+                            </div>
+                            <div class="col">
+                                <p class="text-right">${{totalAfterCongoCredit}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 10px;">
@@ -199,7 +208,7 @@
                                 <p>Estimated Shipping:</p>
                             </div>
                             <div class="col">
-                                <p class="text-right">{{shipping_date}}</p>
+                                <p class="text-right">{{shipping_date | date}}</p>
                             </div>
                         </div>
                     </div>

@@ -35,6 +35,9 @@ export class AdminLoginComponent implements OnInit {
     // if(localStorage.getItem('adminLoggedIn') == null || localStorage.getItem('adminLoggedIn') == 'false'){
     //   this._router.navigate(['']);
     // }
+    if(localStorage.getItem('loggedIn')==null || localStorage.getItem('loggedIn')=='false'){
+      this._router.navigate([''])
+    }
     if(localStorage.getItem('adminLoggedIn') != null && localStorage.getItem('adminLoggedIn') == 'true'){
       this._router.navigate(['/admin-portal'])
     }
@@ -71,7 +74,7 @@ export class AdminLoginComponent implements OnInit {
       else if(data['success'] == 1){
         console.log("backend");
         localStorage.setItem('adminLoggedIn','true');
-        this._router.navigate(['/admin-portal']);
+        this._router.navigate(['/admin']);
         this.errShowErr = false;
       }
     })
@@ -80,36 +83,11 @@ export class AdminLoginComponent implements OnInit {
   adminButton(){
     console.log("UserID:", localStorage.getItem('userID'))
     var new_pin = '1234';
-    //this.email = 'johndoe@gmail.com';
-    //this.password = 'hellothere';
-    //this.userId = localStorage.getItem('userID');
-    // this.pin = localStorage.getItem('pin');
+    console.log("userID:", localStorage.getItem('userID'))
     var admin = this._httpService.makeAdmin(localStorage.getItem('userID'), new_pin);
     admin.subscribe(data=>{
-      console.log("Response:",data);
+      console.log("Response from Make Admin:",data);
       console.log("Finish");
-      // if(data['success'] == -2){
-      //   this.errMessage = "This user does not have a PIN or has no admin privileges.";
-      //   this.errShowErr = true;
-      // }
-      // else if(data['success'] == -1){
-      //   this.errMessage = "Server error";
-      //   this.errShowErr = true;
-      // }
-      // else if(data['success'] == 0){
-      //   this.errMessage = "Invalid PIN/Password";
-      //   this.errShowErr = true;
-      // }
-      // else if(data['success'] == 1){
-      //   if(this.errEmail == false && this.errPassword == false && this.errPin == false && this.errShowErr == false){
-      //     localStorage.setItem('admin-email',this.email);
-      //     localStorage.setItem('admin-password',this.password);
-      //     localStorage.setItem('admin-pin', this.pin);
-      //     localStorage.setItem('admin-userId', this.userId);
-      //     localStorage.setItem('adminLoggedIn','true');
-      //     this._router.navigate(['/admin-portal']);
-      // }
-      //}
     })
   }
 
