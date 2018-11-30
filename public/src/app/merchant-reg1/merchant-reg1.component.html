@@ -30,11 +30,11 @@
              transfer the money they have paid to your bank account. We want to make sure that your money is delivered to you in a
              fast and efficient manner. Don’t worry, the entire process is completely secure and your information is safe with us!!</p>
            <div class="form-group">
-             <input class="form-control" type="number" name="name" placeholder="Bank Account Routing Number#" [(ngModel)]='bankNum'>
+             <input class="form-control" type="text" name="name" placeholder="Bank Account Routing Number#" [(ngModel)]='bankNum'>
              <small class="form-text text-danger" *ngIf=showErr_bankNum>Please enter a valid bank account number.</small>
            </div>
            <div class="form-group">
-             <input class="form-control" type="number" name="name" placeholder="Account #" [(ngModel)]='accountNum'>
+             <input class="form-control" type="text" name="name" placeholder="Account #" [(ngModel)]='accountNum'>
              <small class="form-text text-danger" *ngIf=showErr_accountNum>Please enter a valid account number.</small>
            </div>
            <div class="form-group">

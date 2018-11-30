@@ -81,7 +81,12 @@ export class StreamRegistrationComponent implements OnInit {
     if (this.selectedCCDate == null){
       this.showErr_date = true;
     }else{
-      this.showErr_date = false;
+      var date = this.selectedCCDate.toString();
+      if(date.length != 2){
+        this.showErr_date = true;
+      }else{
+        this.showErr_date = false;
+      }
     }
   
     if(this.selectedCCYear == null){
